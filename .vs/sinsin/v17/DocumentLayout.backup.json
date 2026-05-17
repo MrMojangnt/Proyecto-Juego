@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dell\\Downloads\\GRUPO C108\\Visual Studio\\sinsin\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A96F5F8D-E981-4987-B0EE-0E644FF8630E}|sinsin\\sinsin.csproj|c:\\users\\dell\\downloads\\grupo c108\\visual studio\\sinsin\\sinsin\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A96F5F8D-E981-4987-B0EE-0E644FF8630E}|sinsin\\sinsin.csproj|solutionrelative:sinsin\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dell\\Downloads\\GRUPO C108\\Visual Studio\\sinsin\\sinsin\\Program.cs",
+              "RelativeDocumentMoniker": "sinsin\\Program.cs",
+              "ToolTip": "C:\\Users\\Dell\\Downloads\\GRUPO C108\\Visual Studio\\sinsin\\sinsin\\Program.cs",
+              "RelativeToolTip": "sinsin\\Program.cs",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAgwH8AAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-13T15:21:08.193Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
