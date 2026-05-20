@@ -46,14 +46,12 @@ class Vestia
         {
             X = 2,//Pos.Center() lo deja centrado :OOOOOO
             Y = 2,
-        };
-        VentanaPrincipal.Add(etiqNombre);
+        };      
         etiqPais = new Label("País: ")//Se agrega texto
         {
             X = 2,//Pos.Center() lo deja centrado :OOOOOO
             Y = 4,
         };
-        VentanaPrincipal.Add(etiqPais);
         var botonMusica = new Button("▶ MUSICA")
         {
             X = 100,
@@ -123,6 +121,41 @@ class Vestia
             Height = 6
         };
 
+        var Skill_Txt = new Label("Designar Skills:")
+        {
+            X = 2,
+            Y = 11
+        };
+        VentanaCreacionPersonaje.Add(Skill_Txt);
+        var Skills_in1 = new TextField("")
+        {
+            X = 2,
+            Y = 12,
+            Width = 30
+        };
+        VentanaCreacionPersonaje.Add(Skills_in1);
+        var Skills_in2 = new TextField("")
+        {
+            X = 2,
+            Y = 13,
+            Width = 30
+        }; 
+        VentanaCreacionPersonaje.Add(Skills_in2);
+        var Skills_in3 = new TextField("")
+        {
+            X = 2,
+            Y = 14,
+            Width = 30
+        };
+        VentanaCreacionPersonaje.Add(Skills_in3);
+        var Skills_in4 = new TextField("")
+        {
+            X = 2,
+            Y = 15,
+            Width = 30  
+        };
+        VentanaCreacionPersonaje.Add(Skills_in4);
+        
         ListaPaises.SelectedItemChanged += (args) =>
         {
             PaisSeleciconado = Paises[args.Item];
@@ -134,17 +167,25 @@ class Vestia
             X = Pos.Center(),
             Y = 20
         };
-        //() son funciones anónimas, todavía no se han creado funciones aparte
         botonAceptar.Clicked += () =>
         {
-            MessageBox.Query(
-                "Añadido",
-                "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
-            " - " + PaisSeleciconado, "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección
-            etiqNombre.Text = "Nombre: " + casillaNombre.Text;
-            etiqPais.Text = "País: " + PaisSeleciconado;
-            top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana
+            if  (int.TryParse(Skills_in1.Text.ToString(), out int numero)) {
+                
+                MessageBox.Query(
+                    "Añadido",
+                    "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
+                    " - " + PaisSeleciconado, "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección
+                etiqNombre.Text = "Nombre: " + casillaNombre.Text;
+                etiqPais.Text = "País: " + PaisSeleciconado;
+                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana    
+            }
+            else
+            {
+                CreacionPersonaje(top); 
+            }
         };
+        //() son funciones anónimas, todavía no se han creado funciones aparte
+
 
 
         VentanaCreacionPersonaje.Add(etiquetaNombre, casillaNombre, etiquetaPais, ListaPaises, botonAceptar);
