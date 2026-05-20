@@ -130,28 +130,28 @@ class Vestia
         var Skills_in1 = new TextField("")
         {
             X = 2,
-            Y = 12,
+            Y = 13,
             Width = 30
         };
         VentanaCreacionPersonaje.Add(Skills_in1);
         var Skills_in2 = new TextField("")
         {
             X = 2,
-            Y = 13,
+            Y = 15,
             Width = 30
         }; 
         VentanaCreacionPersonaje.Add(Skills_in2);
         var Skills_in3 = new TextField("")
         {
             X = 2,
-            Y = 14,
+            Y = 17,
             Width = 30
         };
         VentanaCreacionPersonaje.Add(Skills_in3);
         var Skills_in4 = new TextField("")
         {
             X = 2,
-            Y = 15,
+            Y = 19,
             Width = 30  
         };
         VentanaCreacionPersonaje.Add(Skills_in4);
@@ -166,31 +166,42 @@ class Vestia
         {
             X = Pos.Center(),
             Y = 20
-        };
+        };  
+        VentanaCreacionPersonaje.Add(botonAceptar);
         botonAceptar.Clicked += () =>
         {
-            if  (int.TryParse(Skills_in1.Text.ToString(), out int numero)) {
+            string sum = Skills_in1.Text.ToString()+Skills_in2.Text.ToString()+Skills_in3.Text.ToString()+Skills_in4.Text.ToString();
+            int sumint;
+            if  (int.TryParse(sum, out sumint)) {
                 
                 MessageBox.Query(
                     "Añadido",
                     "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
-                    " - " + PaisSeleciconado, "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección
+                    " - " + PaisSeleciconado, "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
                 etiqNombre.Text = "Nombre: " + casillaNombre.Text;
                 etiqPais.Text = "País: " + PaisSeleciconado;
-                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana    
+                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
+                sum = "";
             }
             else
             {
-                CreacionPersonaje(top); 
+                MessageBox.Query(
+                    "ERROR",
+                    "Solo puedes ingresar Numeros en los stats",
+                    "Introduce nuevos datos");     
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
 
 
 
-        VentanaCreacionPersonaje.Add(etiquetaNombre, casillaNombre, etiquetaPais, ListaPaises, botonAceptar);
+        VentanaCreacionPersonaje.Add(etiquetaNombre, casillaNombre, etiquetaPais, ListaPaises);
         top.Add(VentanaCreacionPersonaje);//Se agrega la ventana a la raíz
     }
 
+    public void debbuger()
+    {
+        
+    }
 
 }
