@@ -1,5 +1,6 @@
-﻿using Terminal.Gui;
-using NAudio.Wave;
+﻿using NAudio.Wave;
+using Terminal.Gui;
+using System.IO;
 
 class Vestia
 {
@@ -9,7 +10,7 @@ class Vestia
     static bool reproduciendo = false;
     static bool muteado = false;
 
-    static List<string> Paises = new List<string>() {"Nicaragua", "EE.UU.", "Japón", "China", "Alemania", "España" };
+    static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static string PaisSeleciconado = "";
 
     static void Reproducir()
@@ -46,7 +47,7 @@ class Vestia
         {
             X = 2,//Pos.Center() lo deja centrado :OOOOOO
             Y = 2,
-        };      
+        };
         etiqPais = new Label("País: ")//Se agrega texto
         {
             X = 2,//Pos.Center() lo deja centrado :OOOOOO
@@ -54,8 +55,8 @@ class Vestia
         };
         var botonMusica = new Button("▶ MUSICA")
         {
-            X = 100,
-            Y = 25
+            X = 140,
+            Y = 35
         };
         VentanaPrincipal.Add(botonMusica);
         botonMusica.Clicked += () =>
@@ -72,14 +73,55 @@ class Vestia
                 salidaAudio.Volume = muteado ? 0f : 1f;
             }
         };
+
+        //botón nueva partida
+        var marco = new FrameView("")
+        {
+            X = Pos.Center() - 14,
+            Y = Pos.Center(),
+            Width = 26,
+            Height = 5
+        };
         var botonNuevaPartida = new Button("Nueva Partida")
         {
             X = Pos.Center(),
             Y = Pos.Center()
         };
+        VentanaPrincipal.Add(marco);
         VentanaPrincipal.Add(botonNuevaPartida);
-        botonNuevaPartida.Clicked += () =>  CreacionPersonaje(top);
-  
+        //botón cargar partida
+        var marco2 = new FrameView("")
+        {
+            X = Pos.X(marco),
+            Y = Pos.Bottom(marco),
+            Width = 26,
+            Height = 5
+        };
+        var botonCargarPartida = new Button("Cargar Partida")
+        {
+            X = Pos.X(marco2) + 4,
+            Y = 24
+        };
+        VentanaPrincipal.Add(marco2);
+        VentanaPrincipal.Add(botonCargarPartida);
+        //botón configuración
+        var marcoconfig = new FrameView("")
+        {
+            X = Pos.X(marco2),
+            Y = Pos.Bottom(marco2),
+            Width = 26,
+            Height = 5
+        };
+        var botonConfiguracion = new Button("Configuración")
+        {
+            X = Pos.X(marco2) + 5,
+            Y = 29
+        };
+        VentanaPrincipal.Add(marcoconfig);
+        VentanaPrincipal.Add(botonConfiguracion);
+
+        botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
+
         Application.Run();//Corre la ventana
     }
 
@@ -121,40 +163,64 @@ class Vestia
             Height = 6
         };
 
-        var Skill_Txt = new Label("Designar Skills:")
+        var Skill_Txt = new Label("Designar Skills (Máximo 30):")
         {
             X = 2,
             Y = 11
         };
         VentanaCreacionPersonaje.Add(Skill_Txt);
+
+        var skillCarisma = new Label("Carisma")
+        {
+            X = 2,
+            Y = 12
+        };
         var Skills_in1 = new TextField("")
         {
             X = 2,
             Y = 13,
             Width = 30
         };
-        VentanaCreacionPersonaje.Add(Skills_in1);
+        VentanaCreacionPersonaje.Add(Skills_in1, skillCarisma);
+
+        var skillEconomia = new Label("Economia")
+        {
+            X = 2,
+            Y = 14
+        };
         var Skills_in2 = new TextField("")
         {
             X = 2,
             Y = 15,
             Width = 30
-        }; 
-        VentanaCreacionPersonaje.Add(Skills_in2);
+        };
+        VentanaCreacionPersonaje.Add(Skills_in2, skillEconomia);
+
+        var skillFiscalidades = new Label("Fiscalidades")
+        {
+            X = 2,
+            Y = 16,
+        };
         var Skills_in3 = new TextField("")
         {
             X = 2,
             Y = 17,
             Width = 30
         };
-        VentanaCreacionPersonaje.Add(Skills_in3);
+        VentanaCreacionPersonaje.Add(Skills_in3, skillFiscalidades);
+
+        var skillCorrupcion = new Label("Corrupción")
+        {
+            X= 2,  
+            Y = 18,
+        };
         var Skills_in4 = new TextField("")
         {
             X = 2,
             Y = 19,
-            Width = 30  
+            Width = 30
         };
-        VentanaCreacionPersonaje.Add(Skills_in4);
+        VentanaCreacionPersonaje.Add(Skills_in4, skillCorrupcion);
         PaisSeleciconado = "Nicaragua";
         ListaPaises.SelectedItemChanged += (args) =>
         {
@@ -171,14 +237,15 @@ class Vestia
         VentanaCreacionPersonaje.Add(botonAceptar);
         botonAceptar.Clicked += () =>
         {
-            int numero = 0;
+            int numero1 = 0, numero2= 0, numero3 = 0, numero4 = 0;
+            int suma;
             //Comprobar nombre vacio
             if (casillaNombre.Text.IsEmpty)
             {
                 MessageBox.Query(
                     "ERROR",
                     "Ingresa un nombre correcto",
-                    "Introduce nuevos datos");     
+                    "Introduce nuevos datos");
 
             }
             else
@@ -186,21 +253,34 @@ class Vestia
                 nombre = true;
             }
             //Comprobar skills
-            if  (int.TryParse(Skills_in1.Text.ToString(), out numero)&&int.TryParse(Skills_in2.Text.ToString(), out numero)&& int.TryParse(Skills_in3.Text.ToString(), out numero)&& int.TryParse(Skills_in4.Text.ToString(), out numero) && numero <= 30) {
-                Skills = true;
+            if (int.TryParse(Skills_in1.Text.ToString(), out numero1) && int.TryParse(Skills_in2.Text.ToString(), out numero2)
+            && int.TryParse(Skills_in3.Text.ToString(), out numero3) && int.TryParse(Skills_in4.Text.ToString(), out numero4))
+            {
+                suma = numero1 + numero2 + numero3 + numero4;
+                if (suma <= 30)
+                {
+                    Skills = true;
+                }
+                else
+                {
+                    MessageBox.Query(
+                        "ERROR",
+                        "Solo tienes 30 puntos para distribuir entre todas las skills",
+                        "Introduce nuevos datos");
+                }
             }
             else
             {
                 MessageBox.Query(
                     "ERROR",
-                    "Solo puedes ingresar numeros en los stats y una cantidad <= 30",
-                    "Introduce nuevos datos");     
+                    "Solo puedes ingresar numeros enteros en los stats",
+                    "Introduce nuevos datos");
             }
             //Comprobar pais
             //Comprobacion final
             if (nombre && Skills)
             {
-                                
+
                 MessageBox.Query(
                     "Añadido",
                     "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
@@ -218,9 +298,14 @@ class Vestia
         top.Add(VentanaCreacionPersonaje);//Se agrega la ventana a la raíz
     }
 
+    static void GuardarPartida()
+    {
+        string rutaArchivo = "partida.txt";
+    }
+
     public void debbuger()
     {
-        
+
     }
 
 }
