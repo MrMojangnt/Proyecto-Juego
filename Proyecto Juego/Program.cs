@@ -155,7 +155,7 @@ class Vestia
             Width = 30  
         };
         VentanaCreacionPersonaje.Add(Skills_in4);
-        
+        PaisSeleciconado = "Nicaragua";
         ListaPaises.SelectedItemChanged += (args) =>
         {
             PaisSeleciconado = Paises[args.Item];
@@ -166,14 +166,41 @@ class Vestia
         {
             X = Pos.Center(),
             Y = 20
-        };  
+        };
+        bool Skills = false, nombre = false, pais = false;
         VentanaCreacionPersonaje.Add(botonAceptar);
         botonAceptar.Clicked += () =>
         {
-            string sum = Skills_in1.Text.ToString()+Skills_in2.Text.ToString()+Skills_in3.Text.ToString()+Skills_in4.Text.ToString();
-            int sumint;
-            if  (int.TryParse(sum, out sumint)) {
-                
+            int numero = 0;
+            //Comprobar nombre vacio
+            if (casillaNombre.Text.IsEmpty)
+            {
+                MessageBox.Query(
+                    "ERROR",
+                    "Ingresa un nombre correcto",
+                    "Introduce nuevos datos");     
+
+            }
+            else
+            {
+                nombre = true;
+            }
+            //Comprobar skills
+            if  (int.TryParse(Skills_in1.Text.ToString(), out numero)&&int.TryParse(Skills_in2.Text.ToString(), out numero)&& int.TryParse(Skills_in3.Text.ToString(), out numero)&& int.TryParse(Skills_in4.Text.ToString(), out numero) && numero <= 30) {
+                Skills = true;
+            }
+            else
+            {
+                MessageBox.Query(
+                    "ERROR",
+                    "Solo puedes ingresar numeros en los stats y una cantidad <= 30",
+                    "Introduce nuevos datos");     
+            }
+            //Comprobar pais
+            //Comprobacion final
+            if (nombre && Skills)
+            {
+                                
                 MessageBox.Query(
                     "Añadido",
                     "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
@@ -181,14 +208,6 @@ class Vestia
                 etiqNombre.Text = "Nombre: " + casillaNombre.Text;
                 etiqPais.Text = "País: " + PaisSeleciconado;
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
-                sum = "";
-            }
-            else
-            {
-                MessageBox.Query(
-                    "ERROR",
-                    "Solo puedes ingresar Numeros en los stats",
-                    "Introduce nuevos datos");     
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
