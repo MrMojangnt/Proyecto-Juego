@@ -320,6 +320,7 @@ class Vestia
     
     static void CargarPartida(Toplevel top)
     {
+
         var VentanaCargarPartida = new Window("")
         {
             X=0,
@@ -383,6 +384,24 @@ class Vestia
         };
 
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
+        Slot1.Add(new Label("No hay \ndatos guardados")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center(),
+        });
+
+        Slot2.Add(new Label("No hay \ndatos guardados")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center(),
+        });
+
+        Slot3.Add(new Label("No hay \ndatos guardados")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center(),
+        });
+
         top.Add(VentanaCargarPartida);
     } 
     
