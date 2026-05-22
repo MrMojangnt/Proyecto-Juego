@@ -33,12 +33,18 @@ class Vestia
         Application.Init();
         var top = Application.Top;
 
+        var colore = new ColorScheme()
+        {
+            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Black),
+        };
+
         var VentanaPrincipal = new Window("Registro")
         {
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Height = Dim.Fill(),
+            ColorScheme =  colore,
         };
         top.Add(VentanaPrincipal);
 
@@ -73,6 +79,15 @@ class Vestia
                 salidaAudio.Volume = muteado ? 0f : 1f;
             }
         };
+        var SelectedButton = new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(Color.Black, Color.White),
+        };
+
+        var NormaleButton = new ColorScheme()
+        {
+            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Black),
+        };
 
         //botón nueva partida
         var marco = new FrameView("")
@@ -80,7 +95,8 @@ class Vestia
             X = Pos.Center() - 14,
             Y = Pos.Center(),
             Width = 26,
-            Height = 5
+            Height = 5,
+            ColorScheme =  NormaleButton,      
         };
         var botonNuevaPartida = new Button("Nueva Partida")
         {
@@ -119,7 +135,16 @@ class Vestia
         };
         VentanaPrincipal.Add(marcoconfig);
         VentanaPrincipal.Add(botonConfiguracion);
+        botonNuevaPartida.Enter += (_) =>
+        {
+            marco.ColorScheme = SelectedButton;
+        };
 
+// Cuando pierde foco
+        botonNuevaPartida.Leave += (_) =>
+        {
+            marco.ColorScheme = NormaleButton;
+        };
         botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
 
         Application.Run();//Corre la ventana
@@ -274,6 +299,8 @@ class Vestia
                 MessageBox.Query(
                     "ERROR",
                     "Solo puedes ingresar numeros enteros en los stats",
+                    
+                    
                     "Introduce nuevos datos");
             }
             //Comprobar pais
