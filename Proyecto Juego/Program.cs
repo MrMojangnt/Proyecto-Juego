@@ -11,15 +11,99 @@ class Vestia
     static bool reproduciendo = false;
     static bool muteado = false;
     static Window VentanaPrincipal;
-
     static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
+    static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
         {
-            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue)
+            // Controles normales
+            Normal = Application.Driver.MakeAttribute(
+                Color.White,
+                Color.Blue),
+
+            // Control seleccionado
+            Focus = Application.Driver.MakeAttribute(
+                Color.Black,
+                Color.Gray),
+
+            // Hotkeys sin foco
+            HotNormal = Application.Driver.MakeAttribute(
+                Color.BrightYellow,
+                Color.Blue),
+
+            // Hotkeys con foco
+            HotFocus = Application.Driver.MakeAttribute(
+                Color.BrightYellow,
+                Color.Gray)
         },
-        new ColorScheme(){
-            Normal =  Application.Driver.MakeAttribute(Color.Black, Color.White)}
+
+        // ===== TEMA OSCURO =====
+        new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(
+                Color.White,
+                Color.Black),
+
+            Focus = Application.Driver.MakeAttribute(
+                Color.Black,
+                Color.BrightGreen),
+
+            HotNormal = Application.Driver.MakeAttribute(
+                Color.BrightCyan,
+                Color.Black),
+
+            HotFocus = Application.Driver.MakeAttribute(
+                Color.White,
+                Color.BrightGreen)
+        },
+
+        // ===== TEMA BLANCO =====
+        new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(
+                Color.Black,
+                Color.White),
+
+            Focus = Application.Driver.MakeAttribute(
+                Color.White,
+                Color.BrightBlue),
+
+            HotNormal = Application.Driver.MakeAttribute(
+                Color.Red,
+                Color.White),
+
+            HotFocus = Application.Driver.MakeAttribute(
+                Color.BrightYellow,
+                Color.BrightBlue)
+        }
+    };
+    static List<ColorScheme> ColoreButtonSelected = new List<ColorScheme>() {
+        // ===== TEMA AZUL =====
+        new ColorScheme()
+        {
+            // Fondo blanco con texto azul
+            Normal = Application.Driver.MakeAttribute(
+                Color.Blue,
+                Color.White),
+        },
+
+        // ===== TEMA OSCURO =====
+        new ColorScheme()
+        {
+            // Verde brillante estilo terminal retro
+            Normal = Application.Driver.MakeAttribute(
+                Color.BrightGreen,
+                Color.Black)
+        },
+
+        // ===== TEMA BLANCO =====
+        new ColorScheme()
+        {
+            // Azul brillante sobre fondo blanco
+            Normal = Application.Driver.MakeAttribute(
+                Color.BrightBlue,
+                Color.White)
+        }
     };
     static List<string> colorestxt = new List<string>() {"Predeterminado", "Oscuro", "Blanco"};
 
@@ -86,15 +170,7 @@ class Vestia
                 salidaAudio.Volume = muteado ? 0f : 1f;
             }
         };
-        var SelectedButton = new ColorScheme()
-        {
-            Normal = Application.Driver.MakeAttribute(Color.Blue, Color.White),
-        };
 
-        var NormaleButton = new ColorScheme()
-        {
-            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue),
-        };
 
         //botón nueva partida
         var marco = new FrameView("")
@@ -103,9 +179,9 @@ class Vestia
             Y = Pos.Center(),
             Width = 26,
             Height = 5,
-            ColorScheme =  NormaleButton,      
+            ColorScheme = colores[colora]
         };
-        var botonNuevaPartida = new Button("Nueva Partida")
+        var botonNuevaPartida = new Button("_Nueva Partida")
         {
             X = Pos.Center(),
             Y = Pos.Center()
@@ -119,10 +195,10 @@ class Vestia
             Y = Pos.Bottom(marco),
             Width = 26,
             Height = 5,
-            ColorScheme = NormaleButton,
+            ColorScheme = colores[colora]
 
         };
-        var botonCargarPartida = new Button("Cargar Partida")
+        var botonCargarPartida = new Button("_Cargar Partida")
         {
             X = Pos.Center(),
             Y = 1
@@ -136,12 +212,14 @@ class Vestia
             X = Pos.X(marco2),
             Y = Pos.Bottom(marco2),
             Width = 26,
-            Height = 5
+            Height = 5,
+            ColorScheme = colores[colora]
         };
-        var botonConfiguracion = new Button("Configuración")
+        var botonConfiguracion = new Button("_Configuración")
         {
             X = Pos.Center(),
-            Y = 1
+            Y = 1,
+            
         };
         VentanaPrincipal.Add(marcoconfig);
         marcoconfig.Add(botonConfiguracion);
@@ -152,49 +230,56 @@ class Vestia
             X = Pos.X(marcoconfig),
             Y = Pos.Bottom(marcoconfig),
             Width = 26,
-            Height = 5
+            Height = 5,
+            ColorScheme = colores[colora]
         };
-        var botonsalir = new Button("Salir")
+        var botonsalir = new Button("_Salir")
         {
             X = 8,
-            Y = 1
+            Y = 1,
+            
         };
         VentanaPrincipal.Add(marcosalir);
         marcosalir.Add(botonsalir);
-
+        //Agregar marcos a la list
+        marcos.Add(marco);
+        marcos.Add(marco2);
+        marcos.Add(marcoconfig);
+        marcos.Add(marcosalir);
+        
         botonNuevaPartida.Enter += (_) =>
         {
-            marco.ColorScheme = SelectedButton;
+            marco.ColorScheme = ColoreButtonSelected[colora];
         };
         botonCargarPartida.Enter += (_) =>
         {
-            marco2.ColorScheme = SelectedButton;
+            marco2.ColorScheme = ColoreButtonSelected[colora];
         };
         botonConfiguracion.Enter += (_) => 
         {
-            marcoconfig.ColorScheme = SelectedButton;
+            marcoconfig.ColorScheme = ColoreButtonSelected[colora];
         };
         botonsalir.Enter += (_) =>
         {
-            marcosalir.ColorScheme = SelectedButton;
+            marcosalir.ColorScheme = ColoreButtonSelected[colora];
         };
 
         // Cuando pierde foco
         botonCargarPartida.Leave += (_) =>
         {
-            marco2.ColorScheme = NormaleButton;
+            marco2.ColorScheme = colores[colora];
         };
         botonNuevaPartida.Leave += (_) =>
         {
-            marco.ColorScheme = NormaleButton;
+            marco.ColorScheme = colores[colora];
         };
         botonConfiguracion.Leave += (_) =>
         {
-            marcoconfig.ColorScheme = NormaleButton;
+            marcoconfig.ColorScheme = colores[colora];
         };
         botonsalir.Leave += (_) =>
         {
-            marcosalir.ColorScheme = NormaleButton;
+            marcosalir.ColorScheme = colores[colora];
         };
         botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
         botonCargarPartida.Clicked += () => CargarPartida(top);
@@ -266,7 +351,8 @@ class Vestia
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Height = Dim.Fill(),
+            ColorScheme = colores[colora]
         };
         var TemasLabel = new Label("Temas")
         {
@@ -293,6 +379,10 @@ class Vestia
         aceptar.Clicked += () =>
         {
             VentanaPrincipal.ColorScheme = colores[colora];
+            foreach (var m in marcos)
+            {
+                m.ColorScheme = colores[colora];
+            }
             MessageBox.Query(
                 "Guardado",
                 "Se guardo la configuracion", //Muestra un aviso, un mensaje
