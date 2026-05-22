@@ -2,7 +2,7 @@
 using System.IO;
 using Terminal.Gui;
 
-class Vestia
+class Program
 {
     static int colora = 0;
     static WaveOutEvent salidaAudio;
@@ -320,6 +320,9 @@ class Vestia
     
     static void CargarPartida(Toplevel top)
     {
+        bool save = false;
+        bool save2 = false;
+        bool save3 = false;
 
         var VentanaCargarPartida = new Window("")
         {
@@ -327,6 +330,7 @@ class Vestia
             Y=0,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
+            ColorScheme = colores[colora]
         };
 
         var par1 = new Label("Slot 1")
@@ -623,21 +627,48 @@ class Vestia
                 "\nCorrupción: " + numero4
                     , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
 
+                GuardarPartida(casillaNombre.Text.ToString(), PaisSeleciconado, numero1, numero2, numero3, numero4);
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
 
+        var SalirS = new Button("Salir sin guardar")
+        {
+            X = Pos.X(botonAceptar)+ 20,
+            Y = Pos.Y(botonAceptar),
+        };
 
+        SalirS.Clicked += () =>
+        {
+            top.Remove(VentanaCreacionPersonaje);
+            top.Add(VentanaPrincipal);
+        };
+        VentanaCreacionPersonaje.Add(SalirS);
 
         VentanaCreacionPersonaje.Add(etiquetaNombre, casillaNombre, etiquetaPais, ListaPaises);
         top.Add(VentanaCreacionPersonaje);//Se agrega la ventana a la raíz
     }
-
-    static void GuardarPartida()
+    
+    //intentando hacer un sistema de guardado de partidas
+    static void Verificarsave()
     {
-        string rutaArchivo = "partida.txt";
+
+    }
+    //función para guardar partida
+    static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
+    {
+        StreamWriter save = new StreamWriter("save");
+        save.WriteLine($"Nombre: {Nombre}");
+        save.WriteLine($"País: {Pais}");
+        save.WriteLine("    SKILLS      ");
+        save.WriteLine($"Carisma: {n1}");
+        save.WriteLine($"Economía: {n2}");
+        save.WriteLine($"Fiscalidades: {n3}");
+        save.WriteLine($"Corrupción: {n4}");
+
+        save.Close();
     }
 
     public void debbuger()
