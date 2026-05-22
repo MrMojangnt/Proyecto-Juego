@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
-using Terminal.Gui;
 using System.IO;
+using Terminal.Gui;
 
 class Vestia
 {
@@ -11,8 +11,25 @@ class Vestia
     static bool muteado = false;
 
     static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
+    static List<ColorScheme> colores = new List<ColorScheme>() {
+        new ColorScheme()
+        {
+            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue)
+        },
+
+    };
     static string PaisSeleciconado = "";
 
+    static void Configuracion()
+    {
+        var ventanaconfiguracion = new Window("Configuracion")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+    }
     static void Reproducir()
     {
         audio = new AudioFileReader("ded.mp3");
@@ -35,7 +52,7 @@ class Vestia
 
         var colore = new ColorScheme()
         {
-            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Black),
+            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue),
         };
 
         var VentanaPrincipal = new Window("Registro")
@@ -44,7 +61,7 @@ class Vestia
             Y = 0,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
-            ColorScheme =  colore,
+            ColorScheme = colores[0],
         };
         top.Add(VentanaPrincipal);
 
@@ -81,12 +98,12 @@ class Vestia
         };
         var SelectedButton = new ColorScheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.Black, Color.White),
+            Normal = Application.Driver.MakeAttribute(Color.Blue, Color.White),
         };
 
         var NormaleButton = new ColorScheme()
         {
-            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Black),
+            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue),
         };
 
         //botón nueva partida
@@ -161,18 +178,33 @@ class Vestia
         };
         botonCargarPartida.Enter += (_) =>
         {
-            marco.ColorScheme = SelectedButton;
+            marco2.ColorScheme = SelectedButton;
         };
-
+        botonConfiguracion.Enter += (_) => 
+        {
+            marcoconfig.ColorScheme = SelectedButton;
+        };
+        botonsalir.Enter += (_) =>
+        {
+            marcosalir.ColorScheme = SelectedButton;
+        };
 
         // Cuando pierde foco
         botonCargarPartida.Leave += (_) =>
         {
-            marco.ColorScheme = NormaleButton;
+            marco2.ColorScheme = NormaleButton;
         };
         botonNuevaPartida.Leave += (_) =>
         {
             marco.ColorScheme = NormaleButton;
+        };
+        botonConfiguracion.Leave += (_) =>
+        {
+            marcoconfig.ColorScheme = NormaleButton;
+        };
+        botonsalir.Leave += (_) =>
+        {
+            marcosalir.ColorScheme = NormaleButton;
         };
         botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
         botonCargarPartida.Clicked += () => CargarPartida(top);
