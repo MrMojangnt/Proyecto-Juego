@@ -282,9 +282,20 @@ class Vestia
         {
             marcosalir.ColorScheme = colores[colora];
         };
-        botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
-        botonCargarPartida.Clicked += () => CargarPartida(top);
-        botonConfiguracion.Clicked += () => Configuracion(top);
+        botonNuevaPartida.Clicked += () =>
+        {
+            top.Remove(VentanaPrincipal);
+            CreacionPersonaje(top);
+        };
+        botonCargarPartida.Clicked += () =>
+        {
+            CargarPartida(top);
+        };
+        botonConfiguracion.Clicked += () =>
+        {
+            top.Remove(VentanaPrincipal);
+            Configuracion(top);
+        };
         botonsalir.Clicked += () => Application.RequestStop();
         Application.Run();//Corre la ventana
     }
@@ -389,6 +400,7 @@ class Vestia
                 "Se guardo la configuracion", //Muestra un aviso, un mensaje
     "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
             top.Remove(ventanaconfiguracion);//Cuando se pulsa el botón desaparece la ventana 
+            top.Add(VentanaPrincipal);
         };
         ventanaconfiguracion.Add(aceptar);
         ventanaconfiguracion.Add(ListaTEMAS);
@@ -559,6 +571,7 @@ class Vestia
                 etiqNombre.Text = "Nombre: " + casillaNombre.Text;
                 etiqPais.Text = "País: " + PaisSeleciconado;
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
+                top.Add(VentanaPrincipal);
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
