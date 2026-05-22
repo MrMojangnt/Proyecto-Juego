@@ -5,7 +5,6 @@ using Terminal.Gui;
 class Vestia
 {
     static int colora = 0;
-    static Label etiqNombre, etiqPais;
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
     static bool reproduciendo = false;
@@ -141,16 +140,6 @@ class Vestia
         top.Add(VentanaPrincipal);
 
 
-        etiqNombre = new Label("Nombre: ")//Se agrega texto
-        {
-            X = 2,//Pos.Center() lo deja centrado :OOOOOO
-            Y = 2,
-        };
-        etiqPais = new Label("País: ")//Se agrega texto
-        {
-            X = 2,//Pos.Center() lo deja centrado :OOOOOO
-            Y = 4,
-        };
         var botonMusica = new Button("▶ MUSICA")
         {
             X = 140,
@@ -188,7 +177,7 @@ class Vestia
 ║      ╭──────────────────────────────────────────────╮                ║
 ║      │   ▲ NASDAQ +4.2%     GOLD ▲     OIL ▼        │                ║
 ║      │                                              │                ║
-║      │      ╱╲        ╱╲                            │                ║
+║      │      ╱╲       ╱╲                             │                ║
 ║      │  ╱╲ ╱  ╲  ╱╲ ╱  ╲      $$$$$$$$              │                ║
 ║      │ ╱  V    ╲╱  V    ╲        $$$                │                ║
 ║      │───────────────────────────────► TIME         │                ║
@@ -607,10 +596,14 @@ class Vestia
 
                 MessageBox.Query(
                     "Añadido",
-                    "Introducido: " + casillaNombre.Text + //Muestra un aviso, un mensaje
-                    " - " + PaisSeleciconado, "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
-                etiqNombre.Text = "Nombre: " + casillaNombre.Text;
-                etiqPais.Text = "País: " + PaisSeleciconado;
+                    "Introducido: " + casillaNombre.Text.ToString() + //Muestra un aviso, un mensaje
+                    " - " + PaisSeleciconado + 
+                    "\nCarisma: " + numero1 +
+                "\nEconomía: " + numero2+
+                "\nFiscalidades: " + numero3 +
+                "\nCorrupción: " + numero4
+                    , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
+
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
             }
