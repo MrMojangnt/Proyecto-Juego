@@ -111,15 +111,18 @@ class Vestia
             X = Pos.X(marco),
             Y = Pos.Bottom(marco),
             Width = 26,
-            Height = 5
+            Height = 5,
+            ColorScheme = NormaleButton,
+
         };
         var botonCargarPartida = new Button("Cargar Partida")
         {
-            X = Pos.X(marco2) + 4,
-            Y = 24
+            X = Pos.Center(),
+            Y = 1
         };
         VentanaPrincipal.Add(marco2);
-        VentanaPrincipal.Add(botonCargarPartida);
+        marco2.Add(botonCargarPartida);
+
         //botón configuración
         var marcoconfig = new FrameView("")
         {
@@ -130,28 +133,109 @@ class Vestia
         };
         var botonConfiguracion = new Button("Configuración")
         {
-            X = Pos.X(marco2) + 5,
-            Y = 29
+            X = Pos.Center(),
+            Y = 1
         };
         VentanaPrincipal.Add(marcoconfig);
-        VentanaPrincipal.Add(botonConfiguracion);
+        marcoconfig.Add(botonConfiguracion);
+
+        //botón salir
+        var marcosalir = new FrameView("")
+        {
+            X = Pos.X(marcoconfig),
+            Y = Pos.Bottom(marcoconfig),
+            Width = 26,
+            Height = 5
+        };
+        var botonsalir = new Button("Salir")
+        {
+            X = 8,
+            Y = 1
+        };
+        VentanaPrincipal.Add(marcosalir);
+        marcosalir.Add(botonsalir);
+
         botonNuevaPartida.Enter += (_) =>
         {
             marco.ColorScheme = SelectedButton;
         };
+        botonCargarPartida.Enter += (_) =>
+        {
+            marco.ColorScheme = SelectedButton;
+        };
 
-// Cuando pierde foco
+
+        // Cuando pierde foco
+        botonCargarPartida.Leave += (_) =>
+        {
+            marco.ColorScheme = NormaleButton;
+        };
         botonNuevaPartida.Leave += (_) =>
         {
             marco.ColorScheme = NormaleButton;
         };
         botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
-
+        botonCargarPartida.Clicked += () => CargarPartida(top);
+        botonsalir.Clicked += () => Application.RequestStop();
         Application.Run();//Corre la ventana
     }
 
 
+    static void CargarPartida(Toplevel top)
+    {
+        var VentanaCargarPartida = new Window("")
+        {
+            X=0,
+            Y=0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+        };
 
+        var par1 = new Label("Slot 1")
+        {
+            X =5,
+            Y=9
+        };
+        VentanaCargarPartida.Add(par1);
+        var Slot1 = new FrameView("")
+        {
+            X=3,
+            Y=10,
+            Width = 20,
+            Height = 10,
+        };
+
+        var par2 = new Label("Slot 2")
+        {
+            X = 30,
+            Y = 9
+        };
+        VentanaCargarPartida.Add(par2);
+        var Slot2 = new FrameView("")
+        {
+            X = 28,
+            Y = 10,
+            Width = 20,
+            Height = 10,
+        };
+
+        var par3 = new Label("Slot 3")
+        {
+            X = 55,
+            Y = 9
+        };
+        VentanaCargarPartida.Add(par3);
+        var Slot3 = new FrameView("")
+        {
+            X = 53,
+            Y = 10,
+            Width = 20,
+            Height = 10,
+        };
+
+        VentanaCargarPartida.Add(Slot1, Slot2, Slot3);
+        top.Add(VentanaCargarPartida);
+    }
     static void CreacionPersonaje(Toplevel top)
     {
 
