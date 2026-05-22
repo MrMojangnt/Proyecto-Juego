@@ -341,7 +341,15 @@ class Vestia
             Height = 10,
         };
 
-        VentanaCargarPartida.Add(Slot1, Slot2, Slot3);
+        var Back = new Button("Volver al Menú")
+        {
+            X = Pos.Center(),
+            Y= 30
+        };
+
+        Back.Clicked += () => top.Remove(VentanaCargarPartida);
+
+        VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
         top.Add(VentanaCargarPartida);
     } 
     
