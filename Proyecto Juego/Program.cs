@@ -324,6 +324,7 @@ class Program
         bool save2 = false;
         bool save3 = false;
 
+
         var VentanaCargarPartida = new Window("")
         {
             X=0,
@@ -388,11 +389,31 @@ class Program
         };
 
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
-        Slot1.Add(new Label("No hay \ndatos guardados")
+
+        //verificando que haya partida guardada
+        if (File.Exists("save.txt"))
         {
-            X = Pos.Center(),
-            Y = Pos.Center(),
-        });
+            save = true;
+            StreamReader save1 = new StreamReader("save.txt");
+            string linea = save1.ReadLine();
+            save1.Close();
+
+            Slot1.Add(new Label(linea)
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+        else
+        {
+
+            Slot1.Add(new Label("No hay \ndatos guardados")
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+
 
         Slot2.Add(new Label("No hay \ndatos guardados")
         {
@@ -652,14 +673,15 @@ class Program
     }
     
     //intentando hacer un sistema de guardado de partidas
-    static void Verificarsave()
+    static void CargarPartida()
     {
+        StreamReader save = new StreamReader("save.txt");
 
     }
     //función para guardar partida
     static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
     {
-        StreamWriter save = new StreamWriter("save");
+        StreamWriter save = new StreamWriter("save.txt");
         save.WriteLine($"Nombre: {Nombre}");
         save.WriteLine($"País: {Pais}");
         save.WriteLine("    SKILLS      ");
