@@ -289,6 +289,7 @@ class Vestia
         };
         botonCargarPartida.Clicked += () =>
         {
+            top.Remove(VentanaPrincipal);
             CargarPartida(top);
         };
         botonConfiguracion.Clicked += () =>
@@ -358,7 +359,11 @@ class Vestia
             Y= 30
         };
 
-        Back.Clicked += () => top.Remove(VentanaCargarPartida);
+        Back.Clicked += () =>
+        {
+            top.Remove(VentanaCargarPartida);
+            top.Add(VentanaPrincipal);
+        };
 
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
         top.Add(VentanaCargarPartida);
