@@ -16,6 +16,7 @@ class Vestia
     static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
         {
+            //Tema predeterminado
             // Controles normales
             Normal = Application.Driver.MakeAttribute(
                 Color.White,
@@ -37,7 +38,7 @@ class Vestia
                 Color.Gray)
         },
 
-        // ===== TEMA OSCURO =====
+        // Tema oscuro
         new ColorScheme()
         {
             Normal = Application.Driver.MakeAttribute(
@@ -57,7 +58,7 @@ class Vestia
                 Color.BrightGreen)
         },
 
-        // ===== TEMA BLANCO =====
+        // Tema blanco
         new ColorScheme()
         {
             Normal = Application.Driver.MakeAttribute(
@@ -78,7 +79,7 @@ class Vestia
         }
     };
     static List<ColorScheme> ColoreButtonSelected = new List<ColorScheme>() {
-        // ===== TEMA AZUL =====
+        // Tema azul
         new ColorScheme()
         {
             // Fondo blanco con texto azul
@@ -87,7 +88,7 @@ class Vestia
                 Color.White),
         },
 
-        // ===== TEMA OSCURO =====
+        // Tema oscuro
         new ColorScheme()
         {
             // Verde brillante estilo terminal retro
@@ -96,7 +97,7 @@ class Vestia
                 Color.Black)
         },
 
-        // ===== TEMA BLANCO =====
+        // Tema blanco
         new ColorScheme()
         {
             // Azul brillante sobre fondo blanco
@@ -402,7 +403,8 @@ class Vestia
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Height = Dim.Fill(),
+            ColorScheme =  colores[colora]
         };
         var etiquetaNombre = new Label("Nombre")//Se agrega texto
         {
