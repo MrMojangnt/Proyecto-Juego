@@ -390,15 +390,16 @@ class Program
 
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
 
-        //verificando que haya partida guardada
-        if (File.Exists("save.txt"))
+        //verificando que haya partida guardada en el slot 1
+        if (File.Exists("save1.txt"))
         {
             save = true;
-            StreamReader save1 = new StreamReader("save.txt");
+            StreamReader save1 = new StreamReader("save1.txt");
             string linea = save1.ReadLine();
+            linea = linea.Replace("Nombre: ", "");
             save1.Close();
 
-            Slot1.Add(new Label(linea)
+            Slot1.Add(new Label("nombre\n" +linea)
             {
                 X = Pos.Center(),
                 Y = Pos.Center(),
@@ -414,18 +415,50 @@ class Program
             });
         }
 
-
-        Slot2.Add(new Label("No hay \ndatos guardados")
+        //verificando que haya partida guardada en el slot 2
+        if (File.Exists("save2.txt"))
         {
-            X = Pos.Center(),
-            Y = Pos.Center(),
-        });
-
-        Slot3.Add(new Label("No hay \ndatos guardados")
+            save2 = true;
+            StreamReader save_2 = new StreamReader("save2.txt");
+            string linea = save_2.ReadLine();
+            save_2.Close();
+            Slot2.Add(new Label(linea)
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+        else
         {
-            X = Pos.Center(),
-            Y = Pos.Center(),
-        });
+            Slot2.Add(new Label("No hay \ndatos guardados")
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+
+        //verificando que haya partida guardada en el slot 3
+        if (File.Exists("save3.txt"))
+        {
+            save3 = true;
+            StreamReader save_3 = new StreamReader("save3.txt");
+            string linea = save_3.ReadLine();
+            save_3.Close();
+            Slot3.Add(new Label(linea)
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+        else
+        {
+            Slot3.Add(new Label("No hay \ndatos guardados")
+            {
+                X = Pos.Center(),
+                Y = Pos.Center(),
+            });
+        }
+
 
         top.Add(VentanaCargarPartida);
     } 
@@ -628,7 +661,7 @@ class Program
             {
                 MessageBox.Query(
                     "ERROR",
-                    "Solo puedes ingresar numeros enteros en los stats",
+                    "Solo puedes ingresar numeros enteros en las skills",
                     
                     
                     "Introduce nuevos datos");
@@ -681,7 +714,7 @@ class Program
     //función para guardar partida
     static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
     {
-        StreamWriter save = new StreamWriter("save.txt");
+        StreamWriter save = new StreamWriter("save1.txt");
         save.WriteLine($"Nombre: {Nombre}");
         save.WriteLine($"País: {Pais}");
         save.WriteLine("    SKILLS      ");
