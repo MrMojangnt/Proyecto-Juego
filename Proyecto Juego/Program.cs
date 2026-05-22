@@ -199,12 +199,12 @@ class Vestia
 ╚══════════════════════════════════════════════════════════════════════╝")
         {
             X = Pos.Center(),
-            Y = 1
+            Y = Pos.Center()
         };
         VentanaPrincipal.Add(label);
         var marco = new FrameView("")
         {
-            X = Pos.Center() - 14,
+            X = 10,
             Y = Pos.Center(),
             Width = 26,
             Height = 5,
@@ -215,8 +215,8 @@ class Vestia
             X = Pos.Center(),
             Y = Pos.Center()
         };
+        marco.Add(botonNuevaPartida);
         VentanaPrincipal.Add(marco);
-        VentanaPrincipal.Add(botonNuevaPartida);
         //botón cargar partida
         var marco2 = new FrameView("")
         {
@@ -238,8 +238,8 @@ class Vestia
         //botón configuración
         var marcoconfig = new FrameView("")
         {
-            X = Pos.X(marco2),
-            Y = Pos.Bottom(marco2),
+            X = 120,
+            Y = Pos.Center(),
             Width = 26,
             Height = 5,
             ColorScheme = colores[colora]
