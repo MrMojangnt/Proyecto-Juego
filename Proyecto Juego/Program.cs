@@ -4,11 +4,13 @@ using Terminal.Gui;
 
 class Vestia
 {
+    static int colora = 0;
     static Label etiqNombre, etiqPais;
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
     static bool reproduciendo = false;
     static bool muteado = false;
+    static Window VentanaPrincipal;
 
     static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static List<ColorScheme> colores = new List<ColorScheme>() {
@@ -16,20 +18,12 @@ class Vestia
         {
             Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue)
         },
-
+        new ColorScheme(){
+            Normal =  Application.Driver.MakeAttribute(Color.Black, Color.White)}
     };
-    static string PaisSeleciconado = "";
+    static List<string> colorestxt = new List<string>() {"Predeterminado", "Oscuro", "Blanco"};
 
-    static void Configuracion()
-    {
-        var ventanaconfiguracion = new Window("Configuracion")
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill()
-        };
-    }
+    static string PaisSeleciconado = "";
     static void Reproducir()
     {
         audio = new AudioFileReader("ded.mp3");
@@ -49,19 +43,15 @@ class Vestia
     {
         Application.Init();
         var top = Application.Top;
+        
 
-        var colore = new ColorScheme()
-        {
-            Normal =  Application.Driver.MakeAttribute(Color.White, Color.Blue),
-        };
-
-        var VentanaPrincipal = new Window("Registro")
+        VentanaPrincipal = new Window("Menu")
         {
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
-            ColorScheme = colores[0],
+            ColorScheme = colores[colora],
         };
         top.Add(VentanaPrincipal);
 
@@ -208,11 +198,11 @@ class Vestia
         };
         botonNuevaPartida.Clicked += () => CreacionPersonaje(top);
         botonCargarPartida.Clicked += () => CargarPartida(top);
+        botonConfiguracion.Clicked += () => Configuracion(top);
         botonsalir.Clicked += () => Application.RequestStop();
         Application.Run();//Corre la ventana
     }
-
-
+    
     static void CargarPartida(Toplevel top)
     {
         var VentanaCargarPartida = new Window("")
@@ -267,6 +257,52 @@ class Vestia
 
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3);
         top.Add(VentanaCargarPartida);
+    } 
+    
+    static void Configuracion(Toplevel top)
+    {
+        var ventanaconfiguracion = new Window("Configuracion")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        var TemasLabel = new Label("Temas")
+        {
+            X = 2,
+            Y = 1
+        };
+        var ListaTEMAS = new ListView(colorestxt)
+        {
+            X = Pos.Right(TemasLabel) + 4,
+            Y = 2,
+            Width = 30,
+            Height = 6
+        };
+        ListaTEMAS.SelectedItemChanged += (args) =>
+        {
+            colora = args.Item;
+            PaisSeleciconado = colorestxt[args.Item];
+        };
+        var aceptar = new Button("Aceptar")
+        {
+            Y= 9,
+            X = Pos.Right(ListaTEMAS),
+        };
+        aceptar.Clicked += () =>
+        {
+            VentanaPrincipal.ColorScheme = colores[colora];
+            MessageBox.Query(
+                "Guardado",
+                "Se guardo la configuracion", //Muestra un aviso, un mensaje
+    "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
+            top.Remove(ventanaconfiguracion);//Cuando se pulsa el botón desaparece la ventana 
+        };
+        ventanaconfiguracion.Add(aceptar);
+        ventanaconfiguracion.Add(ListaTEMAS);
+        ventanaconfiguracion.Add(TemasLabel);
+        top.Add(ventanaconfiguracion);
     }
     static void CreacionPersonaje(Toplevel top)
     {
