@@ -4,6 +4,9 @@ using Terminal.Gui;
 
 class Program
 {
+    static bool save = false;
+    static bool save2 = false;
+    static bool save3 = false;
     static int colora = 0;
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
@@ -317,14 +320,25 @@ class Program
         botonsalir.Clicked += () => Application.RequestStop();
         Application.Run();//Corre la ventana
     }
-    
+
+    static void VerificarSave()
+    {
+        if (File.Exists("save1.txt"))
+        {
+            save = true;
+        }
+        if (File.Exists("save2.txt"))
+        {
+            save2 = true;
+        }
+        if (File.Exists("save3.txt"))
+        {
+            save3 = true;
+        }
+    }
+
     static void CargarPartida(Toplevel top)
     {
-        bool save = false;
-        bool save2 = false;
-        bool save3 = false;
-
-
         var VentanaCargarPartida = new Window("")
         {
             X=0,
@@ -391,15 +405,14 @@ class Program
         VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
 
         //verificando que haya partida guardada en el slot 1
-        if (File.Exists("save1.txt"))
+        if (save)
         {
-            save = true;
             StreamReader save1 = new StreamReader("save1.txt");
             string linea = save1.ReadLine();
-            linea = linea.Replace("Nombre: ", "");
+            linea = linea.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
             save1.Close();
 
-            Slot1.Add(new Label("nombre\n" +linea)
+            Slot1.Add(new Label("Nombre:\n" +linea)
             {
                 X = Pos.Center(),
                 Y = Pos.Center(),
@@ -414,15 +427,15 @@ class Program
                 Y = Pos.Center(),
             });
         }
-
+        VerificarSave();
         //verificando que haya partida guardada en el slot 2
-        if (File.Exists("save2.txt"))
+        if (save2)
         {
-            save2 = true;
             StreamReader save_2 = new StreamReader("save2.txt");
             string linea = save_2.ReadLine();
+            linea = linea.Replace("Nombre: ", "");
             save_2.Close();
-            Slot2.Add(new Label(linea)
+            Slot2.Add(new Label("Nombre:\n" + linea)
             {
                 X = Pos.Center(),
                 Y = Pos.Center(),
@@ -438,13 +451,13 @@ class Program
         }
 
         //verificando que haya partida guardada en el slot 3
-        if (File.Exists("save3.txt"))
+        if (save3)
         {
-            save3 = true;
             StreamReader save_3 = new StreamReader("save3.txt");
             string linea = save_3.ReadLine();
+            linea = linea.Replace("Nombre: ", "");
             save_3.Close();
-            Slot3.Add(new Label(linea)
+            Slot3.Add(new Label("Nombre:\n" + linea)
             {
                 X = Pos.Center(),
                 Y = Pos.Center(),
@@ -714,16 +727,44 @@ class Program
     //función para guardar partida
     static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
     {
-        StreamWriter save = new StreamWriter("save1.txt");
-        save.WriteLine($"Nombre: {Nombre}");
-        save.WriteLine($"País: {Pais}");
-        save.WriteLine("    SKILLS      ");
-        save.WriteLine($"Carisma: {n1}");
-        save.WriteLine($"Economía: {n2}");
-        save.WriteLine($"Fiscalidades: {n3}");
-        save.WriteLine($"Corrupción: {n4}");
+        VerificarSave();
+        if (save == false)
+        {
+            StreamWriter save = new StreamWriter("save1.txt");
+            save.WriteLine($"Nombre: {Nombre}");
+            save.WriteLine($"País: {Pais}");
+            save.WriteLine("    SKILLS      ");
+            save.WriteLine($"Carisma: {n1}");
+            save.WriteLine($"Economía: {n2}");
+            save.WriteLine($"Fiscalidades: {n3}");
+            save.WriteLine($"Corrupción: {n4}");
 
-        save.Close();
+            save.Close();
+        } else if(save2 == false)
+        {
+            StreamWriter save2 = new StreamWriter("save2.txt");
+            save2.WriteLine($"Nombre: {Nombre}");
+            save2.WriteLine($"País: {Pais}");
+            save2.WriteLine("    SKILLS      ");
+            save2.WriteLine($"Carisma: {n1}");
+            save2.WriteLine($"Economía: {n2}");
+            save2.WriteLine($"Fiscalidades: {n3}");
+            save2.WriteLine($"Corrupción: {n4}");
+
+            save2.Close();
+        }else if(save3 == false)
+        {
+            StreamWriter save3 = new StreamWriter("save3.txt");
+            save3.WriteLine($"Nombre: {Nombre}");
+            save3.WriteLine($"País: {Pais}");
+            save3.WriteLine("    SKILLS      ");
+            save3.WriteLine($"Carisma: {n1}");
+            save3.WriteLine($"Economía: {n2}");
+            save3.WriteLine($"Fiscalidades: {n3}");
+            save3.WriteLine($"Corrupción: {n4}");
+
+            save3.Close();
+        }
     }
 
     public void debbuger()
