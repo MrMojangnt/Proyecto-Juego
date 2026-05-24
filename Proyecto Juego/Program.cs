@@ -4,15 +4,15 @@ using Terminal.Gui;
 
 class Program
 {
-    static bool save = false;
-    static bool save2 = false;
-    static bool save3 = false;
+    static FrameView[] Slots = new FrameView[3];
+    static bool[] saves = new bool[3];
     static int colora = 0;
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
     static bool reproduciendo = false;
     static bool muteado = false;
     static Window VentanaPrincipal;
+    static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
@@ -143,27 +143,6 @@ class Program
         top.Add(VentanaPrincipal);
 
 
-        var botonMusica = new Button("▶ MUSICA")
-        {
-            X = 140,
-            Y = 35
-        };
-        VentanaPrincipal.Add(botonMusica);
-        botonMusica.Clicked += () =>
-        {
-            if (!reproduciendo)
-            {
-                Reproducir();
-                reproduciendo = true;
-                muteado = false;
-            }
-            else
-            {
-                muteado = !muteado;
-                salidaAudio.Volume = muteado ? 0f : 1f;
-            }
-        };
-
 
         //botón nueva partida
         var label = new Label(@"╔══════════════════════════════════════════════════════════════════════╗
@@ -245,6 +224,7 @@ class Program
         VentanaPrincipal.Add(marcoconfig);
         marcoconfig.Add(botonConfiguracion);
 
+
         //botón salir
         var marcosalir = new FrameView("")
         {
@@ -262,12 +242,43 @@ class Program
         };
         VentanaPrincipal.Add(marcosalir);
         marcosalir.Add(botonsalir);
+
+        var marcomusica = new FrameView("")
+        {
+            X = 130,
+            Y = 33,
+            Width = 10,
+            Height = 4,
+        };
+        var botonMusica = new Button("▶ MUSICA")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center()+1
+        };
+        VentanaPrincipal.Add(marcomusica);
+        marcomusica.Add(botonMusica);
+        botonMusica.Clicked += () =>
+        {
+            if (!reproduciendo)
+            {
+                Reproducir();
+                reproduciendo = true;
+                muteado = false;
+            }
+            else
+            {
+                muteado = !muteado;
+                salidaAudio.Volume = muteado ? 0f : 1f;
+            }
+        };
+
+
         //Agregar marcos a la list
         marcos.Add(marco);
         marcos.Add(marco2);
         marcos.Add(marcoconfig);
         marcos.Add(marcosalir);
-        
+
         botonNuevaPartida.Enter += (_) =>
         {
             marco.ColorScheme = ColoreButtonSelected[colora];
@@ -283,6 +294,10 @@ class Program
         botonsalir.Enter += (_) =>
         {
             marcosalir.ColorScheme = ColoreButtonSelected[colora];
+        };
+        botonMusica.Enter += (_) =>
+        {
+            marcomusica.ColorScheme = ColoreButtonSelected[colora];
         };
 
         // Cuando pierde foco
@@ -302,6 +317,10 @@ class Program
         {
             marcosalir.ColorScheme = colores[colora];
         };
+        botonMusica.Leave += (_) =>
+        {
+            marcomusica.ColorScheme = colores[colora];
+        };
         botonNuevaPartida.Clicked += () =>
         {
             top.Remove(VentanaPrincipal);
@@ -318,23 +337,18 @@ class Program
             Configuracion(top);
         };
         botonsalir.Clicked += () => Application.RequestStop();
+
+        botonNuevaPartida.SetFocus();
         Application.Run();//Corre la ventana
     }
 
     static void VerificarSave()
     {
-        if (File.Exists("save1.txt"))
+        for(int i = 0; i < saves.Length; i++)
         {
-            save = true;
+            saves[i] = File.Exists(partidas[i]);
         }
-        if (File.Exists("save2.txt"))
-        {
-            save2 = true;
-        }
-        if (File.Exists("save3.txt"))
-        {
-            save3 = true;
-        }
+
     }
 
     static void CargarPartida(Toplevel top)
@@ -354,9 +368,9 @@ class Program
             Y=9
         };
         VentanaCargarPartida.Add(par1);
-        var Slot1 = new FrameView("")
+        Slots[0] = new FrameView("")
         {
-            X=3,
+            X =3,
             Y=10,
             Width = 20,
             Height = 10,
@@ -368,7 +382,7 @@ class Program
             Y = 9
         };
         VentanaCargarPartida.Add(par2);
-        var Slot2 = new FrameView("")
+        Slots[1] = new FrameView("")
         {
             X = 28,
             Y = 10,
@@ -382,7 +396,7 @@ class Program
             Y = 9
         };
         VentanaCargarPartida.Add(par3);
-        var Slot3 = new FrameView("")
+        Slots[2] = new FrameView("")
         {
             X = 53,
             Y = 10,
@@ -390,11 +404,21 @@ class Program
             Height = 10,
         };
 
+
+
         var Back = new Button("Volver al Menú")
         {
             X = Pos.Center(),
             Y= 30
         };
+
+        var Delete = new Button("Eliminar")
+        {
+            X = Pos.X(Back) + 5,
+            Y = Pos.Y(Back)
+        };
+
+
 
         Back.Clicked += () =>
         {
@@ -402,74 +426,33 @@ class Program
             top.Add(VentanaPrincipal);
         };
 
-        VentanaCargarPartida.Add(Slot1, Slot2, Slot3, Back);
-
-        //verificando que haya partida guardada en el slot 1
-        if (save)
-        {
-            StreamReader save1 = new StreamReader("save1.txt");
-            string linea = save1.ReadLine();
-            linea = linea.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
-            save1.Close();
-
-            Slot1.Add(new Label("Nombre:\n" +linea)
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
-        }
-        else
-        {
-
-            Slot1.Add(new Label("No hay \ndatos guardados")
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
-        }
+        VentanaCargarPartida.Add(Slots[0], Slots[1],Slots[2],Back);
         VerificarSave();
-        //verificando que haya partida guardada en el slot 2
-        if (save2)
+        //Verificando que haya partidas guardadas en cada slot
+        for(int i = 0; i < saves.Length; i++)
         {
-            StreamReader save_2 = new StreamReader("save2.txt");
-            string linea = save_2.ReadLine();
-            linea = linea.Replace("Nombre: ", "");
-            save_2.Close();
-            Slot2.Add(new Label("Nombre:\n" + linea)
+            if (saves[i])
             {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
-        }
-        else
-        {
-            Slot2.Add(new Label("No hay \ndatos guardados")
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
-        }
+                StreamReader save = new StreamReader(partidas[i]);
+                string linea = save.ReadLine();
+                linea = linea.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
+                save.Close();
 
-        //verificando que haya partida guardada en el slot 3
-        if (save3)
-        {
-            StreamReader save_3 = new StreamReader("save3.txt");
-            string linea = save_3.ReadLine();
-            linea = linea.Replace("Nombre: ", "");
-            save_3.Close();
-            Slot3.Add(new Label("Nombre:\n" + linea)
+                Slots[i].Add(new Label("Nombre:\n" + linea)
+                {
+                    X = Pos.Center(),
+                    Y = Pos.Center(),
+                });
+            }
+            else
             {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
-        }
-        else
-        {
-            Slot3.Add(new Label("No hay \ndatos guardados")
-            {
-                X = Pos.Center(),
-                Y = Pos.Center(),
-            });
+
+                Slots[i].Add(new Label("No hay \ndatos guardados")
+                {
+                    X = Pos.Center(),
+                    Y = Pos.Center(),
+                });
+            }
         }
 
 
@@ -634,7 +617,7 @@ class Program
             X = Pos.Center(),
             Y = 20
         };
-        bool Skills = false, nombre = false, pais = false;
+        bool Skills = false, nombre = false;
         VentanaCreacionPersonaje.Add(botonAceptar);
         botonAceptar.Clicked += () =>
         {
@@ -719,54 +702,58 @@ class Program
     }
     
     //intentando hacer un sistema de guardado de partidas
-    static void CargarPartida()
-    {
-        StreamReader save = new StreamReader("save.txt");
-
-    }
     //función para guardar partida
     static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
     {
         VerificarSave();
-        if (save == false)
-        {
-            StreamWriter save = new StreamWriter("save1.txt");
-            save.WriteLine($"Nombre: {Nombre}");
-            save.WriteLine($"País: {Pais}");
-            save.WriteLine("    SKILLS      ");
-            save.WriteLine($"Carisma: {n1}");
-            save.WriteLine($"Economía: {n2}");
-            save.WriteLine($"Fiscalidades: {n3}");
-            save.WriteLine($"Corrupción: {n4}");
+        bool guardado = false;
 
-            save.Close();
-        } else if(save2 == false)
+        for (int i = 0; i < saves.Length; i++)
         {
-            StreamWriter save2 = new StreamWriter("save2.txt");
-            save2.WriteLine($"Nombre: {Nombre}");
-            save2.WriteLine($"País: {Pais}");
-            save2.WriteLine("    SKILLS      ");
-            save2.WriteLine($"Carisma: {n1}");
-            save2.WriteLine($"Economía: {n2}");
-            save2.WriteLine($"Fiscalidades: {n3}");
-            save2.WriteLine($"Corrupción: {n4}");
+            if (!saves[i])
+            {
+                StreamWriter save = new StreamWriter(partidas[i]);
+                save.WriteLine($"Nombre: {Nombre}");
+                save.WriteLine($"País: {Pais}");
+                save.WriteLine("    SKILLS      ");
+                save.WriteLine($"Carisma: {n1}");
+                save.WriteLine($"Economía: {n2}");
+                save.WriteLine($"Fiscalidades: {n3}");
+                save.WriteLine($"Corrupción: {n4}");
 
-            save2.Close();
-        }else if(save3 == false)
-        {
-            StreamWriter save3 = new StreamWriter("save3.txt");
-            save3.WriteLine($"Nombre: {Nombre}");
-            save3.WriteLine($"País: {Pais}");
-            save3.WriteLine("    SKILLS      ");
-            save3.WriteLine($"Carisma: {n1}");
-            save3.WriteLine($"Economía: {n2}");
-            save3.WriteLine($"Fiscalidades: {n3}");
-            save3.WriteLine($"Corrupción: {n4}");
+                save.Close();
 
-            save3.Close();
+                guardado = true;
+                break;
+            }
         }
-    }
 
+        if (!guardado)
+        {
+            MessageBox.Query("Slots llenos",
+                "Ha superado el límite de partidas guardadas, ¿quiere sobreescribir alguna?",
+                "Sí", "No");
+        }
+       
+    }
+    
+    static void EliminarPartida(string save)
+    {
+        VerificarSave();
+       
+            int Eliminar = MessageBox.Query("Eliminar",
+            "¿Está seguro que desea eliminar esta partida?",
+            "Sí", "No");
+            if(Eliminar== 0)
+            {
+            MessageBox.Query("Eliminar",
+                "Partida eliminada con éxito",
+                "Aceptar");
+
+            File.Delete(save);
+            }
+
+    }
     public void debbuger()
     {
 
