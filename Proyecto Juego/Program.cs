@@ -253,7 +253,7 @@ class Program
         var botonMusica = new Button("▶ MUSICA")
         {
             X = Pos.Center(),
-            Y = Pos.Center()+1
+            Y = Pos.Center()
         };
         VentanaPrincipal.Add(marcomusica);
         marcomusica.Add(botonMusica);
