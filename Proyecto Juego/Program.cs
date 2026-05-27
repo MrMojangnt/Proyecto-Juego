@@ -1,9 +1,14 @@
 ﻿using NAudio.Wave;
 using System.IO;
+using Proyecto_Juego;
 using Terminal.Gui;
+
 
 class Program
 {
+    //Jugador
+    static Proyecto_Juego.Players pd = new Players();
+    //Jugador
     static FrameView[] Slots = new FrameView[3];
     static bool[] saves = new bool[3];
     static int colora = 0;
@@ -141,7 +146,8 @@ class Program
             ColorScheme = colores[colora],
         };
         top.Add(VentanaPrincipal);
-
+        
+        
 
 
         //botón nueva partida
@@ -668,6 +674,7 @@ class Program
             {
 
                 MessageBox.Query(
+                    
                     "Añadido",
                     "Introducido: " + casillaNombre.Text.ToString() + //Muestra un aviso, un mensaje
                     " - " + PaisSeleciconado + 
@@ -676,8 +683,13 @@ class Program
                 "\nFiscalidades: " + numero3 +
                 "\nCorrupción: " + numero4
                     , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
-
-                GuardarPartida(casillaNombre.Text.ToString(), PaisSeleciconado, numero1, numero2, numero3, numero4);
+                pd.name = casillaNombre.Text.ToString();
+                pd.pais = PaisSeleciconado;
+                pd.carisma = numero1;
+                pd.economia = numero2;
+                pd.fiscalidad = numero3;
+                pd.corrupcion = numero4;
+                GuardarPartida();
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
             }
@@ -703,7 +715,7 @@ class Program
     
     //intentando hacer un sistema de guardado de partidas
     //función para guardar partida
-    static void GuardarPartida(string Nombre, string Pais, int n1, int n2, int n3, int n4)
+    static void GuardarPartida()
     {
         VerificarSave();
         bool guardado = false;
@@ -712,16 +724,11 @@ class Program
         {
             if (!saves[i])
             {
-                StreamWriter save = new StreamWriter(partidas[i]);
-                save.WriteLine($"Nombre: {Nombre}");
-                save.WriteLine($"País: {Pais}");
-                save.WriteLine("    SKILLS      ");
-                save.WriteLine($"Carisma: {n1}");
-                save.WriteLine($"Economía: {n2}");
-                save.WriteLine($"Fiscalidades: {n3}");
-                save.WriteLine($"Corrupción: {n4}");
-
-                save.Close();
+                using (StreamWriter save = new StreamWriter(partidas[i]))
+                {
+                    save.WriteLine(pd.ToString());
+                }
+                
 
                 guardado = true;
                 break;
