@@ -672,7 +672,13 @@ class Program
             //Comprobacion final
             if (nombre && Skills)
             {
-
+                pd.name = casillaNombre.Text.ToString();
+                pd.pais = PaisSeleciconado;
+                pd.carisma = numero1;
+                pd.economia = numero2;
+                pd.fiscalidad = numero3;
+                pd.corrupcion = numero4;
+                GuardarPartida();
                 MessageBox.Query(
                     
                     "Añadido",
@@ -683,13 +689,7 @@ class Program
                 "\nFiscalidades: " + numero3 +
                 "\nCorrupción: " + numero4
                     , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
-                pd.name = casillaNombre.Text.ToString();
-                pd.pais = PaisSeleciconado;
-                pd.carisma = numero1;
-                pd.economia = numero2;
-                pd.fiscalidad = numero3;
-                pd.corrupcion = numero4;
-                GuardarPartida();
+
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
             }
