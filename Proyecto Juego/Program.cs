@@ -418,24 +418,11 @@ class Program
             Y= 30
         };
 
-        var Delete = new Button("BORRAR")
+        var Delete = new Button("Eliminar")
         {
-            X = 3,
-            Y = 3
+            X = Pos.X(Back) + 5,
+            Y = Pos.Y(Back)
         };
-
-        var iconoeliminar = new Label(@"    .----------.
-   /_________ /|
-   |         | |
-   |         | |
-   |         |/
-   '---------'")
-        {
-            X = Pos.X(Back) + 20,
-            Y = Pos.Y(Back) -5
-        };
-        VentanaCargarPartida.Add(iconoeliminar);
-        iconoeliminar.Add(Delete);
 
 
 
