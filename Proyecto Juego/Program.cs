@@ -572,7 +572,7 @@ class Program
 ██    ██")
             {
                 X = Pos.X(Slots[i]) + 5,
-                Y = Pos.Bottom(Slots[i]),
+                Y = Pos.Bottom(bottonslot1),
             };
 
             if (saves[i])//En caso que exista partida el botón de X existirá
@@ -1042,13 +1042,13 @@ class Program
 
         var labelStats = new Label($"Stats, puntos: {puntosmejorastats}")
         {
-            X = 150,
+            X = 130,
             Y = 2
             
         };
         var labelCarisma = new Label($"Carisma: {pd.carisma}")
         {
-            X = 150,
+            X = 130,
             Y = 3
         };
         var btCarismatic = new Button("+")
@@ -1058,7 +1058,7 @@ class Program
         };
         var labeleconomia = new Label($"Economia: {pd.economia}")
         {
-            X = 150,
+            X = 130,
             Y = 4
         };
         var btEconomia = new Button("+")
@@ -1068,7 +1068,7 @@ class Program
         };
         var labelfiscalidad = new Label($"Fiscalidad: {pd.fiscalidad}")
         {
-            X = 150,
+            X = 130,
             Y = 5
         };
         var btfiscalidad = new Button("+")
@@ -1078,7 +1078,7 @@ class Program
         };
         var labelcorrupcion = new Label($"Corrupcion: {pd.corrupcion}")
         {
-            X = 150,
+            X = 130,
             Y = 6
         };
         var btCorrupcion = new Button("+")
@@ -1090,23 +1090,19 @@ class Program
         var btMercado = new Button("Mercado")
         {
             X = 12,
-            Y = 25
+            Y = 38
         };
         var btInicio = new Button("Inicio")
         {
             X = 1,
-            Y = 25
+            Y = 38
         };
         var btPortafolio = new Button("Portafolio")
         {
             X=24,
-            Y=25
+            Y=38
         };
-        var ContactosLabel = new Label("Contactos")
-        {
-            X = 5,
-            Y = 4
-        };
+
         var FrameContactos = new FrameView()
         {
             X = 1,
@@ -1115,8 +1111,13 @@ class Program
             Height = 18,
             ColorScheme = colores[colora]
         };
+        var ContactosLabel = new Label("Contactos")
+        {
+            X = Pos.Center(),
+            Y = 0
+        };
         VentanaPrincipal.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
-
+        FrameContactos.Add(ContactosLabel);
     }
 
 
