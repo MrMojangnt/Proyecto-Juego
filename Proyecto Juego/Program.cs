@@ -966,11 +966,20 @@ class Program
             X=24,
             Y=25
         };
+        var ContactosLabel = new Label("Contactos")
+        {
+            X = 5,
+            Y = 4
+        };
         var FrameContactos = new FrameView()
         {
-            
+            X = 1,
+            Y = Pos.Center(),
+            Width = 20,
+            Height = 18,
+            ColorScheme = colores[colora]
         };
-        VentanaPrincipal.Add(LabelUsuario, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
+        VentanaPrincipal.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
 
     }
     public void debbuger()
