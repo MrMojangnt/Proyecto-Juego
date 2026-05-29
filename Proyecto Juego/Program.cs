@@ -539,7 +539,7 @@ class Program
 
         var Back = new Button("Volver al Menú")
         {
-            X = Pos.Center(),
+            X = Pos.Center() + 5,
             Y= 30
         };
 
@@ -572,7 +572,7 @@ class Program
 ██    ██")
             {
                 X = Pos.X(Slots[i]) + 5,
-                Y = Pos.Bottom(bottonslot1),
+                Y = Pos.Bottom(bottonslot1) + 2,
             };
 
             if (saves[i])//En caso que exista partida el botón de X existirá
@@ -869,18 +869,7 @@ class Program
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
                 if (guardado)
-                {
-                    MessageBox.Query(
-
-    "Añadido",
-    "Introducido: " + casillaNombre.Text.ToString() + //Muestra un aviso, un mensaje
-    " - " + PaisSeleciconado +
-    "\nCarisma: " + numero1 +
-"\nEconomía: " + numero2 +
-"\nFiscalidades: " + numero3 +
-"\nCorrupción: " + numero4
-    , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
-
+                {    
                     top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                     Inicio(top);
                 }
@@ -1020,7 +1009,7 @@ class Program
 
     static void Inicio(Toplevel top)
     {
-        var VentanaPrincipal = new Window("Inicio")
+        var VentanaInicio = new Window("Inicio")
         {
             X=0,
             Y=0,
@@ -1028,7 +1017,7 @@ class Program
             Height = Dim.Fill(),
             ColorScheme = colores[colora]
         };
-        top.Add(VentanaPrincipal);//Inicializador
+        top.Add(VentanaInicio);//Inicializador
         var LabelUsuario = new Label($"Usuario: {pd.name}")
         {
             X = 2,
@@ -1097,6 +1086,12 @@ class Program
             X = 1,
             Y = 38
         };
+        btInicio.Clicked += () =>
+        {
+            top.Remove(VentanaInicio);
+            top.Add(VentanaPrincipal);
+
+        };
         var btPortafolio = new Button("Portafolio")
         {
             X=24,
@@ -1116,7 +1111,7 @@ class Program
             X = Pos.Center(),
             Y = 0
         };
-        VentanaPrincipal.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
+        VentanaInicio.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
         FrameContactos.Add(ContactosLabel);
     }
 
