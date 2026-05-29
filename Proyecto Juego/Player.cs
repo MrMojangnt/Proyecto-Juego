@@ -13,6 +13,23 @@ public struct Players
 
     public override string ToString()
     {
-        return $"Nombre: {name} \nPaís: {pais} \nCarisma: {carisma} \nEconomía: {economia} \nFiscalidad: {fiscalidad} \nCorrupción: {corrupcion}" ;
+        return $"Nombre: {name} \nPais: {pais} \nCarisma: {carisma} \nEconomia: {economia} \nFiscalidad: {fiscalidad} \nCorrupcion: {corrupcion}" ;
     }
+}
+
+public struct Companias
+{
+    public int id { get; set; }
+    public  string name { get; set; }
+    public  string pais{ get; set; }
+    public decimal capbursatil { get; set; }
+    public  int accionistas{ get; set; }
+    public decimal GananciasMensuales { get; set; }
+    public decimal participacion { get; set; }
+    public decimal balance  { get; set; }
+}
+
+public struct Pais
+{
+    
 }
