@@ -17,6 +17,7 @@ class Program
     static bool reproduciendo = false;
     static bool muteado = false;
     static Window VentanaPrincipal;
+    static string puntosmejorastats = "0";
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static List<FrameView> marcos = new List<FrameView>();
@@ -381,7 +382,12 @@ class Program
             Width = 20,
             Height = 10,
         };
-
+        var bottonslot1 = new Button("Cargar slot 1")
+        {
+            X = Pos.X(par1),
+            Y = 21
+        };
+        VentanaCargarPartida.Add(bottonslot1);
         var par2 = new Label("Slot 2")
         {
             X = 30,
@@ -395,7 +401,12 @@ class Program
             Width = 20,
             Height = 10,
         };
-
+        var bottonslot2 = new Button("Cargar slot 2")
+        {
+            X = Pos.X(par2),
+            Y = 21
+        };
+        VentanaCargarPartida.Add(bottonslot2);
         var par3 = new Label("Slot 3")
         {
             X = 55,
@@ -409,8 +420,111 @@ class Program
             Width = 20,
             Height = 10,
         };
+        var bottonslot3 = new Button("Cargar slot 3")
+        {
+            X = Pos.X(par3),
+            Y = 21
+        };
+        VentanaCargarPartida.Add(bottonslot3);
+        if (File.Exists(partidas[0]))
+        {
+            bottonslot1.Clicked += () =>
+            {
+                StreamReader save = new StreamReader(partidas[0]);
+                string nombre = save.ReadLine();
+                nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                string pais = save.ReadLine();
+                pais = pais.Replace("Pais: ", "");
+                int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
+                int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
+                int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
+                int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                pd.name = nombre;
+                pd.pais = pais;
+                pd.carisma = carismas;
+                pd.economia = economia;
+                pd.fiscalidad = fiscalidad;
+                pd.corrupcion = corrupcion;
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
 
 
+            };
+        }    
+        else
+        {
+            bottonslot1.Clicked += () =>
+            {
+                MessageBox.Query(
+                    "Error",
+                    "No tienes partida guardada",
+                    "Aceptar");
+            };
+        }
+
+        if (File.Exists(partidas[1]))
+        {
+            bottonslot2.Clicked += () =>
+            {
+                StreamReader save = new StreamReader(partidas[1]);
+                string nombre = save.ReadLine();
+                nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                string pais = save.ReadLine();
+                pais = pais.Replace("Pais: ", "");
+                int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
+                int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
+                int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
+                int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                pd.name = nombre;
+                pd.pais = pais;
+                pd.carisma = carismas;
+                pd.economia = economia;
+                pd.fiscalidad = fiscalidad;
+                pd.corrupcion = corrupcion;
+            };
+        }      
+        else
+        {
+            bottonslot2.Clicked += () =>
+            {
+                MessageBox.Query(
+                    "Error",
+                    "No tienes partida guardada",
+                    "Aceptar");
+            };
+        }
+
+        if (File.Exists(partidas[2]))
+        {
+            bottonslot3.Clicked += () =>
+            {
+                StreamReader save = new StreamReader(partidas[2]);
+                string nombre = save.ReadLine();
+                nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                string pais = save.ReadLine();
+                pais = pais.Replace("Pais: ", "");
+                int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
+                int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
+                int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
+                int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                pd.name = nombre;
+                pd.pais = pais;
+                pd.carisma = carismas;
+                pd.economia = economia;
+                pd.fiscalidad = fiscalidad;
+                pd.corrupcion = corrupcion;
+            };
+        }
+        else
+        {
+            bottonslot3.Clicked += () =>
+            {
+                MessageBox.Query(
+                    "Error",
+                    "No tienes partida guardada",
+                    "Aceptar");
+            };
+        }
 
         var Back = new Button("Volver al Menú")
         {
@@ -424,7 +538,7 @@ class Program
             Y = Pos.Y(Back)
         };
 
-
+        
 
         Back.Clicked += () =>
         {
@@ -440,11 +554,17 @@ class Program
             if (saves[i])
             {
                 StreamReader save = new StreamReader(partidas[i]);
-                string linea = save.ReadLine();
-                linea = linea.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
+                string nombre = save.ReadLine();
+                nombre = nombre.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
+                string pais = save.ReadLine();
+                pais = pais.Replace("Pais: ", "");
+                int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
+                int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
+                int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
+                int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
                 save.Close();
 
-                Slots[i].Add(new Label("Nombre:\n" + linea)
+                Slots[i].Add(new Label("Nombre:\n" + nombre)
                 {
                     X = Pos.Center(),
                     Y = Pos.Center(),
@@ -691,7 +811,7 @@ class Program
                     , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
 
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
-                top.Add(VentanaPrincipal);
+                Inicio(top);
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
@@ -759,6 +879,98 @@ class Program
 
             File.Delete(save);
             }
+
+    }
+
+    static void Inicio(Toplevel top)
+    {
+        var VentanaPrincipal = new Window("Inicio")
+        {
+            X=0,
+            Y=0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+            ColorScheme = colores[colora]
+        };
+        top.Add(VentanaPrincipal);//Inicializador
+        var LabelUsuario = new Label($"Usuario: {pd.name}")
+        {
+            X = 2,
+            Y = 1
+        };
+        var LabelPais = new Label($"Pais: {pd.pais}")
+        {
+            X = Pos.X(LabelUsuario),
+            Y = 2
+        };
+
+        var labelStats = new Label($"Stats, puntos: {puntosmejorastats}")
+        {
+            X = 150,
+            Y = 2
+            
+        };
+        var labelCarisma = new Label($"Carisma: {pd.carisma}")
+        {
+            X = 150,
+            Y = 3
+        };
+        var btCarismatic = new Button("+")
+        {
+            X = Pos.Right(labelCarisma)+1,
+            Y = Pos.Y(labelCarisma),
+        };
+        var labeleconomia = new Label($"Economia: {pd.economia}")
+        {
+            X = 150,
+            Y = 4
+        };
+        var btEconomia = new Button("+")
+        {
+            X = Pos.Right(labeleconomia)+1,
+            Y = Pos.Y(labeleconomia),
+        };
+        var labelfiscalidad = new Label($"Fiscalidad: {pd.fiscalidad}")
+        {
+            X = 150,
+            Y = 5
+        };
+        var btfiscalidad = new Button("+")
+        {
+            X = Pos.Right(labelfiscalidad)+1,
+            Y = Pos.Y(labelfiscalidad),
+        };
+        var labelcorrupcion = new Label($"Corrupcion: {pd.corrupcion}")
+        {
+            X = 150,
+            Y = 6
+        };
+        var btCorrupcion = new Button("+")
+        {
+            X = Pos.Right(labelcorrupcion)+1,
+            Y = Pos.Y(labelcorrupcion),
+        };
+        //botones bajos
+        var btMercado = new Button("Mercado")
+        {
+            X = 12,
+            Y = 25
+        };
+        var btInicio = new Button("Inicio")
+        {
+            X = 1,
+            Y = 25
+        };
+        var btPortafolio = new Button("Portafolio")
+        {
+            X=24,
+            Y=25
+        };
+        var FrameContactos = new FrameView()
+        {
+            
+        };
+        VentanaPrincipal.Add(LabelUsuario, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
 
     }
     public void debbuger()
