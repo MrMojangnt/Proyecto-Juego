@@ -10,6 +10,8 @@ class Program
     static Proyecto_Juego.Players pd = new Players();
     //Jugador
     static FrameView[] Slots = new FrameView[3];
+    static Label[] Deletezzz = new Label[3];
+    static Button[] Borration = new Button[3];
     static bool[] saves = new bool[3];
     static int colora = 0;
     static WaveOutEvent salidaAudio;
@@ -418,13 +420,6 @@ class Program
             Y= 30
         };
 
-        var Delete = new Button("Eliminar")
-        {
-            X = Pos.X(Back) + 5,
-            Y = Pos.Y(Back)
-        };
-
-
 
         Back.Clicked += () =>
         {
@@ -433,9 +428,69 @@ class Program
         };
 
         VentanaCargarPartida.Add(Slots[0], Slots[1],Slots[2],Back);
+        //Agregando el icono para eliminar. 
         VerificarSave();
+        for (int i = 0; i < Deletezzz.Length; i++)
+        {
+            Borration[i] = new Button("")
+            {
+                X = 2,
+                Y = 3,
+                Width = 1,
+                Height = 1,
+            };
+
+            Deletezzz[i] = new Label(@"██    ██
+ ██  ██
+  ████
+   ██
+  ████
+ ██  ██
+██    ██")
+            {
+                X = Pos.X(Slots[i]) + 5,
+                Y = Pos.Bottom(Slots[i]),
+            };
+
+            if (saves[i])//En caso que exista partida el botón de X existirá
+            {
+                VentanaCargarPartida.Add(Deletezzz[i]);
+                Deletezzz[i].Add(Borration[i]);
+            }
+
+        }
+        Borration[0].Clicked += () =>
+        {
+            EliminarPartida(0);
+            ActualizarVentana(
+                VentanaCargarPartida,
+                () => CargarPartida(top),
+                top
+            );
+        };
+
+        Borration[1].Clicked += () =>
+        {
+            EliminarPartida(1);
+            ActualizarVentana(
+                VentanaCargarPartida,
+                () => CargarPartida(top),
+                top
+            );
+        };
+
+        Borration[2].Clicked += () =>
+        {
+            EliminarPartida(2);
+            ActualizarVentana(
+                VentanaCargarPartida,
+                () => CargarPartida(top),
+                top
+            );
+        };
+
         //Verificando que haya partidas guardadas en cada slot
-        for(int i = 0; i < saves.Length; i++)
+        for (int i = 0; i < saves.Length; i++)
         {
             if (saves[i])
             {
@@ -464,6 +519,7 @@ class Program
 
         top.Add(VentanaCargarPartida);
     } 
+
     
     static void Configuracion(Toplevel top)
     {
@@ -623,6 +679,7 @@ class Program
             X = Pos.Center(),
             Y = 20
         };
+        bool guardado = false;
         bool Skills = false, nombre = false;
         VentanaCreacionPersonaje.Add(botonAceptar);
         botonAceptar.Clicked += () =>
@@ -678,20 +735,27 @@ class Program
                 pd.economia = numero2;
                 pd.fiscalidad = numero3;
                 pd.corrupcion = numero4;
-                GuardarPartida();
-                MessageBox.Query(
-                    
-                    "Añadido",
-                    "Introducido: " + casillaNombre.Text.ToString() + //Muestra un aviso, un mensaje
-                    " - " + PaisSeleciconado + 
-                    "\nCarisma: " + numero1 +
-                "\nEconomía: " + numero2+
-                "\nFiscalidades: " + numero3 +
-                "\nCorrupción: " + numero4
-                    , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
+                guardado = GuardarPartida();
 
                 top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
                 top.Add(VentanaPrincipal);
+                if (guardado)
+                {
+                    MessageBox.Query(
+
+    "Añadido",
+    "Introducido: " + casillaNombre.Text.ToString() + //Muestra un aviso, un mensaje
+    " - " + PaisSeleciconado +
+    "\nCarisma: " + numero1 +
+"\nEconomía: " + numero2 +
+"\nFiscalidades: " + numero3 +
+"\nCorrupción: " + numero4
+    , "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
+
+                    top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
+                    top.Add(VentanaPrincipal);
+                }
+
             }
         };
         //() son funciones anónimas, todavía no se han creado funciones aparte
@@ -708,18 +772,20 @@ class Program
             top.Add(VentanaPrincipal);
         };
         VentanaCreacionPersonaje.Add(SalirS);
-
         VentanaCreacionPersonaje.Add(etiquetaNombre, casillaNombre, etiquetaPais, ListaPaises);
+        casillaNombre.SetFocus();
         top.Add(VentanaCreacionPersonaje);//Se agrega la ventana a la raíz
     }
     
     //intentando hacer un sistema de guardado de partidas
     //función para guardar partida
-    static void GuardarPartida()
+    static bool GuardarPartida()
     {
-        VerificarSave();
         bool guardado = false;
+        var top = Application.Top;
+        VerificarSave();
 
+        
         for (int i = 0; i < saves.Length; i++)
         {
             if (!saves[i])
@@ -737,14 +803,76 @@ class Program
 
         if (!guardado)
         {
-            MessageBox.Query("Slots llenos",
+            int fullSlots = MessageBox.Query("Slots llenos",
                 "Ha superado el límite de partidas guardadas, ¿quiere sobreescribir alguna?",
                 "Sí", "No");
+            
+            if (fullSlots == 0)
+            {
+                SobreescribirPartida(top);
+            }
         }
-       
+        return guardado;
     }
-    
-    static void EliminarPartida(string save)
+    static void ActualizarVentana(Window ventana, Action funcion, Toplevel top)
+    {
+        top.Remove(ventana);
+        funcion();
+    }
+    static string LeerNombre(string dato, int i)
+    {
+        using (StreamReader save = new StreamReader(partidas[i]))
+        {
+            string linea = save.ReadLine();
+            linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
+            return linea;
+        }
+
+    }
+    static void SobreescribirPartida(Toplevel top)
+    {
+        
+        Button[] SobreSlot = new Button[3];
+        var Sobreescribir = new Dialog(
+    "Sobreescribir partida",
+    60,
+    20
+);
+        for (int i = 0; i < 3; i++)
+        {
+            int index = i;
+            string linea = LeerNombre("Nombre", index);
+            SobreSlot[index] = new Button($"Nombre: {linea}")
+            {
+                X = 2,
+                Y = i + 2
+            };
+
+            SobreSlot[index].Clicked += () =>
+            {
+                using (StreamWriter save = new StreamWriter(partidas[index]))
+                {
+                    save.WriteLine(pd.ToString());
+                }
+                Application.RequestStop();
+            };
+
+            Sobreescribir.Add(SobreSlot[index]);
+        }
+
+        var cancelar = new Button("Cancelar")
+        {
+            X = 20,
+            Y = 6
+        };
+        cancelar.Clicked += () =>
+        {
+            Application.RequestStop();
+        };
+        Sobreescribir.Add(cancelar);
+        Application.Run(Sobreescribir);
+    }
+    static void EliminarPartida(int i)
     {
         VerificarSave();
        
@@ -757,12 +885,10 @@ class Program
                 "Partida eliminada con éxito",
                 "Aceptar");
 
-            File.Delete(save);
-            }
+            File.Delete(partidas[i]);
 
-    }
-    public void debbuger()
-    {
+        }
+            
 
     }
 
