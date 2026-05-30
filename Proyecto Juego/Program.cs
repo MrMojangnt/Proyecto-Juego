@@ -137,9 +137,12 @@ class Program
     static void Main()
     {
         Application.Init();
+
+
         var top = Application.Top;
         
 
+      
         VentanaPrincipal = new Window("Menu")
         {
             X = 0,
@@ -337,8 +340,10 @@ class Program
         };
         botonCargarPartida.Clicked += () =>
         {
-            top.Remove(VentanaPrincipal);
-            CargarPartida(top);
+
+                top.Remove(VentanaPrincipal);
+                CargarPartida(top);
+
         };
         botonConfiguracion.Clicked += () =>
         {
@@ -450,7 +455,7 @@ class Program
                     pd.corrupcion = corrupcion;
                     top.Remove(VentanaCargarPartida);
                     Inicio(top);
-                };
+                }
 
 
 
@@ -487,6 +492,8 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
+                    top.Remove(VentanaCargarPartida);
+                    Inicio(top);
                 }
 
             };
@@ -522,7 +529,10 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
-                };
+                    top.Remove(VentanaCargarPartida);
+                    Inicio(top);
+                }
+                ;
 
             };
         }
@@ -866,8 +876,6 @@ class Program
                 pd.corrupcion = numero4;
                 guardado = GuardarPartida();
 
-                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
-                top.Add(VentanaPrincipal);
                 if (guardado)
                 {    
                     top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
@@ -972,9 +980,12 @@ class Program
                     save.WriteLine(pd.ToString());
                 }
                 Application.RequestStop();
+                top.RemoveAll();
+                Inicio(top);
             };
 
             Sobreescribir.Add(SobreSlot[index]);
+
         }
 
         var cancelar = new Button("Cancelar")
@@ -985,6 +996,8 @@ class Program
         cancelar.Clicked += () =>
         {
             Application.RequestStop();
+            top.RemoveAll();
+            top.Add(VentanaPrincipal);
         };
         Sobreescribir.Add(cancelar);
         Application.Run(Sobreescribir);
@@ -1088,10 +1101,10 @@ class Program
         };
         btInicio.Clicked += () =>
         {
-            top.Remove(VentanaInicio);
+            top.RemoveAll();
             top.Add(VentanaPrincipal);
-
         };
+ 
         var btPortafolio = new Button("Portafolio")
         {
             X=24,
@@ -1113,6 +1126,8 @@ class Program
         };
         VentanaInicio.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
         FrameContactos.Add(ContactosLabel);
+        btInicio.SetFocus();
+
     }
 
 
