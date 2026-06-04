@@ -22,16 +22,21 @@ public struct Companias
     public int id { get; set; }
     public  string name { get; set; }
     public  string pais{ get; set; }
-    public string sector { get; set; }
+    public string rubro { get; set; }
     public decimal capbursatil { get; set; }
     public  int accionistas{ get; set; }
-    public decimal GananciasMensuales { get; set; }
+    public string[] productos { get; set; }
+    public decimal GananciasTrimestrales { get; set; }
+    public decimal[] presupuesto { get; set; }
     public decimal participacion { get; set; }
     public decimal balance  { get; set; }
 
     public override string ToString()
     {
-        return $"{id}, {name}, {pais}, {sector}, {capbursatil}, {accionistas}, {GananciasMensuales}, {participacion}, {balance}";
+        string ProductosTexto = string.Join(" | ", productos);
+        string PresupuestoTexto = string.Join(" | ", presupuesto);
+
+        return $"{id}; {name}; {pais}; {rubro}; {capbursatil} M; {accionistas}; {ProductosTexto}; {GananciasTrimestrales} M; {PresupuestoTexto} M; {participacion}; {balance} M";
     }
 } 
 
