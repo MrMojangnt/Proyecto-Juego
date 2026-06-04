@@ -27,7 +27,12 @@ public struct Companias
     public decimal GananciasMensuales { get; set; }
     public decimal participacion { get; set; }
     public decimal balance  { get; set; }
-}
+
+    public string Companies()
+    {
+        return $"{id}, {name}, {pais}, {capbursatil}, {accionistas}, {GananciasMensuales}, {participacion}, {balance}";
+    }
+} 
 
 public struct Pais
 {

@@ -1,6 +1,7 @@
 ﻿using NAudio.Wave;
 using System.IO;
 using Proyecto_Juego;
+using Empresas;
 using Terminal.Gui;
 
 
@@ -26,7 +27,7 @@ class Program
     static Window VentanaPrincipal;
     static string puntosmejorastats = "0";
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
-    static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
+    public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
@@ -122,6 +123,8 @@ class Program
         }
     };
     static List<string> colorestxt = new List<string>() {"Predeterminado", "Oscuro", "Blanco"};
+    //probando las empresas
+    
     
 
     static string PaisSeleciconado = "";
@@ -791,6 +794,7 @@ class Program
             top.Remove(ventanaconfiguracion);//Cuando se pulsa el botón desaparece la ventana 
             top.Add(VentanaPrincipal);
         };
+
         ventanaconfiguracion.Add(aceptar);
         ventanaconfiguracion.Add(ListaTEMAS);
         ventanaconfiguracion.Add(TemasLabel);
@@ -1004,8 +1008,8 @@ class Program
                 {
                     save.WriteLine(pd.ToString());
                 }
-                
 
+                GuardarStruct.Guardarempresa();
                 guardado = true;
                 break;
             }
