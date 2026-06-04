@@ -71,55 +71,65 @@ public struct Indices
 {
     static string[][] Sectores = { EmpresasNombres.TecnologiaSoftware, EmpresasNombres.TecnologiaHardware, EmpresasNombres.Agronomia,//un array para usar los indices
     EmpresasNombres.Comercio, EmpresasNombres.Alimenticio, EmpresasNombres.ManufacturaTextil, EmpresasNombres.Recursos, EmpresasNombres.ManufacturaDeRecursos};
-    public static List<string> EmpresasGuardadas = new List<string>(GenerarIndicesEmpresas());//una lista porque se agregan elementos y tambien para despues un listview
-    public static List<string> Paisezzz = new List<string>(GenerarIndicesPaises());
-    public static List<string> GenerarIndicesEmpresas()
+    static Dictionary<string, string[]> Nombre_Sectores_Variables = new()
     {
-        List<string> Empresas = new List<string>();
+        {"Tecnología Software", EmpresasNombres.TecnologiaSoftware },
+        {"Tecnología Hardware", EmpresasNombres.TecnologiaHardware },
+        {"Agronomía", EmpresasNombres.Agronomia },
+        {"Comercio", EmpresasNombres.Comercio },
+        {"Alimenticio", EmpresasNombres.ManufacturaTextil },
+        {"Manufactura Textil", EmpresasNombres.ManufacturaTextil },
+        {"Recursos", EmpresasNombres.Recursos },
+        {"Manufactura de Recursos", EmpresasNombres.ManufacturaDeRecursos }
+    };
+    public static List<Companias> EmpresasGuardadas = new List<Companias>(GenerarIndicesEmpresas());
+
+    public static List<Companias> GenerarIndicesEmpresas()
+    {
+        List<Companias> Empresas = new List<Companias>();
+        List<string> Sect = new List<string>();
         //Digamos que es Pequeño: 20 empresas, personas no hay todavía
         int IndiceSector, IndiceEmpresa;
-        for(int i = 0; i < 20; i++)
+        int IndicePais;
+        decimal IndiceCapitalBursatil = 0;
+        for (int i = 0; i < 20; i++)
         {
+            Proyecto_Juego.Companias empresitas = new Companias();
             IndiceEmpresa = 0;
             IndiceSector = 0;
+            IndicePais = 0;
             IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
             IndiceSector = Random.Shared.Next(0, 8);
+            IndicePais = Random.Shared.Next(0, 6);
+            IndiceCapitalBursatil = Math.Round(0.1m + (decimal)Random.Shared.NextDouble() * 999.9m,  2);//como nextdouble solo genera entre 0.0 y 1 se multiplica
 
-            Empresas.Add(Sectores[IndiceSector][IndiceEmpresa]);
+            //llenando la struct
+            empresitas.id = i;
+            empresitas.name = Sectores[IndiceSector][IndiceEmpresa];
+            empresitas.pais = Program.Paises[IndicePais];
+            empresitas.sector = Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
+            empresitas.capbursatil = IndiceCapitalBursatil; 
+
+            Empresas.Add(empresitas);
         }
         //paises hay 6, por lo tanto 5
 
         return Empresas;
     }
 
-    public static List<string> GenerarIndicesPaises()
-    {
-        List<string> Paisitos = new List<string>();
-        int IndicePais;
-        for(int i = 0; i < 20; i++)
-        {
-            IndicePais = 0;
-            IndicePais = Random.Shared.Next(0, 6);
-
-            Paisitos.Add(Program.Paises[IndicePais]);
-        }
-        
-        return Paisitos;
-    }
 
 }
 
 public struct GuardarStruct
 {
-    Companias pp;
     public static void Guardarempresa()
     {
-        using (StreamWriter empresitas = new StreamWriter("save_empresa.csv"))
+        using (StreamWriter save_empresas = new StreamWriter("save_empresa.csv"))
         {
-            empresitas.WriteLine("Empresa", "Pais");
-            for (int p = 0; p <20; p++)
+            save_empresas.WriteLine("ID, Empresa, Pais, Sector");
+            for (int p = 0; p <Indices.EmpresasGuardadas.Count; p++)
             {
-                empresitas.WriteLine($"{Indices.EmpresasGuardadas[p]}, {Indices.Paisezzz[p]}");
+                save_empresas.WriteLine(Indices.EmpresasGuardadas[p]);
 
             }
 
