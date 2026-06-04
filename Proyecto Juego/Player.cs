@@ -28,16 +28,17 @@ public struct Companias
     public  int accionistas{ get; set; }
     public string[] productos { get; set; }
     public decimal GananciasTrimestrales { get; set; }
-    public decimal[] presupuesto { get; set; }
+    public decimal marketing { get; set; }
+    public decimal investigacion { get; set; }
+    public decimal mantenimiento { get; set; }
+
     public decimal participacion { get; set; }
     public decimal balance { get; set; }
 
     public override string ToString()
     {
         string ProductosTexto = string.Join(" | ", productos);
-        string PresupuestoTexto = string.Join(" | ", presupuesto);
-
-        return $"{id}; {name}; {pais}; {rubro}; {capbursatil} M; {accionistas}; {ProductosTexto}; {GananciasTrimestrales} M; {PresupuestoTexto} M; {participacion}%; {balance} M";
+        return $"{id}; {name}; {pais}; {rubro}; {capbursatil} M; {accionistas}; {ProductosTexto}; {GananciasTrimestrales} M; {marketing} M; {investigacion}; {mantenimiento}; {participacion}%; {balance} M";
     }
 } 
 

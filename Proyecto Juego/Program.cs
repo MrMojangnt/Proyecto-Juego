@@ -26,6 +26,8 @@ class Program
     //Ventana Principal
     static Window VentanaPrincipal;
     static string puntosmejorastats = "0";
+    //guardado partidas
+    static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
@@ -1020,7 +1022,8 @@ class Program
                     save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad,Porcentaje");
                 }
                 
-                GuardarStruct.Guardarempresa();
+                Guardarempresa(i);
+
                 guardado = true;
                 break;
             }
@@ -1054,6 +1057,7 @@ class Program
         }
 
     }
+
     static void SobreescribirPartida(Toplevel top)
     {
         
@@ -1083,6 +1087,8 @@ class Program
                 {
                     save.WriteLine(pd.name);
                 }
+                Guardarempresa(index);
+            
                 Application.RequestStop();
                 top.RemoveAll();
                 Inicio(top);
@@ -1106,6 +1112,22 @@ class Program
         Sobreescribir.Add(cancelar);
         Application.Run(Sobreescribir);
     }
+    static void Guardarempresa(int i)
+    {
+
+        using (StreamWriter save_empresas = new StreamWriter(save_compania[i]))
+        {
+            save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capita Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
+            for (int p = 0; p < Indices.EmpresasGuardadas.Count; p++)
+            {
+                save_empresas.WriteLine(Indices.EmpresasGuardadas[p]);
+
+            }
+
+
+        }
+    }
+
     static void EliminarPartida(int i)
     {
         VerificarSave();
@@ -1121,6 +1143,7 @@ class Program
 
                 File.Delete(partidas[i]);
                 File.Delete(inventario[i]);
+                File.Delete(save_compania[i]);
             }
 
     }

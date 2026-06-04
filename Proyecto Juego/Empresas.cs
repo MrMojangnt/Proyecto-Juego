@@ -141,14 +141,16 @@ public struct Indices
         int IndiceSector, IndiceEmpresa;
         int IndicePais, IndiceAccionistas;
         int IndiceProductos;
-        int atraccion; //skill de empresas que multiplica ganancias por un millon
-        decimal IndiceCapitalBursatil, IndiceGananciasTrimestrales, IndiceParticipacion, IndiceBalance, IndicePresupuesto, IndiceGastos;
+        int Indiceatraccion; //skill de empresas que multiplica ganancias por un millon
+        decimal IndiceCapitalBursatil, IndiceGananciasTrimestrales, IndiceParticipacion, IndiceBalance, indiceMarketing, IndiceMantenimiento, IndiceInvestigacion, IndiceGastos;
 
         for (int i = 0; i < 20; i++)
         {
             Proyecto_Juego.Companias empresitas = new Companias();
             empresitas.productos = new string[10];
-            empresitas.presupuesto = new decimal[3];
+            indiceMarketing = 0;
+            IndiceMantenimiento = 0;
+            IndiceInvestigacion = 0;
             IndiceEmpresa = 0;
             IndiceSector = 0;
             IndicePais = 0;
@@ -158,6 +160,7 @@ public struct Indices
             IndiceParticipacion = 0;
             IndiceBalance = 0;
             IndiceProductos =  0;
+            Indiceatraccion = 0;
 
 
             IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
@@ -165,8 +168,8 @@ public struct Indices
             IndicePais = Random.Shared.Next(0, 6);
             IndiceCapitalBursatil = Math.Round(0.1m + (decimal)Random.Shared.NextDouble() * 999.9m,  2);//como nextdouble solo genera entre 0.0 y 1 se multiplica
             IndiceAccionistas = Random.Shared.Next(0, 1000);
-            IndiceGananciasTrimestrales = Math.Round(IndiceCapitalBursatil / Random.Shared.Next(8,13), 2); 
-            IndiceBalance = Math.Round(IndiceCapitalBursatil + IndiceGananciasTrimestrales,2);
+            Indiceatraccion = Random.Shared.Next(1, 101);
+            IndiceGananciasTrimestrales = Math.Round((IndiceCapitalBursatil / 10) * Indiceatraccion, 2);
 
             //para los 10 productos por empresa
             for (int j = 0; j< 10; j++)
@@ -177,13 +180,14 @@ public struct Indices
             }
             //para los 4 aspectos de presupuesto: marketing, investigación y mantenimiento
                 IndiceGastos = 0;
-                for(int j = 0; j < 3; j++)
-                {
-                    IndicePresupuesto = (decimal)Random.Shared.NextDouble();
-                    IndicePresupuesto = Math.Round(IndiceGananciasTrimestrales * IndicePresupuesto,2);
-                    empresitas.presupuesto[j] = IndicePresupuesto;
-                    IndiceGastos += IndicePresupuesto;
-                }
+            indiceMarketing = Math.Round(IndiceGananciasTrimestrales * (0.10m + (decimal)Random.Shared.NextDouble() * 0.20m),2);
+            Indiceatraccion += (int)(IndiceInvestigacion / 10);
+            IndiceMantenimiento = Math.Round(IndiceGananciasTrimestrales * (0.10m + (decimal)Random.Shared.NextDouble() * 0.15m),2);
+            IndiceInvestigacion = Math.Round(IndiceGananciasTrimestrales * (0.05m + (decimal)Random.Shared.NextDouble() * 0.15m),2);
+            Indiceatraccion += (int)(IndiceInvestigacion / 10);
+            IndiceGastos += indiceMarketing + IndiceMantenimiento + IndiceInvestigacion;
+
+            IndiceBalance = Math.Round(IndiceGananciasTrimestrales - IndiceGastos, 2);
 
             //llenando la struct
             empresitas.id = i;
@@ -194,7 +198,9 @@ public struct Indices
             empresitas.accionistas = IndiceAccionistas;
             empresitas.GananciasTrimestrales = IndiceGananciasTrimestrales;
             empresitas.balance = IndiceBalance;
-
+            empresitas.marketing = indiceMarketing;
+            empresitas.mantenimiento = IndiceMantenimiento;
+            empresitas.investigacion = IndiceInvestigacion;
             Empresas.Add(empresitas);
         }
         //intentando la participacion
@@ -216,7 +222,7 @@ public struct Indices
 
             if (total > 0)
             {
-                emp.participacion = Math.Round(emp.balance / total, 2);
+                emp.participacion = emp.balance / total;
                 emp.participacion *= 100;
 
             }
@@ -233,21 +239,4 @@ public struct Indices
 
 }
 
-public struct GuardarStruct
-{
-    public static void Guardarempresa()
-    {
-        using (StreamWriter save_empresas = new StreamWriter("save_empresa.csv"))
-        {
-            save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capita Bursátil; Accionistas; Productos; Ganancias; Gastos; Participacion; Balance");
-            for (int p = 0; p <Indices.EmpresasGuardadas.Count; p++)
-            {
-                save_empresas.WriteLine(Indices.EmpresasGuardadas[p]);
 
-            }
-
-
-        }
-    }
-
-}
