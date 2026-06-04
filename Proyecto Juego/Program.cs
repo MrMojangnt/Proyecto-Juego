@@ -1035,6 +1035,7 @@ class Program
                 }
                 
                 Guardarempresa(i);
+                Companiass = CargarEmpresa(i);
 
                 guardado = true;
                 break;
@@ -1100,7 +1101,8 @@ class Program
                     save.WriteLine(pd.name);
                 }
                 Guardarempresa(index);
-            
+                Companiass = CargarEmpresa(index);
+
                 Application.RequestStop();
                 top.RemoveAll();
                 Inicio(top);
