@@ -161,12 +161,12 @@ public struct Indices
 
 
             IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
-            IndiceSector = Random.Shared.Next(0, 8);
+            IndiceSector = Random.Shared.Next(0, Sectores.Length);
             IndicePais = Random.Shared.Next(0, 6);
             IndiceCapitalBursatil = Math.Round(0.1m + (decimal)Random.Shared.NextDouble() * 999.9m,  2);//como nextdouble solo genera entre 0.0 y 1 se multiplica
             IndiceAccionistas = Random.Shared.Next(0, 1000);
-            IndiceGananciasTrimestrales = IndiceCapitalBursatil / Random.Shared.Next(8,13); 
-            IndiceBalance = IndiceCapitalBursatil + IndiceGananciasTrimestrales;
+            IndiceGananciasTrimestrales = Math.Round(IndiceCapitalBursatil / Random.Shared.Next(8,13), 2); 
+            IndiceBalance = Math.Round(IndiceCapitalBursatil + IndiceGananciasTrimestrales,2);
 
             //para los 10 productos por empresa
             for (int j = 0; j< 10; j++)
@@ -192,6 +192,7 @@ public struct Indices
             empresitas.rubro = Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
             empresitas.capbursatil = IndiceCapitalBursatil; 
             empresitas.accionistas = IndiceAccionistas;
+            empresitas.GananciasTrimestrales = IndiceGananciasTrimestrales;
             empresitas.balance = IndiceBalance;
 
             Empresas.Add(empresitas);
@@ -213,7 +214,16 @@ public struct Indices
 
             decimal total = totalPorSector[emp.rubro];
 
-            emp.participacion = emp.balance / total;
+            if (total > 0)
+            {
+                emp.participacion = Math.Round(emp.balance / total, 2);
+                emp.participacion *= 100;
+
+            }
+            else
+            {
+                emp.participacion = 0;
+            }
             Empresas[i] = emp;
         }
 

@@ -28,6 +28,8 @@ class Program
     static string puntosmejorastats = "0";
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
+    static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
+
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
@@ -535,12 +537,14 @@ class Program
                     int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
                     int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
                     int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
+                    pd.balance = balance;
                     top.Remove(VentanaCargarPartida);
                     Inicio(top);
                 }
@@ -963,6 +967,7 @@ class Program
                 pd.economia = numero2;
                 pd.fiscalidad = numero3;
                 pd.corrupcion = numero4;
+                pd.balance = 50000;
                 guardado = GuardarPartida();
 
                 if (guardado)
@@ -1009,6 +1014,12 @@ class Program
                     save.WriteLine(pd.ToString());
                 }
 
+                using (StreamWriter save = new StreamWriter(inventario[i]))
+                {
+                    save.WriteLine(pd.name);
+                    save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad,Porcentaje");
+                }
+                
                 GuardarStruct.Guardarempresa();
                 guardado = true;
                 break;
@@ -1068,6 +1079,10 @@ class Program
                 {
                     save.WriteLine(pd.ToString());
                 }
+                using (StreamWriter save = new StreamWriter(inventario[index]))
+                {
+                    save.WriteLine(pd.name);
+                }
                 Application.RequestStop();
                 top.RemoveAll();
                 Inicio(top);
@@ -1105,6 +1120,7 @@ class Program
                 "Aceptar");
 
                 File.Delete(partidas[i]);
+                File.Delete(inventario[i]);
             }
 
     }
@@ -1130,17 +1146,24 @@ class Program
             X = Pos.X(LabelUsuario),
             Y = 2
         };
-
+        //Stats del jugador
+        var FrameStats = new FrameView()
+        {
+            X= 130,
+            Y = 2,
+            Width = 28,
+            Height = 8,
+        };
         var labelStats = new Label($"Stats, puntos: {puntosmejorastats}")
         {
-            X = 130,
-            Y = 2
+            X = Pos.Center(),
+            Y = 0
             
         };
         var labelCarisma = new Label($"Carisma: {pd.carisma}")
         {
-            X = 130,
-            Y = 3
+            X = Pos.Center(),
+            Y = 2
         };
         var btCarismatic = new Button("+")
         {
@@ -1149,8 +1172,8 @@ class Program
         };
         var labeleconomia = new Label($"Economia: {pd.economia}")
         {
-            X = 130,
-            Y = 4
+            X = Pos.Center(),
+            Y = 3
         };
         var btEconomia = new Button("+")
         {
@@ -1159,8 +1182,8 @@ class Program
         };
         var labelfiscalidad = new Label($"Fiscalidad: {pd.fiscalidad}")
         {
-            X = 130,
-            Y = 5
+            X = Pos.Center(),
+            Y = 4
         };
         var btfiscalidad = new Button("+")
         {
@@ -1169,8 +1192,8 @@ class Program
         };
         var labelcorrupcion = new Label($"Corrupcion: {pd.corrupcion}")
         {
-            X = 130,
-            Y = 6
+            X = Pos.Center(),
+            Y = 5
         };
         var btCorrupcion = new Button("+")
         {
@@ -1178,28 +1201,8 @@ class Program
             Y = Pos.Y(labelcorrupcion),
         };
         //botones bajos
-        var btMercado = new Button("Mercado")
-        {
-            X = 12,
-            Y = 38
-        };
-        var btInicio = new Button("Inicio")
-        {
-            X = 1,
-            Y = 38
-        };
-        btInicio.Clicked += () =>
-        {
-            top.RemoveAll();
-            top.Add(VentanaPrincipal);
-        };
- 
-        var btPortafolio = new Button("Portafolio")
-        {
-            X=24,
-            Y=38
-        };
-
+        BotonesDeJuegoPredeterminado(top, VentanaInicio);
+        //Contactos
         var FrameContactos = new FrameView()
         {
             X = 1,
@@ -1213,11 +1216,56 @@ class Program
             X = Pos.Center(),
             Y = 0
         };
-        VentanaInicio.Add(LabelUsuario,FrameContactos,ContactosLabel, btMercado,btPortafolio, btInicio, LabelPais, labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
+        //Balance
+        var Balance = new Label($"Balance: {pd.balance}")
+        {
+            X = Pos.Center(),
+            Y = 1
+        };
+        VentanaInicio.Add(LabelUsuario,Balance,FrameContactos,ContactosLabel, LabelPais, FrameStats);
         FrameContactos.Add(ContactosLabel);
-        btInicio.SetFocus();
+        FrameStats.Add(labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
 
     }
 
+    public static void BotonesDeJuegoPredeterminado(Toplevel top, Window ventana)
+    {
+        //botones bajos
+        var btMercado = new Button("Mercado")
+        {
+            X = 12,
+            Y = 38
+        };
+        var btInicio = new Button("Inicio")
+        {
+            X = 1,
+            Y = 38
+        };
+        var btPortafolio = new Button("Portafolio")
+        {
+            X=24,
+            Y=38
+        };
+        var btInventario = new Button("Inventario")
+        {
+            X = 40,
+            Y = 38
+        };
+        //Funciones
+        btInicio.Clicked += () =>
+        {
+            top.RemoveAll();
+            top.Add(VentanaPrincipal);
+        };
+        btInventario.Clicked += () =>
+        {
+            top.RemoveAll();
+            top.Add(Inventario.VentanaInventario());
+        };
+
+        btInicio.SetFocus();
+        ventana.Add(btMercado,btInicio,btPortafolio,btInventario);
+    }
+    
 
 }
