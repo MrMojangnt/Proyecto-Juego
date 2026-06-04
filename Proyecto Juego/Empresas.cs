@@ -193,6 +193,7 @@ public struct Indices
             empresitas.id = i;
             empresitas.name = Sectores[IndiceSector][IndiceEmpresa];
             empresitas.pais = Program.Paises[IndicePais];
+            empresitas.pais = empresitas.pais.Replace("(predeterminado", "");
             empresitas.rubro = Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
             empresitas.capbursatil = IndiceCapitalBursatil; 
             empresitas.accionistas = IndiceAccionistas;

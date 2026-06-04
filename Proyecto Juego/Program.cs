@@ -1,8 +1,12 @@
-﻿using NAudio.Wave;
-using System.IO;
+﻿using Empresas;
+using NAudio.Wave;
 using Proyecto_Juego;
-using Empresas;
+using System.Data;
+using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using Terminal.Gui;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Terminal.Gui.Graphs.PathAnnotation;
 
 
 class Program
@@ -29,6 +33,7 @@ class Program
     //guardado partidas
     static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
+    static List<Companias> Companiass = new List<Companias>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
 
@@ -428,18 +433,21 @@ class Program
         botonNuevaPartida.Clicked += () =>
         {
             top.Remove(VentanaPrincipal);
+            marcos.Clear();
             CreacionPersonaje(top);
         };
         botonCargarPartida.Clicked += () =>
         {
 
-                top.Remove(VentanaPrincipal);
-                CargarPartida(top);
+            top.Remove(VentanaPrincipal);
+            marcos.Clear();
+            CargarPartida(top);
 
         };
         botonConfiguracion.Clicked += () =>
         {
             top.Remove(VentanaPrincipal);
+            marcos.Clear();
             Configuracion(top);
         };
         botonsalir.Clicked += () => Application.RequestStop();
@@ -525,7 +533,7 @@ class Program
             Y = 21
         };
         VentanaCargarPartida.Add(bottonslot3);
-        if (File.Exists(partidas[0]))
+        if (File.Exists(partidas[0]) && File.Exists(save_compania[0]))
         {
             bottonslot1.Clicked += () =>
             {
@@ -547,12 +555,13 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
+
                 }
 
+                Companiass = CargarEmpresa(0);
 
-
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }    
         else
@@ -566,7 +575,7 @@ class Program
             };
         }
 
-        if (File.Exists(partidas[1]))
+        if (File.Exists(partidas[1]) && File.Exists(save_compania[1]))
         {
             bottonslot2.Clicked += () =>
             {
@@ -586,10 +595,12 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
-                }
 
+                }
+                Companiass = CargarEmpresa(1);
+
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }      
         else
@@ -603,7 +614,7 @@ class Program
             };
         }
 
-        if (File.Exists(partidas[2]))
+        if (File.Exists(partidas[2]) && File.Exists(save_compania[2]))
         {
             bottonslot3.Clicked += () =>
             {
@@ -623,11 +634,12 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
-                }
-                ;
 
+                }
+                Companiass =CargarEmpresa(2);
+
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }
         else
@@ -1117,7 +1129,7 @@ class Program
 
         using (StreamWriter save_empresas = new StreamWriter(save_compania[i]))
         {
-            save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capita Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
+            save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capital Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
             for (int p = 0; p < Indices.EmpresasGuardadas.Count; p++)
             {
                 save_empresas.WriteLine(Indices.EmpresasGuardadas[p]);
@@ -1126,6 +1138,51 @@ class Program
 
 
         }
+    }
+    static List<Companias> CargarEmpresa(int indice)
+    {
+        List<Companias> Comp = new List<Companias>();
+        Proyecto_Juego.Companias compitas = new Companias(); //structttttttttttt
+        char[] delimitadores = { ';', '\n', '|', '\r' };
+        using (StreamReader savecompani = new StreamReader(save_compania[indice]))
+        {
+            string[] encabezados = savecompani.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+            compitas.productos = new string[10];
+            while (!savecompani.EndOfStream)
+            {
+                string[] lineas = savecompani.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+                compitas.id = int.Parse(lineas[0]);
+                compitas.name = lineas[1];
+                lineas[2] = lineas[2].Replace("(predeterminado)", ""); //reemplaza "M" por ""
+                compitas.pais = lineas[2];
+                compitas.rubro = lineas[3];
+                lineas[4] = lineas[4].Replace("M", ""); //reemplaza "M" por ""
+                compitas.capbursatil = decimal.Parse(lineas[4]);
+                compitas.accionistas = int.Parse(lineas[5]);
+                int p = 6;
+                for (int i = 0; i < compitas.productos.Length; i++)
+                {
+                    compitas.productos[i] = lineas[p];
+                    p++;
+                }
+                lineas[16] = lineas[16].Replace("M", ""); //reemplaza "M" por ""
+                compitas.GananciasTrimestrales = decimal.Parse(lineas[16]);
+                lineas[17] = lineas[17].Replace("M", ""); //reemplaza "M" por ""
+                compitas.marketing = decimal.Parse(lineas[17]);
+                lineas[18] = lineas[18].Replace("M", ""); //reemplaza "M" por ""
+                compitas.investigacion = decimal.Parse(lineas[18]);
+                lineas[19] = lineas[19].Replace("M", ""); //reemplaza "M" por ""
+                compitas.mantenimiento = decimal.Parse(lineas[19]);
+                lineas[20] = lineas[20].Replace("%", ""); //reemplaza "%" por ""
+                compitas.participacion = decimal.Parse(lineas[20]);
+                lineas[21] = lineas[21].Replace("M", ""); //reemplaza "M" por ""
+                compitas.balance = decimal.Parse(lineas[21]);
+
+                Comp.Add(compitas);
+            }
+
+        }
+        return Comp;
     }
 
     static void EliminarPartida(int i)
@@ -1274,11 +1331,21 @@ class Program
             X = 40,
             Y = 38
         };
+        var btVerEmpresa = new Button("Ver Empresas")
+        {
+            X = 62,
+            Y = 38
+        };
         //Funciones
         btInicio.Clicked += () =>
         {
             top.RemoveAll();
             top.Add(VentanaPrincipal);
+        };
+        btVerEmpresa.Clicked += () =>
+        {
+            top.RemoveAll();
+            VentanaMercado(top);
         };
         btInventario.Clicked += () =>
         {
@@ -1287,8 +1354,69 @@ class Program
         };
 
         btInicio.SetFocus();
-        ventana.Add(btMercado,btInicio,btPortafolio,btInventario);
+        ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa);
     }
     
+    //creando la ventana de empresas
+    static void VentanaMercado(Toplevel top)
+    {
+        var VentanaDeMercado = new Window()
+        {
+            X = 0,
+            Y= 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+        };
 
+        DataTable tabla = new DataTable();
+
+        tabla.Columns.Add("ID");
+        tabla.Columns.Add("Empresa");
+        tabla.Columns.Add("Pais");
+        tabla.Columns.Add("Sector");
+        tabla.Columns.Add("Capital Bursátil");
+        tabla.Columns.Add("Accionistas");
+        tabla.Columns.Add("Productos");
+        tabla.Columns.Add("Ganancias");
+        tabla.Columns.Add("Gastos Marketing");
+        tabla.Columns.Add("Gastos Investigación");
+        tabla.Columns.Add("Gastos Mantenimiento");
+        tabla.Columns.Add("Participacion");
+        tabla.Columns.Add("Balance");
+
+        foreach(Companias i in Companiass)
+        {
+            tabla.Rows.Add(
+                i.id,
+                i.name,
+                i.pais,
+                i.rubro,
+                i.capbursatil,
+                i.accionistas,
+                i.productos,
+                i.GananciasTrimestrales,
+                i.marketing,
+                i.investigacion,
+                i.mantenimiento,
+                i.participacion,
+                i.balance
+            );
+
+        }
+        var tableView = new TableView()
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+
+        tableView.Table = tabla;
+
+        VentanaDeMercado.Add(tableView);
+        top.Add(VentanaDeMercado);
+      
+    }
+
+    
 }
