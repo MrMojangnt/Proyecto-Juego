@@ -3,6 +3,7 @@ using NAudio.Wave;
 using Proyecto_Juego;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Reflection.Metadata.Ecma335;
 using Terminal.Gui;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -36,7 +37,8 @@ class Program
     static List<Companias> Companiass = new List<Companias>();
     public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
-    static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
+    public static List<Acciones> Accioneshh = new List<Acciones>();
+    public static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
@@ -748,7 +750,7 @@ class Program
         {
             if (saves[i])
             {
-                StreamReader save = new StreamReader(partidas[i]);
+                StreamReader save = new StreamReader(partidas[i], Encoding.UTF8);
                 string nombre = save.ReadLine();
                 nombre = nombre.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
                 string pais = save.ReadLine();
@@ -1038,7 +1040,7 @@ class Program
         {
             if (!saves[i])
             {
-                using (StreamWriter save = new StreamWriter(partidas[i]))
+                using (StreamWriter save = new StreamWriter(partidas[i], false, Encoding.UTF8))
                 {
                     save.WriteLine(pd.ToString());
                 }
@@ -1049,7 +1051,7 @@ class Program
                     save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad");
                 }
                 
-                Guardarempresa(i);
+                Guardarempresa(i, true);
                 Companiass = CargarEmpresa(i);
 
                 guardado = true;
@@ -1077,7 +1079,7 @@ class Program
     }
     static string LeerNombre(string dato, int i)
     {
-        using (StreamReader save = new StreamReader(partidas[i]))
+        using (StreamReader save = new StreamReader(partidas[i], Encoding.UTF8))
         {
             string linea = save.ReadLine();
             linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
@@ -1115,7 +1117,7 @@ class Program
                 {
                     save.WriteLine(pd.name);
                 }
-                Guardarempresa(index);
+                Guardarempresa(index, false);
                 Companiass = CargarEmpresa(index);
 
                 Application.RequestStop();
@@ -1141,10 +1143,10 @@ class Program
         Sobreescribir.Add(cancelar);
         Application.Run(Sobreescribir);
     }
-    static void Guardarempresa(int i)
+    static void Guardarempresa(int i, bool zzz)
     {
 
-        using (StreamWriter save_empresas = new StreamWriter(save_compania[i]))
+        using (StreamWriter save_empresas = new StreamWriter(save_compania[i], zzz, Encoding.UTF8))
         {
             save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capital Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
             for (int p = 0; p < Indices.EmpresasGuardadas.Count; p++)
@@ -1161,7 +1163,7 @@ class Program
         List<Companias> Comp = new List<Companias>();
         Proyecto_Juego.Companias compitas = new Companias(); //structttttttttttt
         char[] delimitadores = { ';', '\n', '|', '\r' };
-        using (StreamReader savecompani = new StreamReader(save_compania[indice]))
+        using (StreamReader savecompani = new StreamReader(save_compania[indice], Encoding.UTF8))
         {
             string[] encabezados = savecompani.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
             compitas.productos = new string[10];
@@ -1350,14 +1352,19 @@ class Program
         };
         var btVerEmpresa = new Button("Ver Empresas")
         {
-            X = 62,
+            X = 58,
             Y = 38
+        };
+        var btMenu = new Button("Volver al Menu")
+        {
+            X = 78,
+            Y = 38,
         };
         //Funciones
         btInicio.Clicked += () =>
         {
             top.RemoveAll();
-            top.Add(VentanaPrincipal);
+            Inicio(top);
         };
         btVerEmpresa.Clicked += () =>
         {
@@ -1367,11 +1374,15 @@ class Program
         btInventario.Clicked += () =>
         {
             top.RemoveAll();
-            top.Add(Inventario.VentanaInventario(top));
+            top.Add(Inventario.VentanaInventario(top, InvInt));
         };
-
+        btMenu.Clicked += () =>
+        {
+            top.RemoveAll();
+            top.Add(VentanaPrincipal);
+        };
         btInicio.SetFocus();
-        ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa);
+        ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu);
     }
     
     //creando la ventana de empresas
@@ -1557,7 +1568,7 @@ $@"         PRODUCTOS
                 NuevaAccion.CostoDeCompra = precioAccional;
                 NuevaAccion.TipoDeAccion = true;
                 NuevaAccion.cantidad += 1;
-                using (StreamWriter str = new StreamWriter(inventario[InvInt], true))
+                using (StreamWriter str = new StreamWriter(inventario[InvInt], true, Encoding.UTF8))
                 {
                     bool pader = false;
                     for (int i = 2; i < lineas.Count; i++)
