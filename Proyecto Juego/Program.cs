@@ -573,7 +573,7 @@ class Program
                     InvInt = 0;
 
                 }
-
+                InvInt = 0;
                 Companiass = CargarEmpresa(0);
 
                 top.Remove(VentanaCargarPartida);
@@ -614,6 +614,7 @@ class Program
                     InvInt = 1;
 
                 }
+                InvInt = 1;
                 Companiass = CargarEmpresa(1);
 
                 top.Remove(VentanaCargarPartida);
@@ -653,6 +654,7 @@ class Program
                     pd.corrupcion = corrupcion;
                     InvInt = 2;
                 }
+                InvInt = 2;
                 Companiass =CargarEmpresa(2);
 
                 top.Remove(VentanaCargarPartida);
