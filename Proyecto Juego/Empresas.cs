@@ -112,7 +112,7 @@ public struct ProductosPorSector //Los nombres de los productos por sector
 
 
 //Existirá un menu de reglas. Pequeño: 20 empresas, pocas personas. Medio: 40 empresas, 60 personas. Grande: 120 empresas, 150 personas
-public struct Indices
+public class Indices
 {
     static string[][] Sectores = { EmpresasNombres.TecnologiaSoftware, EmpresasNombres.TecnologiaHardware, EmpresasNombres.Agronomia,//un array para usar los indices
     EmpresasNombres.Comercio, EmpresasNombres.Alimenticio, EmpresasNombres.ManufacturaTextil, EmpresasNombres.Recursos, EmpresasNombres.ManufacturaDeRecursos};
