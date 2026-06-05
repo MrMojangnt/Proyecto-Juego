@@ -1347,7 +1347,7 @@ class Program
         btVerEmpresa.Clicked += () =>
         {
             top.RemoveAll();
-            VentanaMercado(top);
+            VentanaDeEmpresas(top);
         };
         btInventario.Clicked += () =>
         {
@@ -1360,9 +1360,9 @@ class Program
     }
     
     //creando la ventana de empresas
-    static void VentanaMercado(Toplevel top)
+    static void VentanaDeEmpresas(Toplevel top)
     {
-        var VentanaDeMercado = new Window()
+        var VentanaDeEmpresas = new Window()
         {
             X = 0,
             Y= 0,
@@ -1377,14 +1377,7 @@ class Program
         tabla.Columns.Add("Pais");
         tabla.Columns.Add("Sector");
         tabla.Columns.Add("Capital Bursátil");
-        tabla.Columns.Add("Accionistas");
-        tabla.Columns.Add("Productos");
-        tabla.Columns.Add("Ganancias");
-        tabla.Columns.Add("Gastos Marketing");
-        tabla.Columns.Add("Gastos Investigación");
-        tabla.Columns.Add("Gastos Mantenimiento");
-        tabla.Columns.Add("Participacion");
-        tabla.Columns.Add("Balance");
+
 
         foreach(Companias i in Companiass)
         {
@@ -1393,31 +1386,137 @@ class Program
                 i.name,
                 i.pais,
                 i.rubro,
-                i.capbursatil,
-                i.accionistas,
-                i.productos,
-                i.GananciasTrimestrales,
-                i.marketing,
-                i.investigacion,
-                i.mantenimiento,
-                i.participacion,
-                i.balance
+                i.capbursatil + "M"
             );
 
         }
+
         var tableView = new TableView()
         {
             X = 0,
             Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Width = 120,
+            Height = 30
+        };
+        tableView.CellActivated += (e) =>
+        {
+            int row = e.Row;
+
+            var empresa = Companiass[row];
+            top.Remove(VentanaDeEmpresas);
+            MostrarDetalleEmpresa(top, empresa);
+        };
+        tableView.Table = tabla;
+        var salir = new Button("_Volver")
+        {
+            X = 1,
+            Y = 25
+        };
+        salir.Clicked += () =>
+        {
+            top.Remove(VentanaDeEmpresas);
+            Inicio(top);
         };
 
-        tableView.Table = tabla;
-
-        VentanaDeMercado.Add(tableView);
-        top.Add(VentanaDeMercado);
+        VentanaDeEmpresas.Add(tableView, salir);
+        top.Add(VentanaDeEmpresas);
       
+    }
+
+    static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
+    {
+        var DetalleEmpresa = new Window("Detalle de Empresa")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+        };
+
+        var MasInfo = new Label(
+@$" ID: {empresa.id}                  
+ Empresa: {empresa.name}           
+ País: {empresa.pais}              
+ Sector: {empresa.rubro}           
+ Capital: {empresa.capbursatil}M   
+ Accionistas: {empresa.accionistas}
+ balance: {empresa.balance}M       ")
+        {
+            X = 1,
+            Y = 0,
+
+        };
+        var chunchito1 = new FrameView("") {
+            X =1,
+            Y =0,
+            Width = 40,
+            Height = 10
+        };
+        DetalleEmpresa.Add(chunchito1);
+        chunchito1.Add(MasInfo);
+
+        var Gastos = new Label(
+@$" Gastos en Marketing: {empresa.marketing}M
+ Gastos en Investigación: {empresa.investigacion}M
+ Gastos en Mantenimiento: {empresa.mantenimiento}M
+ Participación: {empresa.participacion:f2}%")
+        {
+            X = Pos.Center(),
+            Y = 0,
+        };
+        var chunchito2 = new FrameView("")
+        {
+            X = 5,
+            Y = 15,
+            Width = 40,
+            Height = 7,
+        };
+        DetalleEmpresa.Add(chunchito2);
+        chunchito2.Add(Gastos);
+
+
+        var Productitos = new Label(
+$@"         PRODUCTOS             
+                                   
+ Productos: {empresa.productos[0]} 
+ Productos: {empresa.productos[1]} 
+ Productos: {empresa.productos[2]} 
+ Productos: {empresa.productos[3]} 
+ Productos: {empresa.productos[4]} 
+ Productos: {empresa.productos[5]} 
+ Productos: {empresa.productos[6]} 
+ Productos: {empresa.productos[7]} 
+ Productos: {empresa.productos[8]} 
+ Productos: {empresa.productos[9]}")
+        {
+            X = Pos.Center(),
+            Y=0
+        };
+        var chunchito3 = new FrameView("")
+        {
+            X = 50,
+            Y = Pos.Center(),
+            Width = 50,
+            Height = 15,
+        };
+        DetalleEmpresa.Add(chunchito3);
+        chunchito3.Add(Productitos);
+
+
+        var btVolver = new Button("Volver")
+        {
+            X = Pos.Center(),
+            Y = 30
+        };
+
+        btVolver.Clicked += () =>
+        {
+            top.RemoveAll();
+            VentanaDeEmpresas(top);
+        };
+
+        DetalleEmpresa.Add(btVolver);
+        top.Add(DetalleEmpresa);
     }
 
     

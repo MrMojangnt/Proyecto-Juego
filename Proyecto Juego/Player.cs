@@ -40,14 +40,21 @@ public struct Companias
         string ProductosTexto = string.Join(" | ", productos);
         return $"{id}; {name}; {pais}; {rubro}; {capbursatil} M; {accionistas}; {ProductosTexto}; {GananciasTrimestrales} M; {marketing} M; {investigacion}; {mantenimiento}; {participacion}%; {balance} M";
     }
-} 
+}
 
 public struct Pais
 {
-    
-}
+    public string name { get; set; }
+    public int poblacion { get; set; }
+    public decimal PIB { get; set; }
+    public float Imp_Mensuales { get; set; }
+    public string Gobierno_Tipo { get; set; }// String que guarda los tipos de gobierno de cada pais
+    public int Pesadez_Leyes { get; set; }//Un int que va de 0 a 10, siendo 10 normas mas estrictas y 0 el mínimo
+    public int Cap_economica { get; set; } // Un int que va de 0 a 10, siendo 10 la mayor capacidad económica
 
-public struct Acciones
+    }
+
+    public struct Acciones
 {
     public int id { get; set; }
     public string name { get; set; }
