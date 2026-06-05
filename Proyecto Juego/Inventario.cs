@@ -6,9 +6,8 @@ using Terminal.Gui;
 using System.Data;
 public class Inventario
 {
-    public static Window VentanaInventario()
+    public static Window VentanaInventario(Toplevel top)
     {
-        var top = Application.Top;
         var win = new Window("Tabla tipo Excel")
         {
             X = 0,
@@ -16,7 +15,7 @@ public class Inventario
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
-        Program.BotonesDeJuegoPredeterminado(top, win);
+
         DataTable tabla = new DataTable();
 
         tabla.Columns.Add("ID");
@@ -32,9 +31,9 @@ public class Inventario
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Height = 10
         };
-        
+        Program.BotonesDeJuegoPredeterminado(top, win);
         tableView.Table = tabla;
 
         win.Add(tableView);

@@ -1352,7 +1352,7 @@ class Program
         btInventario.Clicked += () =>
         {
             top.RemoveAll();
-            top.Add(Inventario.VentanaInventario());
+            top.Add(Inventario.VentanaInventario(top));
         };
 
         btInicio.SetFocus();
