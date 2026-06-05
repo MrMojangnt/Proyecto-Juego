@@ -1419,18 +1419,10 @@ class Program
             MostrarDetalleEmpresa(top, empresa);
         };
         tableView.Table = tabla;
-        var salir = new Button("_Volver")
-        {
-            X = 1,
-            Y = 25
-        };
-        salir.Clicked += () =>
-        {
-            top.Remove(VentanaDeEmpresas);
-            Inicio(top);
-        };
+        Program.BotonesDeJuegoPredeterminado(top, VentanaDeEmpresas);
 
-        VentanaDeEmpresas.Add(tableView, salir);
+
+        VentanaDeEmpresas.Add(tableView);
         top.Add(VentanaDeEmpresas);
       
     }
