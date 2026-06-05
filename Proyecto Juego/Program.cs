@@ -386,17 +386,26 @@ class Program
         botonNuevaPartida.Enter += (_) =>
         {
             marco.ColorScheme = ColoreButtonSelected[colora];
-            ClickSound();
+            if (OperatingSystem.IsWindows())
+            {
+                ClickSound();
+            }
         };
         botonCargarPartida.Enter += (_) =>
         {
             marco2.ColorScheme = ColoreButtonSelected[colora];
-            ClickSound();
+            if (OperatingSystem.IsWindows())
+            {
+                ClickSound();
+            }
         };
         botonConfiguracion.Enter += (_) => 
         {
             marcoconfig.ColorScheme = ColoreButtonSelected[colora];
-            ClickSound();
+            if (OperatingSystem.IsWindows())
+            {
+                ClickSound();
+            }
         };
         botonsalir.Enter += (_) =>
         {
@@ -406,7 +415,10 @@ class Program
         botonMusica.Enter += (_) =>
         {
             marcomusica.ColorScheme = ColoreButtonSelected[colora];
-            ClickSound();
+            if (OperatingSystem.IsWindows())
+            {
+                ClickSound();
+            }
         };
 
         // Cuando pierde foco
