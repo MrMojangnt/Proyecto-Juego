@@ -34,9 +34,10 @@ class Program
     static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     static List<Companias> Companiass = new List<Companias>();
+    public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
-
+    public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
@@ -567,6 +568,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    InvInt = 0;
 
                 }
 
@@ -607,6 +609,7 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
+                    InvInt = 1;
 
                 }
                 Companiass = CargarEmpresa(1);
@@ -646,7 +649,7 @@ class Program
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
-
+                    InvInt = 2;
                 }
                 Companiass =CargarEmpresa(2);
 
@@ -1043,7 +1046,7 @@ class Program
                 using (StreamWriter save = new StreamWriter(inventario[i]))
                 {
                     save.WriteLine(pd.name);
-                    save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad,Porcentaje");
+                    save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad");
                 }
                 
                 Guardarempresa(i);
@@ -1435,6 +1438,19 @@ class Program
       
     }
 
+    static void ComprarAcciones(Toplevel top)
+    {
+        var Mercado = new Window("Mercado")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        
+        BotonesDeJuegoPredeterminado(top, Mercado);
+        top.Add(Mercado);
+    }
     static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
@@ -1520,16 +1536,77 @@ $@"         PRODUCTOS
             X = Pos.Center(),
             Y = 30
         };
-
+        var btcomprar_acciones = new Button("Comprar Accion")
+        {
+            X = Pos.X(btVolver) +4,
+            Y = Pos.Y(btVolver)- 2,
+        };
+        var LabelPrecioAccion = new Label($"Precio: {(empresa.capbursatil*1000000) / 50000000}")
+        {
+            X = Pos.X(btcomprar_acciones) +4,
+            Y = Pos.Y(btcomprar_acciones)- 1,
+        };
+        DetalleEmpresa.Add(btcomprar_acciones, LabelPrecioAccion);
         btVolver.Clicked += () =>
         {
             top.RemoveAll();
             VentanaDeEmpresas(top);
         };
+        btcomprar_acciones.Clicked += () =>
+        {
+            List<string> lineas = File.ReadAllLines(inventario[InvInt]).ToList();
+            decimal precioAccional = (empresa.capbursatil * 1000000) / 50000000;
+            if (pd.balance >= precioAccional)
+            {
+                Acciones NuevaAccion = new Acciones();
+                NuevaAccion.id = empresa.id;
+                NuevaAccion.name = empresa.name;
+                NuevaAccion.CostoActual = precioAccional;
+                NuevaAccion.CostoDeCompra = precioAccional;
+                NuevaAccion.TipoDeAccion = true;
+                NuevaAccion.cantidad += 1;
+                using (StreamWriter str = new StreamWriter(inventario[InvInt], true))
+                {
+                    bool pader = false;
+                    for (int i = 2; i < lineas.Count; i++)
+                    {
+                        string[] datos = lineas[i].Split(',');
+
+                        if (datos[0] == empresa.id.ToString())
+                        {
+                            int cantity = int.Parse(datos[5]);
+                            cantity++;
+                            datos[5] = cantity.ToString(); 
+                            lineas[i] = string.Join(",", datos);
+                            pader = true;
+                            break;
+                        }
+                    }
+
+                    if (pader == false)
+                    {
+                        str.WriteLine($"{NuevaAccion.id},{NuevaAccion.name},{NuevaAccion.CostoActual}, {NuevaAccion.CostoDeCompra},{NuevaAccion.TipoDeAccion}, {NuevaAccion.cantidad}");
+                    } else if (pader == true)
+                    {
+                        File.WriteAllLines(inventario[InvInt], lineas);
+                    }
+                };
+                pd.balance -= precioAccional;
+            }
+            else
+            {
+                MessageBox.Query(
+                    "Error",
+                    "No tienes Suficiente dinero",
+                    "Aceptar");
+            }
+            
+        
+    };
 
         DetalleEmpresa.Add(btVolver);
         top.Add(DetalleEmpresa);
     }
-
+    
     
 }

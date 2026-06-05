@@ -49,8 +49,8 @@ public struct Pais
     public decimal PIB { get; set; }
     public float Imp_Mensuales { get; set; }
     public string Gobierno_Tipo { get; set; }// String que guarda los tipos de gobierno de cada pais
-    public int Pesadez_Leyes { get; set; }//Un int que va de 0 a 10, siendo 10 normas mas estrictas y 0 el mínimo
-    public int Cap_economica { get; set; } // Un int que va de 0 a 10, siendo 10 la mayor capacidad económica
+    public int Pesadez_Leyes { get; set; }//Un int que va de 0 a 10, siendo 10 normas mas estrictas y 0 el mï¿½nimo
+    public int Cap_economica { get; set; } // Un int que va de 0 a 10, siendo 10 la mayor capacidad econï¿½mica
 
     }
 
@@ -62,5 +62,4 @@ public struct Pais
     public decimal CostoActual{ get; set; }
     public bool TipoDeAccion { get; set; }
     public int cantidad { get; set; }
-    public decimal Porcentaje { get; set; }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using Proyecto_Juego;
 using Terminal.Gui;
 using System.Data;
+
 public class Inventario
 {
     public static Window VentanaInventario(Toplevel top)
@@ -17,14 +18,7 @@ public class Inventario
         };
 
         DataTable tabla = new DataTable();
-
-        tabla.Columns.Add("ID");
-        tabla.Columns.Add("Nombre");
-        tabla.Columns.Add("Edad");
-
-        tabla.Rows.Add("1", "Raúl", "20");
-        tabla.Rows.Add("2", "Bernardino", "21");
-        tabla.Rows.Add("3", "Linda", "19");
+        
 
         var tableView = new TableView()
         {
