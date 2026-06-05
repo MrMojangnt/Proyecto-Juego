@@ -1568,9 +1568,8 @@ $@"         PRODUCTOS
                 NuevaAccion.CostoDeCompra = precioAccional;
                 NuevaAccion.TipoDeAccion = true;
                 NuevaAccion.cantidad += 1;
-                using (StreamWriter str = new StreamWriter(inventario[InvInt], true, Encoding.UTF8))
-                {
-                    bool pader = false;
+                bool pader = false; // verificando si existe la acción creo, maldito raul que es pader
+
                     for (int i = 2; i < lineas.Count; i++)
                     {
                         string[] datos = lineas[i].Split(',');
@@ -1579,21 +1578,24 @@ $@"         PRODUCTOS
                         {
                             int cantity = int.Parse(datos[5]);
                             cantity++;
-                            datos[5] = cantity.ToString(); 
+                            datos[5] = cantity.ToString();
                             lineas[i] = string.Join(",", datos);
                             pader = true;
                             break;
                         }
                     }
-
+                
                     if (pader == false)
                     {
-                        str.WriteLine($"{NuevaAccion.id},{NuevaAccion.name},{NuevaAccion.CostoActual}, {NuevaAccion.CostoDeCompra},{NuevaAccion.TipoDeAccion}, {NuevaAccion.cantidad}");
+                        using (StreamWriter str = new StreamWriter(inventario[InvInt], true, Encoding.UTF8))
+                        {
+                            str.WriteLine($"{NuevaAccion.id},{NuevaAccion.name},{NuevaAccion.CostoActual}, {NuevaAccion.CostoDeCompra},{NuevaAccion.TipoDeAccion}, {NuevaAccion.cantidad}");
+                        }
                     } else if (pader == true)
                     {
                         File.WriteAllLines(inventario[InvInt], lineas);
                     }
-                };
+                
                 pd.balance -= precioAccional;
             }
             else
