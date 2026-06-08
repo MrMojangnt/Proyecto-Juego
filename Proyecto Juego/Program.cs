@@ -16,7 +16,6 @@ class Program
     static Proyecto_Juego.Players pd = new Players();
     //Jugador
     static FrameView[] Slots = new FrameView[3];
-    static Label[] Deletezzz = new Label[3];
     static Button[] Borration = new Button[3];
     static bool[] saves = new bool[3];
     static int colora = 0;
@@ -688,32 +687,17 @@ class Program
         VentanaCargarPartida.Add(Slots[0], Slots[1],Slots[2],Back);
         //Agregando el icono para eliminar. 
         VerificarSave();
-        for (int i = 0; i < Deletezzz.Length; i++)
+        for (int i = 0; i < Borration.Length; i++)
         {
-            Borration[i] = new Button("")
+            Borration[i] = new Button($"Eliminar Partida {i+1}")
             {
-                X = 2,
-                Y = 3,
-                Width = 1,
-                Height = 1,
-            };
-
-            Deletezzz[i] = new Label(@"██    ██
- ██  ██
-  ████
-   ██
-  ████
- ██  ██
-██    ██")
-            {
-                X = Pos.X(Slots[i]) + 5,
+                X = Pos.X(Slots[i]),
                 Y = Pos.Bottom(bottonslot1) + 2,
             };
 
             if (saves[i])//En caso que exista partida el botón de X existirá
             {
-                VentanaCargarPartida.Add(Deletezzz[i]);
-                Deletezzz[i].Add(Borration[i]);
+                VentanaCargarPartida.Add(Borration[i]);
             }
 
         }
@@ -768,6 +752,7 @@ class Program
                     X = Pos.Center(),
                     Y = Pos.Center(),
                 });
+                InvInt = i;
             }
             else
             {
@@ -1055,6 +1040,7 @@ class Program
                 
                 Guardarempresa(i, true);
                 Companiass = CargarEmpresa(i);
+                InvInt = i;
 
                 guardado = true;
                 break;
@@ -1147,13 +1133,13 @@ class Program
     }
     static void Guardarempresa(int i, bool zzz)
     {
-
         using (StreamWriter save_empresas = new StreamWriter(save_compania[i], zzz, Encoding.UTF8))
         {
             save_empresas.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capital Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
-            for (int p = 0; p < Indices.EmpresasGuardadas.Count; p++)
+            Companiass = Indices.GenerarIndicesEmpresas();
+            for (int p = 0; p < Companiass.Count; p++)
             {
-                save_empresas.WriteLine(Indices.EmpresasGuardadas[p]);
+                save_empresas.WriteLine(Companiass[p]);
 
             }
 
@@ -1323,7 +1309,11 @@ class Program
             X = Pos.Center(),
             Y = 1
         };
+
+
         VentanaInicio.Add(LabelUsuario,Balance,FrameContactos,ContactosLabel, LabelPais, FrameStats);
+        Tutorial.LLamadaIvancito(VentanaInicio);
+
         FrameContactos.Add(ContactosLabel);
         FrameStats.Add(labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
 

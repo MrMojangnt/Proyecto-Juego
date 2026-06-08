@@ -131,7 +131,6 @@ public class Indices
         {"Recursos", EmpresasNombres.Recursos },
         {"Manufactura de Recursos", EmpresasNombres.ManufacturaDeRecursos }
     };
-    public static List<Companias> EmpresasGuardadas = new List<Companias>(GenerarIndicesEmpresas());
 
     public static List<Companias> GenerarIndicesEmpresas()
     {
@@ -142,7 +141,7 @@ public class Indices
         int IndicePais, IndiceAccionistas;
         int IndiceProductos;
         int Indiceatraccion; //skill de empresas que multiplica ganancias por un millon
-        decimal IndiceCapitalBursatil, IndiceGananciasTrimestrales, IndiceParticipacion, IndiceBalance, indiceMarketing, IndiceMantenimiento, IndiceInvestigacion, IndiceGastos;
+        decimal IndiceCapitalBursatil, IndiceGananciasTrimestrales, IndiceBalance, indiceMarketing, IndiceMantenimiento, IndiceInvestigacion, IndiceGastos;
 
         for (int i = 0; i < 20; i++)
         {
@@ -157,7 +156,6 @@ public class Indices
             IndiceCapitalBursatil = 0;
             IndiceAccionistas = 0;
             IndiceGananciasTrimestrales = 0;//realmente no es indice pero bueno, para mantenerlo
-            IndiceParticipacion = 0;
             IndiceBalance = 0;
             IndiceProductos =  0;
             Indiceatraccion = 0;

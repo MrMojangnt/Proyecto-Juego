@@ -6,10 +6,10 @@ public struct Players
 {
     public  string name { get; set; }
     public  string pais{ get; set; }
-    public  int carisma{ get; set; }
-    public  int economia{ get; set; }
-    public  int fiscalidad{ get; set; }
-    public  int corrupcion{ get; set; }
+    public  int carisma{ get; set; } //Carisma INT Habilidad para conocer personajes y mejorar relaciones
+    public int economia{ get; set; }//Economia INT Habilidad para comprar y negociar acciones asequibles 
+    public int fiscalidad{ get; set; }//Fiscalidad INT Habilidad para reducir los impuestos pagados(Empresa o jugador)
+    public int corrupcion{ get; set; }//Corrupción INT Habilidad para convencer a las personas de hacer cosas
     public decimal balance { get; set; }
 
     public override string ToString()
@@ -31,7 +31,6 @@ public struct Companias
     public decimal marketing { get; set; }
     public decimal investigacion { get; set; }
     public decimal mantenimiento { get; set; }
-
     public decimal participacion { get; set; }
     public decimal balance { get; set; }
 
