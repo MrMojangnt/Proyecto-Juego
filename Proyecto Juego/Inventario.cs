@@ -22,7 +22,7 @@ public class Inventario
         tabla.Columns.Add("Nombre");
         tabla.Columns.Add("Costo de Compra");
         tabla.Columns.Add("Costo Actual");
-        tabla.Columns.Add("Tipo de Acción");
+        tabla.Columns.Add("Tipo de Acciï¿½n");
         tabla.Columns.Add("Cantidad");
 
         Program.Accioneshh = CargarInventario(InvInt);
@@ -31,8 +31,8 @@ public class Inventario
             tabla.Rows.Add(
                 i.id,
                 i.name,
-                i.CostoDeCompra + " M",
-                i.CostoActual + " M",
+                i.CostoDeCompra ,
+                i.CostoActual,
                 i.TipoDeAccion,
                 i.cantidad
             );
@@ -72,8 +72,8 @@ public class Inventario
                 string[] lineas = saveacciones.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
                 AccionesStruct.id = int.Parse(lineas[0]);
                 AccionesStruct.name = lineas[1];
-                AccionesStruct.CostoDeCompra = decimal.Parse(lineas[2]);
-                AccionesStruct.CostoActual = decimal.Parse(lineas[3]);
+                AccionesStruct.CostoDeCompra = (decimal.Parse(lineas[2]));
+                AccionesStruct.CostoActual = (decimal.Parse(lineas[3]));
                 AccionesStruct.TipoDeAccion = bool.Parse(lineas[4]);
                 AccionesStruct.cantidad = int.Parse(lineas[5]);
 
