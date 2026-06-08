@@ -1312,7 +1312,8 @@ class Program
 
 
         VentanaInicio.Add(LabelUsuario,Balance,FrameContactos,ContactosLabel, LabelPais, FrameStats);
-        Tutorial.LLamadaIvancito(VentanaInicio);
+        //Esto es lo que se activa si se quiere ver el celular
+        //Tutorial.LLamadaIvancito(VentanaInicio);
 
         FrameContactos.Add(ContactosLabel);
         FrameStats.Add(labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);

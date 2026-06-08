@@ -121,35 +121,7 @@ public class Tutorial
             X = Pos.X(telefono1) + 1,
             Y = Pos.Bottom(telefono1)
         };
-        var telefono2 = new Label(@"  | |                     | |
-   | `---------------------' |
-   |                         |
-   |                __       |
-   |  ________  .-~~__~~-.   |
-   | |___C___/ /  .'  `.  \  |
-   |  ______  ;   : OK :   ; |
-   | |__A___| |  _`.__.'_  | |
-   |  _______ ; \< |  | >/ ; |
-   | [_=<D)__\ \ \_|  |_/ /  |
-   |            `-..__..-'   |
-   |  _____   _____   _____  |
-   | [ 1   ] [ 2abc] [ 3def] |
-   |  _____   _____   _____  |
-   | [ 4ghi] [ 5jkl] [ 6mno] |
-   |  _____   _____   _____  |
-   | [7pqrs] [ 8tuv] [9wxyz] |
-   |  _____   _____   _____  |
-   | [_*___] [_0_+_] [__#__] |
-   |    _     _....---...._  |
-   |   (O)   (_    [_]C520_) |
-   |           ''''---''''   |
-   ;    o                    ;
-    `-._                 _.-'
-dp      `""""""""""""""""""""""""""""""'")
-        {
-            X = 1,
-            Y = Pos.Bottom(telefono1) + 1
-        };
+       
         int estado = 0;
         Application.MainLoop.AddTimeout(TimeSpan.FromMilliseconds(500), (_) =>
         {
@@ -176,7 +148,7 @@ dp      `""""""""""""""""""""""""""""""'")
             return true; // sigue ejecutándose
         });
         VentanaCualquiera.Add(MarcoLlamada);
-        MarcoLlamada.Add(telefono1, telefono2, llamando[0], llamando[1], llamando[2]);
+        MarcoLlamada.Add(telefono1, llamando[0], llamando[1], llamando[2]);
     }
 
 
