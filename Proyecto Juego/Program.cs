@@ -161,7 +161,7 @@ class Program
 
         salidaAudio.Play();
     }
-    static void Main()
+    public static void Main()
     {
         Application.Init();
 
@@ -1381,7 +1381,7 @@ class Program
             top.Add(VentanaPrincipal);
         };
         btInicio.SetFocus();
-        ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno);
+        ventana.Add(btInicio,btInventario,btVerEmpresa,btMenu, pasarturno);
     }
     
     //creando la ventana de empresas
@@ -1608,7 +1608,7 @@ $@"         PRODUCTOS
             }
 
         
-    };
+        };
 
         DetalleEmpresa.Add(btVolver);
         top.Add(DetalleEmpresa);
