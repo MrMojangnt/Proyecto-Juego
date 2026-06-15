@@ -33,6 +33,7 @@ class Program
     //guardado partidas
     static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
+    static List<NPC> ContactosCargados = new List<NPC>();
     static List<Companias> Companiass = new List<Companias>();
     public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
@@ -574,6 +575,7 @@ class Program
                 }
                 InvInt = 0;
                 Companiass = CargarEmpresa(0);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(0);
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -615,6 +617,7 @@ class Program
                 }
                 InvInt = 1;
                 Companiass = CargarEmpresa(1);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(1);
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -655,6 +658,7 @@ class Program
                 }
                 InvInt = 2;
                 Companiass =CargarEmpresa(2);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(2);
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -1039,7 +1043,9 @@ class Program
                 }
                 
                 Guardarempresa(i, true);
+                GeneracionDeContactos.GuardarContactos(i, true);
                 Companiass = CargarEmpresa(i);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(i);
                 InvInt = i;
 
                 guardado = true;
@@ -1106,7 +1112,9 @@ class Program
                     save.WriteLine(pd.name);
                 }
                 Guardarempresa(index, false);
+                GeneracionDeContactos.GuardarContactos(index, false);
                 Companiass = CargarEmpresa(index);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
 
                 Application.RequestStop();
                 top.RemoveAll();
@@ -1208,6 +1216,7 @@ class Program
                 File.Delete(partidas[i]);
                 File.Delete(inventario[i]);
                 File.Delete(save_compania[i]);
+                File.Delete(ManejoDeArchivos.contactos[i]);
             }
 
     }

@@ -4,6 +4,7 @@ using System.IO;
 using Proyecto_Juego;
 using Terminal.Gui;
 using System.Data;
+using System.Text;
 
 public class Inventario
 {
@@ -22,7 +23,7 @@ public class Inventario
         tabla.Columns.Add("Nombre");
         tabla.Columns.Add("Costo de Compra");
         tabla.Columns.Add("Costo Actual");
-        tabla.Columns.Add("Tipo de Acci�n");
+        tabla.Columns.Add("Tipo de Acción");
         tabla.Columns.Add("Cantidad");
 
         Program.Accioneshh = CargarInventario(InvInt);
@@ -63,7 +64,7 @@ public class Inventario
         List<Acciones> Accioneshh = new List<Acciones>();
         Proyecto_Juego.Acciones AccionesStruct = new Acciones(); //structttttttttttt de acciones
         char[] delimitadores = { ',', '\n', '|', '\r' };
-        using (StreamReader saveacciones = new StreamReader(Program.inventario[indice]))
+        using (StreamReader saveacciones = new StreamReader(Program.inventario[indice], Encoding.UTF8))
         {
             string[] Nombre = saveacciones.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
             string Encabezados = saveacciones.ReadLine();

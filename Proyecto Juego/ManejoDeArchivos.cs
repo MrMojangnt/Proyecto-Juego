@@ -3,6 +3,7 @@ public class ManejoDeArchivos
 {
     public static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
     static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
+    public static string[] contactos = { "contactos1.csv", "contactos2.csv", "contactos3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
 
     public static string LeerParteDeUnArchivo(string archivo, int numarchivo, string Busqueda)

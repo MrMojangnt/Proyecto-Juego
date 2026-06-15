@@ -3,7 +3,7 @@ using Terminal.Gui;
 using System.IO;
 namespace Proyecto_Juego;
 
-public struct Events
+public class Events
 {
     static string[] EventosEconomicos = new string[]
 {
@@ -101,10 +101,6 @@ public struct Events
     "INVERSION_EN_PAPAS_RINDE_300%",
     "INFLACION_POR_RUMOR_EN_TWITTER"
 };
-}
-
-public class Periodicozzz
-{
     static void Periodico(Toplevel top)
     {
         var VentanaPeriodico = new Window()

@@ -114,13 +114,13 @@ public struct ProductosPorSector //Los nombres de los productos por sector
 //Existirá un menu de reglas. Pequeño: 20 empresas, pocas personas. Medio: 40 empresas, 60 personas. Grande: 120 empresas, 150 personas
 public class Indices
 {
-    static string[][] Sectores = { EmpresasNombres.TecnologiaSoftware, EmpresasNombres.TecnologiaHardware, EmpresasNombres.Agronomia,//un array para usar los indices
+    public static string[][] Sectores = { EmpresasNombres.TecnologiaSoftware, EmpresasNombres.TecnologiaHardware, EmpresasNombres.Agronomia,//un array para usar los indices
     EmpresasNombres.Comercio, EmpresasNombres.Alimenticio, EmpresasNombres.ManufacturaTextil, EmpresasNombres.Recursos, EmpresasNombres.ManufacturaDeRecursos};
 
     static string[][] Productos = {ProductosPorSector.ProductosTecnologiaSoftware, ProductosPorSector.ProductosTecnologiaHardware, ProductosPorSector.ProductosAgronomia,
     ProductosPorSector.ProductosComercio, ProductosPorSector.ProductosAlimenticios, ProductosPorSector.ProductosTextiles, ProductosPorSector.ProductosRecursos,
     ProductosPorSector.ProductosManufacturaRecursos};
-    static Dictionary<string, string[]> Nombre_Sectores_Variables = new()
+    public static Dictionary<string, string[]> Nombre_Sectores_Variables = new()
     {
         {"Tecnología Software", EmpresasNombres.TecnologiaSoftware },
         {"Tecnología Hardware", EmpresasNombres.TecnologiaHardware },
@@ -147,22 +147,10 @@ public class Indices
         {
             Proyecto_Juego.Companias empresitas = new Companias();
             empresitas.productos = new string[10];
-            indiceMarketing = 0;
-            IndiceMantenimiento = 0;
-            IndiceInvestigacion = 0;
-            IndiceEmpresa = 0;
-            IndiceSector = 0;
-            IndicePais = 0;
-            IndiceCapitalBursatil = 0;
-            IndiceAccionistas = 0;
-            IndiceGananciasTrimestrales = 0;//realmente no es indice pero bueno, para mantenerlo
-            IndiceBalance = 0;
-            IndiceProductos =  0;
-            Indiceatraccion = 0;
+                        
 
-
-            IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
             IndiceSector = Random.Shared.Next(0, Sectores.Length);
+            IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
             IndicePais = Random.Shared.Next(0, 6);
             IndiceCapitalBursatil = Math.Round(0.1m + (decimal)Random.Shared.NextDouble() * 999.9m,  2);//como nextdouble solo genera entre 0.0 y 1 se multiplica
             IndiceAccionistas = Random.Shared.Next(0, 1000);
@@ -179,9 +167,9 @@ public class Indices
             //para los 4 aspectos de presupuesto: marketing, investigación y mantenimiento
                 IndiceGastos = 0;
             indiceMarketing = Math.Round(IndiceGananciasTrimestrales * (0.10m + (decimal)Random.Shared.NextDouble() * 0.20m),2);
+            IndiceInvestigacion = Math.Round(IndiceGananciasTrimestrales * (0.05m + (decimal)Random.Shared.NextDouble() * 0.15m), 2);
             Indiceatraccion += (int)(IndiceInvestigacion / 10);
             IndiceMantenimiento = Math.Round(IndiceGananciasTrimestrales * (0.10m + (decimal)Random.Shared.NextDouble() * 0.15m),2);
-            IndiceInvestigacion = Math.Round(IndiceGananciasTrimestrales * (0.05m + (decimal)Random.Shared.NextDouble() * 0.15m),2);
             Indiceatraccion += (int)(IndiceInvestigacion / 10);
             IndiceGastos += indiceMarketing + IndiceMantenimiento + IndiceInvestigacion;
 
