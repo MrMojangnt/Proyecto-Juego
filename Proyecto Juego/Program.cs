@@ -554,15 +554,15 @@ class Program
             {
                 using (StreamReader save = new StreamReader(partidas[0]))
                 {
-                    string nombre = save.ReadLine();
+                    string nombre = (save.ReadLine() ?? "");
                     nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = save.ReadLine();
+                    string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
-                    int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
-                    int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
-                    int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
-                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _= decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -598,15 +598,15 @@ class Program
             {
                 using (StreamReader save = new StreamReader(partidas[1]))
                 {
-                    string nombre = save.ReadLine();
+                    string nombre = (save.ReadLine() ?? "");
                     nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = save.ReadLine();
+                    string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
-                    int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
-                    int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
-                    int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
-                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -642,15 +642,15 @@ class Program
             {
                 using (StreamReader save = new StreamReader(partidas[2]))
                 {
-                    string nombre = save.ReadLine();
+                    string nombre = (save.ReadLine() ?? "");
                     nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = save.ReadLine();
+                    string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
-                    int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
-                    int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
-                    int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
-                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -745,14 +745,15 @@ class Program
             if (saves[i])
             {
                 StreamReader save = new StreamReader(partidas[i], Encoding.UTF8);
-                string nombre = save.ReadLine();
-                nombre = nombre.Replace("Nombre: ", "");//reemplaza "Nombre" por ""
-                string pais = save.ReadLine();
+                string nombre = (save.ReadLine() ?? "");
+                nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                string pais = (save.ReadLine() ?? "");
                 pais = pais.Replace("Pais: ", "");
-                int carismas = int.Parse(save.ReadLine().Replace("Carisma: ", ""));
-                int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
-                int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
-                int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                 save.Close();
 
                 Slots[i].Add(new Label("Nombre:\n" + nombre)
@@ -987,7 +988,7 @@ class Program
             //Comprobacion final
             if (nombre && Skills)
             {
-                pd.name = casillaNombre.Text.ToString();
+                pd.name = casillaNombre.Text.ToString()!;
                 pd.pais = PaisSeleciconado;
                 pd.carisma = numero1;
                 pd.economia = numero2;
@@ -1165,11 +1166,11 @@ class Program
         char[] delimitadores = { ';', '\n', '|', '\r' };
         using (StreamReader savecompani = new StreamReader(save_compania[indice], Encoding.UTF8))
         {
-            string[] encabezados = savecompani.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+            string[] encabezados = (savecompani.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
             compitas.productos = new string[10];
             while (!savecompani.EndOfStream)
             {
-                string[] lineas = savecompani.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+                string[] lineas = (savecompani.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
                 compitas.id = int.Parse(lineas[0]);
                 compitas.name = lineas[1];
                 lineas[2] = lineas[2].Replace("(predeterminado)", ""); //reemplaza "M" por ""
