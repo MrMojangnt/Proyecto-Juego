@@ -1350,14 +1350,14 @@ class Program
         };
         var btMenu = new Button("Volver al Menu")
         {
-            X = 78,
+            X = 96,
             Y = 38,
         };
         //Botones altos
-        var pasarturno = new Button("Pasarturno")
+        var pasarturno = new Button("Pasar turno")
         {
-            X = Pos.Right(ventana),
-            Y = 2,
+            X = 78,
+            Y = 38,
         };
         //Funciones
         btInicio.Clicked += () =>
@@ -1380,10 +1380,72 @@ class Program
             top.RemoveAll();
             top.Add(VentanaPrincipal);
         };
+        Random rnd = new Random();
+
+        pasarturno.Clicked += () =>
+        {
+            for (int i = 0; i < Companiass.Count; i++)
+            {
+                decimal cambio = (decimal)(rnd.NextDouble() * 0.20 - 0.10);
+
+                Companias empresa = Companiass[i];
+                empresa.capbursatil += empresa.capbursatil * cambio;
+
+                Companiass[i] = empresa;
+            }
+
+            GuardarEmpresasActualizadas();
+
+            MessageBox.Query(
+                "Turno",
+                "Se actualizaron los capitales bursátiles",
+                "Aceptar");
+        };
         btInicio.SetFocus();
         ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno);
     }
-    
+    static void GuardarEmpresasActualizadas()
+    {
+        using (StreamWriter save = new StreamWriter(save_compania[InvInt], false, Encoding.UTF8))
+        {
+            save.WriteLine("IdEmpresa; Empresa; Pais; Sector; Capital Bursátil; Accionistas; Productos; Ganancias; Gastos Marketing;Gastos Investigación; Gastos Mantenimiento; Participacion; Balance");
+
+            foreach (Companias empresa in Companiass)
+            {
+                save.WriteLine(empresa.ToString());
+            }
+        }
+    }
+    static void ActualizarPreciosInventario()
+    {
+        if (!File.Exists(inventario[InvInt]))
+            return;
+
+        List<string> lineas = File.ReadAllLines(inventario[InvInt]).ToList();
+
+        for (int i = 2; i < lineas.Count; i++)
+        {
+            string[] datos = lineas[i].Split(',');
+
+            int idEmpresa = int.Parse(datos[0]);
+
+            int indiceEmpresa = Companiass.FindIndex(e => e.id == idEmpresa);
+
+            if (indiceEmpresa != -1)
+            {
+                decimal nuevoPrecio =
+                    (Companiass[indiceEmpresa].capbursatil * 1000000m)
+                    / 50000000m;
+
+                // Columna CostoActual
+                datos[3] = nuevoPrecio.ToString();
+
+                lineas[i] = string.Join(",", datos);
+            }
+        }
+
+        File.WriteAllLines(inventario[InvInt], lineas);
+    }
     //creando la ventana de empresas
     static void VentanaDeEmpresas(Toplevel top)
     {
