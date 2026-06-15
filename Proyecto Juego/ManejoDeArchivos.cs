@@ -54,7 +54,7 @@ public class ManejoDeArchivos
         return null;
     }
 
-    public void CambiarDatos(string archivo, int numarchivo, string Busqueda, string change)
+    public void CambiarDatos(string archivo, int numarchivo, string Busqueda, int change)
     {
         if (archivo == "partidas")
         {
