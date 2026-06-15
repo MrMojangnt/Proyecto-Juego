@@ -606,12 +606,14 @@ class Program
                     int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
                     int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
                     int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
+                    pd.balance = balance;
                     InvInt = 1;
 
                 }
@@ -648,12 +650,14 @@ class Program
                     int economia = int.Parse(save.ReadLine().Replace("Economia: ", ""));
                     int fiscalidad = int.Parse(save.ReadLine().Replace("Fiscalidad: ", ""));
                     int corrupcion = int.Parse(save.ReadLine().Replace("Corrupcion: ", ""));
+                    decimal balance = decimal.Parse(save.ReadLine().Replace("Balance: ", ""));
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
                     pd.economia = economia;
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
+                    pd.balance = balance;
                     InvInt = 2;
                 }
                 InvInt = 2;
@@ -1300,7 +1304,7 @@ class Program
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
         //Balance
-        var Balance = new Label($"Balance: {pd.balance}")
+        var Balance = new Label($"Balance: {pd.balance:F2}")
         {
             X = Pos.Center(),
             Y = 1

@@ -32,8 +32,8 @@ public class Inventario
             tabla.Rows.Add(
                 i.id,
                 i.name,
-                i.CostoDeCompra ,
-                i.CostoActual,
+                $"{i.CostoDeCompra:F2}" ,
+                $"{i.CostoActual:F2}",
                 i.TipoDeAccion,
                 i.cantidad
             );
