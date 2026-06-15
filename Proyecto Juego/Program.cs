@@ -1439,20 +1439,7 @@ class Program
         top.Add(VentanaDeEmpresas);
       
     }
-
-    static void ComprarAcciones(Toplevel top)
-    {
-        var Mercado = new Window("Mercado")
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill()
-        };
-        
-        BotonesDeJuegoPredeterminado(top, Mercado);
-        top.Add(Mercado);
-    }
+    
     static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
