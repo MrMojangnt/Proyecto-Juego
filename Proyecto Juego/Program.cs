@@ -161,7 +161,7 @@ class Program
 
         salidaAudio.Play();
     }
-    public static void Main()
+    static void Main()
     {
         Application.Init();
 
@@ -1381,7 +1381,7 @@ class Program
             top.Add(VentanaPrincipal);
         };
         btInicio.SetFocus();
-        ventana.Add(btInicio,btInventario,btVerEmpresa,btMenu, pasarturno);
+        ventana.Add(btMercado,btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno);
     }
     
     //creando la ventana de empresas
@@ -1439,7 +1439,20 @@ class Program
         top.Add(VentanaDeEmpresas);
       
     }
-    
+
+    static void ComprarAcciones(Toplevel top)
+    {
+        var Mercado = new Window("Mercado")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        
+        BotonesDeJuegoPredeterminado(top, Mercado);
+        top.Add(Mercado);
+    }
     static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
@@ -1530,6 +1543,13 @@ $@"         PRODUCTOS
             X = Pos.X(btVolver) +4,
             Y = Pos.Y(btVolver)- 2,
         };
+        var btvender_acciones = new Button("Vender Accion")
+        {
+            X = Pos.X(btcomprar_acciones),
+            Y = Pos.Y(btcomprar_acciones) + 1,
+        };
+        DetalleEmpresa.Add(btvender_acciones);
+        
         var LabelPrecioAccion = new Label($"Precio: {(empresa.capbursatil*1000000) / 50000000}")
         {
             X = Pos.X(btcomprar_acciones) +4,
@@ -1595,6 +1615,64 @@ $@"         PRODUCTOS
             }
 
         
+    };
+        
+        btvender_acciones.Clicked += () =>
+        {
+            List<string> lineas = File.ReadAllLines(inventario[InvInt]).ToList();
+            decimal precioAccional = (empresa.capbursatil * 1000000) / 50000000;
+
+            bool encontrada = false;
+
+            for (int i = 2; i < lineas.Count; i++)
+            {
+                string[] datos = lineas[i].Split(',');
+
+                if (datos[0] == empresa.id.ToString())
+                {
+                    int cantidadActual = int.Parse(datos[5]);
+
+                    if (cantidadActual > 0)
+                    {
+                        cantidadActual--;
+
+                        if (cantidadActual == 0)
+                        {
+                            // Eliminar la línea si ya no quedan acciones
+                            lineas.RemoveAt(i);
+                        }
+                        else
+                        {
+                            datos[5] = cantidadActual.ToString();
+                            // Actualizamos el costo actual con el precio de venta vigente
+                            datos[2] = precioAccional.ToString();
+                            lineas[i] = string.Join(",", datos);
+                        }
+
+                        File.WriteAllLines(inventario[InvInt], lineas);
+                        pd.balance += precioAccional;
+                        encontrada = true;
+                    }
+                    else
+                    {
+                        MessageBox.Query(
+                            "Error",
+                            "No tienes acciones de esta empresa para vender",
+                            "Aceptar");
+                        encontrada = true; // evita el mensaje de "no tienes acciones" duplicado
+                    }
+
+                    break;
+                }
+            }
+
+            if (!encontrada)
+            {
+                MessageBox.Query(
+                    "Error",
+                    "No posees acciones de esta empresa",
+                    "Aceptar");
+            }
         };
 
         DetalleEmpresa.Add(btVolver);
