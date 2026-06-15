@@ -15,32 +15,32 @@ public class ManejoDeArchivos
                 switch (Busqueda)
                 {
                     case "nombre":
-                        string nombre = guardado.ReadLine()!;
+                        string nombre = (guardado.ReadLine()??"");
                         nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
                         return nombre;
                         
                     case "pais":    
-                        string pais = guardado.ReadLine()!;
+                        string pais = (guardado.ReadLine()??"");
                         pais = pais.Replace("Pais: ", "");
                         return pais;
                     case "carisma":
-                        string carisma = guardado.ReadLine()!;
+                        string carisma = (guardado.ReadLine() ?? "");
                         carisma = carisma.Replace("Carisma: ", "");
                         return carisma;
                     case "economia":
-                        string economia = guardado.ReadLine()!;
+                        string economia = (guardado.ReadLine() ?? "");
                         economia = economia.Replace("Economia: ", "");
                         return economia;
                     case "fiscalidad":    
-                        string fiscalidad = guardado.ReadLine()!;
+                        string fiscalidad = (guardado.ReadLine() ?? "");
                         fiscalidad = fiscalidad.Replace("Fiscalidad: ", "");
                         return fiscalidad;
                     case "corrupcion":
-                        string corrupcion = guardado.ReadLine()!;
+                        string corrupcion = (guardado.ReadLine() ?? "");
                         corrupcion = corrupcion.Replace("Corrupcion: ", "");
                         return corrupcion;
                     case "balance":
-                        string balance = guardado.ReadLine()!;
+                        string balance = (guardado.ReadLine() ?? "");
                         balance = balance.Replace("Balance: ", "");
                         return balance;
                 }

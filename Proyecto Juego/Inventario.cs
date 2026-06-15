@@ -1,19 +1,21 @@
 namespace Proyecto_Juego;
 using NAudio.Wave;
-using System.IO;
 using Proyecto_Juego;
-using Terminal.Gui;
 using System.Data;
+using System.Drawing;
+using System.IO;
 using System.Text;
+using Terminal.Gui;
 
 public class Inventario
 {
-    public static Window VentanaInventario(Toplevel top, int InvInt)
+    public static Window VentanaInventario(Toplevel top, int InvInt,List<ColorScheme> colores, int colora)
     {
         var win = new Window("Tabla tipo Excel")
         {
             X = 0,
             Y = 0,
+            ColorScheme = colores[colora],
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
@@ -55,10 +57,6 @@ public class Inventario
         return win;
     }
 
-    public static void AunNose()
-    {
-
-    }
     public static List<Acciones> CargarInventario(int indice)
     {
         List<Acciones> Accioneshh = new List<Acciones>();
@@ -66,11 +64,11 @@ public class Inventario
         char[] delimitadores = { ',', '\n', '|', '\r' };
         using (StreamReader saveacciones = new StreamReader(Program.inventario[indice], Encoding.UTF8))
         {
-            string[] Nombre = saveacciones.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-            string Encabezados = saveacciones.ReadLine();
+            string[] Nombre = (saveacciones.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+            string Encabezados = (saveacciones.ReadLine() ?? "");
             while (!saveacciones.EndOfStream)
             {
-                string[] lineas = saveacciones.ReadLine().Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+                string[] lineas = (saveacciones.ReadLine() ?? "").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
                 AccionesStruct.id = int.Parse(lineas[0]);
                 AccionesStruct.name = lineas[1];
                 AccionesStruct.CostoDeCompra = (decimal.Parse(lineas[2]));

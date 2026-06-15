@@ -33,7 +33,7 @@ class Program
     //guardado partidas
     static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
-    public static List<NPC> ContactosCargados = new List<NPC>();
+    static List<NPC> ContactosCargados = new List<NPC>();
     static List<Companias> Companiass = new List<Companias>();
     public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
@@ -1085,7 +1085,7 @@ class Program
     {
         using (StreamReader save = new StreamReader(partidas[i], Encoding.UTF8))
         {
-            string linea = (save.ReadLine()??"");
+            string linea = save.ReadLine();
             linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
             return linea;
         }

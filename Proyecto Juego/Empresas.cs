@@ -147,6 +147,7 @@ public class Indices
         {
             Proyecto_Juego.Companias empresitas = new Companias();
             empresitas.productos = new string[10];
+            
                         
 
             IndiceSector = Random.Shared.Next(0, Sectores.Length);

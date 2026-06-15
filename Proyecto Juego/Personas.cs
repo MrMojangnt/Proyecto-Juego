@@ -1,9 +1,11 @@
 ﻿using Empresas;
 using Proyecto_Juego;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Text;
 using Terminal.Gui;
+using static Terminal.Gui.TabView;
 public struct NPC
 {
     public String name;
@@ -25,25 +27,25 @@ public class GeneracionDeContactos
 {
     public static string[] Hombres =
 {
-    "Alejandro García", "Mateo Martínez", "Lucas López", "Santiago González",
-    "Daniel Pérez", "Sebastián Rodríguez", "Matías Fernández", "Leonardo Gómez",
-    "Diego Ruiz", "Joaquín Sánchez", "Tomás Díaz", "Gabriel Torres",
+    "Dorian Martínez", "Jocksand Valladares", "Raúl Castillo", "Roberto Sobalvarro",
+    "Daniel Pérez", "Carlos Cerda", "José René Bonilla", "Leonardo Gómez",
+    "Diego Ruiz", "Joaquín Sánchez", "Daniel Marquez", "Gabriel Torres",
     "Nicolás Ramírez", "Martín Flores", "Samuel Benítez", "Andrés Herrera",
-    "Felipe Medina", "Ignacio Castro", "Emilio Rojas", "Julián Vargas",
-    "Esteban Molina", "David Cortés"
+    "Felipe Medina", "Ignacio Castro", "Francisco Álvarez", "Francisco Silva",
+    "Mauricio Lacayo", "Guillermo Ayerdis"
 };
 
     public static string[] Mujeres =
     {
-    "Sofía García", "Valentina Martínez", "Camila López", "Isabella González",
-    "Valeria Pérez", "Luciana Rodríguez", "Mariana Fernández", "Victoria Gómez",
-    "Martina Ruiz", "Emma Sánchez", "Daniela Díaz", "Gabriela Torres",
+    "Sofía Martínez", "Alyssa Rodríguez", "Camila Navarro", "Isabella González",
+    "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez",
+    "Marisa D'Trinidad", "Emma Sánchez", "Litzy Mendoza", "Gabriela Torres",
     "Natalia Ramírez", "Elena Flores", "Paula Benítez", "Andrea Herrera",
     "Renata Medina", "Julieta Castro", "Emilia Rojas", "Samantha Vargas",
-    "Mía Cruz", "Antonia Ortiz", "María Silva", "Ana Morales"
+    "Kenely Ordoñez", "Antonia Ortiz", "María Silva", "Ana Morales"
 };
 
-    static List<NPC> GenerarPersonas()
+    static List<NPC> GenerarPersonas()//GENERA LOS NOMBRES, SUS HABILIDADES Y SU BALANCE
     {
         NPC pj = new NPC();
         const int MAX = 4;
@@ -88,7 +90,7 @@ public class GeneracionDeContactos
 
         return ContactoshStruct;
     }
-    public static void GuardarContactos(int i, bool zzz)
+    public static void GuardarContactos(int i, bool zzz)//FUNCION QUE GUARDA LOS CONTACTOS
     {
         List<NPC> ContactosDelJugador = new(GenerarPersonas());
 
@@ -105,7 +107,7 @@ public class GeneracionDeContactos
         }
     }
 
-    public static List<NPC> CargarContactos(int indice)
+    public static List<NPC> CargarContactos(int indice)//FUNCION QUE CARGA LOS CONTACTOS
     {
         List<NPC> ConNPC = new List<NPC>();
         NPC ContactosCargados = new NPC(); //structttttttttttt
@@ -135,30 +137,111 @@ public class GeneracionDeContactos
 
     public static void Contactos(List<ColorScheme> colores, int colora, Window VentanaInicio, List<NPC> Lista)
     {
-        var FrameContactos = new FrameView()
+        DataTable tabla = new DataTable();
+        tabla.Columns.Add("ID");
+        tabla.Columns.Add("Nombre");
+
+        //                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
+
+        TableView TablaContactos = new TableView()
         {
             X = 1,
             Y = Pos.Center(),
             Width = 25,
-            Height = 10,
+            Height = 8,
             ColorScheme = colores[colora]
         };
+
+        foreach (NPC i in Program.ContactosCargados)
+        {
+            tabla.Rows.Add(
+                i.name,
+                i.sector_dominante
+            );
+
+        }
+
+        TablaContactos.Table = tabla;
         var ContactosLabel = new Label("Contactos")
         {
             X = 4,
-            Y = Pos.Top(FrameContactos)-2
+            Y = Pos.Top(TablaContactos)-1
         };
-        var Contactositos = new Label(@$"{Lista[0].name}
-{Lista[1].name}
-{Lista[2].name}
-{Lista[3].name}")//Los nombres de los contactos
+        
+        var btContactar = new Button("Llamar a un contacto")
         {
-            X = 0,
-            Y = 0,
+            X = Pos.X(TablaContactos) + 2,
+            Y = Pos.Bottom(TablaContactos)
         };
+       //btContactar.Clicked += () => ContactarAUnContacto();
 
-        VentanaInicio.Add(FrameContactos, ContactosLabel,Contactositos);
-        FrameContactos.Add(Contactositos);
+        VentanaInicio.Add(TablaContactos, ContactosLabel, btContactar);
     }
+    static string LeerNombre(string dato, int i)
+    {
+        using (StreamReader save = new StreamReader(ManejoDeArchivos.contactos[i], Encoding.UTF8))
+        {
+            string linea = (save.ReadLine() ?? "");
+            linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
+            return linea;
+        }
+
+    }
+   /* static void ContactarAUnContacto()
+    {
+        var Llamar = new Dialog(
+   "Escoge un contacto",
+   60,
+   20
+);
+        for (int i = 0; i < 3; i++)
+        {
+            int index = i;
+            string linea = LeerNombre("Nombre", index);
+            SobreSlot[index] = new Button($"Nombre: {linea}")
+            {
+                X = 2,
+                Y = i + 2
+            };
+
+            SobreSlot[index].Clicked += () =>
+            {
+                using (StreamWriter save = new StreamWriter(partidas[index]))
+                {
+                    save.WriteLine(pd.ToString());
+                }
+                using (StreamWriter save = new StreamWriter(inventario[index]))
+                {
+                    save.WriteLine(pd.name);
+                }
+                Guardarempresa(index, false);
+                GeneracionDeContactos.GuardarContactos(index, false);
+                Companiass = CargarEmpresa(index);
+                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
+
+                Application.RequestStop();
+                top.RemoveAll();
+                Inicio(top);
+            };
+
+            Sobreescribir.Add(SobreSlot[index]);
+
+        }
+
+        var cancelar = new Button("Cancelar")
+        {
+            X = 20,
+            Y = 6
+        };
+        cancelar.Clicked += () =>
+        {
+            Application.RequestStop();
+            top.RemoveAll();
+            top.Add(VentanaPrincipal);
+        };
+        Sobreescribir.Add(cancelar);
+    }*/
 }
+
+
 
