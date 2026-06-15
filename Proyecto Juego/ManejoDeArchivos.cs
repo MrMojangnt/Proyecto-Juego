@@ -62,7 +62,7 @@ public class ManejoDeArchivos
             using (StreamReader guardado = new StreamReader(partidas[numarchivo]))
             using (StreamWriter carga = new StreamWriter(partidas[numarchivo]))
             {
-                
+
             }
         }
     }
