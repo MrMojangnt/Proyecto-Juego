@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Proyecto_Juego;
+using System;
+using System.Data;
 using System.IO;
 using System.Runtime.InteropServices.Marshalling;
-using Proyecto_Juego;
+using System.Text;
+using Terminal.Gui;
 namespace Empresas;
 
 //creando las empresas?
@@ -224,7 +227,109 @@ public class Indices
         return Empresas;
     }
 
+    public static List<Companias> CargarEmpresa(int indice)
+    {
+        List<Companias> Comp = new List<Companias>();
+        char[] delimitadores = { ';', '\n', '|', '\r' };
+        using (StreamReader savecompani = new StreamReader(Program.save_compania[indice], Encoding.UTF8))
+        {
+            string[] encabezados = (savecompani.ReadLine() ?? "").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+            while (!savecompani.EndOfStream)
+            {
+                Proyecto_Juego.Companias compitas = new Companias();
+                compitas.productos = new string[10];
 
+                string[] lineas = (savecompani.ReadLine() ?? "").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
+                compitas.id = int.Parse(lineas[0]);
+                compitas.name = lineas[1];
+                lineas[2] = lineas[2].Replace("(predeterminado)", ""); //reemplaza "M" por ""
+                compitas.pais = lineas[2];
+                compitas.rubro = lineas[3];
+                lineas[4] = lineas[4].Replace("M", ""); //reemplaza "M" por ""
+                compitas.capbursatil = decimal.Parse(lineas[4]);
+                compitas.accionistas = int.Parse(lineas[5]);
+                int p = 6;
+                for (int i = 0; i < compitas.productos.Length; i++)
+                {
+                    compitas.productos[i] = lineas[p];
+                    p++;
+                }
+                lineas[16] = lineas[16].Replace("M", ""); //reemplaza "M" por ""
+                compitas.GananciasTrimestrales = decimal.Parse(lineas[16]);
+                lineas[17] = lineas[17].Replace("M", ""); //reemplaza "M" por ""
+                compitas.marketing = decimal.Parse(lineas[17]);
+                lineas[18] = lineas[18].Replace("M", ""); //reemplaza "M" por ""
+                compitas.investigacion = decimal.Parse(lineas[18]);
+                lineas[19] = lineas[19].Replace("M", ""); //reemplaza "M" por ""
+                compitas.mantenimiento = decimal.Parse(lineas[19]);
+                lineas[20] = lineas[20].Replace("%", ""); //reemplaza "%" por ""
+                compitas.participacion = decimal.Parse(lineas[20]);
+                lineas[21] = lineas[21].Replace("M", ""); //reemplaza "M" por ""
+                compitas.balance = decimal.Parse(lineas[21]);
+
+                Comp.Add(compitas);
+            }
+
+        }
+        return Comp;
+    }
+
+    public static void VentanaDeEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
+    {
+        var VentanaDeEmpresas = new Window()
+        {
+            X = 0,
+            Y = 0,
+            ColorScheme = colores[colora],
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+        };
+
+        DataTable tabla = new DataTable();
+
+        tabla.Columns.Add("ID");
+        tabla.Columns.Add("Empresa");
+        tabla.Columns.Add("Pais");
+        tabla.Columns.Add("Sector");
+        tabla.Columns.Add("Capital Bursátil");
+
+
+        foreach (Companias i in Program.Companiass)
+        {
+            tabla.Rows.Add(
+                i.id,
+                i.name,
+                i.pais,
+                i.rubro,
+                $"{i.capbursatil:F2}" + "M"
+            );
+
+        }
+
+        var tableView = new TableView()
+        {
+            X = 0,
+            Y = 0,
+            Width = 120,
+            Height = 30
+        };
+        tableView.CellActivated += (e) =>
+        {
+            int row = e.Row;
+
+            var empresa = Program.Companiass[row];
+            top.Remove(VentanaDeEmpresas);
+            Program.MostrarDetalleEmpresa(top, empresa);
+
+        };
+        tableView.Table = tabla;
+        Program.BotonesDeJuegoPredeterminado(top, VentanaDeEmpresas);
+
+
+        VentanaDeEmpresas.Add(tableView);
+        top.Add(VentanaDeEmpresas);
+
+    }
 }
 
 

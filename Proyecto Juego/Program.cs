@@ -31,10 +31,10 @@ class Program
     static Window VentanaPrincipal;
     static string puntosmejorastats = "0";
     //guardado partidas
-    static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
+    public static string[] save_compania = { "empresas1.csv", "empresas2.csv", "empresas3.csv" };
     static string[] partidas = { "save1.txt", "save2.txt", "save3.txt" };
     public static List<NPC> ContactosCargados = new List<NPC>();
-    static List<Companias> Companiass = new List<Companias>();
+    public static List<Companias> Companiass = new List<Companias>();
     public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     public static List<Acciones> Accioneshh = new List<Acciones>();
@@ -574,7 +574,7 @@ class Program
 
                 }
                 InvInt = 0;
-                Companiass = CargarEmpresa(0);
+                Companiass = Indices.CargarEmpresa(0);
                 ContactosCargados = GeneracionDeContactos.CargarContactos(0);
 
                 top.Remove(VentanaCargarPartida);
@@ -618,7 +618,7 @@ class Program
 
                 }
                 InvInt = 1;
-                Companiass = CargarEmpresa(1);
+                Companiass = Indices.CargarEmpresa(1);
                 ContactosCargados = GeneracionDeContactos.CargarContactos(1);
 
                 top.Remove(VentanaCargarPartida);
@@ -661,7 +661,7 @@ class Program
                     InvInt = 2;
                 }
                 InvInt = 2;
-                Companiass =CargarEmpresa(2);
+                Companiass =Indices.CargarEmpresa(2);
                 ContactosCargados = GeneracionDeContactos.CargarContactos(2);
 
                 top.Remove(VentanaCargarPartida);
@@ -1054,7 +1054,7 @@ class Program
                 
                 Guardarempresa(i, true);
                 GeneracionDeContactos.GuardarContactos(i, true);
-                Companiass = CargarEmpresa(i);
+                Companiass = Indices.CargarEmpresa(i);
                 ContactosCargados = GeneracionDeContactos.CargarContactos(i);
                 InvInt = i;
 
@@ -1123,7 +1123,7 @@ class Program
                 }
                 Guardarempresa(index, false);
                 GeneracionDeContactos.GuardarContactos(index, false);
-                Companiass = CargarEmpresa(index);
+                Companiass = Indices.CargarEmpresa(index);
                 ContactosCargados = GeneracionDeContactos.CargarContactos(index);
 
                 Application.RequestStop();
@@ -1164,52 +1164,7 @@ class Program
 
         }
     }
-    static List<Companias> CargarEmpresa(int indice)
-    {
-        List<Companias> Comp = new List<Companias>();
-        char[] delimitadores = { ';', '\n', '|', '\r' };
-        using (StreamReader savecompani = new StreamReader(save_compania[indice], Encoding.UTF8))
-        {
-            string[] encabezados = (savecompani.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-            while (!savecompani.EndOfStream)
-            {
-                Proyecto_Juego.Companias compitas = new Companias();
-                compitas.productos = new string[10];
-
-                string[] lineas = (savecompani.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-                compitas.id = int.Parse(lineas[0]);
-                compitas.name = lineas[1];
-                lineas[2] = lineas[2].Replace("(predeterminado)", ""); //reemplaza "M" por ""
-                compitas.pais = lineas[2];
-                compitas.rubro = lineas[3];
-                lineas[4] = lineas[4].Replace("M", ""); //reemplaza "M" por ""
-                compitas.capbursatil = decimal.Parse(lineas[4]);
-                compitas.accionistas = int.Parse(lineas[5]);
-                int p = 6;
-                for (int i = 0; i < compitas.productos.Length; i++)
-                {
-                    compitas.productos[i] = lineas[p];
-                    p++;
-                }
-                lineas[16] = lineas[16].Replace("M", ""); //reemplaza "M" por ""
-                compitas.GananciasTrimestrales = decimal.Parse(lineas[16]);
-                lineas[17] = lineas[17].Replace("M", ""); //reemplaza "M" por ""
-                compitas.marketing = decimal.Parse(lineas[17]);
-                lineas[18] = lineas[18].Replace("M", ""); //reemplaza "M" por ""
-                compitas.investigacion = decimal.Parse(lineas[18]);
-                lineas[19] = lineas[19].Replace("M", ""); //reemplaza "M" por ""
-                compitas.mantenimiento = decimal.Parse(lineas[19]);
-                lineas[20] = lineas[20].Replace("%", ""); //reemplaza "%" por ""
-                compitas.participacion = decimal.Parse(lineas[20]);
-                lineas[21] = lineas[21].Replace("M", ""); //reemplaza "M" por ""
-                compitas.balance = decimal.Parse(lineas[21]);
-
-                Comp.Add(compitas);
-            }
-
-        }
-        return Comp;
-    }
+    
 
     static void EliminarPartida(int i)
     {
@@ -1371,7 +1326,7 @@ class Program
         btVerEmpresa.Clicked += () =>
         {
             top.RemoveAll();
-            VentanaDeEmpresas(top);
+            Indices.VentanaDeEmpresas(top, colores, colora);
         };
         btInventario.Clicked += () =>
         {
@@ -1454,62 +1409,7 @@ class Program
         File.WriteAllLines(inventario[InvInt], lineas);
     }
     //creando la ventana de empresas
-    static void VentanaDeEmpresas(Toplevel top)
-    {
-        var VentanaDeEmpresas = new Window()
-        {
-            X = 0,
-            Y= 0,
-            ColorScheme = colores[colora],
-            Width = Dim.Fill(),
-            Height = Dim.Fill(),
-        };
-
-        DataTable tabla = new DataTable();
-
-        tabla.Columns.Add("ID");
-        tabla.Columns.Add("Empresa");
-        tabla.Columns.Add("Pais");
-        tabla.Columns.Add("Sector");
-        tabla.Columns.Add("Capital Bursátil");
-
-
-        foreach(Companias i in Companiass)
-        {
-            tabla.Rows.Add(
-                i.id,
-                i.name,
-                i.pais,
-                i.rubro,
-                $"{i.capbursatil:F2}" + "M"
-            );
-
-        }
-
-        var tableView = new TableView()
-        {
-            X = 0,
-            Y = 0,
-            Width = 120,
-            Height = 30
-        };
-        tableView.CellActivated += (e) =>
-        {
-            int row = e.Row;
-
-            var empresa = Companiass[row];
-            top.Remove(VentanaDeEmpresas);
-            MostrarDetalleEmpresa(top, empresa);
-
-        };
-        tableView.Table = tabla;
-        Program.BotonesDeJuegoPredeterminado(top, VentanaDeEmpresas);
-
-
-        VentanaDeEmpresas.Add(tableView);
-        top.Add(VentanaDeEmpresas);
-      
-    }
+   
 
     static void ComprarAcciones(Toplevel top)
     {
@@ -1524,7 +1424,7 @@ class Program
         BotonesDeJuegoPredeterminado(top, Mercado);
         top.Add(Mercado);
     }
-    static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
+    public static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
         {
@@ -1631,7 +1531,7 @@ $@"         PRODUCTOS
         btVolver.Clicked += () =>
         {
             top.RemoveAll();
-            VentanaDeEmpresas(top);
+            Indices.VentanaDeEmpresas(top, colores, colora);
         };
         btcomprar_acciones.Clicked += () =>
         {

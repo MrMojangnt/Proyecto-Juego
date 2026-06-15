@@ -1,4 +1,3 @@
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Proyecto_Juego;
 
@@ -61,4 +60,22 @@ public struct Pais
     public decimal CostoActual{ get; set; }
     public bool TipoDeAccion { get; set; }
     public int cantidad { get; set; }
+}
+
+public struct NPC
+{
+    public String name;
+    public bool masculino;
+    public int edad;
+    public int carisma;
+    public int economia;
+    public int fiscalidad;
+    public int corrupcion;
+    public string sector_dominante; //pues te va a ayudar mas si invertis en empresas de tal sector
+    public decimal balance;
+
+    public override string ToString()
+    {
+        return $"{name}; {masculino}; {edad}; {carisma}; {economia}; {fiscalidad}; {corrupcion}; {sector_dominante}; {balance}";
+    }
 }

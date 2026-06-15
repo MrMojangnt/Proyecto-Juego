@@ -6,23 +6,7 @@ using System.Drawing;
 using System.Text;
 using Terminal.Gui;
 using static Terminal.Gui.TabView;
-public struct NPC
-{
-    public String name;
-    public bool masculino;
-    public int edad;
-    public int carisma;
-    public int economia;
-    public int fiscalidad;
-    public int corrupcion;
-    public string sector_dominante; //pues te va a ayudar mas si invertis en empresas de tal sector
-    public decimal balance;
 
-    public override string ToString()
-    {
-        return $"{name}; {masculino}; {edad}; {carisma}; {economia}; {fiscalidad}; {corrupcion}; {sector_dominante}; {balance}";
-    }
-}
 public class GeneracionDeContactos
 {
     public static string[] Hombres =
@@ -138,8 +122,8 @@ public class GeneracionDeContactos
     public static void Contactos(List<ColorScheme> colores, int colora, Window VentanaInicio, List<NPC> Lista)
     {
         DataTable tabla = new DataTable();
-        tabla.Columns.Add("ID");
         tabla.Columns.Add("Nombre");
+        tabla.Columns.Add("Sector");
 
         //                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
 
@@ -147,7 +131,7 @@ public class GeneracionDeContactos
         {
             X = 1,
             Y = Pos.Center(),
-            Width = 25,
+            Width = 27,
             Height = 8,
             ColorScheme = colores[colora]
         };
@@ -160,7 +144,14 @@ public class GeneracionDeContactos
             );
 
         }
+        TablaContactos.CellActivated += (e) =>
+        {
+            int row = e.Row;
 
+            var contactorancio = Program.ContactosCargados[row];
+            ContactarAUnContacto(contactorancio);
+
+        };
         TablaContactos.Table = tabla;
         var ContactosLabel = new Label("Contactos")
         {
@@ -168,16 +159,11 @@ public class GeneracionDeContactos
             Y = Pos.Top(TablaContactos)-1
         };
         
-        var btContactar = new Button("Llamar a un contacto")
-        {
-            X = Pos.X(TablaContactos) + 2,
-            Y = Pos.Bottom(TablaContactos)
-        };
-       //btContactar.Clicked += () => ContactarAUnContacto();
+        
 
-        VentanaInicio.Add(TablaContactos, ContactosLabel, btContactar);
+        VentanaInicio.Add(TablaContactos, ContactosLabel);
     }
-    static string LeerNombre(string dato, int i)
+ /*   static string LeerNombre(string dato, int i)
     {
         using (StreamReader save = new StreamReader(ManejoDeArchivos.contactos[i], Encoding.UTF8))
         {
@@ -186,61 +172,51 @@ public class GeneracionDeContactos
             return linea;
         }
 
-    }
-   /* static void ContactarAUnContacto()
+    }*/
+   static void ContactarAUnContacto(NPC contactos)
     {
-        var Llamar = new Dialog(
-   "Escoge un contacto",
+        var Llamar = new Dialog($"Escoge un contacto",
    60,
    20
 );
-        for (int i = 0; i < 3; i++)
+        string sexo;
+        if (contactos.masculino)
         {
-            int index = i;
-            string linea = LeerNombre("Nombre", index);
-            SobreSlot[index] = new Button($"Nombre: {linea}")
-            {
-                X = 2,
-                Y = i + 2
-            };
-
-            SobreSlot[index].Clicked += () =>
-            {
-                using (StreamWriter save = new StreamWriter(partidas[index]))
-                {
-                    save.WriteLine(pd.ToString());
-                }
-                using (StreamWriter save = new StreamWriter(inventario[index]))
-                {
-                    save.WriteLine(pd.name);
-                }
-                Guardarempresa(index, false);
-                GeneracionDeContactos.GuardarContactos(index, false);
-                Companiass = CargarEmpresa(index);
-                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
-
-                Application.RequestStop();
-                top.RemoveAll();
-                Inicio(top);
-            };
-
-            Sobreescribir.Add(SobreSlot[index]);
-
+            sexo = "Masculino";
         }
+        else
+        {
+            sexo = "Femenino";
+        }
+        var DatosContacto = new Label(@$"Nombre: {contactos.name}
+Edad: {contactos.edad}
+Sexo: {sexo}
+Carisma: {contactos.carisma}
+Economia: {contactos.economia}
+Fiscalidad: {contactos.fiscalidad}
+Corrupción: {contactos.corrupcion}
+Sector Principal: {contactos.sector_dominante}
+Balance: {contactos.balance}")
+        {
+            X = 1,
+            Y = 1
+        };
+
 
         var cancelar = new Button("Cancelar")
         {
             X = 20,
-            Y = 6
+            Y = 16
         };
         cancelar.Clicked += () =>
         {
             Application.RequestStop();
-            top.RemoveAll();
-            top.Add(VentanaPrincipal);
+            
         };
-        Sobreescribir.Add(cancelar);
-    }*/
+        Llamar.Add(DatosContacto, cancelar);
+        Application.Run(Llamar);
+
+    }
 }
 
 
