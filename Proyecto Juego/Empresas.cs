@@ -150,7 +150,7 @@ public class Indices
                         
 
             IndiceSector = Random.Shared.Next(0, Sectores.Length);
-            IndiceEmpresa = Random.Shared.Next(0, 60); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
+            IndiceEmpresa  = Random.Shared.Next(Sectores[IndiceSector].Length); //Pues el indice de empresas, entre 0 y 60 porque acaba en 59 :v
             IndicePais = Random.Shared.Next(0, 6);
             IndiceCapitalBursatil = Math.Round(0.1m + (decimal)Random.Shared.NextDouble() * 999.9m,  2);//como nextdouble solo genera entre 0.0 y 1 se multiplica
             IndiceAccionistas = Random.Shared.Next(0, 1000);

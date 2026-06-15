@@ -1482,7 +1482,7 @@ class Program
                 i.name,
                 i.pais,
                 i.rubro,
-                i.capbursatil + "M"
+                $"{i.capbursatil:F2}" + "M"
             );
 
         }
@@ -1539,7 +1539,7 @@ class Program
  Empresa: {empresa.name}           
  País: {empresa.pais}              
  Sector: {empresa.rubro}           
- Capital: {empresa.capbursatil}M   
+ Capital: {empresa.capbursatil:F2}M   
  Accionistas: {empresa.accionistas}
  balance: {empresa.balance}M       ")
         {
@@ -1621,7 +1621,7 @@ $@"         PRODUCTOS
         };
         DetalleEmpresa.Add(btvender_acciones);
         
-        var LabelPrecioAccion = new Label($"Precio: {(empresa.capbursatil*1000000) / 50000000}")
+        var LabelPrecioAccion = new Label($"Precio: {((empresa.capbursatil * 1000000m) / 50000000m):F2}")
         {
             X = Pos.X(btcomprar_acciones) +4,
             Y = Pos.Y(btcomprar_acciones)- 1,
