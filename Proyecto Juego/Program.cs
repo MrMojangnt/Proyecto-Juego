@@ -1298,33 +1298,20 @@ class Program
         };
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
-        //Contactos
-        var FrameContactos = new FrameView()
-        {
-            X = 1,
-            Y = Pos.Center(),
-            Width = 20,
-            Height = 18,
-            ColorScheme = colores[colora]
-        };
-        var ContactosLabel = new Label("Contactos")
-        {
-            X = Pos.Center(),
-            Y = 0
-        };
+        
         //Balance
         var Balance = new Label($"Balance: {pd.balance}")
         {
             X = Pos.Center(),
             Y = 1
         };
+        //Contactos
+        GeneracionDeContactos.Contactos(colores, colora, VentanaInicio, ContactosCargados);
 
-
-        VentanaInicio.Add(LabelUsuario,Balance,FrameContactos,ContactosLabel, LabelPais, FrameStats);
+        VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameStats);
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
 
-        FrameContactos.Add(ContactosLabel);
         FrameStats.Add(labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
 
     }

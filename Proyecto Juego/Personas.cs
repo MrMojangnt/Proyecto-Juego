@@ -133,27 +133,32 @@ public class GeneracionDeContactos
         return ConNPC;
     }
 
-    public void Contactos(ColorScheme[] colores, int colora, Window VentanaInicio)
+    public static void Contactos(List<ColorScheme> colores, int colora, Window VentanaInicio, List<NPC> Lista)
     {
         var FrameContactos = new FrameView()
         {
             X = 1,
             Y = Pos.Center(),
-            Width = 20,
+            Width = 25,
             Height = 18,
             ColorScheme = colores[colora]
         };
         var ContactosLabel = new Label("Contactos")
         {
-            X = Pos.Center(),
-            Y = 0
+            X = 4,
+            Y = Pos.Top(FrameContactos)-2
         };
-        var Contactositos = new Label()//Los nombres de los contactos
+        var Contactositos = new Label(@$"{Lista[0].name}
+{Lista[1].name}
+{Lista[2].name}
+{Lista[3].name}")//Los nombres de los contactos
         {
-
+            X = 0,
+            Y = 0,
         };
 
-        VentanaInicio.Add(FrameContactos, ContactosLabel);
+        VentanaInicio.Add(FrameContactos, ContactosLabel,Contactositos);
+        FrameContactos.Add(Contactositos);
     }
 }
 
