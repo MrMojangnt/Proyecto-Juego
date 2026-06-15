@@ -140,7 +140,7 @@ public class GeneracionDeContactos
             X = 1,
             Y = Pos.Center(),
             Width = 25,
-            Height = 18,
+            Height = 10,
             ColorScheme = colores[colora]
         };
         var ContactosLabel = new Label("Contactos")
