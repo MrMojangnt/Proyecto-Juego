@@ -83,6 +83,7 @@ public class Events
         {
             Random rnd2 = new Random();
             int numNoticia = rnd.Next(descripcionesBuenas.Length);
+            
         }
     }
 }
