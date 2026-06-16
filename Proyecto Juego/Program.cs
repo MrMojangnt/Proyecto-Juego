@@ -1510,6 +1510,20 @@ $@"         PRODUCTOS
             X = Pos.Center(),
             Y = 30
         };
+        var InputCantidad = new TextField()
+        {
+            X = Pos.X(btVolver) + 4,
+            Y = Pos.Y(btVolver) - 5,
+            Width = 15
+        };
+        DetalleEmpresa.Add((InputCantidad));
+        var LabelCantidad = new Label("Cantidad:")
+        {
+            X = Pos.X(InputCantidad),
+            Y = Pos.Y(InputCantidad) -1,
+                
+        };
+        DetalleEmpresa.Add((LabelCantidad));
         var btcomprar_acciones = new Button("Comprar Accion")
         {
             X = Pos.X(btVolver) +4,
@@ -1535,9 +1549,15 @@ $@"         PRODUCTOS
         };
         btcomprar_acciones.Clicked += () =>
         {
+            int cantidty = 0;
+            bool IsInt = false;
             List<string> lineas = File.ReadAllLines(inventario[InvInt]).ToList();
             decimal precioAccional = (empresa.capbursatil * 1000000) / 50000000;
-            if (pd.balance >= precioAccional)
+            if (int.TryParse(InputCantidad.Text.ToString(), out cantidty))
+            {
+                IsInt = true;
+            }
+            if (pd.balance >= (precioAccional*cantidty) && IsInt == true && cantidty > 0)
             {
                 Acciones NuevaAccion = new Acciones();
                 NuevaAccion.id = empresa.id;
@@ -1545,7 +1565,7 @@ $@"         PRODUCTOS
                 NuevaAccion.CostoActual = precioAccional;
                 NuevaAccion.CostoDeCompra = precioAccional;
                 NuevaAccion.TipoDeAccion = true;
-                NuevaAccion.cantidad += 1;
+                NuevaAccion.cantidad += cantidty;
                 bool pader = false; // verificando si existe la acción creo, maldito raul que es pader
 
                 for (int i = 2; i < lineas.Count; i++)
@@ -1555,7 +1575,7 @@ $@"         PRODUCTOS
                     if (datos[0] == empresa.id.ToString())
                     {
                         int cantity = int.Parse(datos[5]);
-                        cantity++;
+                        cantity += cantidty;
                         datos[5] = cantity.ToString();
                         lineas[i] = string.Join(",", datos);
                         pader = true;
@@ -1568,7 +1588,7 @@ $@"         PRODUCTOS
                     using (StreamWriter str = new StreamWriter(inventario[InvInt], true, Encoding.UTF8))
                     {
                         str.WriteLine(
-                            $"{NuevaAccion.id},{NuevaAccion.name},{NuevaAccion.CostoActual}, {NuevaAccion.CostoDeCompra},{NuevaAccion.TipoDeAccion}, {NuevaAccion.cantidad}");
+                            $"{NuevaAccion.id},{NuevaAccion.name},{NuevaAccion.CostoActual}, {NuevaAccion.CostoDeCompra},{NuevaAccion.TipoDeAccion}, {NuevaAccion.cantidad }");
                     }
                 }
                 else if (pader == true)
@@ -1576,7 +1596,12 @@ $@"         PRODUCTOS
                     File.WriteAllLines(inventario[InvInt], lineas);
                 }
 
-                pd.balance -= precioAccional;
+                pd.balance -= precioAccional * cantidty;
+                MessageBox.Query(
+                    "Acciones compradas con exito!",
+                    $@"Lograste comprar {cantidty} acciones a un precio unitario de {precioAccional:F2}
+para un precio total de {precioAccional*cantidty:F2}",
+                    "Listo");
             }
             else
             {
