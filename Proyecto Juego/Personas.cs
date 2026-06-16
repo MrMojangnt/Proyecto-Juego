@@ -73,7 +73,8 @@ public class GeneracionDeContactos
             {
                 id = Random.Shared.Next(Personalidades.Arqueotipos.Length);
                 pj.rasgospersonalidad =
-                    Personalidades.Arqueotipos[Random.Shared.Next(Personalidades.Arqueotipos.Length)];
+                Personalidades.Arqueotipos[Random.Shared.Next(Personalidades.Arqueotipos.Length)];
+                pj.idArquetipo = id;
             }
             ContactoshStruct.Add(pj);
    
@@ -87,10 +88,10 @@ public class GeneracionDeContactos
 
         using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.contactos[i], zzz, Encoding.UTF8))
         {
-            Contac.WriteLine("Nombre; Sexo; Edad; Carisma; Economía; Fiscalidad; Corrupción; Sector; Balance");
+            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance");
             for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
-                Contac.WriteLine(ContactosDelJugador[p]);
+                Contac.WriteLine(ContactosDelJugador[p].ToString());
 
             }
 
@@ -229,7 +230,7 @@ Balance: {contactos.balance}")
         };
         btLlamar.Clicked += () =>
         {
-            Dialogos_de_Contacto.DialogosCasuales();
+            Dialogos_de_Contacto.DialogosAlContestar();
         };
         btcancelar.Clicked += () =>
         {

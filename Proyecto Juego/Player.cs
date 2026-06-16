@@ -74,7 +74,7 @@ public struct NPC
 
     public override string ToString()
     {
-        return $"{name}; {masculino}; {edad}; {sector_dominante}; {balance}"+
+        return $"{name}; {masculino}; {edad}; {sector_dominante}; {balance};"+
        $"{rasgospersonalidad.Dadivoso};" +
        $"{rasgospersonalidad.Presion};" +
        $"{rasgospersonalidad.Extraversion};" +
