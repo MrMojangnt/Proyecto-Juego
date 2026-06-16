@@ -14,15 +14,15 @@ public class GeneracionDeContactos
     "Dorian Martínez", "Jocksand Valladares", "Raúl Castillo", "Roberto Sobalvarro",
     "Daniel Pérez", "Carlos Cerda", "José René Bonilla", "Leonardo Gómez",
     "Diego Ruiz", "Joaquín Sánchez", "Daniel Marquez", "Gabriel Torres",
-    "Nicolás Ramírez", "Martín Flores", "Samuel Benítez", "Andrés Herrera",
-    "Felipe Medina", "Ignacio Castro", "Francisco Álvarez", "Francisco Silva",
+    "Nicolás Ramírez", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
+    "Kevin Osejo", "Hugo López", "Francisco Álvarez", "Francisco Silva",
     "Mauricio Lacayo", "Guillermo Ayerdis"
 };
 
     public static string[] Mujeres =
     {
     "Sofía Martínez", "Alyssa Rodríguez", "Camila Navarro", "Isabella González",
-    "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez",
+    "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez", "Andrea Vasco",
     "Marisa D'Trinidad", "Emma Sánchez", "Litzy Mendoza", "Gabriela Torres",
     "Natalia Ramírez", "Elena Flores", "Paula Benítez", "Andrea Herrera",
     "Renata Medina", "Julieta Castro", "Emilia Rojas", "Samantha Vargas",
@@ -59,15 +59,22 @@ public class GeneracionDeContactos
             IndiceSector = Random.Shared.Next(0,Indices.Sectores.Length);
             pj.masculino = sexo;
             pj.edad = Random.Shared.Next(28, 86);
-            pj.carisma = Random.Shared.Next(1, 100);
-            pj.economia = Random.Shared.Next(1, 100);
-            pj.fiscalidad = Random.Shared.Next(1, 100);
-            pj.corrupcion = Random.Shared.Next(1, 100);
 
             pj.sector_dominante = Indices.Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
 
             pj.balance = Random.Shared.Next(0, 100000);
 
+            if (Personalidades.PersonalidadesFijas.TryGetValue(pj.name, out int id))
+            {
+                pj.rasgospersonalidad = Personalidades.Arqueotipos[id];
+                pj.idArquetipo = id;
+            }
+            else
+            {
+                id = Random.Shared.Next(Personalidades.Arqueotipos.Length);
+                pj.rasgospersonalidad =
+                    Personalidades.Arqueotipos[Random.Shared.Next(Personalidades.Arqueotipos.Length)];
+            }
             ContactoshStruct.Add(pj);
    
         }
@@ -105,12 +112,8 @@ public class GeneracionDeContactos
                 ContactosCargados.name = lineas[0];
                 ContactosCargados.masculino = bool.Parse(lineas[1]);
                 ContactosCargados.edad = int.Parse(lineas[2]);
-                ContactosCargados.carisma = int.Parse(lineas[3]);
-                ContactosCargados.economia = int.Parse(lineas[4]);
-                ContactosCargados.fiscalidad = int.Parse(lineas[5]);              
-                ContactosCargados.corrupcion = int.Parse(lineas[6]);
-                ContactosCargados.sector_dominante = lineas[7];
-                ContactosCargados.balance = decimal.Parse(lineas[8]);
+                ContactosCargados.sector_dominante = lineas[3];
+                ContactosCargados.balance = decimal.Parse(lineas[4]);
 
                 ConNPC.Add(ContactosCargados);
             }
@@ -175,7 +178,7 @@ public class GeneracionDeContactos
     }*/
    static void ContactarAUnContacto(NPC contactos)
     {
-        var Llamar = new Dialog($"Escoge un contacto",
+        var Llamar = new Dialog($"{contactos.name}",
    60,
    20
 );
@@ -191,10 +194,6 @@ public class GeneracionDeContactos
         var DatosContacto = new Label(@$"Nombre: {contactos.name}
 Edad: {contactos.edad}
 Sexo: {sexo}
-Carisma: {contactos.carisma}
-Economia: {contactos.economia}
-Fiscalidad: {contactos.fiscalidad}
-Corrupción: {contactos.corrupcion}
 Sector Principal: {contactos.sector_dominante}
 Balance: {contactos.balance}")
         {
@@ -202,20 +201,46 @@ Balance: {contactos.balance}")
             Y = 1
         };
 
-
-        var cancelar = new Button("Cancelar")
+        var btPedirPrestamo = new Button("Pedir Préstamo")
         {
-            X = 20,
+            X = 1,
+            Y = 12
+        };
+
+        var btPedirConsejo = new Button("Pedir Consejo")
+        {
+            X = Pos.Right(btPedirPrestamo),
+            Y = 12
+        };
+        var btLlamar = new Button("Charlar")
+        {
+            X = Pos.Right(btPedirConsejo),
+            Y = 12
+        };
+
+        var btcancelar = new Button("Cancelar")
+        {
+            X = Pos.Center(),
             Y = 16
         };
-        cancelar.Clicked += () =>
+        btPedirConsejo.Clicked += () =>
+        {
+            Dialogos_de_Contacto.ConsejosDeContacto();
+        };
+        btLlamar.Clicked += () =>
+        {
+            Dialogos_de_Contacto.DialogosCasuales();
+        };
+        btcancelar.Clicked += () =>
         {
             Application.RequestStop();
             
         };
-        Llamar.Add(DatosContacto, cancelar);
+        Llamar.Add(DatosContacto, btPedirPrestamo, btPedirConsejo, btLlamar, btcancelar);
         Application.Run(Llamar);
 
+
+        
     }
 }
 

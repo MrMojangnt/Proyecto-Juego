@@ -67,15 +67,34 @@ public struct NPC
     public String name;
     public bool masculino;
     public int edad;
-    public int carisma;
-    public int economia;
-    public int fiscalidad;
-    public int corrupcion;
     public string sector_dominante; //pues te va a ayudar mas si invertis en empresas de tal sector
     public decimal balance;
+    public Personalidad rasgospersonalidad;
+    public int idArquetipo;
 
     public override string ToString()
     {
-        return $"{name}; {masculino}; {edad}; {carisma}; {economia}; {fiscalidad}; {corrupcion}; {sector_dominante}; {balance}";
+        return $"{name}; {masculino}; {edad}; {sector_dominante}; {balance}"+
+       $"{rasgospersonalidad.Dadivoso};" +
+       $"{rasgospersonalidad.Presion};" +
+       $"{rasgospersonalidad.Extraversion};" +
+       $"{rasgospersonalidad.Amabilidad};" +
+       $"{rasgospersonalidad.Neuroticismo};" +
+       $"{rasgospersonalidad.Honestidad};" +
+       $"{rasgospersonalidad.Ambicion};" +
+       $"{rasgospersonalidad.Confianza}"; 
     }
+}
+
+public struct Personalidad //se usa sbyte porque solo se usan valores de -10 - 10 y ocupa 1b a diferencia de int que ocupa 4b
+{
+    public sbyte Dadivoso { get; set; } // Que tan probable es que te prese dinero
+    public sbyte Presion { get; set; } // Que tanto presiona al jugador para que le devuelva la plata que le prestó
+    public sbyte Extraversion { get; set; } // Que tanto habla el NPC, si es un asocial o un individuo que nunca se calla
+    public sbyte Amabilidad { get; set; } // Que tan amable es el NPC pues
+    public sbyte Neuroticismo { get; set; } //Tendencia a experimentar emociones negativas como ansiedad, irritabilidad o tristeza.
+    public sbyte Honestidad { get; set; }     // Da consejos verdaderos o intenta engañarte.
+    public sbyte Ambicion { get; set; }      // Busca ganar dinero por encima de todo.
+    public sbyte Confianza { get; set; }      // Qué tan fácil confía en el jugador.
+ 
 }
