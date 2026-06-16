@@ -12,7 +12,6 @@ public class Dialogos_de_Contacto
 
     public static void DialogosCasuales()
     {
-        //switch()
     }
 
 

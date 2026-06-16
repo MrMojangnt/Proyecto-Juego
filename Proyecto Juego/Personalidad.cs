@@ -13,7 +13,7 @@ public static class Personalidades
 {
     public static Dictionary<string, int> PersonalidadesFijas =new()
     {
-        { "Raul Castillo", 1 },
+        { "Raul Castillo", 0 },
     };
     public static Personalidad[] Arqueotipos =
     {
