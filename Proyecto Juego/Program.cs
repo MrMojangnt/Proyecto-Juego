@@ -1291,7 +1291,12 @@ class Program
             X = 1,
             Y = 38
         };
-        var btPortafolio = new Button("Portafolio")
+        var btBalance = new Button("Balance")
+        {
+            X = 12,
+            Y = 38
+        };
+        var btPortafolio = new Button("Periodico")
         {
             X=24,
             Y=38
@@ -1358,13 +1363,11 @@ class Program
                 "Turno",
                 "Se actualizaron los capitales bursátiles",
                 "Aceptar");
-
-            ActualizarVentana(ventana,
-                () => top.Add(ventana),
-                top);
+            top.RemoveAll();
+            Inicio(top);
         };
         btInicio.SetFocus();
-        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno);
+        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance);
     }
     static void GuardarEmpresasActualizadas()
     {
