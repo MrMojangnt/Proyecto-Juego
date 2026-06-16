@@ -15,7 +15,7 @@ public static class Personalidades
     {
         { "Raul Castillo", 0 },
     };
-    public static Personalidad[] Arqueotipos =
+    public static readonly Personalidad[] Arqueotipos =
     {
         //Raul
         new Personalidad

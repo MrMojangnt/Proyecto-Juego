@@ -2,6 +2,7 @@
 using Proyecto_Juego;
 using System;
 using System.Data;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Text;
 using Terminal.Gui;
@@ -202,32 +203,20 @@ Balance: {contactos.balance}")
             Y = 1
         };
 
-        var btPedirPrestamo = new Button("Pedir Préstamo")
-        {
-            X = 1,
-            Y = 12
-        };
-
-        var btPedirConsejo = new Button("Pedir Consejo")
-        {
-            X = Pos.Right(btPedirPrestamo),
-            Y = 12
-        };
-        var btLlamar = new Button("Charlar")
-        {
-            X = Pos.Right(btPedirConsejo),
-            Y = 12
-        };
 
         var btcancelar = new Button("Cancelar")
         {
             X = Pos.Center(),
             Y = 16
         };
-        btPedirConsejo.Clicked += () =>
+
+        var btLlamar = new Button("Llamar")
         {
-            Dialogos_de_Contacto.ConsejosDeContacto();
+            X = Pos.Right(btcancelar),
+            Y = 12
         };
+
+
         btLlamar.Clicked += () =>
         {
             Dialogos_de_Contacto.DialogosAlContestar(contactos);
@@ -237,7 +226,7 @@ Balance: {contactos.balance}")
             Application.RequestStop();
             
         };
-        Llamar.Add(DatosContacto, btPedirPrestamo, btPedirConsejo, btLlamar, btcancelar);
+        Llamar.Add(DatosContacto, btLlamar, btcancelar);
         Application.Run(Llamar);
 
 
