@@ -39,6 +39,9 @@ class Program
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     public static List<Acciones> Accioneshh = new List<Acciones>();
     public static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
+    public static List<Periodico> noticiash = new List<Periodico>();
+    public static string[] PeriodicoCSV = {"Periodico1.csv", "Periodico2.csv", "Periodico3.csv" };
+    
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {

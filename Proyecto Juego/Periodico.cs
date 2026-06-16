@@ -5,103 +5,63 @@ namespace Proyecto_Juego;
 
 public class Events
 {
-    static string[] EventosEconomicos = new string[]
-{
-    // ECONOMÍA GLOBAL (AFECTAN A TODAS LAS EMPRESAS9
-    "CRISIS_GLOBAL_INFLACION",
-    "BOOM_ECONOMICO_MUNDIAL",
-    "RECESION_INTERNACIONAL",
-    "CAIDA_MERCADOS_BURSATILES",
-    "RECUPERACION_POST_CRISIS",
-    "SUBIDA_PRECIO_PETROLEO",
-    "CAIDA_PRECIO_PETROLEO",
-    "ESCACEZ_MATERIAS_PRIMAS",
-    "AUMENTO_DEMANDA_GLOBAL",
-    "CONTRACCION_COMERCIO_MUNDIAL",
+    public static string[] titulosBuenos =
+    {
+        "Aumento del consumo interno",
+        "Reducción de impuestos empresariales",
+        "Boom tecnológico impulsa inversiones",
+        "Exportaciones alcanzan récord histórico",
+        "Descenso de la inflación",
+        "Nuevos acuerdos comerciales internacionales",
+        "Crecimiento económico superior al esperado",
+        "Mayor confianza de los consumidores",
+        "Descubrimiento de recursos estratégicos",
+        "Bancos anuncian créditos más accesibles"
+    };
 
-    // POLÍTICA / ESTADO
-    "CAMBIO_GOBIERNO_ESTABLE",
-    "CAMBIO_GOBIERNO_INESTABLE",
-    "GOLPE_DE_ESTADO",
-    "REFORMA_FISCAL_POSITIVA",
-    "REFORMA_FISCAL_NEGATIVA",
-    "AUMENTO_IMPUESTOS",
-    "REDUCCION_IMPUESTOS",
-    "ESTABILIDAD_POLITICA",
-    "CRISIS_POLITICA_INTERNA",
-    "PROTESTAS_MASIVAS",
+    public static string[] descripcionesBuenas =
+    {
+        "El aumento del gasto de los consumidores impulsa las ventas y mejora las expectativas de las empresas.",
+        "El gobierno reduce la carga fiscal sobre las compañías, aumentando sus beneficios netos.",
+        "Las empresas tecnológicas lideran una ola de inversiones que fortalece al mercado.",
+        "Las exportaciones nacionales baten récords y mejoran los ingresos de numerosas industrias.",
+        "La inflación cae a niveles bajos, favoreciendo la estabilidad económica y el consumo.",
+        "Nuevos tratados comerciales abren mercados adicionales para las empresas locales.",
+        "La economía crece más de lo previsto por los analistas, impulsando la confianza inversora.",
+        "Los consumidores muestran optimismo sobre el futuro económico y aumentan sus compras.",
+        "El hallazgo de recursos valiosos atrae inversión nacional e internacional.",
+        "Las entidades financieras facilitan el acceso al crédito para empresas y ciudadanos."
+    };
 
-    // ECONOMÍA LOCAL (SOLO AFECTAN A LAS EMPRESAS DEL PAIS DEL JUGADOR9
-    "AUMENTO_PIB",
-    "CAIDA_PIB",
-    "INFLACION_CONTROLADA",
-    "HIPERINFLACION",
-    "DEVALUACION_MONEDA",
-    "REVALUACION_MONEDA",
-    "AUMENTO_CONSUMO_INTERNO",
-    "CAIDA_CONSUMO_INTERNO",
+    public static string[] titulosMalos =
+    {
+        "Caída del consumo interno",
+        "Aumento de impuestos empresariales",
+        "Crisis en el sector tecnológico",
+        "Fuerte descenso de las exportaciones",
+        "Repunte de la inflación",
+        "Fracaso de negociaciones comerciales",
+        "Desaceleración económica inesperada",
+        "Pérdida de confianza de los consumidores",
+        "Escasez de materias primas",
+        "Restricción del crédito bancario"
+    };
 
-    // EMPRESAS / MERCADO
-    "BOOM_BURSATIL",
-    "COLAPSO_BURSATIL",
-    "QUIEBRA_EMPRESA_GRANDE",
-    "FUSIONES_EMPRESARIALES",
-    "INVERSION_EXTRANJERA",
-    "RETIRADA_INVERSIONES",
-    "AUMENTO_ACCIONES",
-    "CAIDA_ACCIONES",
-    "ESCANDALO_CORPORATIVO",
-    "MONOPOLIO_SECTORIAL",
+    public static string[] descripcionesMalas =
+    {
+        "Los consumidores reducen sus gastos, afectando negativamente las ventas de las empresas.",
+        "Las compañías enfrentan mayores costos fiscales que reducen su rentabilidad.",
+        "Varias empresas tecnológicas reportan pérdidas y provocan incertidumbre en el mercado.",
+        "Las exportaciones disminuyen significativamente, afectando los ingresos de múltiples sectores.",
+        "La inflación aumenta y reduce el poder adquisitivo de los ciudadanos.",
+        "Las negociaciones comerciales fracasan y limitan las oportunidades de expansión empresarial.",
+        "La economía muestra señales de enfriamiento que preocupan a los inversionistas.",
+        "Los consumidores reducen sus expectativas económicas y retrasan compras importantes.",
+        "La falta de materias primas provoca retrasos y mayores costos de producción.",
+        "Los bancos endurecen los requisitos para otorgar préstamos, frenando nuevas inversiones."
+    };
 
-    // 🧠 TECNOLOGÍA
-    "INNOVACION_TECNOLOGICA",
-    "AVANCE_INTELIGENCIA_ARTIFICIAL",
-    "OBSOLESCENCIA_SECTORIAL",
-    "AUTOMATIZACION_MASIVA",
-    "CIBERATAQUE_EMPRESARIAL",
-    "FUGA_DE_DATOS",
-
-    // 🏭 INDUSTRIA / SECTORES
-    "CRECIMIENTO_SECTOR_TECNOLOGICO",
-    "CRISIS_SECTOR_ENERGETICO",
-    "EXPANSION_AGRICOLA",
-    "CAIDA_PRODUCCION_MANUFACTURERA",
-    "AUGE_TURISMO",
-    "CAIDA_TURISMO",
-    "DEMANDA_CONSTRUCCION_ALTA",
-    "CRISIS_INMOBILIARIA",
-
-    // 🌾 AGRICULTURA / RECURSOS
-    "SEQUIA_PROLONGADA",
-    "BUENA_COSECHA",
-    "PERDIDA_CULTIVOS",
-    "SUBIDA_PRECIO_ALIMENTOS",
-    "ESCACEZ_AGUA",
-
-    // ⚔️ EVENTOS DRÁSTICOS
-    "GUERRA_REGIONAL",
-    "TRATADO_COMERCIAL",
-    "SANCIONES_INTERNACIONALES",
-    "BLOQUEO_ECONOMICO",
-    "ACUERDO_DE_LIBRE_COMERCIO",
-
-    // 🧍 SOCIEDAD / HUMANOS
-    "AUMENTO_CARISMA_LIDERES",
-    "CAIDA_CONFIANZA_PUBLICA",
-    "MIGRACION_MASIVA",
-    "FUGA_DE_CEREBROS",
-    "CRECIMIENTO_EDUCACION",
-    "CRISIS_SANITARIA",
-
-    // 🎲 RANDOM ABSURDO (porque la economía también lo es)
-    "CAFE_SE_VUELVE_RESERVA_MUNDIAL",
-    "MEME_STOCK_EXPLOTA",
-    "CEO_HUYE_AL_ESPACIO",
-    "ERROR_MERCADO_SIMULACION",
-    "INVERSION_EN_PAPAS_RINDE_300%",
-    "INFLACION_POR_RUMOR_EN_TWITTER"
-};
-    static void Periodico(Toplevel top)
+    public static void Periodico(Toplevel top)
     {
         var VentanaPeriodico = new Window()
         {
@@ -112,5 +72,18 @@ public class Events
         };
 
         top.Add(VentanaPeriodico);
+    }
+
+    public static void PasarTurnoPeriodico()
+    {
+        bool BuenaNoticia = false;
+        Random rnd = new Random();
+        BuenaNoticia = rnd.Next(2) == 1;
+        if (BuenaNoticia)
+        {
+            Random rnd2 = new Random();
+            int numNoticia = rnd.Next(descripcionesBuenas.Length);
+            titulosBuenos[numNoticia] 
+        }
     }
 }

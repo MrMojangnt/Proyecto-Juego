@@ -98,3 +98,12 @@ public struct Personalidad //se usa sbyte porque solo se usan valores de -10 - 1
     public sbyte Confianza { get; set; }      // Qué tan fácil confía en el jugador.
  
 }
+
+public struct Periodico
+{
+    public int id { get; set; }
+    public string titulo { get; set; }
+    public string descripcion { get; set; }
+    public decimal change { get; set; }
+    
+}
