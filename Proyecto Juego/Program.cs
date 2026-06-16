@@ -1607,7 +1607,7 @@ para un precio total de {precioAccional*cantidty:F2}",
             {
                 MessageBox.Query(
                     "Error",
-                    "No tienes Suficiente dinero",
+                    "Ocurrio un error",
                     "Aceptar");
             }
 
@@ -1616,22 +1616,27 @@ para un precio total de {precioAccional*cantidty:F2}",
         
         btvender_acciones.Clicked += () =>
         {
+            int cantidty = 0;
+            bool IsInt = false;
             List<string> lineas = File.ReadAllLines(inventario[InvInt]).ToList();
             decimal precioAccional = (empresa.capbursatil * 1000000) / 50000000;
 
             bool encontrada = false;
-
+            if (int.TryParse(InputCantidad.Text.ToString(), out cantidty))
+            {
+                IsInt = true;
+            }
             for (int i = 2; i < lineas.Count; i++)
             {
                 string[] datos = lineas[i].Split(',');
 
-                if (datos[0] == empresa.id.ToString())
+                if (datos[0] == empresa.id.ToString() && IsInt == true )
                 {
                     int cantidadActual = int.Parse(datos[5]);
 
-                    if (cantidadActual > 0)
+                    if (cantidadActual > 0 && cantidty > 0 && cantidty <= cantidadActual)
                     {
-                        cantidadActual--;
+                        cantidadActual -= cantidty;
 
                         if (cantidadActual == 0)
                         {
@@ -1647,8 +1652,13 @@ para un precio total de {precioAccional*cantidty:F2}",
                         }
 
                         File.WriteAllLines(inventario[InvInt], lineas);
-                        pd.balance += precioAccional;
+                        pd.balance += precioAccional * cantidty;
                         encontrada = true;
+                        MessageBox.Query(
+                            "Acciones vendidas con exito!",
+                            $@"Haz vendido {cantidty} acciones a un precio de {precioAccional:F2}
+para un total de {precioAccional*cantidty:F2}", 
+                            "Aceptar");
                     }
                     else
                     {
