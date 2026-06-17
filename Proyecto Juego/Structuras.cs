@@ -86,7 +86,7 @@ public struct Personalidad //se usa sbyte porque solo se usan valores de -10 - 1
 
 }
 
-public struct Periodico
+public struct Periodicos
 {
     public int id { get; set; }
     public string titulo { get; set; }
