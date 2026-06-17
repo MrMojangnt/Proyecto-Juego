@@ -79,11 +79,25 @@ public class Events
         bool BuenaNoticia = false;
         Random rnd = new Random();
         BuenaNoticia = rnd.Next(2) == 1;
+        //Cuando es una buena noticia
         if (BuenaNoticia)
         {
             Random rnd2 = new Random();
             int numNoticia = rnd.Next(descripcionesBuenas.Length);
-            //titulosBuenos[numNoticia] 
+            Periodicos nuevanoticia = new Periodicos();
+            nuevanoticia.titulo = descripcionesBuenas[numNoticia];
+            nuevanoticia.descripcion = descripcionesBuenas[numNoticia];
+            nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
+            
+        }
+        else
+        { 
+            Random rnd2 = new Random();
+            int numNoticia = rnd.Next(descripcionesBuenas.Length);
+            Periodicos nuevanoticia = new Periodicos();
+            nuevanoticia.titulo = titulosMalos[numNoticia];
+            nuevanoticia.descripcion = descripcionesMalas[numNoticia];
+            nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
         }
     }
 }
