@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Empresas;
+using System;
 using System.Diagnostics.Contracts;
 using System.IO;
 using Terminal.Gui;
@@ -38,11 +39,6 @@ public class Dialogos_de_Contacto
         "¡No sabés todo lo que tengo para contarte!", "¡Justo estaba pensando en vos!", "¡Qué casualidad que llamaras!", "¡Esperá, esperá! Tengo una historia increíble.", "¡Qué bueno escucharte! Contame todo."
     ];
 
-    static readonly string[] DialogoDelFilantropo =
-    [
-        "Es un placer escucharte.", "Espero que estés teniendo un buen día.", "Siempre hay tiempo para un amigo.", "Me alegra que hayas llamado.", "¿Cómo puedo servirte?"
-    ];
-
     static readonly string[] DialogoDelCorrupto =
     [
         "Depende de lo que quieras...", "¿Es un negocio?", "Espero que valga la pena atender.", "Habrá que ver qué ganamos.", "Te escucho."
@@ -52,25 +48,6 @@ public class Dialogos_de_Contacto
     [
         "Hola...", "Sí... decime.", "Estoy escuchando.", "Hola, ¿todo bien?", "¿Qué necesitás?"
     ];
-
-    static readonly string[] DialogoDelOptimista =
-    [
-        "¡Seguro traés buenas noticias!", "¡Qué alegría escuchar tu voz!", "¡Hoy pinta para un gran día!", "¡Excelente! Contame.", "¡Todo va a salir bien! ¿Qué pasa?"
-    ];
-
-    static readonly string[] DialogoDelPesimista =
-    [
-        "¿Qué salió mal ahora?", "Cuando suena el teléfono nunca espero algo bueno...", "Espero equivocarme, pero esto no pinta bien.", "Decime... aunque sospecho lo peor.", "¿Qué problema tenemos ahora?"
-    ];
-
-    static readonly string[] DialogoDelCalculador =
-    [
-        "Te escucho.", "Espero que esta conversación sea útil.", "¿Qué asunto querés tratar?", "Vamos al punto.", "Estoy ocupado, hablá.",
-                ];
-    static readonly string[] DialogoDelIngenuo =
-        [
-            "¡Hola! Qué bueno que llamaste.", "Siempre es un gusto hablar con vos.", "¿Todo está bien? Me alegra escucharte.", "¡Qué sorpresa tan agradable!", "Decime, ¿en qué andás?"
-        ];
 
     static readonly string[] DialogoDelGrunon =
     [
@@ -82,10 +59,6 @@ public class Dialogos_de_Contacto
         "¡Qué alegría saber de vos!", "Justamente estaba pensando en llamarte.", "Qué coincidencia tan conveniente.", "Siempre es bueno hablar con amigos.", "Contame, seguro encontramos una solución."
     ];
 
-    static readonly string[] DialogoDelMaquiavelico =
-    [
-        "Interesante que hayas llamado.", "Te escucho atentamente.", "Todo contacto tiene un motivo.", "Veamos qué podemos sacar de esto.", "Hablá. Estoy escuchando."
-    ];
 
 
 
@@ -97,25 +70,21 @@ public class Dialogos_de_Contacto
         DialogoDelTacano,
         DialogoDelParanoico,
         DialogoDelCharlatan,
-        DialogoDelFilantropo,
         DialogoDelCorrupto,
         DialogoDelIntrovertido,
-        DialogoDelOptimista,
-        DialogoDelPesimista,
-        DialogoDelCalculador,
-        DialogoDelIngenuo,
         DialogoDelGrunon,
         DialogoDelManipulador,
-        DialogoDelMaquiavelico
 
     };
     public static void DialogosAlContestar(NPC contacto)
     {
-        Llamar(Dialogos[contacto.idArquetipo], contacto);
+        Llamar(contacto);
     }
-    static void PrimerasOpciones(Dialog dial)
+    static void Plantilla(string[] Dialogoss, Dialog dial, Label texto)
     {
-        var Prestamo = new Label("¿Cómo va todo?")
+        //Llamar(Dialogos[contacto.idArquetipo], contacto);
+        
+        var Prestamo = new Label()
         {
             X = 2,
             Y = Pos.AnchorEnd(8)
@@ -125,7 +94,8 @@ public class Dialogos_de_Contacto
             X = Pos.Right(Prestamo),
             Y = Pos.AnchorEnd(8)
         };
-        var Consejo = new Label("Necesito un consejo.")
+
+        var Consejo = new Label()
         {
             X = 2,
             Y = Pos.AnchorEnd(6)
@@ -135,7 +105,7 @@ public class Dialogos_de_Contacto
             X = Pos.Right(Consejo),
             Y = Pos.AnchorEnd(6)
         };
-        var Charlar = new Label("Solo quería charlar.")
+        var Charlar = new Label()
         {
             X = 2,
             Y = Pos.AnchorEnd(4)
@@ -145,15 +115,52 @@ public class Dialogos_de_Contacto
             X = Pos.Right(Charlar),
             Y = Pos.AnchorEnd(4)
         };
-        //sasad
-        int sexo = 0;
-        //async/asdasd
         dial.Add(Prestamo, Consejo, Charlar, bt1, bt2, bt3);
+        Application.MainLoop.AddIdle(() =>
+        {
+            PrimerDialogo(Dialogoss, texto, Prestamo, bt1, Consejo, bt2, Charlar, bt3);
+            return false;
+        });
     }
-    static void Llamar(string[] Dialogoss, NPC contacto)
+    static void PrimerDialogo(string[] Dialogoss, Label texto,Label Prestamo, Button bt1, Label Consejo, Button bt2, Label Charlar, Button bt3)
     {
-        //Llamar(Dialogos[contacto.idArquetipo], contacto);
         int indice = Random.Shared.Next(Dialogoss.Length);
+        string frase = Dialogoss[indice];
+
+        texto.Text = "";
+        string acumulado = "";
+        bt1.Visible = false;
+        bt2.Visible = false;
+        bt3.Visible = false;
+        foreach (char c in frase)
+        {
+            acumulado += c;
+            texto.Text = acumulado;
+            Application.Refresh();
+            Thread.Sleep(30);
+        }
+        bt1.Visible = true;
+        bt2.Visible = true;
+        bt3.Visible = true;
+        Prestamo.Text = "¿Cómo va todo?"; // Prestamo
+
+        bt1.Clicked += () =>
+        {
+            MenuPrestamo(Prestamo,  bt1,  Consejo,  bt2,  Charlar,  bt3);
+        };
+        Consejo.Text = "Necesito un consejo.";
+
+        Charlar.Text = "Solo quería charlar.";
+    }
+    static void MenuPrestamo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3)
+    {
+        op1.Text = "Necesito un préstamo.";
+        op2.Text = "Estoy pasando un mal momento financiero.";
+        op3.Text = "¿Podrías ayudarme con algo de dinero?";
+    }
+
+    static void Llamar( NPC contacto)
+    {
 
 
         var dialog = new Dialog("", 60, 20);
@@ -169,13 +176,13 @@ public class Dialogos_de_Contacto
             X = 2,
             Y = 0
         };
-        var texto = new Label(Dialogoss[indice])
+        var texto = new Label()
         {
             X = 2,
             Y = 2
         };
         //dialogo respuesta
-        var cerrar = new Button("Cortar")
+        var cerrar = new Button("Colgar")
         {
             X = 2,
             Y = Pos.AnchorEnd(2)
@@ -185,10 +192,13 @@ public class Dialogos_de_Contacto
         {
             Application.RequestStop();
         };
-        PrimerasOpciones(dialog);
         dialogo.Add(texto);
+        Plantilla(Dialogos[contacto.idArquetipo], dialog, texto);
+
         dialog.Add(nombre, dialogo, cerrar);
+
         Application.Run(dialog);
     }
+
 
 }
