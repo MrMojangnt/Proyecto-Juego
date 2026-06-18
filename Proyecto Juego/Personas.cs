@@ -12,11 +12,11 @@ public class GeneracionDeContactos
 {
     public static string[] Hombres =
 {
-    "Dorian Martínez", "Jocksand Valladares", "Raúl Castillo", "Roberto Sobalvarro",
+    "Dorian Martínez", "Roberto Sobalvarro",
     "Daniel Pérez", "Carlos Cerda", "José René Bonilla", "Leonardo Gómez",
     "Diego Ruiz", "Joaquín Sánchez", "Daniel Marquez", "Gabriel Torres",
     "Nicolás Ramírez", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
-    "Kevin Osejo", "Hugo López", "Francisco Álvarez", "Francisco Silva",
+    "Kevin Osejo", "Hugo López", "Francisco Silva",
     "Mauricio Lacayo", "Guillermo Ayerdis"
 };
 
@@ -35,8 +35,8 @@ public class GeneracionDeContactos
         NPC pj = new NPC();
         const int MAX = 4;
         List<NPC> ContactoshStruct = new List<NPC>();
-        List<string> HombresTemp = new(Hombres.ToList());
-        List<string> MujeresTemp = new(Mujeres.ToList());
+        List<string> HombresTemp = Hombres.ToList();// aqui habia new, por si acaso llegan a repetirse contactos eso borré
+        List<string> MujeresTemp = Mujeres.ToList();
         int index;
         int IndiceSector;
         bool sexo; //0 si es mujer, 1 si es hombre
@@ -63,6 +63,7 @@ public class GeneracionDeContactos
 
             pj.sector_dominante = Indices.Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
 
+            
             pj.balance = Random.Shared.Next(0, 100000);
 
             if (Personalidades.PersonalidadesFijas.TryGetValue(pj.name, out int id))
@@ -71,22 +72,56 @@ public class GeneracionDeContactos
             }
             else
             {
-                id = Random.Shared.Next(Personalidades.Arqueotipos.Length);
+              
+                id = Random.Shared.Next(Personalidades.Arqueotipos.Length - 2);
                 pj.idArquetipo = id;
             }
+            pj.Amistad = RandomizadorControladoDeAmistad(pj);
+            pj.UltimoTurnoLlamado = -1;
             ContactoshStruct.Add(pj);
    
         }
 
         return ContactoshStruct;
     }
+    static sbyte RandomizadorControladoDeAmistad(NPC pj)
+    {
+
+        switch (pj.idArquetipo)
+        {
+            case 0:
+                pj.Amistad = (sbyte)Random.Shared.Next(5, 11);
+                break;
+
+            case >= 1 and <= 5:
+                pj.Amistad = (sbyte)Random.Shared.Next(-4, 4);
+                break;
+
+            case 6:
+                pj.Amistad = (sbyte)Random.Shared.Next(-10, 1);
+                break;
+
+            case 7:
+                pj.Amistad = (sbyte)Random.Shared.Next(-5, 10);
+                break;
+
+            case >= 8 and <= 9:
+                pj.Amistad = (sbyte)Random.Shared.Next(0, 6);
+                break;
+
+            default:
+                pj.Amistad = 0;
+                break;
+        }
+        return pj.Amistad;
+    }
     public static void GuardarContactos(int i, bool zzz)//FUNCION QUE GUARDA LOS CONTACTOS
     {
-        List<NPC> ContactosDelJugador = new(GenerarPersonas());
+        List<NPC> ContactosDelJugador = GenerarPersonas(); //new
 
         using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.contactos[i], zzz, Encoding.UTF8))
         {
-            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance");
+            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance; i?; i?; ultimoturno");
             for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
                 Contac.WriteLine(ContactosDelJugador[p]);
@@ -102,6 +137,7 @@ public class GeneracionDeContactos
         List<NPC> ConNPC = new List<NPC>();
         NPC ContactosCargados = new NPC(); //structttttttttttt
         char[] delimitadores = { ';', '\n','\r' };
+
         using (StreamReader savecontactos = new StreamReader(ManejoDeArchivos.contactos[indice], Encoding.UTF8))
         {
             string[] encabezados = savecontactos.ReadLine()!.Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
@@ -114,6 +150,7 @@ public class GeneracionDeContactos
                 ContactosCargados.sector_dominante = lineas[3];
                 ContactosCargados.balance = decimal.Parse(lineas[4]);
                 ContactosCargados.idArquetipo = int.Parse(lineas[5]);
+                ContactosCargados.UltimoTurnoLlamado = int.Parse(lineas[6]);
 
                 ConNPC.Add(ContactosCargados);
             }
@@ -152,7 +189,7 @@ public class GeneracionDeContactos
             int row = e.Row;
 
             var contactorancio = Program.ContactosCargados[row];
-            ContactarAUnContacto(contactorancio);
+            ContactarAUnContacto(row);
 
         };
         TablaContactos.Table = tabla;
@@ -187,8 +224,9 @@ public class GeneracionDeContactos
         }
 
     }*/
-   static void ContactarAUnContacto(NPC contactos)
+   static void ContactarAUnContacto(int indice)
     {
+        NPC contactos = Program.ContactosCargados[indice];
         var Llamar = new Dialog($"{contactos.name}",
    60,
    20
@@ -242,7 +280,19 @@ Balance: {contactos.balance}")
 
         if (iniciarLlamada)
         {
+            if (contactos.UltimoTurnoLlamado == Program.turno)
+            {
+                MessageBox.Query(
+                    "Llamada",
+                    "Ya hablaste con esta persona este turno.",
+                    "Aceptar");
+                return;
+            }
+
             LaLlamada.Llamar(contactos);
+
+            contactos.UltimoTurnoLlamado = Program.turno;
+            Program.ContactosCargados[indice] = contactos;
         }
 
 
