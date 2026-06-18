@@ -1235,32 +1235,32 @@ class Program
         var btInicio = new Button("Inicio")
         {
             X = 1,
-            Y = 38
+            Y = Pos.AnchorEnd(4)
         };
         var btBalance = new Button("Balance")
         {
             X = 12,
-            Y = 38
+            Y = btInicio.Y
         };
         var btPortafolio = new Button("Periodico")
         {
             X=24,
-            Y=38
+            Y=btInicio.Y
         };
         var btInventario = new Button("Inventario")
         {
             X = 40,
-            Y = 38
+            Y = btInicio.Y
         };
         var btVerEmpresa = new Button("Ver Empresas")
         {
             X = 58,
-            Y = 38
+            Y = btInicio.Y
         };
         var btMenu = new Button("Volver al Menu")
         {
             X = 96,
-            Y = 38,
+            Y = btInicio.Y,
         };
         //Botones altos
         var pasarturno = new Button("Pasar turno")
