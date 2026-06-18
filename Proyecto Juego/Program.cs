@@ -975,6 +975,7 @@ class Program
         bool guardado = false;
         var top = Application.Top;
         VerificarSave();
+        turno = 0;
 
         
         for (int i = 0; i < saves.Length; i++)
@@ -1005,7 +1006,7 @@ class Program
 
         using (StreamWriter save = new StreamWriter(partidas[InvInt], true))
         {
-            save.WriteLine($"Turno: {turno}");
+            save.WriteLine($"Turno: {0}");
         }
 
         if (!guardado)
