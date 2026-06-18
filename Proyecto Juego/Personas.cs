@@ -214,21 +214,28 @@ Balance: {contactos.balance}")
             Y = 16
         };
 
+        bool iniciarLlamada = false;
 
         btLlamar.Clicked += () =>
         {
-            Dialogos_de_Contacto.DialogosAlContestar(contactos);
+            iniciarLlamada = true;
+            Application.RequestStop();
         };
+
         btcancelar.Clicked += () =>
         {
             Application.RequestStop();
-            
         };
         Llamar.Add(DatosContacto, btLlamar, btcancelar);
         Application.Run(Llamar);
 
+        if (iniciarLlamada)
+        {
+            LaLlamada.Llamar(contactos);
+        }
 
-        
+
+
     }
 }
 

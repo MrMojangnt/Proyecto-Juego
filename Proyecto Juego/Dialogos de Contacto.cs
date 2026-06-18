@@ -13,192 +13,129 @@ public class Dialogos_de_Contacto
     }
 
     //Raul aqui pone cosas que decis cuando contestas una llamada
-    static readonly string[] DialogosDeRaul =
-    ["¡Qué alegría escucharte! ¿Cómo va todo?", "¡Hola! Contame, ¿qué novedades traés?", "¡Buen momento para llamar! ¿Qué necesitás?", "¡Amigo! ¿Qué se cuenta?", "¡Qué gusto! ¿En qué puedo ayudarte?"];
-    static readonly string[] DialogoDelGeneroso =
-    [
-        "Hola, siempre es bueno saber de vos.",
+    public static readonly string[][] DialogosCuandoContestaLaLlamada =
+        {
+            // 0 - DialogosDeRaul
+                [ "¡Qué alegría escucharte! ¿Cómo va todo?", "¡Hola! Contame, ¿qué novedades traés?", "¡Buen momento para llamar! ¿Qué necesitás?", "¡Amigo! ¿Qué se cuenta?", "¡Qué gusto! ¿En qué puedo ayudarte?"],
+            // 1 - DialogoDelGeneroso =
+                [
+              "Hola, siempre es bueno saber de vos.",
                     "¿Cómo estás? Espero que todo vaya bien.",
                     "¡Qué bueno que llamaste! Decime.",
                     "Hola, ¿cómo puedo ayudarte hoy?",
                     "Adelante, te escucho."
-        ];
+                ],
 
-    static readonly string[] DialogoDelTacano =
+            // 2 - DialogoDelTacano =
+                [
+              "Sí... ¿qué necesitás?", "Espero que esto sea importante.", "Decime rápido, estoy ocupado." ,"¿Qué pasa?", "Sí, hablá."
+                ],
+
+            // 3 - DialogoDelParanoico =
+                [
+              "¿Estás solo?", "¿Confirmaste que nadie te sigue?", "Habrá que hablar rápido...", "Espero que esta llamada sea segura.", "¿Quién más sabe que estamos hablando?"
+                ],
+
+            // 4 - DialogoDelCharlatan =
+                [
+              "¡No sabés todo lo que tengo para contarte!", "¡Justo estaba pensando en vos!", "¡Qué casualidad que llamaras!", "¡Esperá, esperá! Tengo una historia increíble.", "¡Qué bueno escucharte! Contame todo."
+                ],
+
+            // 5 - DialogoDelCorrupto =
+                [
+              "Depende de lo que quieras...", "¿Es un negocio?", "Espero que valga la pena atender.", "Habrá que ver qué ganamos.", "Te escucho."
+                ],
+
+            // 6 - DialogoDelIntrovertido =
+                [
+              "Hola...", "Sí... decime.", "Estoy escuchando.", "Hola, ¿todo bien?", "¿Qué necesitás?"
+                ],
+
+            // 7 - DialogoDelGrunon =
+                [
+              "¿Qué?", "Sí, hablá.", "¿Qué querés ahora?", "¿Y ahora qué pasó?", "Estoy ocupado."
+                ],
+
+            // 8 - DialogoDelManipulador =
+          [
+              "¡Qué alegría saber de vos!", "Justamente estaba pensando en llamarte.", "Qué coincidencia tan conveniente.", "Siempre es bueno hablar con amigos.", "Contame, seguro encontramos una solución."
+          ]
+        };
+    public static readonly string[][] DialogosCuandoRespondeAComoTeVa =
+{
+    // 0 - Raul
     [
-        "Sí... ¿qué necesitás?", "Espero que esto sea importante.", "Decime rápido, estoy ocupado." ,"¿Qué pasa?", "Sí, hablá."
-    ];
+        "Bien, todo tranquilo. ¿Y vos?",
+        "Ahí vamos, sin mucho que contar. ¿Cómo vas vos?",
+        "Todo en orden por aquí, gracias por preguntar.",
+        "Bien, otro día agradecido de no ser vibecoder."
+    ],
 
-    static readonly string[] DialogoDelParanoico =
+    // 1 - Generoso (amable pero natural)
     [
-        "¿Estás solo?", "¿Confirmaste que nadie te sigue?", "Habrá que hablar rápido...", "Espero que esta llamada sea segura.", "¿Quién más sabe que estamos hablando?"
-    ];
+        "Muy bien, gracias a Dios. ¿Y tú cómo has estado?",
+        "Bastante bien, todo fluyendo con calma. ¿Qué me cuentas?",
+        "Bien, de verdad. Me alegra que preguntes.",
+        "Todo en paz por aquí, espero que tú también estés bien."
+    ],
 
-    static readonly string[] DialogoDelCharlatan =
+    // 2 - Tacaño (mínimo esfuerzo emocional)
     [
-        "¡No sabés todo lo que tengo para contarte!", "¡Justo estaba pensando en vos!", "¡Qué casualidad que llamaras!", "¡Esperá, esperá! Tengo una historia increíble.", "¡Qué bueno escucharte! Contame todo."
-    ];
+        "Bien.",
+        "Normal.",
+        "Ahí.",
+        "Sí, bien. ¿Y tú?",
+        "Todo bien."
+    ],
 
-    static readonly string[] DialogoDelCorrupto =
+    // 3 - Paranoico
     [
-        "Depende de lo que quieras...", "¿Es un negocio?", "Espero que valga la pena atender.", "Habrá que ver qué ganamos.", "Te escucho."
-    ];
+        "Bien… creo. ¿Por qué preguntas?",
+        "Normal, pero dime… ¿quién más está escuchando?",
+        "Estoy bien, pero esto es seguro, ¿verdad?",
+        "Bien… aunque no me gusta hablar mucho por teléfono."
+    ],
 
-    static readonly string[] DialogoDelIntrovertido =
+    // 4 - Charlatán (responde “cómo te va” y se desborda igual)
     [
-        "Hola...", "Sí... decime.", "Estoy escuchando.", "Hola, ¿todo bien?", "¿Qué necesitás?"
-    ];
+        "Bien, pero eso es lo aburrido, porque hoy me pasaron mil cosas: primero pensé que iba a ser un día normal, luego todo se complicó por cosas mínimas que se fueron acumulando sin sentido y ahora estoy aquí procesando todo eso.",
+        "Más o menos bien, aunque honestamente hoy fue un caos: empecé tranquilo, luego pasó una cosa, luego otra, y cuando me di cuenta ya estaba metido en un problema que ni siquiera entiendo del todo.",
+        "Bien, pero te cuento rápido porque esto no es normal: todo empezó con algo pequeño y terminó siendo una serie de eventos que no sé ni cómo explicar sin parecer exagerado.",
+        "Estoy bien, pero mi día no fue normal en absoluto, de hecho fue tan raro que si te lo cuento completo no terminamos hoy."
+    ],
 
-    static readonly string[] DialogoDelGrunon =
+    // 5 - Corrupto
     [
-        "¿Qué?", "Sí, hablá.", "¿Qué querés ahora?", "¿Y ahora qué pasó?", "Estoy ocupado."
-    ];
+        "Bien… depende de lo que entiendas por ‘bien’.",
+        "Se podría decir que bien. Todo tiene su precio, ya sabes.",
+        "Bien por ahora. Nada es gratis en este mundo.",
+        "Estoy bien, siempre que las cosas sigan como deben seguir."
+    ],
 
-    static readonly string[] DialogoDelManipulador =
+    // 6 - Introvertido
     [
-        "¡Qué alegría saber de vos!", "Justamente estaba pensando en llamarte.", "Qué coincidencia tan conveniente.", "Siempre es bueno hablar con amigos.", "Contame, seguro encontramos una solución."
-    ];
+        "Bien… gracias por preguntar.",
+        "Sí… estoy bien.",
+        "Todo tranquilo.",
+        "Estoy bien, supongo."
+    ],
 
+    // 7 - Gruñón
+    [
+        "Bien. ¿Y eso qué importa?",
+        "Estoy bien, no molestes.",
+        "Sí, bien. Rápido con lo tuyo.",
+        "Bien… supongo."
+    ],
 
-
-
-
-    static readonly string[][] Dialogos =
-    {
-        DialogosDeRaul,
-        DialogoDelGeneroso,
-        DialogoDelTacano,
-        DialogoDelParanoico,
-        DialogoDelCharlatan,
-        DialogoDelCorrupto,
-        DialogoDelIntrovertido,
-        DialogoDelGrunon,
-        DialogoDelManipulador,
-
-    };
-    public static void DialogosAlContestar(NPC contacto)
-    {
-        Llamar(contacto);
-    }
-    static void Plantilla(string[] Dialogoss, Dialog dial, Label texto)
-    {
-        //Llamar(Dialogos[contacto.idArquetipo], contacto);
-        
-        var Prestamo = new Label()
-        {
-            X = 2,
-            Y = Pos.AnchorEnd(8)
-        };
-        var bt1 = new Button()
-        {
-            X = Pos.Right(Prestamo),
-            Y = Pos.AnchorEnd(8)
-        };
-
-        var Consejo = new Label()
-        {
-            X = 2,
-            Y = Pos.AnchorEnd(6)
-        };
-        var bt2 = new Button()
-        {
-            X = Pos.Right(Consejo),
-            Y = Pos.AnchorEnd(6)
-        };
-        var Charlar = new Label()
-        {
-            X = 2,
-            Y = Pos.AnchorEnd(4)
-        };
-        var bt3 = new Button()
-        {
-            X = Pos.Right(Charlar),
-            Y = Pos.AnchorEnd(4)
-        };
-        dial.Add(Prestamo, Consejo, Charlar, bt1, bt2, bt3);
-        Application.MainLoop.AddIdle(() =>
-        {
-            PrimerDialogo(Dialogoss, texto, Prestamo, bt1, Consejo, bt2, Charlar, bt3);
-            return false;
-        });
-    }
-    static void PrimerDialogo(string[] Dialogoss, Label texto,Label Prestamo, Button bt1, Label Consejo, Button bt2, Label Charlar, Button bt3)
-    {
-        int indice = Random.Shared.Next(Dialogoss.Length);
-        string frase = Dialogoss[indice];
-
-        texto.Text = "";
-        string acumulado = "";
-        bt1.Visible = false;
-        bt2.Visible = false;
-        bt3.Visible = false;
-        foreach (char c in frase)
-        {
-            acumulado += c;
-            texto.Text = acumulado;
-            Application.Refresh();
-            Thread.Sleep(30);
-        }
-        bt1.Visible = true;
-        bt2.Visible = true;
-        bt3.Visible = true;
-        Prestamo.Text = "¿Cómo va todo?"; // Prestamo
-
-        bt1.Clicked += () =>
-        {
-            MenuPrestamo(Prestamo,  bt1,  Consejo,  bt2,  Charlar,  bt3);
-        };
-        Consejo.Text = "Necesito un consejo.";
-
-        Charlar.Text = "Solo quería charlar.";
-    }
-    static void MenuPrestamo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3)
-    {
-        op1.Text = "Necesito un préstamo.";
-        op2.Text = "Estoy pasando un mal momento financiero.";
-        op3.Text = "¿Podrías ayudarme con algo de dinero?";
-    }
-
-    static void Llamar( NPC contacto)
-    {
-
-
-        var dialog = new Dialog("", 60, 20);
-        var dialogo = new FrameView("")
-        {
-            X = Pos.Center(),
-            Y = Pos.AnchorEnd(15),
-            Width = Dim.Fill() - 2,
-            Height = 7
-        };
-        var nombre = new Label(contacto.name)
-        {
-            X = 2,
-            Y = 0
-        };
-        var texto = new Label()
-        {
-            X = 2,
-            Y = 2
-        };
-        //dialogo respuesta
-        var cerrar = new Button("Colgar")
-        {
-            X = 2,
-            Y = Pos.AnchorEnd(2)
-        };
-
-        cerrar.Clicked += () =>
-        {
-            Application.RequestStop();
-        };
-        dialogo.Add(texto);
-        Plantilla(Dialogos[contacto.idArquetipo], dialog, texto);
-
-        dialog.Add(nombre, dialogo, cerrar);
-
-        Application.Run(dialog);
-    }
-
-
+    // 8 - Manipulador
+    [
+        "Muy bien, sorprendentemente bien… aunque siempre es interesante ver quién pregunta eso y con qué intención.",
+        "Estoy bien, gracias por preocuparte… es curioso, siempre apareces en momentos oportunos.",
+        "Bien, todo bajo control… pero me alegra que llames, las coincidencias dicen mucho.",
+        "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
+    ]
+};
 }
+
+    
