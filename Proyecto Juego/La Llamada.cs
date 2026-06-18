@@ -157,7 +157,19 @@ public static class LaLlamada
     static void  Consejo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto)
     {
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenConsejo[contacto.idArquetipo], texto, bt1, bt2, bt3); // se llama la funcion para escribir letra por letra
-
+        switch (contacto.idArquetipo)
+        {
+            case 9-10:
+                op1.Text = "¿Debo pedir el préstamo o aguantar?";
+                op2.Text = "No sé qué hacer hoy.";
+                op3.Text = "¿Es correcto lo que estoy haciendo?";
+                break;
+            case 0-8:
+                op1.Text = "No sé qué hacer… ¿qué me recomiendas?";
+                op2.Text = "Necesito una solución clara.";
+                op3.Text = "Solo quiero entender mejor lo que pasa.";
+                break;
+        }
     }
     public static void Llamar(NPC contacto)
     {
@@ -178,7 +190,7 @@ public static class LaLlamada
         };
         var texto = new Label()
         {
-            X = 2,
+            X = 1,
             Y = 2
         };
         //dialogo respuesta

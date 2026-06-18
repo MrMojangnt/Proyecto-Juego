@@ -1,12 +1,21 @@
 ﻿using Empresas;
+using NAudio.Codecs;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Reflection.Emit;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.Intrinsics.Arm;
+using System.Runtime.Intrinsics.X86;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using Terminal.Gui;
+using Unix.Terminal;
+using static System.Net.WebRequestMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;
 
 public class Dialogos_de_Contacto
@@ -103,11 +112,29 @@ siempre en dinero.",
 
     // 9 - DialogosSofia
     [
-        "No",
-        "No",
-        "No",
-        "No",
-        "No",
+        @"¿Un consejo? Talvez no te ayude en tus negocios,
+pero: aprovecha el tiempo, no lo desperdicies haciendo
+algo que odias. Se te acabará antes de que te des cuenta.",
+"No te dejes llevar por las apariencias,\nla gente nunca es lo que tu crees...\n Claro, excluyéndome a mi.",
+@"Mi abogado me dijo una vez que nunca firme un 
+contrato sin asesorarme primero. No cometas ese error.",
+@"Miente tanto como puedas. Los buenos mentirosos 
+nunca enfrentan las consecuencias de sus actos.",
+@"El dinero puede comprarlo todo, incluso la 
+dignidad de las personas. Recuérdalo cuando 
+estés en problemas."
+    ],
+    // 10 - DialogosLeah
+    [
+@"Trabaja, la gente pobre realmente es pobre porque quiere. 
+El que diga lo contrario, basta ver su cuenta de 
+banco para saber porque se miente a si mismo.",
+@"Piensa un poco más antes de actuar. 
+Aunque creo que ya llego tarde para eso.",
+@"No todos nacieron para las finanzas. Y eso está bien.",
+@"No todos los problemas se resuelven con dinero.
+Aunque por suerte para mí, muchos intentan hacerlo.",
+@"Nunca me pidas prestado nada si valoras tus estadísticas."
     ]
     };
 
@@ -168,7 +195,18 @@ siempre en dinero.",
                 "No estoy de buen humor. Sea lo que sea que quieras, habla rápido.",
                 "Estaba teniendo un buen día hasta que recibí tu llamada."
                 ],
-
+                    // 10 - DialogosLeah
+                [
+                @"Qué sorpresa. Pensé que era alguien que me 
+debía dinero.",
+                "Qué bueno que llamaste, justo estaba \npensando en que obra de caridad hacer este año.",
+                @"Espero que sea algo importante. Bueno, importante 
+para ti al menos.",
+                @"Que bueno escucharte. Hasta pensé que ya habías
+aprendido a resolver tus problemas por tu cuenta.",
+                @"Adelante, siempre es interesante saber que 
+necesita la gente como vos."
+                ]
 
         };
     public static readonly string[][] DialogosCuandoRespondeAComoTeVa =
@@ -265,7 +303,15 @@ sigan como deben seguir."
     "¿Te preocupas por mi? No necesito que lo hagas.\n Mejor hablemos de negocios.",
     "Mal. ¿De qué te sirve saberlo?"
     ],
-
+    // 10 - DialogosLeah
+    [@"No me quejo. Cada día descubro alguna nueva forma...
+legal de hacer dinero.",
+        "Mejor que ayer y peor que mañana, claramente",
+        "Excelente, gracias por preguntar, \ncasi nadie se preocupa por nosotros los ricos.",
+        "Es bueno saber que aún hay... \ngente como vos por las calles.",
+        "Bastante bien. Quien diría que tomar buenas\ndecisiones ayuda muchísimo.",
+        "Me va mejor que a mis deudores, eso está claro."
+        ]
 };
 
     public static readonly string[][] DialogosCuandoPidenPrestamo =
@@ -350,6 +396,16 @@ sigan como deben seguir."
         "Quisiera ayudarte, pero no puedo hacerlo en este momento.",
         "Solo por esta vez, ¿entiendes?\n Solo porque eres tú."
         ],
+        // 10 - DialogosLeah
+        [@"Claro que estoy dispuesta a prestarte, 
+la verdadera pregunta es cuánto estás dispuesto a devolver.",
+        @"Claro, después de todo confío en ti. 
+No lo suficiente para prestarte sin garantía, pero igual.",
+        @"Depende, inversión o futura decepción?",
+        @"No veo por qué no. Cometer errores de vez en cuando también es divertido.",
+        @"5. No hay problema. He financiado ideas 
+peores y personas menos convincentes."
+        ]
     };
 }
 

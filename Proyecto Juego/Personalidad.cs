@@ -14,7 +14,8 @@ public static class Personalidades
     public static Dictionary<string, int> PersonalidadesFijas =new()
     {
         { "Raúl Castillo", 0 },
-        {"Sofía Martínez", 9 }
+        {"Sofía Martínez", 9 },
+        {"Leah Dávila", 10 }
     };
     public static readonly Personalidad[] Arqueotipos =
     {
