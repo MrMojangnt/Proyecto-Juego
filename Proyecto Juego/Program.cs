@@ -167,11 +167,10 @@ class Program
     }
     static void Main()
     {
-        Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-        Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+       
 
         Application.Init();
-
+      
 
         var top = Application.Top;
        
@@ -287,7 +286,7 @@ class Program
         VentanaPrincipal.Add(label);
         var marco = new FrameView("")
         {
-            X = 10,
+            X = Pos.Left(label) - 30,
             Y = Pos.Center(),
             Width = 26,
             Height = 5,
@@ -321,7 +320,7 @@ class Program
         //botón configuración
         var marcoconfig = new FrameView("")
         {
-            X = 120,
+            X = Pos.Right(label) + 5,
             Y = Pos.Center(),
             Width = 26,
             Height = 5,
