@@ -74,7 +74,7 @@ public class Events
         top.Add(VentanaPeriodico);
     }
 
-    public static void PasarTurnoPeriodico()
+    public static void PasarTurnoPeriodico(string titulo, string descripcion, int NumeroDeArchivo)
     {
         bool BuenaNoticia = false;
         Random rnd = new Random();

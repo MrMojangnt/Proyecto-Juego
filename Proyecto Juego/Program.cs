@@ -41,7 +41,7 @@ class Program
     public static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
     public static List<Periodicos> noticiash = new List<Periodicos>();
     public static string[] PeriodicoCSV = {"Periodico1.csv", "Periodico2.csv", "Periodico3.csv" };
-    
+    public static int turno = 0;
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
     static List<ColorScheme> colores = new List<ColorScheme>() {
@@ -1066,6 +1066,11 @@ class Program
             }
         }
 
+        using (StreamWriter save = new StreamWriter(partidas[InvInt], true))
+        {
+            save.WriteLine($"Turno: {turno}");
+        }
+
         if (!guardado)
         {
             int fullSlots = MessageBox.Query("Slots llenos",
@@ -1361,6 +1366,19 @@ class Program
             }
 
             GuardarEmpresasActualizadas();
+
+            string[] lineas = File.ReadAllLines(partidas[InvInt]);
+
+            for (int i = 0; i < lineas.Length; i++)
+            {
+                if (lineas[i].StartsWith("Turno:"))
+                {
+                    lineas[i] = $"Turno: {turno}";
+                    break;
+                }
+            }
+
+            File.WriteAllLines(partidas[InvInt], lineas);
 
             MessageBox.Query(
                 "Turno",
