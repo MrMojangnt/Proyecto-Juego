@@ -1141,7 +1141,7 @@ class Program
 
     }
 
-    static void Inicio(Toplevel top)
+    public static void Inicio(Toplevel top)
     {
         var VentanaInicio = new Window("Inicio")
         {
@@ -1261,6 +1261,11 @@ class Program
             X = 116,
             Y = Pos.AnchorEnd(2)
         };
+        var creditosButton = new Button("Creditos")
+        {
+            X = 140,
+            Y = Pos.AnchorEnd(2)
+        };
         //Funciones
         btInicio.Clicked += () =>
         {
@@ -1286,6 +1291,11 @@ class Program
         {
             top.RemoveAll();
             MostrarReporteBalance(top);
+        };
+        creditosButton.Clicked += () =>
+        {
+            top.RemoveAll();
+            Creditos.MostrarCreditos(top);
         };
         Random rnd = new Random();
 
@@ -1327,7 +1337,7 @@ class Program
             Inicio(top);
         };
         btInicio.SetFocus();
-        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno);
+        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
     }
     static void GuardarEmpresasActualizadas()
     {
