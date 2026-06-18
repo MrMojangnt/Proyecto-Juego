@@ -51,7 +51,10 @@ public class Creditos
             "Kennely Maisha Ordóñez Blandón",
             "",
             "Mencion honorifica:",
-            "Big Data Cluster"
+            "Big Data Cluster",
+            "",
+            "Version:",
+            "1.0 Beta"
         };
 
         int nombreActual = 0;
