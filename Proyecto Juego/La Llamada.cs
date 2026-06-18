@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Drawing;
 using System.Text;
 using Terminal.Gui;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;
 
 public static class LaLlamada
@@ -55,14 +57,22 @@ public static class LaLlamada
             X = Pos.Right(colgar),
             Y = Pos.AnchorEnd(2)
         };
+        var CosoPrestamo = new TextField("")
+        {
+            X = Pos.X(Prestamo),
+            Y = Pos.Y(Prestamo),
+            Width = 10,
+        };
+        CosoPrestamo.Visible = false;
+        CosoPrestamo.Enabled = false;
         cerrar.Clicked += () =>
         {
             Application.RequestStop();
         };
-        bt1.Clicked += () => OnOpcion(1, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar);
-        bt2.Clicked += () => OnOpcion(2, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar);
-        bt3.Clicked += () => OnOpcion(3, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar);
-        dial.Add(Prestamo, Consejo, Charlar, bt1, bt2, bt3, colgar, cerrar);
+        bt1.Clicked += () => OnOpcion(1, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar, dial, CosoPrestamo);
+        bt2.Clicked += () => OnOpcion(2, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar, dial, CosoPrestamo);
+        bt3.Clicked += () => OnOpcion(3, texto, Prestamo, Consejo, Charlar, bt1, bt2, bt3, contacto, colgar, cerrar, dial, CosoPrestamo);
+        dial.Add(Prestamo, Consejo, Charlar, bt1, bt2, bt3, colgar, cerrar, CosoPrestamo);
         Application.MainLoop.AddIdle(() =>
         {
             PrimerDialogo(texto, Prestamo, bt1, Consejo, bt2, Charlar, bt3, contacto, Prestamo, Consejo, Charlar, colgar, cerrar);
@@ -70,24 +80,28 @@ public static class LaLlamada
         });
     }
     //Esto es lo que permite que el texto se escriba letra por letra todo bonito
-    static void EscribirBonito(string[] dialogos, Label texto,
-                               Button bt1, Button bt2, Button bt3,
-                               Label op1, Label op2, Label op3,
-                               Label colgar, Button cerrar)
+    static void EscribirBonito(string[] dialogos, Label texto, Button[] TodosLosBotones, Label[] TodosLosLabels,
+                               Label colgar, Button cerrar, Button[] botones, Label[] labels)
     {
         int indice = Random.Shared.Next(dialogos.Length); //escoge un indice aleatorio cuyo máximo es la cantidad de elementos que contiene el array
-        string frase = dialogos[indice]; 
+        string frase = dialogos[indice];
 
-        texto.Text = ""; 
+        texto.Text = "";
         string acumulado = "";//se hace un string porque para el += no acepta caracteres parece, o me daba ese error al menos
-        bt1.Visible = false; //se hacen invisibles porque se veria feo que mientras se escribe aparezcan botones sin contexto
-        bt2.Visible = false;
-        bt3.Visible = false;
-        op1.Visible = false;
-        op2.Visible = false;
-        op3.Visible = false;
+        //se hacen invisibles porque se veria feo que mientras se escribe aparezcan botones sin contexto
+        foreach (Button boton in TodosLosBotones)
+        {
+            boton.Visible = false;
+        }
+
+        foreach (Label label in TodosLosLabels)
+        {
+            label.Visible = false;
+        }
+
         colgar.Visible = false;
         cerrar.Visible = false;
+
 
         int pos = 0;
 
@@ -95,14 +109,18 @@ public static class LaLlamada
         {
             if (pos >= frase.Length) //es decir, si ya sobrepasó la cantidad de caracteres que contiene la frase (el diálogo)
             {
-                bt1.Visible = true; //como ya acabó entonces se vuelven visibles
-                bt2.Visible = true;
-                bt3.Visible = true;
-                op1.Visible = true;
-                op2.Visible = true;
-                op3.Visible = true;
+                foreach (Button boton in botones)
+                {
+                    boton.Visible = true;
+                }
+                foreach (Label label in labels) 
+                { 
+                    label.Visible = true;
+                }
                 colgar.Visible = true;
                 cerrar.Visible = true;
+
+                
                 return false; // termina el temporizador
             }
              
@@ -120,7 +138,8 @@ public static class LaLlamada
     static void PrimerDialogo( Label texto, Label Prestamo, Button bt1, Label Consejo, Button bt2, Label Charlar, Button bt3, NPC contacto,
         Label op1, Label op2, Label op3, Label colgar, Button cerrar)
     {
-        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoContestaLaLlamada[contacto.idArquetipo], texto, bt1, bt2, bt3, op1, op2, op3, colgar, cerrar); // se llama la funcion para escribir letra por letra
+        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoContestaLaLlamada[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3], colgar, cerrar, 
+            [bt1, bt2, bt3],[op1, op2, op3]); // se llama la funcion para escribir letra por letra
         Prestamo.Text = "¿Cómo va todo?"; // El texto que lleva a otro
 
 
@@ -133,7 +152,8 @@ public static class LaLlamada
     Label op1, Label op2, Label op3,
     Button bt1, Button bt2, Button bt3,
     NPC contacto,
-    Label colgar, Button cerrar)
+    Label colgar, Button cerrar,
+    Dialog dial, TextField CosoPrestamo)
     {
         switch (op)
         {
@@ -145,13 +165,15 @@ public static class LaLlamada
                         break;
 
                     case 1:
-                        MenuPrestamo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar);
-                        estado = 2;
+                        MenuPrestamo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
                         break;
                     case 2:
                         FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
+                        CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
+                        break;
+                    case 4:
                         TerminarLlamada();
                         break;
                 }
@@ -172,6 +194,9 @@ public static class LaLlamada
                         FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
+                        CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
+                        break;
+                    case 4:
                         TerminarLlamada();
                         break;
                 }
@@ -188,6 +213,9 @@ public static class LaLlamada
                         FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
+                        CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
+                        break;
+                    case 4:
                         TerminarLlamada();
                         break;
                 }
@@ -199,7 +227,8 @@ public static class LaLlamada
     //Lo que sale cuando el usuario presiona como te va
     static void DespuesDelComoTeVa(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
     {
-        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRespondeAComoTeVa[contacto.idArquetipo], texto, bt1, bt2, bt3, op1, op2, op3, colgar, cerrar);
+        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRespondeAComoTeVa[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
+            colgar, cerrar, [bt1, bt2, bt3], [op1, op2, op3]);
         op1.Text = "Necesito un préstamo.";
 
         op2.Text = "Estoy pasando un mal momento financiero.";
@@ -207,19 +236,73 @@ public static class LaLlamada
         op3.Text = "¿Podrías ayudarme con algo de dinero?";
         estado = 1;
     }
-    static void MenuPrestamo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
+    static void MenuPrestamo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, 
+        NPC contacto, Label texto, Label colgar, Button cerrar, TextField CosoPrestamo
+        )
     {
       
-        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenPrestamo[contacto.idArquetipo], texto, bt1, bt2, bt3, op1, op2, op3, colgar, cerrar);
-        op1.Visible = false;
-
+        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3], 
+            colgar, cerrar, [bt1], []);
         
+        if (contacto.Amistad >= 0)
+        {
+            CosoPrestamo.Visible = true;
+            CosoPrestamo.Enabled = true;
+            bt1.X = Pos.Right(CosoPrestamo);
+            bt1.Text = "Confirmar";
+            estado = 3;
+
+        }
+
+    }
+    static void CuandoYaPedisteLaPlata(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3,
+        NPC contacto, Label texto, Label colgar, Button cerrar,
+        TextField CosoPrestamo)
+    {
+        var top = Application.Top;
+        if (decimal.TryParse(CosoPrestamo.Text.ToString(), out decimal cantidty) && cantidty > 0)
+        {
+            CosoPrestamo.Enabled = false;
+            CosoPrestamo.Visible = false;
+            if (cantidty < (contacto.balance / 2))
+            {
+                MessageBox.Query(
+                "Préstamo Exitoso",
+                $"Se han transferido {cantidty}$ a tu cuenta.",
+                "Aceptar");
+                Program.AplicarPrestamoEmergencia(cantidty);
+                top.RemoveAll();
+                Program.Inicio(top); 
+            
+
+                EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPrestanDinero[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
+                    colgar, cerrar, [bt1], [op1]);
+                
+                op1.Text = "Gracias por el préstamo, me será muy útil.";
+                bt1.X = Pos.Right(op1) + 3;
+                estado = 4;
+            }
+            else
+            {
+                MessageBox.Query(
+                "Error",
+                "No te prestará más de la mitad de su balance",
+                "Aceptar");
+            }
+        }
+        else
+        {
+            MessageBox.Query(
+                "Error",
+                "Escriba número válidos",
+                "Aceptar");
+        }
     }
     static void Consejo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
     {
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenConsejo[contacto.idArquetipo],
-            texto, bt1, bt2, bt3, op1, op2, op3,
-            colgar, cerrar);
+            texto, [bt1, bt2, bt3], [op1, op2, op3],
+            colgar, cerrar, [bt1, bt2, bt3], [op1, op2, op3]);
 
         SwitchRespuestaConsejo(contacto, op1, op2, op3);
 

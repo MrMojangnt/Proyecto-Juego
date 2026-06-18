@@ -373,11 +373,98 @@ la verdadera pregunta es cuánto estás dispuesto a devolver.",
         @"Claro, después de todo confío en ti. 
 No lo suficiente para prestarte sin garantía, pero igual.",
         @"Depende, inversión o futura decepción?",
-        @"No veo por qué no. Cometer errores de vez en cuando también es divertido.",
-        @"5. No hay problema. He financiado ideas 
+        @"No veo por qué no. Cometer errores de vez en cuando 
+también es divertido.",
+        @"No hay problema. He financiado ideas 
 peores y personas menos convincentes."
         ]
     };
+    public static readonly string[][] DialogosCuandoPrestanDinero =
+{
+    // 0 - Generoso
+    [
+        "Claro, tomá. Espero que esto te ayude a salir adelante.\nCuídate mucho, hablamos pronto.",
+        "No hace falta que agradezcas, solo úsalo bien.\nQue todo salga bien, hasta luego.",
+        "Confío en vos. Devolvelo cuando puedas.\nSuerte, y no dudes en llamar si necesitás algo."
+    ],
+
+    // 1 - Tacaño
+    [
+        "Está bien... pero anoté hasta el último centavo.\nBueno, ya perdimos suficiente tiempo.",
+        "Acepto, aunque me duele más que una factura inesperada.\nAdiós, y no tardes en devolverlo.",
+        "Tomá, pero no hagas costumbre de esto.\nTengo cosas más importantes que hacer."
+    ],
+
+    // 2 - Paranoico
+    [
+        "Está bien, pero nadie debe enterarse de esto.\nCortá primero vos.",
+        "Acepto... aunque sigo pensando que hay algo raro detrás.\nY borrá el registro de la llamada.",
+        @"Te lo doy, pero si desaparecés voy a sospechar desde
+el primer minuto.
+Hasta luego... si es que podemos decir eso."
+    ],
+
+    // 3 - Charlatán
+    [
+        @"Tomá el dinero. Curiosamente, casi todas las grandes
+amistades han sobrevivido a guerras, pero no a préstamos.
+Bueno, después seguimos hablando porque recién empezaba.",
+        @"Claro que sí. Aunque esto me recuerda una historia
+larguísima sobre un comerciante y un burro... después te la cuento.
+Nos vemos, o mejor dicho, nos escuchamos.",
+        @"Acepto ayudarte. El dinero va y viene,
+las anécdotas vergonzosas son para siempre.
+Bueno, no te robo más tiempo... aunque podría."
+    ],
+
+    // 4 - Corrupto
+    [
+        "Tenemos un trato entonces. Espero que ambos salgamos ganando.\nYa sabés dónde encontrarme.",
+        "Acepto, pero recordá que los favores generan deudas.\nHasta la próxima negociación.",
+        "El dinero es tuyo... temporalmente.\nQue tengas un buen negocio."
+    ],
+
+    // 5 - Introvertido
+    [
+        "Está bien... espero que te sirva.\nBueno... adiós.",
+        "Puedo ayudarte esta vez.\nCuídate.",
+        "Tomá... no hace falta decir mucho más.\nHasta luego."
+    ],
+
+    // 6 - Gruñón
+    [
+        "Tomá y dejá de insistir.\nAhora colgá.",
+        "Ahí tenés. Ahora desaparecé un rato.\nNos vemos.",
+        "Acepto, pero no pienso sonreír por eso.\nChao."
+    ],
+
+    // 7 - Manipulador
+    [
+        "Claro. Estoy seguro de que recordarás este gesto.\nNos volveremos a hablar muy pronto.",
+        "No hay problema. Algún día esto será útil para ambos.\nHasta entonces.",
+        "Acepto ayudarte. Las deudas no siempre se pagan con dinero.\nPensá en eso mientras tanto."
+    ],
+
+    // 8 - Sofía
+    [
+        "Está bien... pero no me hagas arrepentirme.\nY no vuelvas a llamarme por tonterías.",
+        "Solo porque confío un poco en ti. No desperdicies esa confianza.\nCuídate... supongo.",
+        "Toma el dinero. Espero no descubrir que fui demasiado ingenua.\nHasta luego."
+    ],
+
+    // 9 - Leah
+    [
+        @"Excelente. Considera esto una inversión de
+riesgo moderado.
+Espero un buen rendimiento. Adiós.",
+        @"Te prestaré el dinero. Sería una pena que
+mi confianza resultara estadísticamente injustificada.
+Nos vemos, intenta no arruinar mis expectativas.",
+        @"Acepto. Ahora intenta demostrar que
+eres una mejor inversión que el mercado.
+Hasta la próxima, socio."
+    ]
+};
 }
 
     
