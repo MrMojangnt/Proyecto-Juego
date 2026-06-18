@@ -1277,15 +1277,16 @@ class Program
             for (int i = 0; i < Companiass.Count; i++)
             {
                 decimal cambio = (decimal)(rnd.NextDouble() * 0.20 - 0.10);
-
+                decimal cambio2 = 0;
+                Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt, ref cambio2);
                 Companias empresa = Companiass[i];
                 empresa.capbursatil += empresa.capbursatil * cambio;
+                empresa.capbursatil += empresa.capbursatil * cambio2;
 
                 Companiass[i] = empresa;
             }
 
             GuardarEmpresasActualizadas();
-            Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt);
             string[] lineas = File.ReadAllLines(partidas[InvInt]);
 
             for (int i = 0; i < lineas.Length; i++)

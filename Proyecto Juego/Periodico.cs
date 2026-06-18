@@ -94,7 +94,7 @@ otorgar préstamos, frenando nuevas inversiones."
         top.Add(VentanaPeriodico);
     }
 
-    public static void PasarTurnoPeriodico(ref string titulo , ref string descripcion, int NumeroDeArchivo)
+    public static void PasarTurnoPeriodico(ref string titulo , ref string descripcion, int NumeroDeArchivo, ref decimal change)
     {
         bool BuenaNoticia = false;
         Random rnd = new Random();
@@ -107,7 +107,7 @@ otorgar préstamos, frenando nuevas inversiones."
             Periodicos nuevanoticia = new Periodicos();
             titulo = nuevanoticia.titulo = titulosBuenos[numNoticia];
             descripcion = nuevanoticia.descripcion = descripcionesBuenas[numNoticia];
-            nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
+            change = nuevanoticia.change = (decimal)(rnd.NextDouble() * 0.20 + 0.05);
             
         }
         else
@@ -117,7 +117,7 @@ otorgar préstamos, frenando nuevas inversiones."
             Periodicos nuevanoticia = new Periodicos();
             titulo = nuevanoticia.titulo = titulosMalos[numNoticia];
             descripcion = nuevanoticia.descripcion = descripcionesMalas[numNoticia];
-            nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
+            change = nuevanoticia.change = -(decimal)(rnd.NextDouble() * 0.20 + 0.05);
         }
     }
 }
