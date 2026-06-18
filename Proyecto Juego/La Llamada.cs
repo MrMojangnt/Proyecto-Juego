@@ -157,17 +157,69 @@ public static class LaLlamada
     static void  Consejo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto)
     {
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenConsejo[contacto.idArquetipo], texto, bt1, bt2, bt3); // se llama la funcion para escribir letra por letra
+        SwitchRespuestaConsejo(contacto, op1, op2, op3);
+                
+        estado = 1;
+    }
+
+    static void SwitchRespuestaConsejo(NPC contacto, Label op1, Label op2, Label op3)
+    {
         switch (contacto.idArquetipo)
         {
-            case 9-10:
-                op1.Text = "¿Debo pedir el préstamo o aguantar?";
-                op2.Text = "No sé qué hacer hoy.";
-                op3.Text = "¿Es correcto lo que estoy haciendo?";
+            case 0:
+                op1.Text = "Ok, necesito pensar esto con calma.";
+                op2.Text = "¿Puedes explicarlo más simple?";
+                op3.Text = "Creo que tienes razón… pero no es tan fácil.";
                 break;
-            case 0-8:
-                op1.Text = "No sé qué hacer… ¿qué me recomiendas?";
-                op2.Text = "Necesito una solución clara.";
-                op3.Text = "Solo quiero entender mejor lo que pasa.";
+            case 1:
+                op1.Text = "Gracias… necesitaba escuchar eso.";
+                op2.Text = "No sé si voy a poder con esto solo.";
+                op3.Text = "Me alivia un poco que lo digas así.";
+                break;
+            case 2:
+                op1.Text = "Eso no ayuda mucho…";
+                op2.Text = "Ok, entendido.";
+                op3.Text = "Ya veo, da igual entonces.";
+                break;
+            case 3:
+                op1.Text = "Eso suena sospechoso…";
+                op2.Text = "¿No me estás ocultando algo?";
+                op3.Text = "Cada vez suena peor esto…";
+                break;
+            case 4:
+                op1.Text = "Te estás yendo muy lejos, pero lo entiendo.";
+                op2.Text = "No sé si eso me ayuda o me confunde más.";
+                op3.Text = "Suena profundo… pero no sé qué hacer con eso.";
+                break;
+            case 5:
+                op1.Text = "¿Y esto qué te cuesta a ti?";
+                op2.Text = "Seguro hay algo que no estás diciendo.";
+                op3.Text = "Nada es gratis contigo, ¿verdad?";
+                break;
+            case 6:
+                op1.Text = "No sé si esto me sirve… pero gracias.";
+                op2.Text = "Creo que lo entendí, más o menos.";
+                op3.Text = "Perdón, estoy un poco perdido.";
+                break;
+            case 7:
+                op1.Text = "Ok, ya entendí.";
+                op2.Text = "Podrías ser menos complicado.";
+                op3.Text = "No era tan necesario decir todo eso.";
+                break;
+            case 8:
+                op1.Text = "Eso se puede aprovechar…";
+                op2.Text = "Interesante… ya veo por dónde vas.";
+                op3.Text = "Esto se puede usar a mi favor.";
+                break;
+            case 9:
+                op1.Text = "Tiene sentido si lo pienso como estrategia.";
+                op2.Text = "No quiero perder tiempo en algo inútil.";
+                op3.Text = "Necesito algo más concreto.";
+                break;
+            case 10:
+                op1.Text = "Solo dime si esto me conviene o no.";
+                op2.Text = "¿Esto me hace perder dinero o no?";
+                op3.Text = "Necesito números, no ideas.";
                 break;
         }
     }
