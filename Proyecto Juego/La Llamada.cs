@@ -11,7 +11,7 @@ public static class LaLlamada
 {
     static int estado = 0;
     //Aquí se crean los labels y botones que se utilizarán en las otras funciones, cuando se toque una opcion, cuando cambie el dialogo y asi
-    static void Plantilla(Dialog dial, Label texto, NPC contacto)
+    public static void Plantilla(Dialog dial, Label texto, NPC contacto)
     {
         estado = 0;
         //Llamar(Dialogos[contacto.idArquetipo], contacto);
@@ -157,7 +157,7 @@ public static class LaLlamada
     {
         switch (op)
         {
-            case 1:
+            case 1: //boton 1
                 switch (estado)
                 {
                     case 0:
@@ -179,7 +179,7 @@ public static class LaLlamada
                 }
                 break;
 
-            case 2:
+            case 2: //boton 2
                 switch (estado)
                 {
                     case 0:
@@ -202,7 +202,7 @@ public static class LaLlamada
                 }
                 break;
 
-            case 3:
+            case 3: // boton 3
                 switch (estado)
                 {
                     case 0:
@@ -278,11 +278,24 @@ public static class LaLlamada
                 "Préstamo Exitoso",
                 $"Se han transferido {cantidty}$ a tu cuenta.",
                 "Aceptar");
-                Program.AplicarPrestamoEmergencia(cantidty);
-                Program.Guardarelbalance();
-                top.RemoveAll();
-                Program.Inicio(top); 
-            
+                Program.AplicarPrestamoEmergencia(cantidty); // el prestamo
+                Program.Guardarelbalance(); // se guarda el balance del jugador
+                contacto.balance -= cantidty;
+                contacto.TienePrestamoActivo = true;
+                contacto.LlamadaPendiente = true;
+                contacto.UltimoTurnoPrestamo = Program.turno;
+                contacto.PresionActual = Personalidades.Arqueotipos[contacto.idArquetipo].Presion;
+                int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
+
+                if (index != -1)
+                {
+                    Program.ContactosCargados[index] = contacto;
+                }
+                GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
+                
+                top.RemoveAll(); // se actualiza la pantalla de inicio
+                Program.Inicio(top); // se actualiza la pantalla de inicio
+                
 
                 EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPrestanDinero[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
                     colgar, cerrar, [bt1], [op1]);
@@ -328,7 +341,7 @@ public static class LaLlamada
 
         colgar.Visible = false;
         cerrar.Visible = false;
-        estado = 3;
+        estado = 4;
     }
     static void SwitchRespuestaConsejo(NPC contacto, Label op1, Label op2, Label op3)
     {
@@ -372,7 +385,7 @@ public static class LaLlamada
             case 7:
                 op1.Text = "Eso se puede aprovechar…";
                 op2.Text = "Interesante… ya veo por dónde vas.";
-                op3.Text = "Esto se puede usar a mi favor.";
+                op3.Text = "Esto se puede usar a mifavor.";
                 break;
             case 8:
                 op1.Text = "Tiene sentido si lo pienso como estrategia.";
@@ -426,6 +439,147 @@ public static class LaLlamada
         Application.Run(dialog);
     }
 
+
+}
+
+public static class TeLlamanPapuContesta
+{
+    public static void EvaluarLlamadas()
+    {
+        for (int i = 0; i < Program.ContactosCargados.Count; i++)
+        {
+            var contacto = Program.ContactosCargados[i];
+
+            if (!contacto.TienePrestamoActivo)
+                continue;
+
+            sbyte presion = Personalidades.Arqueotipos[contacto.idArquetipo].Presion;
+
+            int delay = CalcularDelay(presion);
+
+            if (Program.turno >= contacto.UltimoTurnoPrestamo + delay)
+            {
+                MostrarLlamada(contacto);
+            }
+
+            Program.ContactosCargados[i] = contacto; 
+        }
+    }
+
+    static int CalcularDelay(sbyte presion)
+    {
+        return presion switch
+        {
+            >= 8 => 1,
+            >= 4 => 2,
+            >= 0 => 3,
+            >= -4 => 4,
+            _ => 5
+        };
+    }
+
+    static void MostrarLlamada(NPC contacto)
+    {
+        int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
+
+        // Diálogo principal de llamada (estilo menú de llamada)
+        var dialogo = new Dialog($"Llamada de {contacto.name}", 72, 26);
+        var nombre = new Label(contacto.name) { X = 2, Y = 0 };
+        var cuadro = new FrameView("")
+        {
+            X = 1,
+            Y = 2,
+            Width = Dim.Fill() - 4,
+            Height = 10
+        };
+        var texto = new Label() { X = 1, Y = 1 };
+        cuadro.Add(texto);
+
+        // Información de deuda (mostramos deuda total por ahora)
+        var deudaInfo = new Label($"Deuda total del jugador: {Program.DeudaEmergencia:F2}   Balance contacto: {contacto.balance:F2}")
+        {
+            X = 1,
+            Y = Pos.Bottom(cuadro) + 1
+        };
+
+        var btnPagar = new Button("Pagar") { X = 1, Y = Pos.AnchorEnd(2) };
+        var btnResponder = new Button("Responder") { X = Pos.Right(btnPagar) + 2, Y = Pos.AnchorEnd(2) };
+        var btnIgnorar = new Button("Ignorar") { X = Pos.Right(btnResponder) + 2, Y = Pos.AnchorEnd(2) };
+
+        btnPagar.Clicked += () =>
+        {
+            Application.RequestStop();
+
+            var dlgPago = new Dialog($"Pagar a {contacto.name}", 60, 12);
+            var lbl = new Label($"Deuda total: {Program.DeudaEmergencia:F2}") { X = 1, Y = 1 };
+            var labelPago = new Label("Monto a pagar:") { X = 1, Y = 3 };
+            var campoPago = new TextField("") { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
+            var btnAceptar = new Button("Aceptar") { X = 1, Y = Pos.AnchorEnd(2) };
+            var btnCerrar = new Button("Cerrar") { X = Pos.Right(btnAceptar) + 2, Y = Pos.AnchorEnd(2) };
+
+            btnAceptar.Clicked += () =>
+            {
+                if (!decimal.TryParse(campoPago.Text.ToString(), out decimal monto) || monto <= 0)
+                {
+                    MessageBox.Query("Error", "Ingrese un monto válido.", "Aceptar");
+                    return;
+                }
+
+                if (!Program.PagarDeuda(monto))
+                {
+                    MessageBox.Query("Error", "No tienes suficiente balance para pagar.", "Aceptar");
+                    return;
+                }
+
+                // Transferir al contacto y actualizar estado
+                contacto.balance += monto;
+                if (Program.DeudaEmergencia == 0m)
+                    contacto.TienePrestamoActivo = false;
+                contacto.LlamadaPendiente = false;
+
+                if (index != -1)
+                    Program.ContactosCargados[index] = contacto;
+
+                Program.Guardarelbalance();
+                GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
+
+                MessageBox.Query("Pago", "Pago realizado con éxito.", "Aceptar");
+                Application.RequestStop();
+            };
+
+            btnCerrar.Clicked += () => Application.RequestStop();
+
+            dlgPago.Add(lbl, labelPago, campoPago, btnAceptar, btnCerrar);
+            Application.Run(dlgPago);
+        };
+
+        btnResponder.Clicked += () =>
+        {
+            Application.RequestStop();
+
+            // Abrir un diálogo de conversación parecido al menú de llamar (reusa Plantilla)
+            var dlg = new Dialog("", 70, 23);
+            var dialogoResp = new FrameView("")
+            {
+                X = Pos.Center(),
+                Y = Pos.AnchorEnd(20),
+                Width = Dim.Fill() - 2,
+                Height = 8
+            };
+            var nombreResp = new Label(contacto.name) { X = 2, Y = 0 };
+            var textoResp = new Label() { X = 1, Y = 2 };
+
+            dialogoResp.Add(textoResp);
+            LaLlamada.Plantilla(dlg, textoResp, contacto); // usa la interfaz de diálogo existente dentro de esta clase
+            dlg.Add(nombreResp, dialogoResp);
+            Application.Run(dlg);
+        };
+
+        btnIgnorar.Clicked += () => Application.RequestStop();
+
+        dialogo.Add(nombre, cuadro, deudaInfo, btnPagar, btnResponder, btnIgnorar);
+        Application.Run(dialogo);
+    }
 
 }
 

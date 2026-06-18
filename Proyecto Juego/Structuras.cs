@@ -71,12 +71,19 @@ public struct NPC
     public decimal balance;
     public int idArquetipo;
     public sbyte Amistad;
+
     public int UltimoTurnoLlamado;
+
+    public bool TienePrestamoActivo;
+    public int UltimoTurnoPrestamo;
+    public int PresionActual;
+    public bool LlamadaPendiente;
+
 
     public override string ToString()
     {
-        return $"{name}; {masculino}; {edad}; {sector_dominante}; {balance};"+
-       $"{idArquetipo}; {Amistad}"; 
+        return $"{name};{masculino};{edad};{sector_dominante};{balance};" +
+            $"{idArquetipo};{Amistad};{UltimoTurnoLlamado};{TienePrestamoActivo};{UltimoTurnoPrestamo};{PresionActual}";
     }
 }
 

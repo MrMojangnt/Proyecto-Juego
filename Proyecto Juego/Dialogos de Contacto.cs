@@ -228,9 +228,9 @@ necesita la gente como vos."
     // 3 - Charlatán (responde “cómo te va” y se desborda igual)
     [
         @"Bien, pero eso es lo aburrido, porque hoy me pasaron mil cosas:
-primero pensé que iba a ser un día normal, luego todo se complicó 
-por cosas mínimas que se fueron acumulando sin sentido y 
-ahora estoy aquí procesando todo eso.",
+primero pensé que iba a ser un día normal, luego todo se 
+complicó  por cosas mínimas que se fueron acumulando sin 
+sentido y ahora estoy aquí procesando todo eso.",
         @"Más o menos bien, aunque honestamente hoy fue un caos: 
 empecé tranquilo, luego pasó una cosa, luego otra, y
 cuando me di cuenta ya estaba metido en un problema 
@@ -273,7 +273,7 @@ sigan como deben seguir."
     [
         "Muy bien, sorprendentemente bien… aunque siempre es interesante ver quién pregunta eso y con qué intención.",
         "Estoy bien, gracias por preocuparte… es curioso, siempre apareces en momentos oportunos.",
-        "Bien, todo bajo control… pero me alegra que llames, las coincidencias dicen mucho.",
+        "Bien, todo bajo control… pero me alegra que llames, \nlas coincidencias dicen mucho.",
         "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
     ],
     // 8 - DialogosSofia
@@ -308,7 +308,8 @@ legal de hacer dinero.",
     [
         "No presto dinero. Es una excelente forma de perderlo.",
         "Lo pensé... y sigo prefiriendo quedarme con él.",
-        "Mejor no mezclemos amistad con préstamos."
+        "Mejor no mezclemos amistad con préstamos.",
+        "Estoy un poco corto… desde hace años."
     ],
 
     // 2 - Paranoico
@@ -320,7 +321,7 @@ legal de hacer dinero.",
 
     // 3 - Charlatán
     [
-        "Te diría que sí, pero una vez hice eso y terminó en una historia larguísima que mejor evitamos repetir.",
+        "Te diría que sí, pero una vez hice eso y terminó en una historia larguísima \nque mejor evitamos repetir.",
         "Curioso pedido... pero esta vez voy a pasar.",
         "Podría explicarte por qué no, aunque tardaría una hora. Resumiendo: no."
     ],
@@ -372,20 +373,19 @@ legal de hacer dinero.",
 {
     // 0. Generoso
     [
-        "Claro, decime cuánto necesitás, seguro encontramos una forma de ayudarte.",
+        "Claro, decime cuánto necesitás, \nseguro encontramos una forma de ayudarte.",
         "No te preocupes, para eso están los amigos.",
         "Si está en mis manos, contá con eso.",
-        "Podemos ver cómo solucionarlo juntos, no estás solo en esto.",
-        "Está bien, pero quiero saber que lo vas a poder recuperar después."
+        "Podemos ver cómo solucionarlo juntos, \nno estás solo en esto.",
+        "Está bien, pero quiero saber que lo vas a \npoder recuperar después."
     ],
 
     // 1. Tacaño
     [
-        "¿Préstamo?… eso suena como una palabra peligrosa.",
-        "No estoy muy bien de liquidez ahora mismo… casualmente siempre.",
-        "Preferiría no mezclar dinero con amistad.",
+        "¿Préstamo?… eso suena como una palabra peligrosa.\nPero no tengo de otra parece.",
+        "No estoy muy bien de liquidez ahora mismo…\ncasualmente siempre.",
+        "Preferiría no mezclar dinero con amistad. \n ¿Cuanto querés?",
         "¿Y cómo planeas devolverlo exactamente?",
-        "Estoy un poco corto… desde hace años."
     ],
 
     // 2. Paranoico
@@ -399,19 +399,19 @@ legal de hacer dinero.",
 
     // 3. Charlatán
     [
-        "Mirá, justo ayer pensaba en cómo el dinero cambia las relaciones humanas, y ahora venís con esto… curioso.",
-        "Podría ayudarte, pero dejame contarte algo antes, porque esto me recuerda una historia increíble.",
+        "Mirá, justo ayer pensaba en cómo el dinero cambia \nlas relaciones humanas, y ahora venís \ncon esto… curioso.",
+        "Podría ayudarte, pero dejame contarte algo antes, \nporque esto me recuerda una historia increíble.",
         "Te juro que una vez presté dinero y terminó siendo una \nexperiencia filosófica casi absurda… pero bueno, decime.",
         "Esto es interesante, porque el concepto de deuda es más \npsicológico que económico, ¿sabías?",
-        "Ok, sí, pero antes de eso tengo que explicarte algo que nadie me pidió pero igual voy a decir."
+        "Ok, sí, pero antes de eso tengo que explicarte algo \nque nadie me pidió pero igual voy a decir."
     ],
 
     // 4. Corrupto
     [
         "Todo tiene un precio, incluso la ayuda.",
-        "Podemos arreglarlo… dependiendo de qué obtengo a cambio.",
+        "Podemos arreglarlo… dependiendo de \nqué obtengo a cambio.",
         "No es un problema de dinero, es de acuerdos.",
-        "Esto se puede resolver, si hay incentivo correcto.",
+        "Esto se puede resolver, si hay \nincentivo correcto.",
         "Decime cuánto vale tu urgencia."
     ],
 
@@ -494,8 +494,9 @@ Hasta luego... si es que podemos decir eso."
 amistades han sobrevivido a guerras, pero no a préstamos.
 Bueno, después seguimos hablando porque recién empezaba.",
         @"Claro que sí. Aunque esto me recuerda una historia
-larguísima sobre un comerciante y un burro... después te la cuento.
-Nos vemos, o mejor dicho, nos escuchamos.",
+larguísima sobre un comerciante y un burro... después 
+te la cuento. Nos vemos, o mejor dicho,
+nos escuchamos.",
         @"Acepto ayudarte. El dinero va y viene,
 las anécdotas vergonzosas son para siempre.
 Bueno, no te robo más tiempo... aunque podría."

@@ -117,25 +117,24 @@ public class GeneracionDeContactos
     }
     public static void GuardarContactos(int i, bool zzz)//FUNCION QUE GUARDA LOS CONTACTOS
     {
-        List<NPC> ContactosDelJugador = GenerarPersonas(); //new
+        // Guardar el estado actual de los contactos, no generar nuevos cada vez.
+        List<NPC> ContactosDelJugador = Program.ContactosCargados;
 
         using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.contactos[i], zzz, Encoding.UTF8))
         {
-            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance; i?; i?; ultimoturno");
+            // Cabecera que coincide con NPC.ToString()
+            Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual");
             for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
                 Contac.WriteLine(ContactosDelJugador[p]);
-
             }
-
-
         }
     }
 
     public static List<NPC> CargarContactos(int indice)//FUNCION QUE CARGA LOS CONTACTOS
     {
         List<NPC> ConNPC = new List<NPC>();
-        NPC ContactosCargados = new NPC(); //structttttttttttt
+        NPC ContactosCargados = new NPC();
         char[] delimitadores = { ';', '\n','\r' };
 
         using (StreamReader savecontactos = new StreamReader(ManejoDeArchivos.contactos[indice], Encoding.UTF8))
@@ -144,13 +143,19 @@ public class GeneracionDeContactos
             while (!savecontactos.EndOfStream)
             {
                 string[] lineas = savecontactos.ReadLine()!.Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-                ContactosCargados.name = lineas[0];
-                ContactosCargados.masculino = bool.Parse(lineas[1]);
-                ContactosCargados.edad = int.Parse(lineas[2]);
-                ContactosCargados.sector_dominante = lineas[3];
-                ContactosCargados.balance = decimal.Parse(lineas[4]);
-                ContactosCargados.idArquetipo = int.Parse(lineas[5]);
-                ContactosCargados.UltimoTurnoLlamado = int.Parse(lineas[6]);
+
+                int len = lineas.Length;
+                ContactosCargados.name = len > 0 ? lineas[0] : string.Empty;
+                ContactosCargados.masculino = len > 1 && bool.TryParse(lineas[1], out bool m) ? m : false;
+                ContactosCargados.edad = len > 2 && int.TryParse(lineas[2], out int e) ? e : 0;
+                ContactosCargados.sector_dominante = len > 3 ? lineas[3] : string.Empty;
+                ContactosCargados.balance = len > 4 && decimal.TryParse(lineas[4], out decimal b) ? b : 0m;
+                ContactosCargados.idArquetipo = len > 5 && int.TryParse(lineas[5], out int id) ? id : 0;
+                ContactosCargados.Amistad = len > 6 && sbyte.TryParse(lineas[6], out sbyte a) ? a : (sbyte)0;
+                ContactosCargados.UltimoTurnoLlamado = len > 7 && int.TryParse(lineas[7], out int utl) ? utl : -1;
+                ContactosCargados.TienePrestamoActivo = len > 8 && bool.TryParse(lineas[8], out bool tpa) ? tpa : false;
+                ContactosCargados.UltimoTurnoPrestamo = len > 9 && int.TryParse(lineas[9], out int utp) ? utp : -1;
+                ContactosCargados.PresionActual = len > 10 && int.TryParse(lineas[10], out int pa) ? pa : 0;
 
                 ConNPC.Add(ContactosCargados);
             }
@@ -299,6 +304,8 @@ Balance: {contactos.balance}")
 
     }
 }
+
+
 
 
 

@@ -1243,6 +1243,8 @@ class Program
                 File.Delete(partidas[i]);
                 File.Delete(inventario[i]);
                 File.Delete(save_compania[i]);
+                File.Delete(historialBalance[InvInt]);
+                File.Delete(PeriodicoCSV[InvInt]);
                 File.Delete(ManejoDeArchivos.contactos[i]);
             }
             }
@@ -1419,6 +1421,7 @@ class Program
         pasarturno.Clicked += () =>
         {
             turno++;
+            TeLlamanPapuContesta.EvaluarLlamadas();
             if (PronosticoMercado.Count != Companiass.Count)
             {
                 PrepararPronosticoMercado();
@@ -1566,7 +1569,7 @@ class Program
     }
 
     //creando la ventana de empresas
-   
+   	
 
     static void ComprarAcciones(Toplevel top)
     {
@@ -2081,5 +2084,18 @@ para un total de {precioAccional*cantidty:F2}",
 
         }
     }
-    
+
+    public static bool PagarDeuda(decimal monto)
+    {
+        if (monto <= 0m)
+            return false;
+
+        if (pd.balance < monto)
+            return false;
+
+        pd.balance -= monto;
+        DeudaEmergencia = Math.Max(0m, DeudaEmergencia - monto);
+        Guardarelbalance();
+        return true;
+    }
 }
