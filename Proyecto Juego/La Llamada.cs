@@ -211,6 +211,7 @@ public static class LaLlamada
     {
       
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenPrestamo[contacto.idArquetipo], texto, bt1, bt2, bt3, op1, op2, op3, colgar, cerrar);
+        op1.Visible = true;
         
     }
     static void Consejo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
