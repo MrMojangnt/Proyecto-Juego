@@ -1168,46 +1168,7 @@ class Program
             Y = 0
             
         };
-        var labelCarisma = new Label($"Carisma: {pd.carisma}")
-        {
-            X = Pos.Center(),
-            Y = 2
-        };
-        var btCarismatic = new Button("+")
-        {
-            X = Pos.Right(labelCarisma)+1,
-            Y = Pos.Y(labelCarisma),
-        };
-        var labeleconomia = new Label($"Economia: {pd.economia}")
-        {
-            X = Pos.Center(),
-            Y = 3
-        };
-        var btEconomia = new Button("+")
-        {
-            X = Pos.Right(labeleconomia)+1,
-            Y = Pos.Y(labeleconomia),
-        };
-        var labelfiscalidad = new Label($"Fiscalidad: {pd.fiscalidad}")
-        {
-            X = Pos.Center(),
-            Y = 4
-        };
-        var btfiscalidad = new Button("+")
-        {
-            X = Pos.Right(labelfiscalidad)+1,
-            Y = Pos.Y(labelfiscalidad),
-        };
-        var labelcorrupcion = new Label($"Corrupcion: {pd.corrupcion}")
-        {
-            X = Pos.Center(),
-            Y = 5
-        };
-        var btCorrupcion = new Button("+")
-        {
-            X = Pos.Right(labelcorrupcion)+1,
-            Y = Pos.Y(labelcorrupcion),
-        };
+        
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
@@ -1224,7 +1185,7 @@ class Program
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
 
-        FrameStats.Add(labelCarisma, labelStats, labeleconomia, labelfiscalidad, labelcorrupcion, btCarismatic, btEconomia, btfiscalidad, btCorrupcion);
+        FrameStats.Add( labelStats);
 
     }
 
