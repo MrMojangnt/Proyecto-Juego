@@ -21,16 +21,26 @@ public class Events
 
     public static string[] descripcionesBuenas =
     {
-        "El aumento del gasto de los consumidores impulsa las ventas y mejora las expectativas de las empresas.",
-        "El gobierno reduce la carga fiscal sobre las compañías, aumentando sus beneficios netos.",
-        "Las empresas tecnológicas lideran una ola de inversiones que fortalece al mercado.",
-        "Las exportaciones nacionales baten récords y mejoran los ingresos de numerosas industrias.",
-        "La inflación cae a niveles bajos, favoreciendo la estabilidad económica y el consumo.",
-        "Nuevos tratados comerciales abren mercados adicionales para las empresas locales.",
-        "La economía crece más de lo previsto por los analistas, impulsando la confianza inversora.",
-        "Los consumidores muestran optimismo sobre el futuro económico y aumentan sus compras.",
-        "El hallazgo de recursos valiosos atrae inversión nacional e internacional.",
-        "Las entidades financieras facilitan el acceso al crédito para empresas y ciudadanos."
+        @"El aumento del gasto de los consumidores impulsa las
+ ventas y mejora las expectativas de las empresas.",
+        @"El gobierno reduce la carga fiscal sobre
+ las compañías, aumentando sus beneficios netos.",
+        @"Las empresas tecnológicas lideran una
+ ola de inversiones que fortalece al mercado.",
+        @"Las exportaciones nacionales baten récords
+ y mejoran los ingresos de numerosas industrias.",
+        @"La inflación cae a niveles bajos, favoreciendo
+ la estabilidad económica y el consumo.",
+        @"Nuevos tratados comerciales abren mercados
+ adicionales para las empresas locales.",
+        @"La economía crece más de lo previsto por los
+ analistas, impulsando la confianza inversora.",
+        @"Los consumidores muestran optimismo sobre
+ el futuro económico y aumentan sus compras.",
+        @"El hallazgo de recursos valiosos atrae
+ inversión nacional e internacional.",
+        @"Las entidades financieras facilitan el
+ acceso al crédito para empresas y ciudadanos."
     };
 
     public static string[] titulosMalos =
@@ -49,16 +59,26 @@ public class Events
 
     public static string[] descripcionesMalas =
     {
-        "Los consumidores reducen sus gastos, afectando negativamente las ventas de las empresas.",
-        "Las compañías enfrentan mayores costos fiscales que reducen su rentabilidad.",
-        "Varias empresas tecnológicas reportan pérdidas y provocan incertidumbre en el mercado.",
-        "Las exportaciones disminuyen significativamente, afectando los ingresos de múltiples sectores.",
-        "La inflación aumenta y reduce el poder adquisitivo de los ciudadanos.",
-        "Las negociaciones comerciales fracasan y limitan las oportunidades de expansión empresarial.",
-        "La economía muestra señales de enfriamiento que preocupan a los inversionistas.",
-        "Los consumidores reducen sus expectativas económicas y retrasan compras importantes.",
-        "La falta de materias primas provoca retrasos y mayores costos de producción.",
-        "Los bancos endurecen los requisitos para otorgar préstamos, frenando nuevas inversiones."
+        @"Los consumidores reducen sus gastos, afectando
+ negativamente las ventas de las empresas.",
+        @"Las compañías enfrentan mayores costos
+ fiscales que reducen su rentabilidad.",
+        @"Varias empresas tecnológicas reportan pérdidas
+ y provocan incertidumbre en el mercado.",
+        @"Las exportaciones disminuyen significativamente,
+ afectando los ingresos de múltiples sectores.",
+        @"La inflación aumenta y reduce
+ el poder adquisitivo de los ciudadanos.",
+        @"Las negociaciones comerciales fracasan y
+ limitan las oportunidades de expansión empresarial.",
+        @"La economía muestra señales de enfriamiento
+ que preocupan a los inversionistas.",
+        @"Los consumidores reducen sus expectativas
+ económicas y retrasan compras importantes.",
+        @"La falta de materias primas provoca
+ retrasos y mayores costos de producción.",
+        @"Los bancos endurecen los requisitos para 
+otorgar préstamos, frenando nuevas inversiones."
     };
 
     public static void Periodico(Toplevel top)
@@ -74,7 +94,7 @@ public class Events
         top.Add(VentanaPeriodico);
     }
 
-    public static void PasarTurnoPeriodico(string titulo, string descripcion, int NumeroDeArchivo)
+    public static void PasarTurnoPeriodico(ref string titulo , ref string descripcion, int NumeroDeArchivo)
     {
         bool BuenaNoticia = false;
         Random rnd = new Random();
@@ -85,8 +105,8 @@ public class Events
             Random rnd2 = new Random();
             int numNoticia = rnd.Next(descripcionesBuenas.Length);
             Periodicos nuevanoticia = new Periodicos();
-            nuevanoticia.titulo = descripcionesBuenas[numNoticia];
-            nuevanoticia.descripcion = descripcionesBuenas[numNoticia];
+            titulo = nuevanoticia.titulo = titulosBuenos[numNoticia];
+            descripcion = nuevanoticia.descripcion = descripcionesBuenas[numNoticia];
             nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
             
         }
@@ -95,8 +115,8 @@ public class Events
             Random rnd2 = new Random();
             int numNoticia = rnd.Next(descripcionesBuenas.Length);
             Periodicos nuevanoticia = new Periodicos();
-            nuevanoticia.titulo = titulosMalos[numNoticia];
-            nuevanoticia.descripcion = descripcionesMalas[numNoticia];
+            titulo = nuevanoticia.titulo = titulosMalos[numNoticia];
+            descripcion = nuevanoticia.descripcion = descripcionesMalas[numNoticia];
             nuevanoticia.change = (decimal)(rnd2.NextDouble() * 0.20 - 0.10);
         }
     }

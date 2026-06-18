@@ -39,8 +39,13 @@ class Program
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     public static List<Acciones> Accioneshh = new List<Acciones>();
     public static string[] inventario = {"Inventario1.csv", "Inventario2.csv", "Inventario3.csv"};
+    
+    //Relacionado a noticias y periodico
     public static List<Periodicos> noticiash = new List<Periodicos>();
     public static string[] PeriodicoCSV = {"Periodico1.csv", "Periodico2.csv", "Periodico3.csv" };
+    public static string Titulo;
+    public static string Descripcion;
+    
     public static int turno = 0;
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
@@ -1155,20 +1160,29 @@ class Program
             Y = 2
         };
         //Stats del jugador
-        var FrameStats = new FrameView()
+        var FrameNoticias = new FrameView()
         {
             X= 130,
             Y = 2,
-            Width = 28,
+            Width = 60,
             Height = 8,
         };
-        var labelStats = new Label($"Stats, puntos: {puntosmejorastats}")
+        var labelStats = new Label($"Noticias, Turno: {turno}")
         {
             X = Pos.Center(),
             Y = 0
             
         };
-        
+        var titulo = new Label(Titulo)
+        {
+            X = Pos.Center(),
+            Y = 2
+        };
+        var descripcion = new Label(Descripcion)
+        {
+            X = Pos.Center(),
+            Y = 4
+        };
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
@@ -1181,11 +1195,11 @@ class Program
         //Contactos
         GeneracionDeContactos.Contactos(colores, colora, VentanaInicio, ContactosCargados);
 
-        VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameStats);
+        VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias);
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
 
-        FrameStats.Add( labelStats);
+        FrameNoticias.Add( labelStats, titulo, descripcion);
 
     }
 
@@ -1271,7 +1285,7 @@ class Program
             }
 
             GuardarEmpresasActualizadas();
-
+            Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt);
             string[] lineas = File.ReadAllLines(partidas[InvInt]);
 
             for (int i = 0; i < lineas.Length; i++)
@@ -1284,7 +1298,8 @@ class Program
             }
 
             File.WriteAllLines(partidas[InvInt], lineas);
-
+            
+            
             MessageBox.Query(
                 "Turno",
                 "Se actualizaron los capitales bursátiles",
