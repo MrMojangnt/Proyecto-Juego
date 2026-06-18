@@ -1183,6 +1183,10 @@ class Program
             X = Pos.Center(),
             Y = 4
         };
+<<<<<<< HEAD
+        
+=======
+>>>>>>> 5f510c7fd6a570bfba041c491f55020348d04b56
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
@@ -1199,7 +1203,12 @@ class Program
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
 
+<<<<<<< HEAD
+        FrameNoticias.Add(labelStats, titulo, descripcion);
+
+=======
         FrameNoticias.Add( labelStats, titulo, descripcion);
+>>>>>>> 5f510c7fd6a570bfba041c491f55020348d04b56
 
     }
 
