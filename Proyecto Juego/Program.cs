@@ -43,6 +43,7 @@ class Program
     //Relacionado a noticias y periodico
     public static List<Periodicos> noticiash = new List<Periodicos>();
     public static string[] PeriodicoCSV = {"Periodico1.csv", "Periodico2.csv", "Periodico3.csv" };
+    public static string[] historialBalance = { "balance1.csv", "balance2.csv", "balance3.csv" };
     public static string Titulo;
     public static string Descripcion;
     
@@ -998,6 +999,7 @@ class Program
                     save.WriteLine($"ID,Nombre,Costo_Compra,CostoActual,TipoAccion,Cantidad");
                 }
                 
+                InicializarHistorialBalance(i);
                 Guardarempresa(i, true);
                 GeneracionDeContactos.GuardarContactos(i, true);
                 Companiass = Indices.CargarEmpresa(i);
@@ -1072,6 +1074,7 @@ class Program
                 {
                     save.WriteLine(pd.name);
                 }
+                InicializarHistorialBalance(index);
                 Guardarempresa(index, false);
                 GeneracionDeContactos.GuardarContactos(index, false);
                 Companiass = Indices.CargarEmpresa(index);
@@ -1238,8 +1241,7 @@ class Program
         VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias);
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
-
-        FrameStats.Add( labelStats);
+        
 
     }
 
@@ -1413,9 +1415,163 @@ class Program
         BotonesDeJuegoPredeterminado(top, Mercado);
         top.Add(Mercado);
     }
-    
+
+    static decimal ObtenerPrecioAccion(Companias empresa)
+    {
+        return (empresa.capbursatil * 1000000m) / 50000000m;
+    }
+
+    static bool TryObtenerEmpresa(int id, out Companias empresa)
+    {
+        foreach (Companias actual in Companiass)
+        {
+            if (actual.id == id)
+            {
+                empresa = actual;
+                return true;
+            }
+        }
+
+        empresa = default;
+        return false;
+    }
+
+    static void AsegurarHistorialBalance(int indice)
+    {
+        if (!File.Exists(historialBalance[indice]))
+        {
+            InicializarHistorialBalance(indice);
+        }
+    }
+
+    static void InicializarHistorialBalance(int indice)
+    {
+        using (StreamWriter historial = new StreamWriter(historialBalance[indice], false, Encoding.UTF8))
+        {
+            historial.WriteLine("Tipo;EmpresaId;Empresa;Sector;Cantidad;PrecioUnitario;Total;BalanceDespues;Turno");
+        }
+    }
+
+    static void RegistrarMovimientoBalance(string tipo, Companias empresa, int cantidad, decimal precioUnitario, decimal total)
+    {
+        AsegurarHistorialBalance(InvInt);
+
+        using (StreamWriter historial = new StreamWriter(historialBalance[InvInt], true, Encoding.UTF8))
+        {
+            historial.WriteLine(
+                $"{tipo};{empresa.id};{empresa.name};{empresa.rubro};{cantidad};{precioUnitario:F2};{total:F2};{pd.balance:F2};{turno}");
+        }
+    }
+
+    static DataTable CrearTablaPosicionesJugador(out decimal valorCartera, out decimal costoBase, out int totalAcciones)
+    {
+        DataTable tabla = new DataTable();
+        tabla.Columns.Add("Empresa");
+        tabla.Columns.Add("Sector");
+        tabla.Columns.Add("Cant.");
+        tabla.Columns.Add("Costo compra");
+        tabla.Columns.Add("Precio actual");
+        tabla.Columns.Add("Valor actual");
+        tabla.Columns.Add("Ganancia/Pérdida");
+
+        valorCartera = 0m;
+        costoBase = 0m;
+        totalAcciones = 0;
+
+        if (!File.Exists(inventario[InvInt]))
+        {
+            return tabla;
+        }
+
+        List<Acciones> acciones = Inventario.CargarInventario(InvInt);
+        foreach (Acciones accion in acciones)
+        {
+            Companias empresa;
+            decimal precioActual = accion.CostoActual;
+            string sector = "Desconocido";
+            string nombreEmpresa = accion.name;
+
+            if (TryObtenerEmpresa(accion.id, out empresa))
+            {
+                precioActual = ObtenerPrecioAccion(empresa);
+                sector = empresa.rubro;
+                nombreEmpresa = empresa.name;
+            }
+
+            decimal valorActual = precioActual * accion.cantidad;
+            decimal costoRegistrado = accion.CostoDeCompra * accion.cantidad;
+            decimal diferencia = valorActual - costoRegistrado;
+
+            valorCartera += valorActual;
+            costoBase += costoRegistrado;
+            totalAcciones += accion.cantidad;
+
+            tabla.Rows.Add(
+                nombreEmpresa,
+                sector,
+                accion.cantidad,
+                $"{accion.CostoDeCompra:F2}",
+                $"{precioActual:F2}",
+                $"{valorActual:F2}",
+                $"{diferencia:+0.00;-0.00;0.00}");
+        }
+
+        return tabla;
+    }
+
+    static DataTable CrearTablaMovimientosBalance()
+    {
+        DataTable tabla = new DataTable();
+        tabla.Columns.Add("Tipo");
+        tabla.Columns.Add("Empresa");
+        tabla.Columns.Add("Sector");
+        tabla.Columns.Add("Cant.");
+        tabla.Columns.Add("Precio");
+        tabla.Columns.Add("Total");
+        tabla.Columns.Add("Balance");
+        tabla.Columns.Add("Turno");
+
+        if (!File.Exists(historialBalance[InvInt]))
+        {
+            return tabla;
+        }
+
+        string[] lineas = File.ReadAllLines(historialBalance[InvInt], Encoding.UTF8);
+        for (int i = 1; i < lineas.Length; i++)
+        {
+            string[] datos = lineas[i].Split(';');
+            if (datos.Length < 9)
+            {
+                continue;
+            }
+
+            tabla.Rows.Add(
+                datos[0],
+                datos[2],
+                datos[3],
+                datos[4],
+                datos[5],
+                datos[6],
+                datos[7],
+                datos[8]);
+        }
+
+        return tabla;
+    }
+
     static void MostrarReporteBalance(Toplevel top)
     {
+        AsegurarHistorialBalance(InvInt);
+
+        decimal valorCartera;
+        decimal costoBase;
+        int totalAcciones;
+        DataTable tablaPosiciones = CrearTablaPosicionesJugador(out valorCartera, out costoBase, out totalAcciones);
+        DataTable tablaMovimientos = CrearTablaMovimientosBalance();
+
+        decimal patrimonioEstimado = pd.balance + valorCartera;
+        decimal gananciaFlotante = valorCartera - costoBase;
+
         var VentanaBalance = new Window("Reporte de Balance")
         {
             X = 0,
@@ -1425,53 +1581,50 @@ class Program
             ColorScheme = colores[colora]
         };
 
-        var labelTitulo = new Label("═══════════════════════════════════════════════════════════════")
+        var labelResumen = new Label(
+            $@"Jugador: {pd.name} | País: {pd.pais} | Turno: {turno}
+Efectivo: ${pd.balance:F2} | Cartera: ${valorCartera:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
+Costo base: ${costoBase:F2} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}")
         {
             X = 1,
             Y = 1
         };
 
-        var labelNombre = new Label($"Jugador: {pd.name}")
-        {
-            X = 2,
-            Y = 3
-        };
-
-        var labelPais = new Label($"País: {pd.pais}")
-        {
-            X = 2,
-            Y = 4
-        };
-
-        var labelBalance = new Label($"Balance Total: ${pd.balance:F2}")
-        {
-            X = 2,
-            Y = 6,
-        };
-
-        var labelDivisor = new Label("═══════════════════════════════════════════════════════════════")
+        var marcoPosiciones = new FrameView("Posiciones actuales")
         {
             X = 1,
-            Y = 8
+            Y = 5,
+            Width = Dim.Fill() - 2,
+            Height = 9
         };
 
-        var labelTurno = new Label($"Turno Actual: {turno}")
+        var tablaPosicionesView = new TableView()
         {
-            X = 2,
-            Y = 10
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
         };
+        tablaPosicionesView.Table = tablaPosiciones;
+        marcoPosiciones.Add(tablaPosicionesView);
 
-        var labelDetalles = new Label($@"💰 Detalles del Balance:
-────────────────────────────────────────
-  • Dinero en caja: ${pd.balance:F2}
-  • Inversiones en acciones: Consulta el Inventario
-  • Capital en empresas: Ver en Empresas
-
-Presiona el botón para volver.")
+        var marcoMovimientos = new FrameView("Compras y ventas")
         {
-            X = 2,
-            Y = 12
+            X = 1,
+            Y = 15,
+            Width = Dim.Fill() - 2,
+            Height = 9
         };
+
+        var tablaMovimientosView = new TableView()
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill()
+        };
+        tablaMovimientosView.Table = tablaMovimientos;
+        marcoMovimientos.Add(tablaMovimientosView);
 
         var botonVolver = new Button("Volver al Inicio")
         {
@@ -1485,7 +1638,7 @@ Presiona el botón para volver.")
             Inicio(top);
         };
 
-        VentanaBalance.Add(labelTitulo, labelNombre, labelPais, labelBalance, labelDivisor, labelTurno, labelDetalles, botonVolver);
+        VentanaBalance.Add(labelResumen, marcoPosiciones, marcoMovimientos, botonVolver);
         top.Add(VentanaBalance);
     }
     
@@ -1662,6 +1815,7 @@ $@"         PRODUCTOS
                 }
 
                 pd.balance -= precioAccional * cantidty;
+                RegistrarMovimientoBalance("COMPRA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                 MessageBox.Query(
                     "Acciones compradas con exito!",
                     $@"Lograste comprar {cantidty} acciones a un precio unitario de {precioAccional:F2}
@@ -1718,6 +1872,7 @@ para un precio total de {precioAccional*cantidty:F2}",
 
                         File.WriteAllLines(inventario[InvInt], lineas);
                         pd.balance += precioAccional * cantidty;
+                        RegistrarMovimientoBalance("VENTA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                         encontrada = true;
                         MessageBox.Query(
                             "Acciones vendidas con exito!",
