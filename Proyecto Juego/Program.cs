@@ -167,13 +167,15 @@ class Program
     }
     static void Main()
     {
+        Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+        Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+
         Application.Init();
 
 
         var top = Application.Top;
-        
+       
 
-      
         VentanaPrincipal = new Window("Menu")
         {
             X = 0,
