@@ -44,6 +44,8 @@ class Program
     public static List<Periodicos> noticiash = new List<Periodicos>();
     public static string[] PeriodicoCSV = {"Periodico1.csv", "Periodico2.csv", "Periodico3.csv" };
     public static string[] historialBalance = { "balance1.csv", "balance2.csv", "balance3.csv" };
+    public static Dictionary<int, decimal> PronosticoMercado = new Dictionary<int, decimal>();
+    public static decimal DeudaEmergencia = 0m;
     public static string Titulo;
     public static string Descripcion;
     
@@ -517,6 +519,7 @@ class Program
                 }
                 InvInt = 0;
                 Companiass = Indices.CargarEmpresa(0);
+                PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(0);
 
                 top.Remove(VentanaCargarPartida);
@@ -563,6 +566,7 @@ class Program
                 }
                 InvInt = 1;
                 Companiass = Indices.CargarEmpresa(1);
+                PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(1);
 
                 top.Remove(VentanaCargarPartida);
@@ -608,6 +612,7 @@ class Program
                 }
                 InvInt = 2;
                 Companiass =Indices.CargarEmpresa(2);
+                PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(2);
 
                 top.Remove(VentanaCargarPartida);
@@ -1003,6 +1008,7 @@ class Program
                 Guardarempresa(i, true);
                 GeneracionDeContactos.GuardarContactos(i, true);
                 Companiass = Indices.CargarEmpresa(i);
+                PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(i);
                 InvInt = i;
 
@@ -1078,6 +1084,7 @@ class Program
                 Guardarempresa(index, false);
                 GeneracionDeContactos.GuardarContactos(index, false);
                 Companiass = Indices.CargarEmpresa(index);
+                PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(index);
 
                 Application.RequestStop();
@@ -1289,24 +1296,27 @@ class Program
             top.RemoveAll();
             Creditos.MostrarCreditos(top);
         };
-        Random rnd = new Random();
-
         pasarturno.Clicked += () =>
         {
             turno++;
+            if (PronosticoMercado.Count != Companiass.Count)
+            {
+                PrepararPronosticoMercado();
+            }
+
             for (int i = 0; i < Companiass.Count; i++)
             {
-                decimal cambio = (decimal)(rnd.NextDouble() * 0.20 - 0.10);
-                decimal cambio2 = 0;
-                Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt, ref cambio2);
                 Companias empresa = Companiass[i];
+                decimal cambio = 0m;
+                PronosticoMercado.TryGetValue(empresa.id, out cambio);
                 empresa.capbursatil += empresa.capbursatil * cambio;
-                empresa.capbursatil += empresa.capbursatil * cambio2;
 
                 Companiass[i] = empresa;
             }
 
             GuardarEmpresasActualizadas();
+            ActualizarPreciosInventario();
+            PrepararPronosticoMercado();
             string[] lineas = File.ReadAllLines(partidas[InvInt]);
 
             for (int i = 0; i < lineas.Length; i++)
@@ -1373,6 +1383,68 @@ class Program
 
         File.WriteAllLines(inventario[InvInt], lineas);
     }
+
+    public static void AplicarImpactoSector(string sector, decimal multiplicador)
+    {
+        for (int i = 0; i < Companiass.Count; i++)
+        {
+            Companias empresa = Companiass[i];
+
+            if (empresa.rubro == sector)
+            {
+                empresa.capbursatil = Math.Round(empresa.capbursatil * multiplicador, 2);
+                empresa.balance = Math.Round(empresa.balance * multiplicador, 2);
+                Companiass[i] = empresa;
+            }
+        }
+
+        GuardarEmpresasActualizadas();
+        ActualizarPreciosInventario();
+    }
+
+    public static void AplicarPrestamoEmergencia(decimal monto)
+    {
+        pd.balance += monto;
+        DeudaEmergencia += monto;
+    }
+
+    public static void PrepararPronosticoMercado()
+    {
+        PronosticoMercado.Clear();
+
+        foreach (Companias empresa in Companiass)
+        {
+            decimal cambioBase = (decimal)(Random.Shared.NextDouble() * 0.20 - 0.10);
+            decimal cambioNoticias = 0m;
+            Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt, ref cambioNoticias);
+            PronosticoMercado[empresa.id] = Math.Round(cambioBase + cambioNoticias, 4);
+        }
+    }
+
+    public static DataTable ObtenerPronosticoMercado()
+    {
+        DataTable tabla = new DataTable();
+        tabla.Columns.Add("Empresa");
+        tabla.Columns.Add("Sector");
+        tabla.Columns.Add("Cambio esperado");
+        tabla.Columns.Add("Precio estimado");
+
+        foreach (Companias empresa in Companiass)
+        {
+            decimal cambio = 0m;
+            PronosticoMercado.TryGetValue(empresa.id, out cambio);
+            decimal precioEstimado = Math.Round(empresa.capbursatil + (empresa.capbursatil * cambio), 2);
+
+            tabla.Rows.Add(
+                empresa.name,
+                empresa.rubro,
+                $"{cambio:+0.00%;-0.00%;0.00%}",
+                $"{precioEstimado:F2}M");
+        }
+
+        return tabla;
+    }
+
     //creando la ventana de empresas
    
 
@@ -1541,7 +1613,7 @@ class Program
         int totalAcciones;
         DataTable tablaPosiciones = CrearTablaPosicionesJugador(out valorCartera, out costoBase, out totalAcciones);
         DataTable tablaMovimientos = CrearTablaMovimientosBalance();
-        decimal patrimonioEstimado = pd.balance + valorCartera;
+        decimal patrimonioEstimado = pd.balance + valorCartera - DeudaEmergencia;
         decimal gananciaFlotante = valorCartera - costoBase;
 
         var VentanaBalance = new Window("Reporte de Balance")
@@ -1555,7 +1627,7 @@ class Program
 
         var labelResumen = new Label(
             $@"Jugador: {pd.name} | País: {pd.pais} | Turno: {turno}
-Efectivo: ${pd.balance:F2} | Cartera: ${valorCartera:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
+Efectivo: ${pd.balance:F2} | Cartera: ${valorCartera:F2} | Deuda: ${DeudaEmergencia:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
 Costo base: ${costoBase:F2} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}")
         {
             X = 1,
