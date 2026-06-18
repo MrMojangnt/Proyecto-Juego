@@ -67,13 +67,11 @@ public class GeneracionDeContactos
 
             if (Personalidades.PersonalidadesFijas.TryGetValue(pj.name, out int id))
             {
-                pj.rasgospersonalidad = Personalidades.Arqueotipos[id];
                 pj.idArquetipo = id;
             }
             else
             {
                 id = Random.Shared.Next(Personalidades.Arqueotipos.Length);
-                pj.rasgospersonalidad = Personalidades.Arqueotipos[id];
                 pj.idArquetipo = id;
             }
             ContactoshStruct.Add(pj);
@@ -204,33 +202,40 @@ Balance: {contactos.balance}")
         };
 
 
-        var btcancelar = new Button("Cancelar")
+        var btcancelar = new Button("X")
+        {
+            X = Pos.AnchorEnd(6),
+            Y = 1
+        };
+
+        var btLlamar = new Button("Llamar")
         {
             X = Pos.Center(),
             Y = 16
         };
 
-        var btLlamar = new Button("Llamar")
-        {
-            X = Pos.Right(btcancelar),
-            Y = 12
-        };
-
+        bool iniciarLlamada = false;
 
         btLlamar.Clicked += () =>
         {
-            Dialogos_de_Contacto.DialogosAlContestar(contactos);
+            iniciarLlamada = true;
+            Application.RequestStop();
         };
+
         btcancelar.Clicked += () =>
         {
             Application.RequestStop();
-            
         };
         Llamar.Add(DatosContacto, btLlamar, btcancelar);
         Application.Run(Llamar);
 
+        if (iniciarLlamada)
+        {
+            LaLlamada.Llamar(contactos);
+        }
 
-        
+
+
     }
 }
 

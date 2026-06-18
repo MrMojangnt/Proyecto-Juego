@@ -46,7 +46,7 @@ public struct EmpresasNombres //Los nombres de las empresas por sector
         "Alpha Retail Group", "Metro Merchandising", "OceanGate Imports","Summit Trading Co.", "NorthStar Commerce", "BrightPath Logistics", "WorldConnect Trade", 
         "Capital Market Group", "Liberty Commerce", "TradeCore International", "Unified Retail Systems", "Grand Exchange Holdings", "MercaNova" };
 
-    public static string[] Alimenticio = {"Café Devuelvo", "Mestlé", "Bambo", "Bamboo Enterprises", "El Maisán", "Little Lety", "Zazas", "Lalala",
+    public static string[] Alimenticio = {"Café Devuelvo", "Jewstlé", "Bambo", "Bamboo Enterprises", "El Maisán", "Little Lety", "Zazas", "Lalala",
         "Golden Harvest Foods", "Fresh Valley", "NutriFoods International", "Green Table", "Sunrise Nutrition", "Prime Foods Group", "Blue Farm Products",
         "Nature's Choice", "Vital Harvest", "Pure Grain Company", "Silver Spoon Foods", "Happy Cow Dairy", "Mountain Fresh", "Crystal Water Co.", "Ocean Catch Foods",
         "Golden Wheat Industries", "Healthy Roots", "Fresh Planet", "Evergreen Foods", "Harvest Moon Products","Red Apple Nutrition", "Sunny Fields", "Pure Taste Industries", 
