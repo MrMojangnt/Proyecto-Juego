@@ -1235,43 +1235,43 @@ class Program
         var btInicio = new Button("Inicio")
         {
             X = 1,
-            Y = 38
+            Y = Pos.AnchorEnd(2)
         };
         var btBalance = new Button("Balance")
         {
             X = 12,
-            Y = 38
+            Y = Pos.AnchorEnd(2)
         };
         var btPortafolio = new Button("Periodico")
         {
             X=24,
-            Y=38
+            Y=Pos.AnchorEnd(2)
         };
         var btInventario = new Button("Inventario")
         {
             X = 40,
-            Y = 38
+            Y = Pos.AnchorEnd(2)
         };
         var btVerEmpresa = new Button("Ver Empresas")
         {
             X = 58,
-            Y = 38
+            Y =Pos.AnchorEnd(2)
         };
         var btMenu = new Button("Volver al Menu")
         {
             X = 96,
-            Y = 38,
+            Y = Pos.AnchorEnd(2)
         };
         //Botones altos
         var pasarturno = new Button("Pasar turno")
         {
             X = 78,
-            Y = 38,
+            Y = Pos.AnchorEnd(2)
         };
         var LabelTurno = new Label($"Turno Actual: {turno}")
         {
             X = 116,
-            Y = 38
+            Y = Pos.AnchorEnd(2)
         };
         //Funciones
         btInicio.Clicked += () =>
@@ -1293,6 +1293,11 @@ class Program
         {
             top.RemoveAll();
             top.Add(VentanaPrincipal);
+        };
+        btBalance.Clicked += () =>
+        {
+            top.RemoveAll();
+            MostrarReporteBalance(top);
         };
         Random rnd = new Random();
 
@@ -1392,6 +1397,82 @@ class Program
         BotonesDeJuegoPredeterminado(top, Mercado);
         top.Add(Mercado);
     }
+    
+    static void MostrarReporteBalance(Toplevel top)
+    {
+        var VentanaBalance = new Window("Reporte de Balance")
+        {
+            X = 0,
+            Y = 0,
+            Width = Dim.Fill(),
+            Height = Dim.Fill(),
+            ColorScheme = colores[colora]
+        };
+
+        var labelTitulo = new Label("═══════════════════════════════════════════════════════════════")
+        {
+            X = 1,
+            Y = 1
+        };
+
+        var labelNombre = new Label($"Jugador: {pd.name}")
+        {
+            X = 2,
+            Y = 3
+        };
+
+        var labelPais = new Label($"País: {pd.pais}")
+        {
+            X = 2,
+            Y = 4
+        };
+
+        var labelBalance = new Label($"Balance Total: ${pd.balance:F2}")
+        {
+            X = 2,
+            Y = 6,
+        };
+
+        var labelDivisor = new Label("═══════════════════════════════════════════════════════════════")
+        {
+            X = 1,
+            Y = 8
+        };
+
+        var labelTurno = new Label($"Turno Actual: {turno}")
+        {
+            X = 2,
+            Y = 10
+        };
+
+        var labelDetalles = new Label($@"💰 Detalles del Balance:
+────────────────────────────────────────
+  • Dinero en caja: ${pd.balance:F2}
+  • Inversiones en acciones: Consulta el Inventario
+  • Capital en empresas: Ver en Empresas
+
+Presiona el botón para volver.")
+        {
+            X = 2,
+            Y = 12
+        };
+
+        var botonVolver = new Button("Volver al Inicio")
+        {
+            X = Pos.Center(),
+            Y = Pos.AnchorEnd(2)
+        };
+
+        botonVolver.Clicked += () =>
+        {
+            top.RemoveAll();
+            Inicio(top);
+        };
+
+        VentanaBalance.Add(labelTitulo, labelNombre, labelPais, labelBalance, labelDivisor, labelTurno, labelDetalles, botonVolver);
+        top.Add(VentanaBalance);
+    }
+    
     public static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
