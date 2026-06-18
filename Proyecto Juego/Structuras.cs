@@ -75,7 +75,7 @@ public struct NPC
     public override string ToString()
     {
         return $"{name}; {masculino}; {edad}; {sector_dominante}; {balance};"+
-       $"{idArquetipo}"; 
+       $"{idArquetipo}; {Amistad}"; 
     }
 }
 

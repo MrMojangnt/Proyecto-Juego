@@ -22,16 +22,7 @@ public class Dialogos_de_Contacto
 {
     public static readonly string[][] DialogosCuandoPidenConsejo =
     {
-        // 0 - Raúl (equilibrado, directo)
-    [
-        "Decime qué está pasando exactamente,\nsin adornos.",
-        "Si no podés cambiar la situación, \ncambia cómo la enfrentás.",
-        "No todo consejo es útil. \nElegí bien a quién escuchás.",
-        "A veces el problema no es el problema,\n es cómo lo estás viendo.",
-        "Organizá tus ideas antes de buscar respuestas."
-    ],
-
-    // 1 - Generoso (empático)
+    // 0 - Generoso (empático)
     [
         "No tenés que cargar con todo solo.",
         "Es válido no tener claridad ahora mismo.",
@@ -40,7 +31,7 @@ public class Dialogos_de_Contacto
         "No te exijas resolverlo todo hoy."
     ],
 
-    // 2 - Tacaño (frío, mínimo esfuerzo)
+    // 1 - Tacaño (frío, mínimo esfuerzo)
     [
         "No sé qué decirte.",
         "Arreglate como puedas.",
@@ -49,7 +40,7 @@ public class Dialogos_de_Contacto
         "Pensalo vos."
     ],
 
-    // 3 - Paranoico
+    // 2 - Paranoico
     [
         "¿Y si esto es una trampa para confundirte más?",
         "No confíes en soluciones demasiado simples.",
@@ -58,7 +49,7 @@ public class Dialogos_de_Contacto
         "Incluso este consejo podría estar equivocado."
     ],
 
-    // 4 - Charlatán
+    // 3 - Charlatán
     [
         @"Esto me recuerda a una vez que alguien intentó
 resolver su vida con una decisión mínima y terminó 
@@ -73,7 +64,7 @@ esperando ser contada correctamente.",
 observar cómo evoluciona esto."
     ],
 
-    // 5 - Corrupto
+    // 4 - Corrupto
     [
         @"Los consejos también tienen precio, aunque no 
 siempre en dinero.",
@@ -83,7 +74,7 @@ siempre en dinero.",
         "Decidir bien también es una forma de \nnegociación."
     ],
 
-    // 6 - Introvertido
+    // 5 - Introvertido
     [
         "No estoy seguro de ser el indicado para esto…",
         "Quizá podrías intentar… no apresurarte.",
@@ -92,7 +83,7 @@ siempre en dinero.",
         "Lo siento, no tengo mucho que aportar."
     ],
 
-    // 7 - Gruñón
+    // 6 - Gruñón
     [
         "No compliques las cosas.",
         "Haz lo que tengas que hacer y ya.",
@@ -101,7 +92,7 @@ siempre en dinero.",
         "Siguiente problema."
     ],
 
-    // 8 - Manipulador
+    // 7 - Manipulador
     [
         "Podría ayudarte a ver algo que todavía \nno estás viendo.",
         "Interesante momento para buscar guía.",
@@ -110,7 +101,7 @@ siempre en dinero.",
         "Te conviene pensar quién gana con la \ndecisión que tomes."
     ],
 
-    // 9 - DialogosSofia
+    // 8 - DialogosSofia
     [
         @"¿Un consejo? Talvez no te ayude en tus negocios,
 pero: aprovecha el tiempo, no lo desperdicies haciendo
@@ -124,7 +115,7 @@ nunca enfrentan las consecuencias de sus actos.",
 dignidad de las personas. Recuérdalo cuando 
 estés en problemas."
     ],
-    // 10 - DialogosLeah
+    // 9 - DialogosLeah
     [
 @"Trabaja, la gente pobre realmente es pobre porque quiere. 
 El que diga lo contrario, basta ver su cuenta de 
@@ -138,13 +129,9 @@ Aunque por suerte para mí, muchos intentan hacerlo.",
     ]
     };
 
-    //Raul aqui pone cosas que decis cuando contestas una llamada
     public static readonly string[][] DialogosCuandoContestaLaLlamada =
         {
-            // 0 - DialogosDeRaul
-                [ "¡Qué alegría escucharte! ¿Cómo va todo?", "¡Hola! Contame, ¿qué novedades traés?", "¡Buen momento para llamar! ¿Qué necesitás?", "¡Amigo! ¿Qué se cuenta?", "¡Qué gusto! ¿En qué puedo ayudarte?"],
-
-            // 1 - DialogoDelGeneroso =
+            // 0 - DialogoDelGeneroso =
                 [
               "Hola, siempre es bueno saber de vos.",
                     "¿Cómo estás? Espero que todo vaya bien.",
@@ -153,41 +140,41 @@ Aunque por suerte para mí, muchos intentan hacerlo.",
                     "Adelante, te escucho."
                 ],
 
-            // 2 - DialogoDelTacano =
+            // 1 - DialogoDelTacano =
                 [
               "Sí... ¿qué necesitás?", "Espero que esto sea importante.", "Decime rápido, estoy ocupado." ,"¿Qué pasa?", "Sí, hablá."
                 ],
 
-            // 3 - DialogoDelParanoico =
+            // 2 - DialogoDelParanoico =
                 [
               "¿Estás solo?", "¿Confirmaste que nadie te sigue?", "Habrá que hablar rápido...", "Espero que esta llamada sea segura.", "¿Quién más sabe que estamos hablando?"
                 ],
 
-            // 4 - DialogoDelCharlatan =
+            // 3 - DialogoDelCharlatan =
                 [
               "¡No sabés todo lo que tengo para contarte!", "¡Justo estaba pensando en vos!", "¡Qué casualidad que llamaras!", "¡Esperá, esperá! Tengo una historia increíble.", "¡Qué bueno escucharte! Contame todo."
                 ],
 
-            // 5 - DialogoDelCorrupto =
+            // 4 - DialogoDelCorrupto =
                 [
               "Depende de lo que quieras...", "¿Es un negocio?", "Espero que valga la pena atender.", "Habrá que ver qué ganamos.", "Te escucho."
                 ],
 
-            // 6 - DialogoDelIntrovertido =
+            // 5 - DialogoDelIntrovertido =
                 [
               "Hola...", "Sí... decime.", "Estoy escuchando.", "Hola, ¿todo bien?", "¿Qué necesitás?"
                 ],
 
-            // 7 - DialogoDelGrunon =
+            // 6 - DialogoDelGrunon =
                 [
               "¿Qué?", "Sí, hablá.", "¿Qué querés ahora?", "¿Y ahora qué pasó?", "Estoy ocupado."
                 ],
 
-            // 8 - DialogoDelManipulador =
+            // 7 - DialogoDelManipulador =
                 [
               "¡Qué alegría saber de vos!", "Justamente estaba pensando en llamarte.", "Qué coincidencia tan conveniente.", "Siempre es bueno hablar con amigos.", "Contame, seguro encontramos una solución."
                 ],
-            // 9 - DialogosSofia
+            // 8 - DialogosSofia
                 [
                 "¿Qué es lo que quieres? \n¿No tienes cosas más importantes por hacer?",
                 "¿Aló...? Ah, eres tú. ¿Para qué me llamas?",
@@ -195,7 +182,7 @@ Aunque por suerte para mí, muchos intentan hacerlo.",
                 "No estoy de buen humor. Sea lo que sea que quieras, habla rápido.",
                 "Estaba teniendo un buen día hasta que recibí tu llamada."
                 ],
-                    // 10 - DialogosLeah
+            // 9 - DialogosLeah
                 [
                 @"Qué sorpresa. Pensé que era alguien que me 
 debía dinero.",
@@ -211,15 +198,7 @@ necesita la gente como vos."
         };
     public static readonly string[][] DialogosCuandoRespondeAComoTeVa =
 {
-    // 0 - Raul
-    [
-        "Bien, todo tranquilo. ¿Y vos?",
-        "Ahí vamos, sin mucho que contar. ¿Cómo vas vos?",
-        "Todo en orden por aquí, gracias por preguntar.",
-        "Bien, otro día agradecido de no ser vibecoder."
-    ],
-
-    // 1 - Generoso (amable pero natural)
+    // 0 - Generoso (amable pero natural)
     [
         "Muy bien, gracias a Dios. ¿Y tú cómo has estado?",
         "Bastante bien, todo fluyendo con calma. ¿Qué me cuentas?",
@@ -227,7 +206,7 @@ necesita la gente como vos."
         "Todo en paz por aquí, espero que tú también estés bien."
     ],
 
-    // 2 - Tacaño (mínimo esfuerzo emocional)
+    // 1 - Tacaño (mínimo esfuerzo emocional)
     [
         "Bien.",
         "Normal.",
@@ -236,7 +215,7 @@ necesita la gente como vos."
         "Todo bien."
     ],
 
-    // 3 - Paranoico
+    // 2 - Paranoico
     [
         "Bien… creo. ¿Por qué preguntas?",
         "Normal, pero dime… ¿quién más está escuchando?",
@@ -244,7 +223,7 @@ necesita la gente como vos."
         "Bien… aunque no me gusta hablar mucho por teléfono."
     ],
 
-    // 4 - Charlatán (responde “cómo te va” y se desborda igual)
+    // 3 - Charlatán (responde “cómo te va” y se desborda igual)
     [
         @"Bien, pero eso es lo aburrido, porque hoy me pasaron mil cosas:
 primero pensé que iba a ser un día normal, luego todo se complicó 
@@ -263,7 +242,7 @@ en absoluto, de hecho fue tan raro que si
 te lo cuento completo no terminamos hoy."
     ],
 
-    // 5 - Corrupto
+    // 4 - Corrupto
     [
         "Bien… depende de lo que entiendas por ‘bien’.",
         "Se podría decir que bien. Todo tiene su precio, ya sabes.",
@@ -272,7 +251,7 @@ te lo cuento completo no terminamos hoy."
 sigan como deben seguir."
     ],
 
-    // 6 - Introvertido
+    // 5 - Introvertido
     [
         "Bien… gracias por preguntar.",
         "Sí… estoy bien.",
@@ -280,7 +259,7 @@ sigan como deben seguir."
         "Estoy bien, supongo."
     ],
 
-    // 7 - Gruñón
+    // 6 - Gruñón
     [
         "Bien. ¿Y eso qué importa?",
         "Estoy bien, no molestes.",
@@ -288,14 +267,14 @@ sigan como deben seguir."
         "Bien… supongo."
     ],
 
-    // 8 - Manipulador
+    // 7 - Manipulador
     [
         "Muy bien, sorprendentemente bien… aunque siempre es interesante ver quién pregunta eso y con qué intención.",
         "Estoy bien, gracias por preocuparte… es curioso, siempre apareces en momentos oportunos.",
         "Bien, todo bajo control… pero me alegra que llames, las coincidencias dicen mucho.",
         "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
     ],
-    // 9 - DialogosSofia
+    // 8 - DialogosSofia
     [
     "¿Querías preguntarme eso? \nPodrías haberme enviado un mensaje.",
     "Supongo que estoy bien, al menos el negocio va bien.",
@@ -303,7 +282,7 @@ sigan como deben seguir."
     "¿Te preocupas por mi? No necesito que lo hagas.\n Mejor hablemos de negocios.",
     "Mal. ¿De qué te sirve saberlo?"
     ],
-    // 10 - DialogosLeah
+    // 9 - DialogosLeah
     [@"No me quejo. Cada día descubro alguna nueva forma...
 legal de hacer dinero.",
         "Mejor que ayer y peor que mañana, claramente",
@@ -316,15 +295,7 @@ legal de hacer dinero.",
 
     public static readonly string[][] DialogosCuandoPidenPrestamo =
     {
-        // 0 - Raul
-        [
-        "Si es para algo importante, decime. No me gusta dar vueltas cuando hay necesidad real.",
-        "Te escucho, pero quiero claridad. No me pidas lo que no puedas sostener después.",
-        "Podría ayudarte, pero necesito entender bien el motivo.",
-        "Esto no es solo dinero, es confianza. Hablame directo.",
-        "Veré qué puedo hacer, pero no prometo milagros."
-        ],
-        // 1. Generoso
+        // 0. Generoso
         [
         "Claro, decime cuánto necesitás, seguro encontramos una forma de ayudarte.",
         "No te preocupes, para eso están los amigos.",
@@ -332,7 +303,7 @@ legal de hacer dinero.",
         "Podemos ver cómo solucionarlo juntos, no estás solo en esto.",
         "Está bien, pero quiero saber que lo vas a poder recuperar después."
         ],
-        // 2. Tacaño
+        // 1. Tacaño
         [
         "¿Préstamo?… eso suena como una palabra peligrosa.",
         "No estoy muy bien de liquidez ahora mismo… casualmente siempre.",
@@ -340,7 +311,7 @@ legal de hacer dinero.",
         "¿Y cómo planeas devolverlo exactamente?",
         "Estoy un poco corto… desde hace años."
         ],
-        // 3 - Paranoico
+        // 2 - Paranoico
         [
         "¿Por qué justo ahora me pedís eso?",
         "¿Esto es seguro? ¿No hay alguien más escuchando?",
@@ -348,7 +319,7 @@ legal de hacer dinero.",
         "El dinero deja rastros… no sé si me conviene.",
         "¿Esto es una prueba o algo así?"
         ],
-        // 4 - Charlatán
+        // 3 - Charlatán
         [
         "Mirá, justo ayer pensaba en cómo el dinero cambia las relaciones humanas, y ahora venís con esto… curioso.",
         "Podría ayudarte, pero dejame contarte algo antes, porque esto me recuerda una historia increíble.",
@@ -356,7 +327,7 @@ legal de hacer dinero.",
         "Esto es interesante, porque el concepto de deuda es más psicológico que económico, ¿sabías?",
         "Ok, sí, pero antes de eso tengo que explicarte algo que \nnadie me pidió pero igual voy a decir."
         ],
-        // 5 - Corrupto
+        // 4 - Corrupto
         [
         "Todo tiene un precio, incluso la ayuda.",
         "Podemos arreglarlo… dependiendo de qué obtengo a cambio.",
@@ -364,7 +335,7 @@ legal de hacer dinero.",
         "Esto se puede resolver, si hay incentivo correcto.",
         "Decime cuánto vale tu urgencia."
         ],
-        // 6 - Introvertido
+        // 5 - Introvertido
         [
         "...sí, decime.",
         "No sé si puedo ayudar mucho, pero te escucho.",
@@ -372,7 +343,7 @@ legal de hacer dinero.",
         "Podría intentarlo… no prometo nada.",
         "Prefiero cosas simples, esto no lo es tanto."
         ],
-        // 7 - Gruñón
+        // 6 - Gruñón
         [
         "No empieces con eso.",
         "Siempre lo mismo… dinero.",
@@ -380,7 +351,7 @@ legal de hacer dinero.",
         "Esto nunca es rápido, ¿verdad?",
         "Estoy ocupado, pero decime de una vez."
         ],
-        // 8 - Manipulador
+        // 7 - Manipulador
         [
         "Claro… aunque todo en esta vida tiene consecuencias.",
         "Podría ayudarte, pero quiero que recuerdes esto después.",
@@ -388,7 +359,7 @@ legal de hacer dinero.",
         "Interesante momento para pedir algo así.",
         "Veremos cómo se alinea esto con lo que necesito más adelante."
         ],
-        // 9 - DialogosSofia
+        // 8 - DialogosSofia
         [
         "Sí,  pero... ¿me pagarás, verdad? \nNo sé si puedo confiar en ti.",
         "Claro que no. No digas tonterías.",
@@ -396,7 +367,7 @@ legal de hacer dinero.",
         "Quisiera ayudarte, pero no puedo hacerlo en este momento.",
         "Solo por esta vez, ¿entiendes?\n Solo porque eres tú."
         ],
-        // 10 - DialogosLeah
+        // 9 - DialogosLeah
         [@"Claro que estoy dispuesta a prestarte, 
 la verdadera pregunta es cuánto estás dispuesto a devolver.",
         @"Claro, después de todo confío en ti. 

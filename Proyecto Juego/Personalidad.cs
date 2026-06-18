@@ -13,80 +13,80 @@ public static class Personalidades
 {
     public static Dictionary<string, int> PersonalidadesFijas =new()
     {
-        { "Raúl Castillo", 0 },
-        {"Sofía Martínez", 9 },
-        {"Leah Dávila", 10 }
+        {"Sofía Martínez", 8 },
+        {"Leah Dávila", 9 }
     };
     public static readonly Personalidad[] Arqueotipos =
     {
-        //Raul
-        new ()
-        {
-            Dadivoso = 10,
-            Presion = 0,
-        },
 
-        //Sofia
-        new ()
-        {
-            Dadivoso = 10,
-            Presion = 5,
-        },
-        //Generoso
+        // 0 Generoso
         new ()
         {
             Dadivoso = 8,
             Presion = -8,
         },
 
-        //Tacaño
+        // 1 Tacaño
         new ()
         {
             Dadivoso = -7,
             Presion = 10,
         },
 
-        //Paranoico
+        // 2 Paranoico
         new ()
         {
             Dadivoso = 3,
             Presion = 8,
         },
 
-        //Charlatán
+        // 3 Charlatán
         new ()
         {
             Dadivoso = 0,
             Presion = 5,
         },
 
-        // Corrupto
+        // 4 Corrupto
         new ()
         {
             Dadivoso = -2,
             Presion = 5,
         },
 
-        // Introvertido
+        // 5 Introvertido
         new ()
         {
             Dadivoso = 1,
             Presion = -3,
         },
 
-        // Gruñón
+        // 6 Gruñón
         new ()
         {
             Dadivoso = -4,
             Presion = 8,
         },
 
-        // Manipulador
+        // 7 Manipulador
         new ()
         {
             Dadivoso = 1,
             Presion = 1, //pero le va a ofrecer más préstamos y no sé, va a intentar endeudarlo
         }, 
+        // 8 Sofia
+        new ()
+        {
+            Dadivoso = 10,
+            Presion = 5,
+        },
+        // 9 Leah
+        new ()
+        {
+            Dadivoso = 10,
+            Presion = 0,
+        },
+
 
     };
 }

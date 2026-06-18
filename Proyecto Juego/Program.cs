@@ -493,37 +493,58 @@ class Program
         if (File.Exists(partidas[0]) && File.Exists(save_compania[0]))
         {
             bottonslot1.Clicked += () =>
+
             {
-                using (StreamReader save = new StreamReader(partidas[0]))
+                if (!ArchivosDisponibles(
+    partidas[InvInt],
+    inventario[InvInt],
+    save_compania[InvInt],
+    ManejoDeArchivos.contactos[InvInt],
+    historialBalance[InvInt],
+    PeriodicoCSV[InvInt]))
                 {
-                    string nombre = (save.ReadLine() ?? "");
-                    nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = (save.ReadLine() ?? "");
-                    pais = pais.Replace("Pais: ", "");
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                    _= decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                    pd.name = nombre;
-                    pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
-                    pd.balance = balance;
-                    turno = turnos;
-                    InvInt = 0;
+                    MessageBox.Query(
+                        "Error",
+                        "Uno o más archivos de la partida están abiertos en otro programa.",
+                        "Aceptar");
 
+                    return;
                 }
-                InvInt = 0;
-                Companiass = Indices.CargarEmpresa(0);
-                PrepararPronosticoMercado();
-                ContactosCargados = GeneracionDeContactos.CargarContactos(0);
+                else
+                {
 
-                top.Remove(VentanaCargarPartida);
-                Inicio(top);
+
+                    using (StreamReader save = new StreamReader(partidas[0]))
+                    {
+                        string nombre = (save.ReadLine() ?? "");
+                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                        string pais = (save.ReadLine() ?? "");
+                        pais = pais.Replace("Pais: ", "");
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                        pd.name = nombre;
+                        pd.pais = pais;
+                        pd.carisma = carismas;
+                        pd.economia = economia;
+                        pd.fiscalidad = fiscalidad;
+                        pd.corrupcion = corrupcion;
+                        pd.balance = balance;
+                        turno = turnos;
+                        InvInt = 0;
+
+                    }
+                    InvInt = 0;
+                    Companiass = Indices.CargarEmpresa(0);
+                    PrepararPronosticoMercado();
+                    ContactosCargados = GeneracionDeContactos.CargarContactos(0);
+
+                    top.Remove(VentanaCargarPartida);
+                    Inicio(top);
+                }
             };
         }    
         else
@@ -541,36 +562,56 @@ class Program
         {
             bottonslot2.Clicked += () =>
             {
-                using (StreamReader save = new StreamReader(partidas[1]))
+                if (!ArchivosDisponibles(
+    partidas[InvInt],
+    inventario[InvInt],
+    save_compania[InvInt],
+    ManejoDeArchivos.contactos[InvInt],
+    historialBalance[InvInt],
+    PeriodicoCSV[InvInt]))
                 {
-                    string nombre = (save.ReadLine() ?? "");
-                    nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = (save.ReadLine() ?? "");
-                    pais = pais.Replace("Pais: ", "");
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                    pd.name = nombre;
-                    pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
-                    pd.balance = balance;
-                    turno = turnos;
-                    InvInt = 1;
+                    MessageBox.Query(
+                        "Error",
+                        "Uno o más archivos de la partida están abiertos en otro programa.",
+                        "Aceptar");
 
+                    return;
                 }
-                InvInt = 1;
-                Companiass = Indices.CargarEmpresa(1);
-                PrepararPronosticoMercado();
-                ContactosCargados = GeneracionDeContactos.CargarContactos(1);
+                else
+                {
 
-                top.Remove(VentanaCargarPartida);
-                Inicio(top);
+                    using (StreamReader save = new StreamReader(partidas[1]))
+                    {
+                        string nombre = (save.ReadLine() ?? "");
+                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                        string pais = (save.ReadLine() ?? "");
+                        pais = pais.Replace("Pais: ", "");
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                        pd.name = nombre;
+                        pd.pais = pais;
+                        pd.carisma = carismas;
+                        pd.economia = economia;
+                        pd.fiscalidad = fiscalidad;
+                        pd.corrupcion = corrupcion;
+                        pd.balance = balance;
+                        turno = turnos;
+                        InvInt = 1;
+
+                    }
+                    InvInt = 1;
+                    Companiass = Indices.CargarEmpresa(1);
+                    PrepararPronosticoMercado();
+                    ContactosCargados = GeneracionDeContactos.CargarContactos(1);
+
+                    top.Remove(VentanaCargarPartida);
+                    Inicio(top);
+                }
+
             };
         }      
         else
@@ -588,35 +629,54 @@ class Program
         {
             bottonslot3.Clicked += () =>
             {
-                using (StreamReader save = new StreamReader(partidas[2]))
+                if (!ArchivosDisponibles(
+    partidas[InvInt],
+    inventario[InvInt],
+    save_compania[InvInt],
+    ManejoDeArchivos.contactos[InvInt],
+    historialBalance[InvInt],
+    PeriodicoCSV[InvInt]))
                 {
-                    string nombre = (save.ReadLine() ?? "");
-                    nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                    string pais = (save.ReadLine() ?? "");
-                    pais = pais.Replace("Pais: ", "");
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                    pd.name = nombre;
-                    pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
-                    pd.balance = balance;
-                    turno = turnos;
-                    InvInt = 2;
-                }
-                InvInt = 2;
-                Companiass =Indices.CargarEmpresa(2);
-                PrepararPronosticoMercado();
-                ContactosCargados = GeneracionDeContactos.CargarContactos(2);
+                    MessageBox.Query(
+                        "Error",
+                        "Uno o más archivos de la partida están abiertos en otro programa.",
+                        "Aceptar");
 
-                top.Remove(VentanaCargarPartida);
-                Inicio(top);
+                    return;
+                }
+                else
+                {
+
+                    using (StreamReader save = new StreamReader(partidas[2]))
+                    {
+                        string nombre = (save.ReadLine() ?? "");
+                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
+                        string pais = (save.ReadLine() ?? "");
+                        pais = pais.Replace("Pais: ", "");
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                        pd.name = nombre;
+                        pd.pais = pais;
+                        pd.carisma = carismas;
+                        pd.economia = economia;
+                        pd.fiscalidad = fiscalidad;
+                        pd.corrupcion = corrupcion;
+                        pd.balance = balance;
+                        turno = turnos;
+                        InvInt = 2;
+                    }
+                    InvInt = 2;
+                    Companiass = Indices.CargarEmpresa(2);
+                    PrepararPronosticoMercado();
+                    ContactosCargados = GeneracionDeContactos.CargarContactos(2);
+
+                    top.Remove(VentanaCargarPartida);
+                    Inicio(top);
+                }
             };
         }
         else
@@ -1037,20 +1097,38 @@ class Program
         }
         return guardado;
     }
-    static void ActualizarVentana(Window ventana, Action funcion, Toplevel top)
+    public static void ActualizarVentana(Window ventana, Action funcion, Toplevel top)
     {
         top.Remove(ventana);
         funcion();
     }
-    static string LeerNombre(string dato, int i)
+    static string LeerNombre(int i)
     {
-        using (StreamReader save = new StreamReader(partidas[i], Encoding.UTF8))
+        if (!ArchivosDisponibles(
+    partidas[InvInt],
+    inventario[InvInt],
+    save_compania[InvInt],
+    ManejoDeArchivos.contactos[InvInt],
+    historialBalance[InvInt],
+    PeriodicoCSV[InvInt]))
         {
-            string linea = (save.ReadLine()??"");
-            linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
-            return linea;
-        }
+            MessageBox.Query(
+                "Error",
+                "Uno o más archivos de la partida están abiertos en otro programa.",
+                "Aceptar");
 
+            return "";
+        }
+        else
+        {
+
+            using (StreamReader save = new StreamReader(partidas[i], Encoding.UTF8))
+            {
+                string linea = (save.ReadLine() ?? "");
+                linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
+                return linea;
+            }
+        }
     }
 
     static void SobreescribirPartida(Toplevel top)
@@ -1065,7 +1143,7 @@ class Program
         for (int i = 0; i < 3; i++)
         {
             int index = i;
-            string linea = LeerNombre("Nombre", index);
+            string linea = LeerNombre(index);
             SobreSlot[index] = new Button($"Nombre: {linea}")
             {
                 X = 2,
@@ -1136,20 +1214,60 @@ class Program
             int Eliminar = MessageBox.Query("Eliminar",
             "¿Está seguro que desea eliminar esta partida?",
             "Sí", "No");
+
             if(Eliminar== 0)
             {
-            MessageBox.Query("Eliminar",
-                "Partida eliminada con éxito",
-                "Aceptar");
+            if (!ArchivosDisponibles(
+    partidas[InvInt],
+    inventario[InvInt],
+    save_compania[InvInt],
+    ManejoDeArchivos.contactos[InvInt],
+    historialBalance[InvInt],
+    PeriodicoCSV[InvInt]))
+            {
+                MessageBox.Query(
+                    "Error",
+                    "Uno o más archivos de la partida están abiertos en otro programa.",
+                    "Aceptar");
+
+                return;
+            }
+            else
+            {
+
+                MessageBox.Query("Eliminar",
+                    "Partida eliminada con éxito",
+                    "Aceptar");
 
                 File.Delete(partidas[i]);
                 File.Delete(inventario[i]);
                 File.Delete(save_compania[i]);
                 File.Delete(ManejoDeArchivos.contactos[i]);
             }
+            }
 
     }
+    //para controlar una exepcion
+    static bool ArchivosDisponibles(params string[] archivos)
+    {
+        foreach (string archivo in archivos)
+        {
+            try
+            {
+                using FileStream fs = File.Open(
+                    archivo,
+                    FileMode.OpenOrCreate,
+                    FileAccess.ReadWrite,
+                    FileShare.None);
+            }
+            catch (IOException)
+            {
+                return false;
+            }
+        }
 
+        return true;
+    }
     public static void Inicio(Toplevel top)
     {
         var VentanaInicio = new Window("Inicio")
