@@ -497,6 +497,7 @@ class Program
                     _= int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _= decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -504,6 +505,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    turno = turnos;
                     InvInt = 0;
 
                 }
@@ -541,6 +543,7 @@ class Program
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -548,6 +551,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    turno = turnos;
                     InvInt = 1;
 
                 }
@@ -585,6 +589,7 @@ class Program
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _= int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
                     pd.carisma = carismas;
@@ -592,6 +597,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    turno = turnos;
                     InvInt = 2;
                 }
                 InvInt = 2;
@@ -1261,6 +1267,11 @@ class Program
             X = 78,
             Y = 38,
         };
+        var LabelTurno = new Label($"Turno Actual: {turno}")
+        {
+            X = 116,
+            Y = 38
+        };
         //Funciones
         btInicio.Clicked += () =>
         {
@@ -1286,6 +1297,7 @@ class Program
 
         pasarturno.Clicked += () =>
         {
+            turno++;
             for (int i = 0; i < Companiass.Count; i++)
             {
                 decimal cambio = (decimal)(rnd.NextDouble() * 0.20 - 0.10);
@@ -1319,7 +1331,7 @@ class Program
             Inicio(top);
         };
         btInicio.SetFocus();
-        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance);
+        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno);
     }
     static void GuardarEmpresasActualizadas()
     {
