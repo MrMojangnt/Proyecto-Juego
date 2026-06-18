@@ -550,6 +550,40 @@ eres una mejor inversión que el mercado.
 Hasta la próxima, socio."
     ]
 };
+    public static string[][] CobroDeuda =
+{
+    // 0 - Calmo
+    new string[]
+    {
+        "Solo te llamo para recordar lo del préstamo. No hay prisa, pero no lo olvides.",
+        "Cuando puedas, me gustaría que hablemos de lo que te presté.",
+        "No quiero incomodarte, solo organizarnos con lo del dinero."
+    },
+
+    // 1 - Normal
+    new string[]
+    {
+        "Oye, ya pasó un tiempo. Necesito que me devuelvas lo del préstamo.",
+        "No me gusta insistir, pero el dinero no crece en árboles.",
+        "Recuerdo que acordamos algo… sería bueno resolverlo ya."
+    },
+
+    // 2 - Fuerte
+    new string[]
+    {
+        "Esto ya está tardando demasiado. Necesito mi dinero ya.",
+        "No estoy cómodo con el silencio sobre el préstamo.",
+        "Espero que no estés ignorando esto a propósito."
+    },
+
+    // 3 - Agresivo
+    new string[]
+    {
+        "Última advertencia. Devuélveme lo que te presté.",
+        "No me obligues a tomar medidas para recuperar mi dinero.",
+        "Esto ya dejó de ser una conversación amable."
+    }
+};
 }
 
     

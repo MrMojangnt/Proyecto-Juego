@@ -477,7 +477,16 @@ public static class TeLlamanPapuContesta
             _ => 5
         };
     }
-
+    static int GetNivelPresion(sbyte presion)
+    {
+        return presion switch
+        {
+            >= 7 => 3,
+            >= 3 => 2,
+            >= 0 => 1,
+            _ => 0
+        };
+    }
     static void MostrarLlamada(NPC contacto)
     {
         int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
@@ -492,7 +501,10 @@ public static class TeLlamanPapuContesta
             Width = Dim.Fill() - 4,
             Height = 10
         };
+        int nivel = GetNivelPresion((sbyte)contacto.PresionActual);
+        string mensaje = Dialogos_de_Contacto.CobroDeuda[nivel][Random.Shared.Next(Dialogos_de_Contacto.CobroDeuda[nivel].Length)];
         var texto = new Label() { X = 1, Y = 1 };
+        texto.Text = mensaje;
         cuadro.Add(texto);
 
         // Información de deuda (mostramos deuda total por ahora)

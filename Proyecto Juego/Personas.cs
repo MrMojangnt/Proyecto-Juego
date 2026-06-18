@@ -30,9 +30,9 @@ public class GeneracionDeContactos
     "Kenely Ordoñez", "Antonia Ortiz", "María Silva", "Ana Morales"
 };
 
-    static List<NPC> GenerarPersonas()//GENERA LOS NOMBRES, SUS HABILIDADES Y SU BALANCE
+    // Hacer público y asegurar que se cree una instancia nueva por cada contacto
+    public static List<NPC> GenerarPersonas()//GENERA LOS NOMBRES, SUS HABILIDADES Y SU BALANCE
     {
-        NPC pj = new NPC();
         const int MAX = 4;
         List<NPC> ContactoshStruct = new List<NPC>();
         List<string> HombresTemp = Hombres.ToList();// aqui habia new, por si acaso llegan a repetirse contactos eso borré
@@ -43,6 +43,8 @@ public class GeneracionDeContactos
 
         for (int i = 0; i < MAX; i++)
         {
+            NPC pj = new NPC(); // <-- nueva instancia cada iteración
+
             sexo = Random.Shared.Next(2) == 1;
             if (!sexo)
             {
@@ -57,13 +59,10 @@ public class GeneracionDeContactos
                 HombresTemp.RemoveAt(index);
             }
 
-            IndiceSector = Random.Shared.Next(0,Indices.Sectores.Length);
+            IndiceSector = Random.Shared.Next(0, Indices.Sectores.Length);
             pj.masculino = sexo;
             pj.edad = Random.Shared.Next(28, 86);
-
             pj.sector_dominante = Indices.Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
-
-            
             pj.balance = Random.Shared.Next(0, 100000);
 
             if (Personalidades.PersonalidadesFijas.TryGetValue(pj.name, out int id))
@@ -304,6 +303,10 @@ Balance: {contactos.balance}")
 
     }
 }
+
+
+
+
 
 
 

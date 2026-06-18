@@ -493,15 +493,15 @@ class Program
         if (File.Exists(partidas[0]) && File.Exists(save_compania[0]))
         {
             bottonslot1.Clicked += () =>
-
             {
+                int slot = 0;
                 if (!ArchivosDisponibles(
-    partidas[InvInt],
-    inventario[InvInt],
-    save_compania[InvInt],
-    ManejoDeArchivos.contactos[InvInt],
-    historialBalance[InvInt],
-    PeriodicoCSV[InvInt]))
+                    partidas[slot],
+                    inventario[slot],
+                    save_compania[slot],
+                    ManejoDeArchivos.contactos[slot],
+                    historialBalance[slot],
+                    PeriodicoCSV[slot]))
                 {
                     MessageBox.Query(
                         "Error",
@@ -510,41 +510,36 @@ class Program
 
                     return;
                 }
-                else
+
+                using (StreamReader save = new StreamReader(partidas[slot]))
                 {
-
-
-                    using (StreamReader save = new StreamReader(partidas[0]))
-                    {
-                        string nombre = (save.ReadLine() ?? "");
-                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                        string pais = (save.ReadLine() ?? "");
-                        pais = pais.Replace("Pais: ", "");
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                        pd.name = nombre;
-                        pd.pais = pais;
-                        pd.carisma = carismas;
-                        pd.economia = economia;
-                        pd.fiscalidad = fiscalidad;
-                        pd.corrupcion = corrupcion;
-                        pd.balance = balance;
-                        turno = turnos;
-                        InvInt = 0;
-
-                    }
-                    InvInt = 0;
-                    Companiass = Indices.CargarEmpresa(0);
-                    PrepararPronosticoMercado();
-                    ContactosCargados = GeneracionDeContactos.CargarContactos(0);
-
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
+                    string nombre = (save.ReadLine() ?? "");
+                    nombre = nombre.Replace("Nombre: ", "");
+                    string pais = (save.ReadLine() ?? "");
+                    pais = pais.Replace("Pais: ", "");
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                    pd.name = nombre;
+                    pd.pais = pais;
+                    pd.carisma = carismas;
+                    pd.economia = economia;
+                    pd.fiscalidad = fiscalidad;
+                    pd.corrupcion = corrupcion;
+                    pd.balance = balance;
+                    turno = turnos;
+                    InvInt = slot;
                 }
+
+                Companiass = Indices.CargarEmpresa(slot);
+                PrepararPronosticoMercado();
+                ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }    
         else
@@ -562,13 +557,14 @@ class Program
         {
             bottonslot2.Clicked += () =>
             {
+                int slot = 1;
                 if (!ArchivosDisponibles(
-    partidas[InvInt],
-    inventario[InvInt],
-    save_compania[InvInt],
-    ManejoDeArchivos.contactos[InvInt],
-    historialBalance[InvInt],
-    PeriodicoCSV[InvInt]))
+                    partidas[slot],
+                    inventario[slot],
+                    save_compania[slot],
+                    ManejoDeArchivos.contactos[slot],
+                    historialBalance[slot],
+                    PeriodicoCSV[slot]))
                 {
                     MessageBox.Query(
                         "Error",
@@ -577,41 +573,36 @@ class Program
 
                     return;
                 }
-                else
+
+                using (StreamReader save = new StreamReader(partidas[slot]))
                 {
-
-                    using (StreamReader save = new StreamReader(partidas[1]))
-                    {
-                        string nombre = (save.ReadLine() ?? "");
-                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                        string pais = (save.ReadLine() ?? "");
-                        pais = pais.Replace("Pais: ", "");
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                        pd.name = nombre;
-                        pd.pais = pais;
-                        pd.carisma = carismas;
-                        pd.economia = economia;
-                        pd.fiscalidad = fiscalidad;
-                        pd.corrupcion = corrupcion;
-                        pd.balance = balance;
-                        turno = turnos;
-                        InvInt = 1;
-
-                    }
-                    InvInt = 1;
-                    Companiass = Indices.CargarEmpresa(1);
-                    PrepararPronosticoMercado();
-                    ContactosCargados = GeneracionDeContactos.CargarContactos(1);
-
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
+                    string nombre = (save.ReadLine() ?? "");
+                    nombre = nombre.Replace("Nombre: ", "");
+                    string pais = (save.ReadLine() ?? "");
+                    pais = pais.Replace("Pais: ", "");
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                    pd.name = nombre;
+                    pd.pais = pais;
+                    pd.carisma = carismas;
+                    pd.economia = economia;
+                    pd.fiscalidad = fiscalidad;
+                    pd.corrupcion = corrupcion;
+                    pd.balance = balance;
+                    turno = turnos;
+                    InvInt = slot;
                 }
 
+                Companiass = Indices.CargarEmpresa(slot);
+                PrepararPronosticoMercado();
+                ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }      
         else
@@ -629,13 +620,14 @@ class Program
         {
             bottonslot3.Clicked += () =>
             {
+                int slot = 2;
                 if (!ArchivosDisponibles(
-    partidas[InvInt],
-    inventario[InvInt],
-    save_compania[InvInt],
-    ManejoDeArchivos.contactos[InvInt],
-    historialBalance[InvInt],
-    PeriodicoCSV[InvInt]))
+                    partidas[slot],
+                    inventario[slot],
+                    save_compania[slot],
+                    ManejoDeArchivos.contactos[slot],
+                    historialBalance[slot],
+                    PeriodicoCSV[slot]))
                 {
                     MessageBox.Query(
                         "Error",
@@ -644,39 +636,36 @@ class Program
 
                     return;
                 }
-                else
+
+                using (StreamReader save = new StreamReader(partidas[slot]))
                 {
-
-                    using (StreamReader save = new StreamReader(partidas[2]))
-                    {
-                        string nombre = (save.ReadLine() ?? "");
-                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                        string pais = (save.ReadLine() ?? "");
-                        pais = pais.Replace("Pais: ", "");
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
-                        _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-                        _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-                        pd.name = nombre;
-                        pd.pais = pais;
-                        pd.carisma = carismas;
-                        pd.economia = economia;
-                        pd.fiscalidad = fiscalidad;
-                        pd.corrupcion = corrupcion;
-                        pd.balance = balance;
-                        turno = turnos;
-                        InvInt = 2;
-                    }
-                    InvInt = 2;
-                    Companiass = Indices.CargarEmpresa(2);
-                    PrepararPronosticoMercado();
-                    ContactosCargados = GeneracionDeContactos.CargarContactos(2);
-
-                    top.Remove(VentanaCargarPartida);
-                    Inicio(top);
+                    string nombre = (save.ReadLine() ?? "");
+                    nombre = nombre.Replace("Nombre: ", "");
+                    string pais = (save.ReadLine() ?? "");
+                    pais = pais.Replace("Pais: ", "");
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+                    pd.name = nombre;
+                    pd.pais = pais;
+                    pd.carisma = carismas;
+                    pd.economia = economia;
+                    pd.fiscalidad = fiscalidad;
+                    pd.corrupcion = corrupcion;
+                    pd.balance = balance;
+                    turno = turnos;
+                    InvInt = slot;
                 }
+
+                Companiass = Indices.CargarEmpresa(slot);
+                PrepararPronosticoMercado();
+                ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+
+                top.Remove(VentanaCargarPartida);
+                Inicio(top);
             };
         }
         else
@@ -1011,6 +1000,8 @@ class Program
                 pd.fiscalidad = numero3;
                 pd.corrupcion = numero4;
                 pd.balance = 50000;
+                
+
                 guardado = GuardarPartida();
 
                 if (guardado)
@@ -1068,12 +1059,16 @@ class Program
                 
                 InicializarHistorialBalance(i);
                 Guardarempresa(i, true);
-                GeneracionDeContactos.GuardarContactos(i, true);
+
+                // preparar estado y generar contactos para la nueva partida
                 Companiass = Indices.CargarEmpresa(i);
                 PrepararPronosticoMercado();
-                ContactosCargados = GeneracionDeContactos.CargarContactos(i);
-                InvInt = i;
+                ContactosCargados = GeneracionDeContactos.GenerarPersonas();
 
+                // ahora sí guardar contactos (usando la lista generada)
+                GeneracionDeContactos.GuardarContactos(i, true);
+
+                InvInt = i;
                 guardado = true;
                 break;
             }
@@ -1163,6 +1158,13 @@ class Program
                 }
                 InicializarHistorialBalance(index);
                 Guardarempresa(index, false);
+
+                if (Program.ContactosCargados == null || Program.ContactosCargados.Count == 0)
+                {
+                    MessageBox.Query("Error", "No hay contactos en memoria para guardar. Cancela y carga/crea contactos antes de sobrescribir.", "Aceptar");
+                    return;
+                }
+
                 GeneracionDeContactos.GuardarContactos(index, false);
                 Companiass = Indices.CargarEmpresa(index);
                 PrepararPronosticoMercado();
@@ -1488,7 +1490,7 @@ class Program
 
         for (int i = 2; i < lineas.Count; i++)
         {
-            string[] datos = lineas[i].Split(',');
+            string[] datos = lineas[i].Split(",");
 
             int idEmpresa = int.Parse(datos[0]);
 
