@@ -1186,46 +1186,10 @@ class Program
             X = Pos.Center(),
             Y = 4
         };
-        var labelCarisma = new Label($"Carisma: {pd.carisma}")
-        {
-            X = Pos.Center(),
-            Y = 2
-        };
-        var btCarismatic = new Button("+")
-        {
-            X = Pos.Right(labelCarisma)+1,
-            Y = Pos.Y(labelCarisma),
-        };
-        var labeleconomia = new Label($"Economia: {pd.economia}")
-        {
-            X = Pos.Center(),
-            Y = 3
-        };
-        var btEconomia = new Button("+")
-        {
-            X = Pos.Right(labeleconomia)+1,
-            Y = Pos.Y(labeleconomia),
-        };
-        var labelfiscalidad = new Label($"Fiscalidad: {pd.fiscalidad}")
-        {
-            X = Pos.Center(),
-            Y = 4
-        };
-        var btfiscalidad = new Button("+")
-        {
-            X = Pos.Right(labelfiscalidad)+1,
-            Y = Pos.Y(labelfiscalidad),
-        };
-        var labelcorrupcion = new Label($"Corrupcion: {pd.corrupcion}")
-        {
-            X = Pos.Center(),
-            Y = 5
-        };
-        var btCorrupcion = new Button("+")
-        {
-            X = Pos.Right(labelcorrupcion)+1,
-            Y = Pos.Y(labelcorrupcion),
-        };
+<<<<<<< HEAD
+        
+=======
+>>>>>>> 5f510c7fd6a570bfba041c491f55020348d04b56
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
@@ -1241,6 +1205,13 @@ class Program
         VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias);
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
+
+<<<<<<< HEAD
+        FrameNoticias.Add(labelStats, titulo, descripcion);
+
+=======
+        FrameNoticias.Add( labelStats, titulo, descripcion);
+>>>>>>> 5f510c7fd6a570bfba041c491f55020348d04b56
         
 
     }
@@ -1324,15 +1295,16 @@ class Program
             for (int i = 0; i < Companiass.Count; i++)
             {
                 decimal cambio = (decimal)(rnd.NextDouble() * 0.20 - 0.10);
-
+                decimal cambio2 = 0;
+                Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt, ref cambio2);
                 Companias empresa = Companiass[i];
                 empresa.capbursatil += empresa.capbursatil * cambio;
+                empresa.capbursatil += empresa.capbursatil * cambio2;
 
                 Companiass[i] = empresa;
             }
 
             GuardarEmpresasActualizadas();
-            Events.PasarTurnoPeriodico(ref Titulo, ref Descripcion, InvInt);
             string[] lineas = File.ReadAllLines(partidas[InvInt]);
 
             for (int i = 0; i < lineas.Length; i++)
