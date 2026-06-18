@@ -48,7 +48,10 @@ public class Creditos
             "Raúl Antonio Castillo Zamora",
             "Jocksand Mateo Valladares Ramirez",
             "Dorian Zamir Martinez Lopez",
-            "Kennely Maisha Ordóñez Blandón"
+            "Kennely Maisha Ordóñez Blandón",
+            "",
+            "Mencion honorifica:",
+            "Big Data Cluster"
         };
 
         int nombreActual = 0;
