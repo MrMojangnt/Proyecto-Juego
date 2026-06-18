@@ -1440,6 +1440,9 @@ class Program
             GuardarEmpresasActualizadas();
             ActualizarPreciosInventario();
             PrepararPronosticoMercado();
+            decimal balancepormientras = pd.balance;
+            Events.GestorDeEventos(ref balancepormientras);
+            pd.balance = balancepormientras;
             string[] lineas = File.ReadAllLines(partidas[InvInt]);
 
             for (int i = 0; i < lineas.Length; i++)
