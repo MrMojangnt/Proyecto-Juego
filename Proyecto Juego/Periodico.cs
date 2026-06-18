@@ -98,7 +98,7 @@ otorgar préstamos, frenando nuevas inversiones."
     {
         bool BuenaNoticia = false;
         Random rnd = new Random();
-        BuenaNoticia = rnd.Next(2) == 1;
+        BuenaNoticia = rnd.Next(0, 2) == 1;
         //Cuando es una buena noticia
         if (BuenaNoticia)
         {
@@ -120,4 +120,5 @@ otorgar préstamos, frenando nuevas inversiones."
             change = nuevanoticia.change = -(decimal)(rnd.NextDouble() * 0.20 + 0.05);
         }
     }
+    public static void PasarTurnoEventoAleatorio(ref string titulo, ref string descripcion, int NumeroDeArchivo, ref decimal change){}
 }
