@@ -240,18 +240,26 @@ public static class LaLlamada
         NPC contacto, Label texto, Label colgar, Button cerrar, TextField CosoPrestamo
         )
     {
-      
-        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3], 
-            colgar, cerrar, [bt1], []);
         
         if (contacto.Amistad >= 0)
         {
+            EscribirBonito(Dialogos_de_Contacto.DialogosCuandoAceptaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
+            colgar, cerrar, [bt1], []);
+
             CosoPrestamo.Visible = true;
             CosoPrestamo.Enabled = true;
             bt1.X = Pos.Right(CosoPrestamo);
             bt1.Text = "Confirmar";
             estado = 3;
 
+        }
+        else
+        {
+            EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRechazaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
+            colgar, cerrar, [bt1], []);
+            CosoPrestamo.Visible = false;
+            CosoPrestamo.Enabled = false;
+            
         }
 
     }
@@ -271,6 +279,7 @@ public static class LaLlamada
                 $"Se han transferido {cantidty}$ a tu cuenta.",
                 "Aceptar");
                 Program.AplicarPrestamoEmergencia(cantidty);
+                Program.Guardarelbalance();
                 top.RemoveAll();
                 Program.Inicio(top); 
             
@@ -280,6 +289,7 @@ public static class LaLlamada
                 
                 op1.Text = "Gracias por el préstamo, me será muy útil.";
                 bt1.X = Pos.Right(op1) + 3;
+                bt1.Text = "";
                 estado = 4;
             }
             else

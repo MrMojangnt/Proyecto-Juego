@@ -20,6 +20,7 @@ namespace Proyecto_Juego;
 
 public class Dialogos_de_Contacto
 {
+    //El dialogo del consejo
     public static readonly string[][] DialogosCuandoPidenConsejo =
     {
     // 0 - Generoso (empático)
@@ -128,7 +129,7 @@ Aunque por suerte para mí, muchos intentan hacerlo.",
 @"Nunca me pidas prestado nada si valoras tus estadísticas."
     ]
     };
-
+    //Lo primero que dicen cuando tienen la llamada
     public static readonly string[][] DialogosCuandoContestaLaLlamada =
         {
             // 0 - DialogoDelGeneroso =
@@ -196,6 +197,7 @@ necesita la gente como vos."
                 ]
 
         };
+    //Lo que responden los contactos a un como te va
     public static readonly string[][] DialogosCuandoRespondeAComoTeVa =
 {
     // 0 - Generoso (amable pero natural)
@@ -292,79 +294,159 @@ legal de hacer dinero.",
         "Me va mejor que a mis deudores, eso está claro."
         ]
 };
+    //Cuando les decis si te prestan y tenes un nivel de amistad bajo te diran esto
+    public static readonly string[][] DialogosCuandoRechazaranPrestamo =
+{
+    // 0. Generoso
+    [
+        "Perdoname... esta vez no puedo hacerlo.",
+        "Me duele decir que no, pero no sería responsable de mi parte.",
+        "Ojalá pudiera ayudarte, pero prefiero ser sincero."
+    ],
 
-    public static readonly string[][] DialogosCuandoPidenPrestamo =
-    {
-        // 0. Generoso
-        [
+    // 1. Tacaño
+    [
+        "No presto dinero. Es una excelente forma de perderlo.",
+        "Lo pensé... y sigo prefiriendo quedarme con él.",
+        "Mejor no mezclemos amistad con préstamos."
+    ],
+
+    // 2 - Paranoico
+    [
+        "No, esto me parece demasiado sospechoso.",
+        "Prefiero no involucrarme en algo así.",
+        "Hay demasiadas cosas que podrían salir mal."
+    ],
+
+    // 3 - Charlatán
+    [
+        "Te diría que sí, pero una vez hice eso y terminó en una historia larguísima que mejor evitamos repetir.",
+        "Curioso pedido... pero esta vez voy a pasar.",
+        "Podría explicarte por qué no, aunque tardaría una hora. Resumiendo: no."
+    ],
+
+    // 4 - Corrupto
+    [
+        "No veo suficiente beneficio para mí.",
+        "El trato no me resulta conveniente.",
+        "Sin un buen incentivo, no hay acuerdo."
+    ],
+
+    // 5 - Introvertido
+    [
+        "Lo siento... no puedo.",
+        "Preferiría no hacerlo.",
+        "Perdón... esta vez no."
+    ],
+
+    // 6 - Gruñón
+    [
+        "No.",
+        "Buscate otro.",
+        "No tengo ganas de regalar plata."
+    ],
+
+    // 7 - Manipulador
+    [
+        "Todavía no me conviene ayudarte.",
+        "No creo que gane nada prestándote dinero.",
+        "Quizás otro día... cuando me sirva."
+    ],
+
+    // 8 - Sofía
+    [
+        "Claro que no. No digas tonterías.",
+        "Quisiera ayudarte, pero no puedo hacerlo en este momento.",
+        "No sé si puedo confiar en ti."
+    ],
+
+    // 9 - Leah
+    [
+        "Después de analizarlo, la inversión no parece rentable.",
+        "Mi respuesta es no. El riesgo supera el beneficio esperado.",
+        "Prefiero conservar mi capital por ahora."
+    ]
+};
+    //Cuando les decis si te prestan y tenes un nivel de amistad alto te diran esto
+    public static readonly string[][] DialogosCuandoAceptaranPrestamo =
+{
+    // 0. Generoso
+    [
         "Claro, decime cuánto necesitás, seguro encontramos una forma de ayudarte.",
         "No te preocupes, para eso están los amigos.",
         "Si está en mis manos, contá con eso.",
         "Podemos ver cómo solucionarlo juntos, no estás solo en esto.",
         "Está bien, pero quiero saber que lo vas a poder recuperar después."
-        ],
-        // 1. Tacaño
-        [
+    ],
+
+    // 1. Tacaño
+    [
         "¿Préstamo?… eso suena como una palabra peligrosa.",
         "No estoy muy bien de liquidez ahora mismo… casualmente siempre.",
         "Preferiría no mezclar dinero con amistad.",
         "¿Y cómo planeas devolverlo exactamente?",
         "Estoy un poco corto… desde hace años."
-        ],
-        // 2 - Paranoico
-        [
+    ],
+
+    // 2. Paranoico
+    [
         "¿Por qué justo ahora me pedís eso?",
         "¿Esto es seguro? ¿No hay alguien más escuchando?",
         "Necesito más detalles antes de cualquier cosa.",
         "El dinero deja rastros… no sé si me conviene.",
         "¿Esto es una prueba o algo así?"
-        ],
-        // 3 - Charlatán
-        [
+    ],
+
+    // 3. Charlatán
+    [
         "Mirá, justo ayer pensaba en cómo el dinero cambia las relaciones humanas, y ahora venís con esto… curioso.",
         "Podría ayudarte, pero dejame contarte algo antes, porque esto me recuerda una historia increíble.",
-        "Te juro que una vez presté dinero y terminó siendo una experiencia filosófica casi absurda… pero bueno, decime.",
-        "Esto es interesante, porque el concepto de deuda es más psicológico que económico, ¿sabías?",
-        "Ok, sí, pero antes de eso tengo que explicarte algo que \nnadie me pidió pero igual voy a decir."
-        ],
-        // 4 - Corrupto
-        [
+        "Te juro que una vez presté dinero y terminó siendo una \nexperiencia filosófica casi absurda… pero bueno, decime.",
+        "Esto es interesante, porque el concepto de deuda es más \npsicológico que económico, ¿sabías?",
+        "Ok, sí, pero antes de eso tengo que explicarte algo que nadie me pidió pero igual voy a decir."
+    ],
+
+    // 4. Corrupto
+    [
         "Todo tiene un precio, incluso la ayuda.",
         "Podemos arreglarlo… dependiendo de qué obtengo a cambio.",
         "No es un problema de dinero, es de acuerdos.",
         "Esto se puede resolver, si hay incentivo correcto.",
         "Decime cuánto vale tu urgencia."
-        ],
-        // 5 - Introvertido
-        [
+    ],
+
+    // 5. Introvertido
+    [
         "...sí, decime.",
         "No sé si puedo ayudar mucho, pero te escucho.",
         "Es complicado para mí, pero entiendo.",
         "Podría intentarlo… no prometo nada.",
         "Prefiero cosas simples, esto no lo es tanto."
-        ],
-        // 6 - Gruñón
-        [
+    ],
+
+    // 6. Gruñón
+    [
         "No empieces con eso.",
         "Siempre lo mismo… dinero.",
         "¿No podés arreglártelas solo?",
         "Esto nunca es rápido, ¿verdad?",
         "Estoy ocupado, pero decime de una vez."
-        ],
-        // 7 - Manipulador
-        [
+    ],
+
+    // 7. Manipulador
+    [
         "Claro… aunque todo en esta vida tiene consecuencias.",
         "Podría ayudarte, pero quiero que recuerdes esto después.",
         "No hay problema, confío en vos… por ahora.",
         "Interesante momento para pedir algo así.",
         "Veremos cómo se alinea esto con lo que necesito más adelante."
-        ],
+    ],
+
         // 8 - DialogosSofia
         [
         "Sí,  pero... ¿me pagarás, verdad? \nNo sé si puedo confiar en ti.",
-        "Claro que no. No digas tonterías.",
         "Está bien. Pero si no me pagas te prometo \nque no te volveré a hablar en tu vida.",
-        "Quisiera ayudarte, pero no puedo hacerlo en este momento.",
+        "Supongo que puedo escuchar cuánto necesitas.",
         "Solo por esta vez, ¿entiendes?\n Solo porque eres tú."
         ],
         // 9 - DialogosLeah
@@ -378,7 +460,9 @@ también es divertido.",
         @"No hay problema. He financiado ideas 
 peores y personas menos convincentes."
         ]
-    };
+};
+
+
     public static readonly string[][] DialogosCuandoPrestanDinero =
 {
     // 0 - Generoso

@@ -72,10 +72,12 @@ public class GeneracionDeContactos
             }
             else
             {
-                id = Random.Shared.Next(Personalidades.Arqueotipos.Length);
+              
+                id = Random.Shared.Next(Personalidades.Arqueotipos.Length - 2);
                 pj.idArquetipo = id;
             }
             pj.Amistad = RandomizadorControladoDeAmistad(pj);
+            pj.UltimoTurnoLlamado = -1;
             ContactoshStruct.Add(pj);
    
         }
@@ -96,7 +98,7 @@ public class GeneracionDeContactos
                 break;
 
             case 6:
-                pj.Amistad = (sbyte)Random.Shared.Next(-10, 0);
+                pj.Amistad = (sbyte)Random.Shared.Next(-10, 1);
                 break;
 
             case 7:
@@ -119,7 +121,7 @@ public class GeneracionDeContactos
 
         using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.contactos[i], zzz, Encoding.UTF8))
         {
-            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance");
+            Contac.WriteLine("Nombre; Sexo; Edad; Sector; Balance; i?; i?; ultimoturno");
             for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
                 Contac.WriteLine(ContactosDelJugador[p]);
@@ -148,6 +150,7 @@ public class GeneracionDeContactos
                 ContactosCargados.sector_dominante = lineas[3];
                 ContactosCargados.balance = decimal.Parse(lineas[4]);
                 ContactosCargados.idArquetipo = int.Parse(lineas[5]);
+                ContactosCargados.UltimoTurnoLlamado = int.Parse(lineas[6]);
 
                 ConNPC.Add(ContactosCargados);
             }
@@ -186,7 +189,7 @@ public class GeneracionDeContactos
             int row = e.Row;
 
             var contactorancio = Program.ContactosCargados[row];
-            ContactarAUnContacto(contactorancio);
+            ContactarAUnContacto(row);
 
         };
         TablaContactos.Table = tabla;
@@ -221,8 +224,9 @@ public class GeneracionDeContactos
         }
 
     }*/
-   static void ContactarAUnContacto(NPC contactos)
+   static void ContactarAUnContacto(int indice)
     {
+        NPC contactos = Program.ContactosCargados[indice];
         var Llamar = new Dialog($"{contactos.name}",
    60,
    20
@@ -276,7 +280,19 @@ Balance: {contactos.balance}")
 
         if (iniciarLlamada)
         {
+            if (contactos.UltimoTurnoLlamado == Program.turno)
+            {
+                MessageBox.Query(
+                    "Llamada",
+                    "Ya hablaste con esta persona este turno.",
+                    "Aceptar");
+                return;
+            }
+
             LaLlamada.Llamar(contactos);
+
+            contactos.UltimoTurnoLlamado = Program.turno;
+            Program.ContactosCargados[indice] = contactos;
         }
 
 

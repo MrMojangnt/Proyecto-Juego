@@ -71,6 +71,7 @@ public struct NPC
     public decimal balance;
     public int idArquetipo;
     public sbyte Amistad;
+    public int UltimoTurnoLlamado;
 
     public override string ToString()
     {

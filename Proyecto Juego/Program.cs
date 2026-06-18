@@ -1081,7 +1081,7 @@ class Program
 
         using (StreamWriter save = new StreamWriter(partidas[InvInt], true))
         {
-            save.WriteLine($"Turno: {0}");
+            save.WriteLine($"Turno: {turno}");
         }
 
         if (!guardado)
@@ -1155,6 +1155,7 @@ class Program
                 using (StreamWriter save = new StreamWriter(partidas[index]))
                 {
                     save.WriteLine(pd.ToString());
+                    save.WriteLine($"Turno: {turno}");
                 }
                 using (StreamWriter save = new StreamWriter(inventario[index]))
                 {
@@ -2035,8 +2036,8 @@ para un precio total de {precioAccional*cantidty:F2}",
 
                         File.WriteAllLines(inventario[InvInt], lineas);
                         pd.balance += precioAccional * cantidty;
+                        Guardarelbalance();
                         using (StreamWriter save = new StreamWriter(partidas[InvInt], false, Encoding.UTF8))
-                            Guardarelbalance();
                         RegistrarMovimientoBalance("VENTA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                         encontrada = true;
                         MessageBox.Query(
@@ -2070,12 +2071,13 @@ para un total de {precioAccional*cantidty:F2}",
         DetalleEmpresa.Add(btVolver);
         top.Add(DetalleEmpresa);
     }
-    static void Guardarelbalance()
+    public static void Guardarelbalance()
     {
         using (StreamWriter save = new StreamWriter(partidas[InvInt], false, Encoding.UTF8))
         {
             save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
                 $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+            save.WriteLine($"Turno: {turno}");
 
         }
     }
