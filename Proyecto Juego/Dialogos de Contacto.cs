@@ -354,7 +354,7 @@ legal de hacer dinero.",
         "Podría ayudarte, pero dejame contarte algo antes, porque esto me recuerda una historia increíble.",
         "Te juro que una vez presté dinero y terminó siendo una experiencia filosófica casi absurda… pero bueno, decime.",
         "Esto es interesante, porque el concepto de deuda es más psicológico que económico, ¿sabías?",
-        "Ok, sí, pero antes de eso tengo que explicarte algo que nadie me pidió pero igual voy a decir."
+        "Ok, sí, pero antes de eso tengo que explicarte algo que \nnadie me pidió pero igual voy a decir."
         ],
         // 5 - Corrupto
         [

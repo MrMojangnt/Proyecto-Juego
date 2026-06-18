@@ -1275,6 +1275,7 @@ class Program
         };
         btMenu.Clicked += () =>
         {
+            GuardarPartida();
             top.RemoveAll();
             top.Add(VentanaPrincipal);
         };
