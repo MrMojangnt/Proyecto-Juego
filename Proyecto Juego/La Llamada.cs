@@ -121,6 +121,18 @@ public static class LaLlamada
                         break;
                 }
                 break;
+            case 2:
+                switch (estado)
+                {
+                    case 0:
+                        Consejo(op1, bt1, op2, bt2, op3, bt3, contacto, texto);
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+                break;
         }
 
     }    
@@ -142,7 +154,11 @@ public static class LaLlamada
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenPrestamo[contacto.idArquetipo], texto, bt1, bt2, bt3);
         
     }
+    static void  Consejo(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto)
+    {
+        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPidenConsejo[contacto.idArquetipo], texto, bt1, bt2, bt3); // se llama la funcion para escribir letra por letra
 
+    }
     public static void Llamar(NPC contacto)
     {
 

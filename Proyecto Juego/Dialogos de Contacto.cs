@@ -1,22 +1,122 @@
 ﻿using Empresas;
+using NAudio.CoreAudioApi;
+using NAudio.Wave;
 using System;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography;
 using Terminal.Gui;
 namespace Proyecto_Juego;
 
 public class Dialogos_de_Contacto
 {
-    public static void ConsejosDeContacto()
+    public static readonly string[][] DialogosCuandoPidenConsejo =
     {
+        // 0 - Raúl (equilibrado, directo)
+    [
+        "Decime qué está pasando exactamente,\nsin adornos.",
+        "Si no podés cambiar la situación, \ncambia cómo la enfrentás.",
+        "No todo consejo es útil. \nElegí bien a quién escuchás.",
+        "A veces el problema no es el problema,\n es cómo lo estás viendo.",
+        "Organizá tus ideas antes de buscar respuestas."
+    ],
 
-    }
+    // 1 - Generoso (empático)
+    [
+        "No tenés que cargar con todo solo.",
+        "Es válido no tener claridad ahora mismo.",
+        "Tomate tu tiempo, no hay prisa real.",
+        "A veces hablarlo ya empieza a ordenarlo.",
+        "No te exijas resolverlo todo hoy."
+    ],
+
+    // 2 - Tacaño (frío, mínimo esfuerzo)
+    [
+        "No sé qué decirte.",
+        "Arreglate como puedas.",
+        "Eso ya es problema tuyo.",
+        "No tengo tiempo para esto.",
+        "Pensalo vos."
+    ],
+
+    // 3 - Paranoico
+    [
+        "¿Y si esto es una trampa para confundirte más?",
+        "No confíes en soluciones demasiado simples.",
+        "Primero asegurate de que no te están manipulando.",
+        "Nada es tan casual como parece.",
+        "Incluso este consejo podría estar equivocado."
+    ],
+
+    // 4 - Charlatán
+    [
+        @"Esto me recuerda a una vez que alguien intentó
+resolver su vida con una decisión mínima y terminó 
+cuestionando todo su pasado.",
+        @"El consejo es interesante, pero más interesante
+es por qué lo necesitás ahora mismo.",
+        @"A veces la respuesta no importa tanto
+como la pregunta.",
+        @"Todo problema es también una historia 
+esperando ser contada correctamente.",
+        @"Podría darte una solución, pero prefiero
+observar cómo evoluciona esto."
+    ],
+
+    // 5 - Corrupto
+    [
+        @"Los consejos también tienen precio, aunque no 
+siempre en dinero.",
+        "Depende de qué estés dispuesto a sacrificar.",
+        "Puedo orientarte… si el resultado me \nbeneficia.",
+        "No hay consejo gratis en este mundo.",
+        "Decidir bien también es una forma de \nnegociación."
+    ],
+
+    // 6 - Introvertido
+    [
+        "No estoy seguro de ser el indicado para esto…",
+        "Quizá podrías intentar… no apresurarte.",
+        "A veces el silencio ayuda más que las palabras.",
+        "No sé si tengo una respuesta útil.",
+        "Lo siento, no tengo mucho que aportar."
+    ],
+
+    // 7 - Gruñón
+    [
+        "No compliques las cosas.",
+        "Haz lo que tengas que hacer y ya.",
+        "Esto no es tan profundo como creés.",
+        "Deja de pensar tanto.",
+        "Siguiente problema."
+    ],
+
+    // 8 - Manipulador
+    [
+        "Podría ayudarte a ver algo que todavía \nno estás viendo.",
+        "Interesante momento para buscar guía.",
+        "A veces el mejor consejo es el que te hace \ndepender menos de otros… o más, dependiendo del objetivo.",
+        "Todo consejo tiene una intención detrás,\n incluso este.",
+        "Te conviene pensar quién gana con la \ndecisión que tomes."
+    ],
+
+    // 9 - DialogosSofia
+    [
+        "No",
+        "No",
+        "No",
+        "No",
+        "No",
+    ]
+    };
 
     //Raul aqui pone cosas que decis cuando contestas una llamada
     public static readonly string[][] DialogosCuandoContestaLaLlamada =
         {
             // 0 - DialogosDeRaul
                 [ "¡Qué alegría escucharte! ¿Cómo va todo?", "¡Hola! Contame, ¿qué novedades traés?", "¡Buen momento para llamar! ¿Qué necesitás?", "¡Amigo! ¿Qué se cuenta?", "¡Qué gusto! ¿En qué puedo ayudarte?"],
+
             // 1 - DialogoDelGeneroso =
                 [
               "Hola, siempre es bueno saber de vos.",
@@ -57,9 +157,19 @@ public class Dialogos_de_Contacto
                 ],
 
             // 8 - DialogoDelManipulador =
-          [
+                [
               "¡Qué alegría saber de vos!", "Justamente estaba pensando en llamarte.", "Qué coincidencia tan conveniente.", "Siempre es bueno hablar con amigos.", "Contame, seguro encontramos una solución."
-          ]
+                ],
+            // 9 - DialogosSofia
+                [
+                "¿Qué es lo que quieres? \n¿No tienes cosas más importantes por hacer?",
+                "¿Aló...? Ah, eres tú. ¿Para qué me llamas?",
+                "Hey. Realmente estoy ocupada, ¿Qué necesitas?",
+                "No estoy de buen humor. Sea lo que sea que quieras, habla rápido.",
+                "Estaba teniendo un buen día hasta que recibí tu llamada."
+                ],
+
+
         };
     public static readonly string[][] DialogosCuandoRespondeAComoTeVa =
 {
@@ -146,7 +256,16 @@ sigan como deben seguir."
         "Estoy bien, gracias por preocuparte… es curioso, siempre apareces en momentos oportunos.",
         "Bien, todo bajo control… pero me alegra que llames, las coincidencias dicen mucho.",
         "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
-    ]
+    ],
+    // 9 - DialogosSofia
+    [
+    "¿Querías preguntarme eso? \nPodrías haberme enviado un mensaje.",
+    "Supongo que estoy bien, al menos el negocio va bien.",
+    "No quiero hablar de eso.",
+    "¿Te preocupas por mi? No necesito que lo hagas.\n Mejor hablemos de negocios.",
+    "Mal. ¿De qué te sirve saberlo?"
+    ],
+
 };
 
     public static readonly string[][] DialogosCuandoPidenPrestamo =
@@ -222,8 +341,15 @@ sigan como deben seguir."
         "No hay problema, confío en vos… por ahora.",
         "Interesante momento para pedir algo así.",
         "Veremos cómo se alinea esto con lo que necesito más adelante."
-        ]
-
+        ],
+        // 9 - DialogosSofia
+        [
+        "Sí,  pero... ¿me pagarás, verdad? \nNo sé si puedo confiar en ti.",
+        "Claro que no. No digas tonterías.",
+        "Está bien. Pero si no me pagas te prometo \nque no te volveré a hablar en tu vida.",
+        "Quisiera ayudarte, pero no puedo hacerlo en este momento.",
+        "Solo por esta vez, ¿entiendes?\n Solo porque eres tú."
+        ],
     };
 }
 
