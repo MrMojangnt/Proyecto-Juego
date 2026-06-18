@@ -161,10 +161,21 @@ public class GeneracionDeContactos
             X = 4,
             Y = Pos.Top(TablaContactos)-1
         };
+
+        var LegendariosButton = new Button("Contactos Legendarios")
+        {
+            X = 1,
+            Y = Pos.Bottom(TablaContactos) + 1
+        };
+
+        LegendariosButton.Clicked += () =>
+        {
+            ContactosLegendariosMenu.MostrarMenu();
+        };
         
         
 
-        VentanaInicio.Add(TablaContactos, ContactosLabel);
+        VentanaInicio.Add(TablaContactos, ContactosLabel, LegendariosButton);
     }
  /*   static string LeerNombre(string dato, int i)
     {
