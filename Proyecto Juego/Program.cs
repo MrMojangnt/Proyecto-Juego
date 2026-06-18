@@ -995,7 +995,9 @@ class Program
             {
                 using (StreamWriter save = new StreamWriter(partidas[i], false, Encoding.UTF8))
                 {
-                    save.WriteLine(pd.ToString());
+                    save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
+                        $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+    
                 }
 
                 using (StreamWriter save = new StreamWriter(inventario[i]))
@@ -1282,7 +1284,6 @@ class Program
         };
         btMenu.Clicked += () =>
         {
-            GuardarPartida();
             top.RemoveAll();
             top.Add(VentanaPrincipal);
         };
@@ -1829,7 +1830,6 @@ $@"         PRODUCTOS
                 NuevaAccion.TipoDeAccion = true;
                 NuevaAccion.cantidad += cantidty;
                 bool pader = false; // verificando si existe la acción creo, maldito raul que es pader
-
                 for (int i = 2; i < lineas.Count; i++)
                 {
                     string[] datos = lineas[i].Split(',');
@@ -1859,6 +1859,7 @@ $@"         PRODUCTOS
                 }
 
                 pd.balance -= precioAccional * cantidty;
+                Guardarelbalance();
                 RegistrarMovimientoBalance("COMPRA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                 MessageBox.Query(
                     "Acciones compradas con exito!",
@@ -1916,6 +1917,8 @@ para un precio total de {precioAccional*cantidty:F2}",
 
                         File.WriteAllLines(inventario[InvInt], lineas);
                         pd.balance += precioAccional * cantidty;
+                        using (StreamWriter save = new StreamWriter(partidas[InvInt], false, Encoding.UTF8))
+                            Guardarelbalance();
                         RegistrarMovimientoBalance("VENTA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                         encontrada = true;
                         MessageBox.Query(
@@ -1949,6 +1952,14 @@ para un total de {precioAccional*cantidty:F2}",
         DetalleEmpresa.Add(btVolver);
         top.Add(DetalleEmpresa);
     }
-    
+    static void Guardarelbalance()
+    {
+        using (StreamWriter save = new StreamWriter(partidas[InvInt], false, Encoding.UTF8))
+        {
+            save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
+                $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+
+        }
+    }
     
 }
