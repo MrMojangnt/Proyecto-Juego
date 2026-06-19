@@ -138,7 +138,11 @@ public static class LaLlamada
         });
     }
 
-
+    static void ActualizarVentanaAEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
+    {
+        Application.RequestStop();
+        Indices.VentanaDeEmpresas(top, Program.colores, Program.colora);
+    }
     //Pues esto se refiere a lo primero que aparece en la llamada. El diálogo de cuando te contesta y las opciones que tenés para responder
     static void PrimerDialogo( Label texto, Label Prestamo, Button bt1, Label Consejo, Button bt2, Label Charlar, Button bt3, NPC contacto,
         Label op1, Label op2, Label op3, Label colgar, Button cerrar)
@@ -160,6 +164,7 @@ public static class LaLlamada
     Label colgar, Button cerrar,
     Dialog dial, TextField CosoPrestamo)
     {
+        var top = Application.Top;
         switch (op)
         {
             case 1: //boton 1
@@ -180,6 +185,10 @@ public static class LaLlamada
                         break;
                     case 4:
                         TerminarLlamada();
+                        break;
+                    case 5:
+                        IrseALasEmpresas(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar);
+                        ActualizarVentanaAEmpresas(top, Program.colores, Program.colora);
                         break;
                 }
                 break;
@@ -204,6 +213,9 @@ public static class LaLlamada
                     case 4:
                         TerminarLlamada();
                         break;
+                    case 5:
+                        FinalConsejo(op1, op2, op3, bt1, bt2, bt3, contacto, texto, colgar, cerrar); 
+                        break;
                 }
                 break;
 
@@ -225,6 +237,7 @@ public static class LaLlamada
                     case 4:
                         TerminarLlamada();
                         break;
+                    
                 }
                 break;
         }
@@ -356,16 +369,16 @@ public static class LaLlamada
         estado = 4;
     }
     static void InteraccionSector(
-    NPC contacto,
-    Label texto,
-    Label op1,
-    Label op2,
-    Label op3,
-    Button bt1,
-    Button bt2,
-    Button bt3,
-    Label colgar,
-    Button cerrar)
+      NPC contacto,
+      Label texto,
+      Label op1,
+      Label op2,
+      Label op3,
+      Button bt1,
+      Button bt2,
+      Button bt3,
+      Label colgar,
+      Button cerrar)
     {
         string sector = contacto.sector_dominante;
 
@@ -373,15 +386,18 @@ public static class LaLlamada
         Companias mejor = Indices.ObtenerMejorEmpresa(sector);
         Companias peor = Indices.ObtenerPeorEmpresa(sector);
 
-        // 2. Impacto económico global
-        Program.AplicarImpactoSector(sector, 1.25m);
+        // 2. Validación REAL (no confiar en name null)
+        bool sectorVacio =
+            string.IsNullOrEmpty(mejor.name) &&
+            string.IsNullOrEmpty(peor.name);
 
-        // 3. Validación
-        if (mejor.name == null)
+        if (sectorVacio)
         {
             EscribirBonito(
-                [@$"No hay suficiente información del sector 
-{sector}..." ],
+                new string[]
+                {
+                $"El sector {sector} parece inactivo...\nNo hay datos suficientes."
+                },
                 texto,
                 [bt1, bt2, bt3],
                 [op1, op2, op3],
@@ -392,11 +408,14 @@ public static class LaLlamada
             );
 
             op1.Text = "Entiendo.";
-            op2.Text = "No importa.";
+            op2.Text = "Da igual.";
 
-            estado = 1;
+            estado = 4;
             return;
         }
+
+        // 3. Impacto económico SOLO si hay sector válido
+        Program.AplicarImpactoSector(sector, 1.25m);
 
         // 4. Decisión del NPC
         bool optimista = Random.Shared.NextDouble() > 0.5;
@@ -405,22 +424,36 @@ public static class LaLlamada
 
         if (optimista)
         {
-            mensaje =
-                @$"La empresa {mejor.name} está dominando el sector 
-{sector}. Esto podría traer crecimiento.";
+            if (string.IsNullOrEmpty(mejor.name))
+            {
+                mensaje = $"El sector {sector} muestra señales de crecimiento.";
+                op1.Text = "Interesante.";
+            }
+            else
+            {
+                mensaje =
+                    $"La empresa {mejor.name} está dominando el sector {sector}.\nEl crecimiento parece inevitable.";
 
-            op1.Text = $"Seguir a {mejor.name}";
+                op1.Text = $"Seguir a {mejor.name}";
+            }
         }
         else
         {
-            mensaje =
-                @$"{peor.name} está muy débil… si esto sigue así,
-el sector podría caer.";
+            if (string.IsNullOrEmpty(peor.name))
+            {
+                mensaje = $"El sector {sector} está inestable.";
+                op1.Text = "Preocupante.";
+            }
+            else
+            {
+                mensaje =
+                    $"{peor.name} está muy débil...\nSi esto continúa, el sector podría colapsar.";
 
-            op1.Text = $"Preocuparse por {peor.name}";
+                op1.Text = $"Preocuparse por {peor.name}";
+            }
         }
 
-        // 5. Escribir diálogo con efecto bonito
+        // 5. Diálogo
         EscribirBonito(
             new string[] { mensaje },
             texto,
@@ -436,7 +469,7 @@ el sector podría caer.";
         op2.Text = "No me interesa el mercado.";
         op3.Text = "Cambiemos de tema.";
 
-        estado = 1;
+        estado = 5;
     }
     static void SwitchRespuestaConsejo(NPC contacto, Label op1, Label op2, Label op3)
     {
@@ -494,7 +527,13 @@ el sector podría caer.";
                 break;
         }
     }
-
+    static void IrseALasEmpresas(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3,
+        NPC contacto, Label texto, Label colgar, Button cerrar)
+    {
+        EscribirBonito(["Me despido."], texto, [bt1, bt2, bt3], [op1, op2, op3], colgar, cerrar, [bt1, bt2], [op1, op2]);
+        op1.Text = "Invertir en el sector";
+        op2.Text = "Ignorar análisis";
+    }
     static void TerminarLlamada()
     {
         estado = 0;
