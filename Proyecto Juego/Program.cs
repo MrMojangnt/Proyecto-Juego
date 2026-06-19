@@ -518,19 +518,11 @@ class Program
                     nombre = nombre.Replace("Nombre: ", "");
                     string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
                     pd.balance = balance;
                     DeudaEmergencia = deuda;
                     turno = turnos;
@@ -584,19 +576,11 @@ class Program
                     nombre = nombre.Replace("Nombre: ", "");
                     string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
                     pd.balance = balance;
                     DeudaEmergencia = deuda;
                     turno = turnos;
@@ -650,19 +634,11 @@ class Program
                     nombre = nombre.Replace("Nombre: ", "");
                     string pais = (save.ReadLine() ?? "");
                     pais = pais.Replace("Pais: ", "");
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Carisma: ", ""), out int carismas);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Economia: ", ""), out int economia);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
-                    _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
-                    pd.carisma = carismas;
-                    pd.economia = economia;
-                    pd.fiscalidad = fiscalidad;
-                    pd.corrupcion = corrupcion;
                     pd.balance = balance;
                     DeudaEmergencia = deuda;
                     turno = turnos;
@@ -878,69 +854,7 @@ class Program
             Height = 6
         };
 
-        var Skill_Txt = new Label("Designar Skills (Máximo 30):")
-        {
-            X = 2,
-            Y = 11
-        };
-        VentanaCreacionPersonaje.Add(Skill_Txt);
 
-        var skillCarisma = new Label("Carisma")
-        {
-            X = 2,
-            Y = 12
-        };
-        var Skills_in1 = new TextField("")
-        {
-            X = 2,
-            Y = 13,
-            Width = 30
-        };
-        VentanaCreacionPersonaje.Add(Skills_in1, skillCarisma);
-
-        var skillEconomia = new Label("Economia")
-        {
-            X = 2,
-            Y = 14
-        };
-        var Skills_in2 = new TextField("")
-        {
-            X = 2,
-            Y = 15,
-            Width = 30
-        };
-        VentanaCreacionPersonaje.Add(Skills_in2, skillEconomia);
-
-        var skillFiscalidades = new Label("Fiscalidades")
-        {
-            X = 2,
-            Y = 16,
-        };
-        var InfoFiscalidades = new Dialog(
-    "Habilidad para reducir los impuestos pagados(Empresa o jugador)",
-    60,
-    20
-);
-        var Skills_in3 = new TextField("")
-        {
-            X = 2,
-            Y = 17,
-            Width = 30
-        };
-        VentanaCreacionPersonaje.Add(Skills_in3, skillFiscalidades);
-
-        var skillCorrupcion = new Label("Corrupción")
-        {
-            X= 2,  
-            Y = 18,
-        };
-        var Skills_in4 = new TextField("")
-        {
-            X = 2,
-            Y = 19,
-            Width = 30
-        };
-        VentanaCreacionPersonaje.Add(Skills_in4, skillCorrupcion);
         PaisSeleciconado = "Nicaragua";
         ListaPaises.SelectedItemChanged += (args) =>
         {
@@ -973,42 +887,13 @@ class Program
             {
                 nombre = true;
             }
-            //Comprobar skills
-            if (int.TryParse(Skills_in1.Text.ToString(), out numero1) && int.TryParse(Skills_in2.Text.ToString(), out numero2)
-            && int.TryParse(Skills_in3.Text.ToString(), out numero3) && int.TryParse(Skills_in4.Text.ToString(), out numero4))
-            {
-                suma = numero1 + numero2 + numero3 + numero4;
-                if (suma <= 30)
-                {
-                    Skills = true;
-                }
-                else
-                {
-                    MessageBox.Query(
-                        "ERROR",
-                        "Solo tienes 30 puntos para distribuir entre todas las skills",
-                        "Introduce nuevos datos");
-                }
-            }
-            else
-            {
-                MessageBox.Query(
-                    "ERROR",
-                    "Solo puedes ingresar numeros enteros en las skills",
-
-
-                    "Introduce nuevos datos");
-            }
+            
             //Comprobar pais
             //Comprobacion final
-            if (nombre && Skills)
+            if (nombre)
             {
                 pd.name = casillaNombre.Text.ToString()!;
                 pd.pais = PaisSeleciconado;
-                pd.carisma = numero1;
-                pd.economia = numero2;
-                pd.fiscalidad = numero3;
-                pd.corrupcion = numero4;
                 pd.balance = 50000;
                 
 
@@ -1056,8 +941,7 @@ class Program
             {
                 using (StreamWriter save = new StreamWriter(partidas[i], false, Encoding.UTF8))
                 {
-                    save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
-                        $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+                    save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nBalance: {pd.balance}");
                     // nueva línea que persiste la deuda total
                     save.WriteLine($"DeudaEmergencia: {DeudaEmergencia}");
     
@@ -2095,8 +1979,7 @@ para un total de {precioAccional*cantidty:F2}",
     {
         using (StreamWriter save = new StreamWriter(partidas[InvInt], false, Encoding.UTF8))
         {
-            save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
-                $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+            save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nBalance: {pd.balance}");
             save.WriteLine($"DeudaEmergencia: {DeudaEmergencia}");
             save.WriteLine($"Turno: {turno}");
 
