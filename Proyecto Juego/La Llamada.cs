@@ -288,6 +288,7 @@ public static class LaLlamada
                 contacto.LlamadaPendiente = true;
                 contacto.UltimoTurnoPrestamo = Program.turno;
                 contacto.PresionActual = Personalidades.Arqueotipos[contacto.idArquetipo].Presion;
+                contacto.montoprestado += cantidty; // acumula lo que te debe ese contacto
                 int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
 
                 if (index != -1)
@@ -668,14 +669,14 @@ public static class TeLlamanPapuContesta
             var textoResp = new Label() { X = 1, Y = 2 };
 
             dialogoResp.Add(textoResp);
-            LaLlamada.Plantilla(dlg, textoResp, contacto); // usa la interfaz de diálogo existente dentro de esta clase
+            //LaLlamada.Plantilla(dlg, textoResp, contacto); // usa la interfaz de diálogo existente dentro de esta clase
             dlg.Add(nombreResp, dialogoResp);
             Application.Run(dlg);
         };
 
         btnIgnorar.Clicked += () => Application.RequestStop();
 
-        dialogo.Add(nombre, cuadro, deudaInfo, btnPagar, btnResponder, btnIgnorar);
+        dialogo.Add(nombre, cuadro, deudaInfo, btnPagar, btnIgnorar);
         Application.Run(dialogo);
     }
 

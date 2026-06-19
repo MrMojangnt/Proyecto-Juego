@@ -122,8 +122,7 @@ public class GeneracionDeContactos
 
         using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.contactos[i], zzz, Encoding.UTF8))
         {
-            // Cabecera que coincide con NPC.ToString()
-            Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual");
+            Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual;montoprestado");
             for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
                 Contac.WriteLine(ContactosDelJugador[p]);
@@ -156,6 +155,7 @@ public class GeneracionDeContactos
                 ContactosCargados.TienePrestamoActivo = len > 8 && bool.TryParse(lineas[8], out bool tpa) ? tpa : false;
                 ContactosCargados.UltimoTurnoPrestamo = len > 9 && int.TryParse(lineas[9], out int utp) ? utp : -1;
                 ContactosCargados.PresionActual = len > 10 && int.TryParse(lineas[10], out int pa) ? pa : 0;
+                ContactosCargados.montoprestado = len > 11 && decimal.TryParse(lineas[11], out decimal mp) ? mp : 0m;
 
                 ConNPC.Add(ContactosCargados);
             }

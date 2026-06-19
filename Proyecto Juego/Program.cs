@@ -13,7 +13,7 @@ using static Terminal.Gui.Graphs.PathAnnotation;
 class Program
 {
     //Jugador
-    static Proyecto_Juego.Players pd = new Players();
+    public static Proyecto_Juego.Players pd = new Players();
     //Jugador
     static FrameView[] Slots = new FrameView[3];
     static Button[] Borration = new Button[3];
@@ -523,6 +523,7 @@ class Program
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
@@ -531,6 +532,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    DeudaEmergencia = deuda;
                     turno = turnos;
                     InvInt = slot;
                 }
@@ -538,6 +540,7 @@ class Program
                 Companiass = Indices.CargarEmpresa(slot);
                 PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+                RecalcularDeudaEmergencia();
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -586,6 +589,7 @@ class Program
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
@@ -594,6 +598,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    DeudaEmergencia = deuda;
                     turno = turnos;
                     InvInt = slot;
                 }
@@ -601,6 +606,7 @@ class Program
                 Companiass = Indices.CargarEmpresa(slot);
                 PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+                RecalcularDeudaEmergencia();
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -649,6 +655,7 @@ class Program
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Fiscalidad: ", ""), out int fiscalidad);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Corrupcion: ", ""), out int corrupcion);
                     _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
+                    _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
                     _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
                     pd.name = nombre;
                     pd.pais = pais;
@@ -657,6 +664,7 @@ class Program
                     pd.fiscalidad = fiscalidad;
                     pd.corrupcion = corrupcion;
                     pd.balance = balance;
+                    DeudaEmergencia = deuda;
                     turno = turnos;
                     InvInt = slot;
                 }
@@ -664,6 +672,7 @@ class Program
                 Companiass = Indices.CargarEmpresa(slot);
                 PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(slot);
+                RecalcularDeudaEmergencia();
 
                 top.Remove(VentanaCargarPartida);
                 Inicio(top);
@@ -1049,6 +1058,8 @@ class Program
                 {
                     save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
                         $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+                    // nueva línea que persiste la deuda total
+                    save.WriteLine($"DeudaEmergencia: {DeudaEmergencia}");
     
                 }
 
@@ -1065,8 +1076,7 @@ class Program
                 Companiass = Indices.CargarEmpresa(i);
                 PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.GenerarPersonas();
-
-                // ahora sí guardar contactos (usando la lista generada)
+                RecalcularDeudaEmergencia();
                 GeneracionDeContactos.GuardarContactos(i, true);
 
                 InvInt = i;
@@ -2087,9 +2097,19 @@ para un total de {precioAccional*cantidty:F2}",
         {
             save.WriteLine($"Nombre: {pd.name} \nPais: {pd.pais} \nCarisma: {pd.carisma} " +
                 $"\nEconomia: {pd.economia} \nFiscalidad: {pd.fiscalidad} \nCorrupcion: {pd.corrupcion} \nBalance: {pd.balance}");
+            save.WriteLine($"DeudaEmergencia: {DeudaEmergencia}");
             save.WriteLine($"Turno: {turno}");
 
         }
+    }
+
+    // Utilidad: recalcular deuda total desde los contactos (llamar después de CargarContactos)
+    public static void RecalcularDeudaEmergencia()
+    {
+        decimal total = 0m;
+        foreach (var c in ContactosCargados)
+            total += c.montoprestado;
+        DeudaEmergencia = total;
     }
 
     public static bool PagarDeuda(decimal monto)

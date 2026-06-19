@@ -358,6 +358,8 @@ otorgar préstamos, frenando nuevas inversiones."
            int apuesta = MessageBox.Query(titulo, descripcion, "Apostar", "No, Gracias");
            if (apuesta == 0)
            {
+                  //variable para ver si es entero
+                  bool IsDecimal = false;
                   var dialog = new Dialog("Apuesta de Caballos", 60, 15);
 
                   var lblCaballo = new Label("Seleccione un caballo:")
@@ -401,9 +403,25 @@ otorgar préstamos, frenando nuevas inversiones."
 
                   btnAceptar.Clicked += () =>
                   {
-                         Application.RequestStop();
-                         top.RemoveAll();
-                         Apuesta.Iniciar(top);
+                         if (decimal.TryParse(txtDinero.Text.ToString(), out cantidad))
+                         {
+                                IsDecimal = true;
+                         }
+                         if (IsDecimal && cantidad <= Program.pd.balance)
+                         {
+                                Application.RequestStop();
+                                top.RemoveAll();
+                                Apuesta.Iniciar(top);
+                                carreras = false;
+                                listaCaballos.SelectedItemChanged += (args) =>
+                                {
+                                       kavayo = Kavayos[args.Item];
+                                };
+                         }
+                         else
+                         {
+                                MessageBox.Query("ERROR", "No tienes esa cantidad de dinero", "Cerrar");
+                         }
                   };
 
                   btnCancelar.Clicked += () =>
@@ -412,6 +430,8 @@ otorgar préstamos, frenando nuevas inversiones."
                          top.RemoveAll();
                          Program.Inicio(top);
                          Application.RequestStop();
+                         carreras = false;
+                         
                   };
 
                   dialog.Add(
@@ -428,6 +448,7 @@ otorgar préstamos, frenando nuevas inversiones."
            } else if (apuesta == 1)
            {
                   MessageBox.Query("BAH", "Tu te lo pierdes", "Cerrar");
+                  carreras = false;
            }
            
     }

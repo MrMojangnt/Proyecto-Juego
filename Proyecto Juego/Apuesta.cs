@@ -1,3 +1,4 @@
+using Proyecto_Juego;
 using Terminal.Gui;
 public static class Apuesta
 {
@@ -55,12 +56,31 @@ public static class Apuesta
                             $"¡Ganó el Kavayo #{i + 1}!",
                             "Aceptar"
                         );
+                        if (Events.kavayo == i)
+                        {
+                            Program.pd.balance += Events.cantidad * 4;
+                        }
+                        else
+                        {
+                            Program.pd.balance -= Events.cantidad;
+                        }
 
                         return false; // Detiene el temporizador
                     }
                 }
 
                 win.SetNeedsDisplay();
+                var cerrarbutton = new Button("Cerrar")
+                {
+                    X = Pos.Center(),
+                    Y = Pos.Center()
+                };
+                cerrarbutton.Clicked += () =>
+                {
+                    top.RemoveAll();
+                    Program.Inicio(top);
+                };
+                win.Add(cerrarbutton);
 
                 return true; // Continúa la carrera
             });

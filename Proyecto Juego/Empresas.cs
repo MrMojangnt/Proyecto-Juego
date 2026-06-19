@@ -22,7 +22,7 @@ public struct EmpresasNombres //Los nombres de las empresas por sector
         "IEI Sports", "Ventanilla", "Macrosoft", "OCloud", "Spoorifly", "Disquettecord", "Walve", "Quantum Logic", "Unreel Ungine", "GitLub", "Dripbox",
         "Virtual Forge", "AlphaWare", "CyberLeaf", "Code Republic", "Infinity Labs", "Nova Network", "Hyperlink Solutions", "Core Dynamics", 
         "BlueScreen Labs", "Binary Horizon","Vertex Cloud", "PixelForge", "BrightCode", "Synapse Software", "Lunar Logic", "Stellar Systems", "EchoSoft",
-        "Zenith Digital", "Proton Software", "Atlas Technologies","CloudMatrix", "ByteWorks", "MetaNova", "Fusion Logic", "Aether Software", 
+        "Zenith Digital", "SpaceY", "Atlas Technologies","CloudMatrix", "ByteWorks", "MetaNova", "Fusion Logic", "Aether Software", 
         "Hexagon Studios", "Omega Interactive", "Astral Computing", "Nebula Technologies", "Quantum Engine","CodeStorm", "Skyline Software", "Unities", 
         "Pixel Dynamics", "Vertex Systems", "Aurora Systems", "Prime Software", "Titan Systems", "DeepLogic", "MindMesh", "RoboticMind"};
 
