@@ -13,7 +13,7 @@ using static Terminal.Gui.Graphs.PathAnnotation;
 class Program
 {
     //Jugador
-    static Proyecto_Juego.Players pd = new Players();
+    public static Proyecto_Juego.Players pd = new Players();
     //Jugador
     static FrameView[] Slots = new FrameView[3];
     static Button[] Borration = new Button[3];
