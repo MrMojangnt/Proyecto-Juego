@@ -5,6 +5,10 @@ namespace Proyecto_Juego;
 
 public class Events
 {
+       // Verificar si hay carreras
+       public static bool carreras = false;
+       //Kavayos
+       public static int[] Kavayos = { 1, 2, 3, 4 };
        //Noticias
     public static string[] titulosBuenos =
     {
@@ -255,6 +259,176 @@ otorgar préstamos, frenando nuevas inversiones."
            }
     }
 
+    public static void DecisionesInversion(ref decimal balance)
+    {
+           decimal monto = 0;
+           Random rds = new Random();
+           monto = rds.Next(10000, 10000001);
+           // Arreglo de Títulos (Oportunidades de Inversión y Apuestas)
+           string[] titulosOportunidades = new string[]
+           {
+
+                  $"Oportunidad de inversión ángel en Startup tecnológica desde {monto}",
+                  $"Invierte {monto} en el nuevo desarrollo inmobiliario residencial",
+                  $"Apuesta recomendada de {monto} para el torneo de fútbol internacional",
+                  $"Participa en la preventa exclusiva del nuevo token DeFi por {monto}",
+                  $"Conviértete en socio de una franquicia de café invirtiendo {monto}",
+                  $"Copia la estrategia del trader líder de Forex iniciando con {monto}",
+                  $"Adquiere bonos de energía renovable con un valor de {monto}",
+                  $"Oportunidad de refugio financiero en contratos de oro por {monto}",
+                  $"Invitación al fondo de capital de riesgo con un ticket de {monto}",
+                  $"Invierte {monto} en pagarés financieros de alto rendimiento garantizado",
+                  $"Oportunidad de negocio en la compra de inventario mayorista por {monto}",
+                  $"Compra una fracción de una obra de arte moderna valorada en {monto}",
+                  $"Participa en la oferta pública inicial (IPO) de la Fintech del año con {monto}",
+                  $"Invierte {monto} en el proyecto de cultivo tecnológico sostenible",
+                  $"Configura tu portafolio automatizado inyectando {monto} en fondos indexados",
+                  $"Únete al pool de validación y staking cripto aportando {monto}",
+                  $"Diversifica prestando {monto} a solicitantes pre-aprobados mediante P2P",
+                  $"Invitación exclusiva al torneo de póker VIP con una entrada de {monto}",
+                  $"Adquiere potencia de procesamiento de datos en la nube invirtiendo {monto}",
+                  $"Compra pagarés corporativos de la multinacional líder por {monto}"
+           };
+
+           // Arreglo de Descripciones (Oportunidades de Inversión y Apuestas)
+           string[] descripcionesOportunidades = new string[]
+           {
+                  $"Te invitamos a formar parte de la próxima gran empresa de inteligencia artificial; asegura tu participación con una inversión inicial de {monto}.",
+                  $"Súmate al fondeo colectivo para la construcción de una torre de departamentos de lujo aportando un monto mínimo de {monto}.",
+                  $"Nuestros analistas sugieren colocar un stake de {monto} a la victoria del equipo local debido a su racha invicta esta temporada.",
+                  $"Consigue acceso temprano antes del listado oficial en exchanges públicos adquiriendo un paquete de tokens valorado en {monto}.",
+                  $"Abre una nueva sucursal bajo un modelo llave en mano participando en el pool de inversionistas con una cuota fija de {monto}.",
+                  $"Automatiza tus operaciones en el mercado de divisas replicando los movimientos del portafolio institucional con un capital base de {monto}.",
+                  $"Apoya la transición hacia paneles solares a gran escala e invierte {monto} en renta fija con un impacto ambiental positivo.",
+                  $"Protege tu patrimonio contra la inflación abriendo una posición de futuros respaldada en lingotes de oro físicos desde {monto}.",
+                  $"Accede a un portafolio diversificado de empresas de biotecnología en etapa temprana aportando un capital semilla de {monto}.",
+                  $"Asegura una tasa de interés fija bastante atractiva colocando {monto} a un plazo de 365 días con total respaldo institucional.",
+                  $"Únete a la campaña de importación de productos de alta demanda para la temporada comercial financiando un lote por {monto}.",
+                  $"El mercado del arte ya no es solo para millonarios; adquiere tu token de copropiedad sobre un cuadro de colección por {monto}.",
+                  $"Te invitamos a colocar una orden de compra preferencial por {monto} antes de que las acciones coticen de manera abierta en la bolsa.",
+                  $"Financia la tecnificación de campos de cultivo hidropónico y recibe utilidades anuales invirtiendo un monto base de {monto}.",
+                  $"Aprovechaste la corrección del mercado de valores para programar una inyección de capital de {monto} en las empresas del S&P 500.",
+                  $"Incrementa tus activos digitales congelando tus fondos en el nodo de gobernanza, con una participación mínima requerida de {monto}.",
+                  $"Conviértete en el banco de alguien más y fondea microcréditos comerciales distribuyendo un capital total de {monto}.",
+                  $"Reserva tu asiento en la mesa principal del campeonato internacional de Texas Hold'em cubriendo el buy-in obligatorio de {monto}.",
+                  $"Participa en la infraestructura de procesamiento para redes blockchain arrendando servidores dedicados por un costo de {monto}.",
+                  $"Financia la expansión logística de la empresa líder del sector adquiriendo títulos de deuda privada con un valor nominal de {monto}."
+           };
+           int numEvento = rds.Next(titulosOportunidades.Length);
+           string titulo = titulosOportunidades[numEvento];
+           string descripcion = descripcionesOportunidades[numEvento];
+           int Message = MessageBox.Query(titulo, descripcion, "Invertir", "No, Gracias");
+           if (Message == 0 && balance >= monto)
+           {
+                  balance -= monto;
+                  int exito = rds.Next(0, 101);
+                  if (exito < 40)
+                  {
+                         MessageBox.Query("Suerte para la proxima", "Haz perdido tu capital", "Cerrar");
+                  }
+                  else if (exito <= 60)
+                  {
+                         MessageBox.Query("Ganaste, nada...", "Al menos recuperaste tu dinero", "Cerrar");
+                         balance += monto;
+                  }
+                  else if (exito <= 90)
+                  {
+                         MessageBox.Query("Ganaste dinero", "Te llevas a tu casa un 50% de lo invertido", "Cerrar");
+                         balance += monto + (monto *0.5m); 
+                  }
+                  else if (exito <= 100)
+                  {
+                         MessageBox.Query("Exito total", "Ganaste un 300% tu dinero", "Cerrar");
+                         balance += monto + (monto * 3);
+                  }
+           }
+           else if (Message == 1 || balance < monto)
+           {
+                  MessageBox.Query("Para la proxima sera...", "Otras ofertas vendran...", "Cerrar");
+           }
+    }
+
+    public static void ApuestasOportunidades( Toplevel top)
+    {
+           string titulo = "Oportunidad de apostar";
+           string descripcion = "Proximas carreras de caballos";
+           int apuesta = MessageBox.Query(titulo, descripcion, "Apostar", "No, Gracias");
+           if (apuesta == 0)
+           {
+                  var dialog = new Dialog("Apuesta de Caballos", 60, 15);
+
+                  var lblCaballo = new Label("Seleccione un caballo:")
+                  {
+                         X = 2,
+                         Y = 1
+                  };
+
+                  var listaCaballos = new ListView(Kavayos)
+                  {
+                         X = 2,
+                         Y = 2,
+                         Width = 25,
+                         Height = 5
+                  };
+
+                  var lblDinero = new Label("Monto a apostar:")
+                  {
+                         X = 30,
+                         Y = 2
+                  };
+
+                  var txtDinero = new TextField("")
+                  {
+                         X = 30,
+                         Y = 3,
+                         Width = 20
+                  };
+
+                  var btnAceptar = new Button("Aceptar")
+                  {
+                         X = Pos.Center() - 10,
+                         Y = 8
+                  };
+
+                  var btnCancelar = new Button("Cancelar")
+                  {
+                         X = Pos.Center() + 2,
+                         Y = 8
+                  };
+
+                  btnAceptar.Clicked += () =>
+                  {
+                         Application.RequestStop();
+                         top.RemoveAll();
+                         Apuesta.Iniciar(top);
+                  };
+
+                  btnCancelar.Clicked += () =>
+                  {
+                         
+                         top.RemoveAll();
+                         Program.Inicio(top);
+                         Application.RequestStop();
+                  };
+
+                  dialog.Add(
+                         lblCaballo,
+                         listaCaballos,
+                         lblDinero,
+                         txtDinero,
+                         btnAceptar,
+                         btnCancelar
+                  );
+                  Application.Run(dialog);
+
+                  
+           } else if (apuesta == 1)
+           {
+                  MessageBox.Query("BAH", "Tu te lo pierdes", "Cerrar");
+           }
+           
+    }
+
     public static void GestorDeEventos(ref decimal balances)
     {
            Random rnd = new Random();
@@ -267,5 +441,21 @@ otorgar préstamos, frenando nuevas inversiones."
            {
                   PasarTurnoGanarDinero(ref balances);
            } 
+           else if (Evento == 2)
+           {
+                  DecisionesInversion(ref balances);
+           }
+           else if (Evento == 3)
+           {
+                  carreras = true;
+           }
+    }
+
+    public static void Apuestas(Toplevel top)
+    {
+           if (carreras)
+           {
+                  ApuestasOportunidades(top);
+           }
     }
 }
