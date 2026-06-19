@@ -18,7 +18,7 @@ class Program
     static FrameView[] Slots = new FrameView[3];
     static Button[] Borration = new Button[3];
     static bool[] saves = new bool[3];
-    static int colora = 0;
+    public static int colora = 0;
     //Audio Música
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
@@ -55,7 +55,7 @@ class Program
     public static int turno = 0;
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
-    static List<ColorScheme> colores = new List<ColorScheme>() {
+    public static List<ColorScheme> colores = new List<ColorScheme>() {
         new ColorScheme()
         {
             //Tema predeterminado

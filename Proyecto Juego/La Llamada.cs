@@ -138,7 +138,11 @@ public static class LaLlamada
         });
     }
 
-
+    static void ActualizarVentanaAEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
+    {
+        Application.RequestStop();
+        Indices.VentanaDeEmpresas(top, Program.colores, Program.colora);
+    }
     //Pues esto se refiere a lo primero que aparece en la llamada. El diálogo de cuando te contesta y las opciones que tenés para responder
     static void PrimerDialogo( Label texto, Label Prestamo, Button bt1, Label Consejo, Button bt2, Label Charlar, Button bt3, NPC contacto,
         Label op1, Label op2, Label op3, Label colgar, Button cerrar)
@@ -160,6 +164,7 @@ public static class LaLlamada
     Label colgar, Button cerrar,
     Dialog dial, TextField CosoPrestamo)
     {
+        var top = Application.Top;
         switch (op)
         {
             case 1: //boton 1
@@ -183,6 +188,7 @@ public static class LaLlamada
                         break;
                     case 5:
                         IrseALasEmpresas(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar);
+                        ActualizarVentanaAEmpresas(top, Program.colores, Program.colora);
                         break;
                 }
                 break;
@@ -208,7 +214,7 @@ public static class LaLlamada
                         TerminarLlamada();
                         break;
                     case 5:
-                        TerminarLlamada();
+                        FinalConsejo(op1, op2, op3, bt1, bt2, bt3, contacto, texto, colgar, cerrar); 
                         break;
                 }
                 break;
