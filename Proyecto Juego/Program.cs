@@ -49,6 +49,9 @@ class Program
     public static string Titulo;
     public static string Descripcion;
     
+    //Trabajos disponibles
+    public static string[] Trabajoslist = { "Desencriptador", "Programador" };
+    public static string TrabajoEscogido = "";
     public static int turno = 0;
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
@@ -1189,7 +1192,7 @@ class Program
             X = Pos.X(LabelUsuario),
             Y = 2
         };
-        //Stats del jugador
+        //Noticias
         var FrameNoticias = new FrameView()
         {
             X= Pos.AnchorEnd(62),
@@ -1213,6 +1216,31 @@ class Program
             X = Pos.Center(),
             Y = 4
         };
+        //Frame trabajar
+        var TrabajoFrame = new FrameView()
+        {
+            X =  Pos.Center(),
+            Y = Pos.Center(),
+            Width = 40,
+            Height = 10
+        };
+        var TituloTrabajo = new Label("Buscar un trabajo")
+        {
+            X = Pos.Center(),
+            Y = 0
+        };
+        var Trabajos = new ListView(Trabajoslist)
+        {
+            X = Pos.Center(),
+            Y = 1,
+            Width = 20,
+            Height = 3
+        };
+        var buttonTrabajar = new Button("Trabajar")
+        {
+            X = Pos.Center(),
+            Y = 4
+        };
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
@@ -1224,12 +1252,11 @@ class Program
         };
         //Contactos
         GeneracionDeContactos.Contactos(colores, colora, VentanaInicio, ContactosCargados);
-
-        VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias);
+        
+        VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias, TrabajoFrame);
         //Esto es lo que se activa si se quiere ver el celular
         //Tutorial.LLamadaIvancito(VentanaInicio);
-
-        FrameNoticias.Add(labelStats, titulo, descripcion);
+        TrabajoFrame.Add(TituloTrabajo, Trabajos, buttonTrabajar);
         FrameNoticias.Add(labelStats, titulo, descripcion);
 
     }
