@@ -1352,10 +1352,22 @@ class Program
             Width = 20,
             Height = 3
         };
+        Trabajos.SelectedItemChanged += (args) =>
+        {
+            TrabajoEscogido = Trabajoslist[args.Item];
+        };
         var buttonTrabajar = new Button("Trabajar")
         {
             X = Pos.Center(),
             Y = 4
+        };
+        //Al clickear trabajar
+        buttonTrabajar.Clicked += () =>
+        {
+            if (TrabajoEscogido == "Desencriptador")
+            {
+                Proyecto_Juego.Trabajos.Desencriptador(top);
+            }
         };
         //botones bajos
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
