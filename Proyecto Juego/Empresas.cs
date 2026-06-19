@@ -273,7 +273,52 @@ public class Indices
         }
         return Comp;
     }
+    public static Companias ObtenerPeorEmpresa(string sector)
+    {
+        int peorIndex = -1;
 
+        for (int i = 0; i < Program.Companiass.Count; i++)
+        {
+            var e = Program.Companiass[i];
+
+            if (e.rubro != sector)
+                continue;
+
+            if (peorIndex == -1 || e.capbursatil < Program.Companiass[peorIndex].capbursatil)
+            {
+                peorIndex = i;
+            }
+        }
+        if (peorIndex == -1)
+        {
+            return default;
+        }
+
+        return Program.Companiass[peorIndex];
+    }
+
+    public static Companias ObtenerMejorEmpresa(string sector)
+    {
+        int mejorIndex = -1;
+
+        for (int i = 0; i < Program.Companiass.Count; i++)
+        {
+            var e = Program.Companiass[i];
+
+            if (e.rubro != sector)
+                continue;
+
+            if (mejorIndex == -1 || e.capbursatil > Program.Companiass[mejorIndex].capbursatil)
+            {
+                mejorIndex = i;
+            }
+        }
+        if (mejorIndex == -1) 
+        { 
+            return default;
+        }
+        return Program.Companiass[mejorIndex];
+    }
     public static void VentanaDeEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
     {
         var VentanaDeEmpresas = new Window()

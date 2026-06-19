@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Empresas;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -145,7 +146,7 @@ public static class LaLlamada
 
         Consejo.Text = "Necesito un consejo."; 
 
-        Charlar.Text = "Solo quería charlar.";
+        Charlar.Text = "Me gustaría invertir en el mercado.";
 
     }
     static void OnOpcion(int op, Label texto,
@@ -187,7 +188,7 @@ public static class LaLlamada
                         break;
 
                     case 1:
-                        Consejo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar);
+                        MenuPrestamo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
                         break;
 
                     case 2:
@@ -206,6 +207,7 @@ public static class LaLlamada
                 switch (estado)
                 {
                     case 0:
+                        InteraccionSector(contacto, op1, op2, op3, texto, bt1, bt2, bt3, colgar, cerrar);
                         break;
                     case 1:
                         break;
@@ -225,7 +227,8 @@ public static class LaLlamada
     
 
     //Lo que sale cuando el usuario presiona como te va
-    static void DespuesDelComoTeVa(Label op1, Button bt1, Label op2, Button bt2, Label op3, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
+    static void DespuesDelComoTeVa(Label op1, Button bt1, Label op2, Button bt2, Label op3,
+        Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
     {
         EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRespondeAComoTeVa[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
             colgar, cerrar, [bt1, bt2, bt3], [op1, op2, op3]);
@@ -342,6 +345,87 @@ public static class LaLlamada
         colgar.Visible = false;
         cerrar.Visible = false;
         estado = 4;
+    }
+    static void InteraccionSector(
+    NPC contacto,
+    Label texto,
+    Label op1,
+    Label op2,
+    Label op3,
+    Button bt1,
+    Button bt2,
+    Button bt3,
+    Label colgar,
+    Button cerrar)
+    {
+        string sector = contacto.sector_dominante;
+
+        // 1. Buscar empresas
+        Companias mejor = Indices.ObtenerMejorEmpresa(sector);
+        Companias peor = Indices.ObtenerPeorEmpresa(sector);
+
+        // 2. Impacto económico global
+        Program.AplicarImpactoSector(sector, 1.25m);
+
+        // 3. Validación
+        if (mejor.name == null)
+        {
+            EscribirBonito(
+                new string[] { $"No hay suficiente información del sector " +
+                $"{sector}..." },
+                texto,
+                [bt1, bt2, bt3],
+                [op1, op2, op3],
+                colgar,
+                cerrar,
+                [bt1, bt2],
+                [op1, op2]
+            );
+
+            op1.Text = "Entiendo.";
+            op2.Text = "No importa.";
+
+            estado = 1;
+            return;
+        }
+
+        // 4. Decisión del NPC
+        bool optimista = Random.Shared.NextDouble() > 0.5;
+
+        string mensaje;
+
+        if (optimista)
+        {
+            mensaje =
+                $"{contacto.name}: La empresa {mejor.name} está dominando el sector {sector}. Esto podría traer crecimiento.";
+
+            op1.Text = $"Seguir a {mejor.name}";
+        }
+        else
+        {
+            mensaje =
+                $"{contacto.name}: {peor.name} está muy débil… si esto sigue así, el sector podría caer.";
+
+            op1.Text = $"Preocuparse por {peor.name}";
+        }
+
+        // 5. Escribir diálogo con efecto bonito
+        EscribirBonito(
+            new string[] { mensaje },
+            texto,
+            [bt1, bt2, bt3],
+            [op1, op2, op3],
+            colgar,
+            cerrar,
+            [bt1, bt2, bt3],
+            [op1, op2, op3]
+        );
+
+        // 6. Opciones
+        op2.Text = "No me interesa el mercado.";
+        op3.Text = "Cambiemos de tema.";
+
+        estado = 1;
     }
     static void SwitchRespuestaConsejo(NPC contacto, Label op1, Label op2, Label op3)
     {
