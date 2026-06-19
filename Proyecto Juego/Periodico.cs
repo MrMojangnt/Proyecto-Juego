@@ -9,6 +9,9 @@ public class Events
        public static bool carreras = false;
        //Kavayos
        public static int[] Kavayos = { 1, 2, 3, 4 };
+
+       public static int kavayo;
+       public static decimal cantidad;
        //Noticias
     public static string[] titulosBuenos =
     {
