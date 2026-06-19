@@ -93,11 +93,13 @@ public static class LaLlamada
         foreach (Button boton in TodosLosBotones)
         {
             boton.Visible = false;
+            boton.Enabled = false;
         }
 
         foreach (Label label in TodosLosLabels)
         {
             label.Visible = false;
+            label.Enabled = false;
         }
 
         colgar.Visible = false;
@@ -113,10 +115,12 @@ public static class LaLlamada
                 foreach (Button boton in botones)
                 {
                     boton.Visible = true;
+                    boton.Enabled = true;
                 }
                 foreach (Label label in labels) 
                 { 
                     label.Visible = true;
+                    label.Enabled = true;
                 }
                 colgar.Visible = true;
                 cerrar.Visible = true;
@@ -169,7 +173,7 @@ public static class LaLlamada
                         MenuPrestamo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
                         break;
                     case 2:
-                        FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
+                        FinalConsejo(op1, op2, op3, bt1, bt2, bt3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
                         CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
@@ -192,7 +196,7 @@ public static class LaLlamada
                         break;
 
                     case 2:
-                        FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
+                        FinalConsejo(op1, op2, op3, bt1, bt2, bt3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
                         CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
@@ -210,9 +214,10 @@ public static class LaLlamada
                         InteraccionSector(contacto, texto, op1, op2, op3, bt1, bt2, bt3, colgar, cerrar);
                         break;
                     case 1:
+                        MenuPrestamo(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
                         break;
                     case 2:
-                        FinalConsejo(op1, op2, op3, contacto, texto, colgar, cerrar);
+                        FinalConsejo(op1, op2, op3, bt1, bt2, bt3, contacto, texto, colgar, cerrar);
                         break;
                     case 3:
                         CuandoYaPedisteLaPlata(op1, bt1, op2, bt2, op3, bt3, contacto, texto, colgar, cerrar, CosoPrestamo);
@@ -335,16 +340,19 @@ public static class LaLlamada
 
         estado = 2;
     }
-    static void FinalConsejo(Label op1, Label op2, Label op3, NPC contacto, Label texto, Label colgar, Button cerrar)
+    static void FinalConsejo(Label op1, Label op2, Label op3, Button bt1, Button bt2, Button bt3, NPC contacto, Label texto, Label colgar, Button cerrar)
     {
-        texto.Text = "La llamada está por terminar...";
+        EscribirBonito(["..........." ], texto,
+            [bt1, bt2, bt3], [op1, op2, op3], colgar, cerrar,
+            [bt3], [op3]);
 
-        op1.Text = "Entendido.";
-        op2.Text = "No estoy seguro.";
+        
         op3.Text = "Colgar.";
 
         colgar.Visible = false;
+        colgar.Enabled = false;
         cerrar.Visible = false;
+        cerrar.Enabled = false;
         estado = 4;
     }
     static void InteraccionSector(
@@ -372,8 +380,8 @@ public static class LaLlamada
         if (mejor.name == null)
         {
             EscribirBonito(
-                new string[] { @$"No hay suficiente información del sector 
-{sector}..." },
+                [@$"No hay suficiente información del sector 
+{sector}..." ],
                 texto,
                 [bt1, bt2, bt3],
                 [op1, op2, op3],
