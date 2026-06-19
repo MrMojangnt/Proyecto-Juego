@@ -11,6 +11,7 @@ public abstract class ContactoLegendarioBase
     public string Nombre { get; }
     public string Rol { get; }
     public string Habilidad { get; }
+    public int UsosRestantes { get; set; } = 3;   // set público para poder cargarlo desde archivo
 
     protected ContactoLegendarioBase(string nombre, string rol, string habilidad)
     {
@@ -18,6 +19,18 @@ public abstract class ContactoLegendarioBase
         Rol = rol;
         Habilidad = habilidad;
     }
+
+    public bool PuedeUsarse => UsosRestantes > 0;
+
+    public void ConsumirUso()
+    {
+        if (UsosRestantes > 0)
+        {
+            UsosRestantes--;
+            ContactosLegendariosMenu.GuardarUsos();   // persiste automáticamente al gastar un uso
+        }
+    }
+    
 
     public abstract void Ejecutar();
 }
@@ -77,6 +90,7 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
 
             string sector = sectores[indice];
             Program.AplicarImpactoSector(sector, 1.5m);
+            ConsumirUso(); 
             MessageBox.Query("Jocksand Valladares", $"Sector afectado: {sector}\nEl valor bursátil subió un 50%.", "Aceptar");
             Application.RequestStop();
         };
@@ -139,6 +153,7 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
             }
 
             Program.AplicarPrestamoEmergencia(cantidad);
+            ConsumirUso(); 
             MessageBox.Query(
                 "Raul Castillo",
                 $"Préstamo aprobado.\nRecibiste ${cantidad:F2}\nDeuda actual: ${Program.DeudaEmergencia:F2}",
@@ -189,18 +204,48 @@ public sealed class FranciscoAlvarezLegendario : ContactoLegendarioBase
         cerrar.Clicked += () => Application.RequestStop();
 
         dialogo.Add(titulo, tabla, cerrar);
+        ConsumirUso(); 
         Application.Run(dialogo);
     }
 }
 
 public static class ContactosLegendariosMenu
 {
-    private static readonly ContactoLegendarioBase[] Contactos =
+    public static readonly ContactoLegendarioBase[] Contactos =
     {
         new JocksandValladaresLegendario(),
         new RaulCastilloLegendario(),
         new FranciscoAlvarezLegendario()
     };
+
+    private static readonly string RutaArchivo =
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "legendarios.txt");
+
+    public static void CargarUsos()
+    {
+        if (!File.Exists(RutaArchivo)) return; // primera vez: se quedan con su valor default (3)
+
+        foreach (string linea in File.ReadAllLines(RutaArchivo))
+        {
+            string[] partes = linea.Split(';');
+            if (partes.Length < 2) continue;
+
+            string nombre = partes[0];
+            if (!int.TryParse(partes[1], out int usos)) continue;
+
+            var legendario = Array.Find(Contactos, l => l.Nombre == nombre);
+            if (legendario != null) legendario.UsosRestantes = usos;
+        }
+    }
+
+    public static void GuardarUsos()
+    {
+        var lineas = new List<string>();
+        foreach (var l in Contactos)
+            lineas.Add($"{l.Nombre};{l.UsosRestantes}");
+
+        File.WriteAllLines(RutaArchivo, lineas);
+    }
 
     public static void MostrarMenu()
     {
