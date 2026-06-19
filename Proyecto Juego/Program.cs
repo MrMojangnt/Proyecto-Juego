@@ -1043,27 +1043,32 @@ class Program
                 Y = i + 2
             };
 
+            // Reemplaza el handler de SobreSlot[index].Clicked en SobreescribirPartida(...) por esta versión
             SobreSlot[index].Clicked += () =>
             {
-                using (StreamWriter save = new StreamWriter(partidas[index]))
+                using (StreamWriter save = new StreamWriter(partidas[index], false, Encoding.UTF8))
                 {
                     save.WriteLine(pd.ToString());
                     save.WriteLine($"Turno: {turno}");
                 }
-                using (StreamWriter save = new StreamWriter(inventario[index]))
+
+                using (StreamWriter save = new StreamWriter(inventario[index], false, Encoding.UTF8))
                 {
                     save.WriteLine(pd.name);
                 }
+
                 InicializarHistorialBalance(index);
                 Guardarempresa(index, false);
 
+                // Si no hay contactos en memoria, generar una lista nueva antes de guardar
                 if (Program.ContactosCargados == null || Program.ContactosCargados.Count == 0)
                 {
-                    MessageBox.Query("Error", "No hay contactos en memoria para guardar. Cancela y carga/crea contactos antes de sobrescribir.", "Aceptar");
-                    return;
+                    Program.ContactosCargados = GeneracionDeContactos.GenerarPersonas();
                 }
 
+                // Guardar la lista de contactos generada o existente
                 GeneracionDeContactos.GuardarContactos(index, false);
+
                 Companiass = Indices.CargarEmpresa(index);
                 PrepararPronosticoMercado();
                 ContactosCargados = GeneracionDeContactos.CargarContactos(index);
