@@ -178,6 +178,7 @@ class Program
        
 
         Application.Init();
+        ContactosLegendariosMenu.CargarUsos();  
       
 
         var top = Application.Top;

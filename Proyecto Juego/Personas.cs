@@ -1,5 +1,6 @@
 ﻿using Empresas;
 using Proyecto_Juego;
+using System.Linq;
 using System;
 using System.Data;
 using System.Diagnostics.Contracts;
@@ -169,8 +170,6 @@ public class GeneracionDeContactos
         tabla.Columns.Add("Nombre");
         tabla.Columns.Add("Sector");
 
-        //                ContactosCargados = GeneracionDeContactos.CargarContactos(index);
-
         TableView TablaContactos = new TableView()
         {
             X = 1,
@@ -180,43 +179,59 @@ public class GeneracionDeContactos
             ColorScheme = colores[colora]
         };
 
+        // Lista que vincula cada FILA de la tabla con: o un NPC normal, o un legendario.
+        // null en LegendarioEnFila[i] significa que esa fila es un NPC normal de Program.ContactosCargados[i]
+        var legendarioEnFila = new List<ContactoLegendarioBase>();
+
         foreach (NPC i in Program.ContactosCargados)
         {
-            tabla.Rows.Add(
-                i.name,
-                i.sector_dominante
-            );
-
+            tabla.Rows.Add(i.name, i.sector_dominante);
+            legendarioEnFila.Add(null);
         }
+
+        // ── Probabilidad baja de que aparezca UN legendario esta vez ──
+        int probabilidad = 5;
+        if (Random.Shared.Next(1, 101) <= probabilidad)
+        {
+            var legendariosDisponibles = ContactosLegendariosMenu.Contactos
+                .Where(l => l.PuedeUsarse)
+                .ToArray();
+
+            if (legendariosDisponibles.Length > 0)
+            {
+                var elegido = legendariosDisponibles[Random.Shared.Next(legendariosDisponibles.Length)];
+                tabla.Rows.Add(elegido.Nombre, elegido.Rol);
+                legendarioEnFila.Add(elegido);
+            }
+        }
+
         TablaContactos.CellActivated += (e) =>
         {
             int row = e.Row;
+            if (row < 0 || row >= legendarioEnFila.Count) return;
 
-            var contactorancio = Program.ContactosCargados[row];
-            ContactarAUnContacto(row);
-
+            var legendario = legendarioEnFila[row];
+            if (legendario != null)
+            {
+                if (legendario.PuedeUsarse)
+                    legendario.Ejecutar();
+                else
+                    MessageBox.Query("Aviso", $"{legendario.Nombre} ya no tiene más ayudas disponibles.", "Aceptar");
+            }
+            else
+            {
+                ContactarAUnContacto(row);   
+            }
         };
+
         TablaContactos.Table = tabla;
         var ContactosLabel = new Label("Contactos")
         {
             X = 4,
-            Y = Pos.Top(TablaContactos)-1
+            Y = Pos.Top(TablaContactos) - 1
         };
 
-        var LegendariosButton = new Button("Contactos Legendarios")
-        {
-            X = 1,
-            Y = Pos.Bottom(TablaContactos) + 1
-        };
-
-        LegendariosButton.Clicked += () =>
-        {
-            ContactosLegendariosMenu.MostrarMenu();
-        };
-        
-        
-
-        VentanaInicio.Add(TablaContactos, ContactosLabel, LegendariosButton);
+        VentanaInicio.Add(TablaContactos, ContactosLabel);
     }
  /*   static string LeerNombre(string dato, int i)
     {
