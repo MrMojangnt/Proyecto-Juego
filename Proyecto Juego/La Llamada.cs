@@ -207,7 +207,7 @@ public static class LaLlamada
                 switch (estado)
                 {
                     case 0:
-                        InteraccionSector(contacto, op1, op2, op3, texto, bt1, bt2, bt3, colgar, cerrar);
+                        InteraccionSector(contacto, texto, op1, op2, op3, bt1, bt2, bt3, colgar, cerrar);
                         break;
                     case 1:
                         break;
@@ -247,19 +247,19 @@ public static class LaLlamada
         if (contacto.Amistad >= 0)
         {
             EscribirBonito(Dialogos_de_Contacto.DialogosCuandoAceptaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
-            colgar, cerrar, [bt1], []);
+            colgar, cerrar, [bt1], [op2]);
 
             CosoPrestamo.Visible = true;
             CosoPrestamo.Enabled = true;
             bt1.X = Pos.Right(CosoPrestamo);
-            bt1.Text = "Confirmar";
+            op2.Text = "¿Podrías prestarme esta cantidad?";
             estado = 3;
 
         }
         else
         {
             EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRechazaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
-            colgar, cerrar, [bt1], []);
+            colgar, cerrar, [], []);
             CosoPrestamo.Visible = false;
             CosoPrestamo.Enabled = false;
             
@@ -371,8 +371,8 @@ public static class LaLlamada
         if (mejor.name == null)
         {
             EscribirBonito(
-                new string[] { $"No hay suficiente información del sector " +
-                $"{sector}..." },
+                new string[] { @$"No hay suficiente información del sector 
+{sector}..." },
                 texto,
                 [bt1, bt2, bt3],
                 [op1, op2, op3],
@@ -397,14 +397,16 @@ public static class LaLlamada
         if (optimista)
         {
             mensaje =
-                $"{contacto.name}: La empresa {mejor.name} está dominando el sector {sector}. Esto podría traer crecimiento.";
+                @$"La empresa {mejor.name} está dominando el sector 
+{sector}. Esto podría traer crecimiento.";
 
             op1.Text = $"Seguir a {mejor.name}";
         }
         else
         {
             mensaje =
-                $"{contacto.name}: {peor.name} está muy débil… si esto sigue así, el sector podría caer.";
+                @$"{peor.name} está muy débil… si esto sigue así,
+el sector podría caer.";
 
             op1.Text = $"Preocuparse por {peor.name}";
         }
@@ -587,9 +589,9 @@ public static class TeLlamanPapuContesta
         };
         int nivel = GetNivelPresion((sbyte)contacto.PresionActual);
         string mensaje = Dialogos_de_Contacto.CobroDeuda[nivel][Random.Shared.Next(Dialogos_de_Contacto.CobroDeuda[nivel].Length)];
-        var texto = new Label() { X = 1, Y = 1 };
-        texto.Text = mensaje;
-        cuadro.Add(texto);
+        var cobrar = new Label() { X = 1, Y = 1 };
+        cobrar.Text = mensaje;
+        cuadro.Add(cobrar);
 
         // Información de deuda (mostramos deuda total por ahora)
         var deudaInfo = new Label($"Deuda total del jugador: {Program.DeudaEmergencia:F2}   Balance contacto: {contacto.balance:F2}")
