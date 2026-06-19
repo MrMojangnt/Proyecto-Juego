@@ -79,11 +79,13 @@ public struct NPC
     public int PresionActual;
     public bool LlamadaPendiente;
 
+    public decimal montoprestado;
+
 
     public override string ToString()
     {
         return $"{name};{masculino};{edad};{sector_dominante};{balance};" +
-            $"{idArquetipo};{Amistad};{UltimoTurnoLlamado};{TienePrestamoActivo};{UltimoTurnoPrestamo};{PresionActual}";
+            $"{idArquetipo};{Amistad};{UltimoTurnoLlamado};{TienePrestamoActivo};{UltimoTurnoPrestamo};{PresionActual};{montoprestado}";
     }
 }
 
