@@ -14,17 +14,17 @@ public class GeneracionDeContactos
 {
     "Dorian Martínez", "Roberto Sobalvarro",
     "Daniel Pérez", "Carlos Cerda", "José René Bonilla", "Leonardo Gómez",
-    "Diego Ruiz", "Joaquín Sánchez", "Daniel Marquez", "Gabriel Torres",
-    "Nicolás Ramírez", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
+    "Diego Ruiz", "Joaquín Sánchez", "Elon Mush", "Gabriel Torres",
+    "Steve Unemployment", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
     "Kevin Osejo", "Hugo López", "Francisco Silva",
     "Mauricio Lacayo", "Guillermo Ayerdis"
 };
 
     public static string[] Mujeres =
     {
-    "Sofía Martínez", "Alyssa Rodríguez", "Camila Navarro", "Isabella González",
+    "Sofía Martínez", "Alyssa Rodríguez", "Melanie Perkins", "Isabella González",
     "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez", "Andrea Vasco",
-    "Marisa D'Trinidad", "Emma Sánchez", "Litzy Mendoza", "Gabriela Torres",
+    "Marisa D'Trinidad", "Emma Sánchez", "Elaine Miranda", "Gabriela Torres",
     "Natalia Ramírez", "Elena Flores", "Paula Benítez", "Andrea Herrera",
     "Renata Medina", "Julieta Castro", "Emilia Rojas", "Samantha Vargas",
     "Kenely Ordoñez", "Antonia Ortiz", "María Silva", "Ana Morales"
