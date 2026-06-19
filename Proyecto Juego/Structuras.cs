@@ -36,7 +36,7 @@ public struct Companias
     public override string ToString()
     {
         string ProductosTexto = string.Join(" | ", productos);
-        return $"{id}; {name}; {pais}; {rubro}; {capbursatil} M; {accionistas}; {ProductosTexto}; {GananciasTrimestrales} M; {marketing} M; {investigacion}; {mantenimiento}; {participacion}%; {balance} M";
+        return $"{id};{name};{pais};{rubro};{capbursatil} M;{accionistas};{ProductosTexto};{GananciasTrimestrales};{marketing};{investigacion};{mantenimiento};{participacion}%;{balance}";
     }
 }
 

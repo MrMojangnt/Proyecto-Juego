@@ -17,7 +17,7 @@ using Unix.Terminal;
 using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;
-
+//            Program.AplicarImpactoSector(sector, 1.2m);
 public class Dialogos_de_Contacto
 {
     //El dialogo del consejo
@@ -271,15 +271,15 @@ sigan como deben seguir."
 
     // 7 - Manipulador
     [
-        "Muy bien, sorprendentemente bien… aunque siempre es interesante ver quién pregunta eso y con qué intención.",
-        "Estoy bien, gracias por preocuparte… es curioso, siempre apareces en momentos oportunos.",
+        "Muy bien, sorprendentemente bien… aunque siempre es \ninteresante ver quién pregunta eso y con qué intención.",
+        "Estoy bien, gracias por preocuparte… es curioso, \nsiempre apareces en momentos oportunos.",
         "Bien, todo bajo control… pero me alegra que llames, \nlas coincidencias dicen mucho.",
         "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
     ],
     // 8 - DialogosSofia
     [
     "¿Querías preguntarme eso? \nPodrías haberme enviado un mensaje.",
-    "Supongo que estoy bien, al menos el negocio va bien.",
+    "Supongo que estoy bien, al menos el \nnegocio va bien.",
     "No quiero hablar de eso.",
     "¿Te preocupas por mi? No necesito que lo hagas.\n Mejor hablemos de negocios.",
     "Mal. ¿De qué te sirve saberlo?"
@@ -550,39 +550,36 @@ eres una mejor inversión que el mercado.
 Hasta la próxima, socio."
     ]
 };
-    public static string[][] CobroDeuda =
+    public static readonly string[][] CobroDeuda =
 {
     // 0 - Calmo
-    new string[]
-    {
-        "Solo te llamo para recordar lo del préstamo. No hay prisa, pero no lo olvides.",
-        "Cuando puedas, me gustaría que hablemos de lo que te presté.",
-        "No quiero incomodarte, solo organizarnos con lo del dinero."
-    },
+    [
+        "Solo te llamo para recordar lo del préstamo. \nNo hay prisa, pero no lo olvides.",
+        "Cuando puedas, me gustaría que hablemos \nde lo que te presté.",
+        "No quiero incomodarte, solo organizarnos \ncon lo del dinero."
+    ],
 
     // 1 - Normal
-    new string[]
-    {
-        "Oye, ya pasó un tiempo. Necesito que me devuelvas lo del préstamo.",
-        "No me gusta insistir, pero el dinero no crece en árboles.",
+    [
+    
+        "Oye, ya pasó un tiempo. Necesito que me \ndevuelvas lo del préstamo.",
+        "No me gusta insistir, pero el dinero no \ncrece en árboles.",
         "Recuerdo que acordamos algo… sería bueno resolverlo ya."
-    },
+    ],
 
     // 2 - Fuerte
-    new string[]
-    {
+    [
         "Esto ya está tardando demasiado. Necesito mi dinero ya.",
         "No estoy cómodo con el silencio sobre el préstamo.",
         "Espero que no estés ignorando esto a propósito."
-    },
+    ],
 
     // 3 - Agresivo
-    new string[]
-    {
+    [
         "Última advertencia. Devuélveme lo que te presté.",
         "No me obligues a tomar medidas para recuperar mi dinero.",
         "Esto ya dejó de ser una conversación amable."
-    }
+    ]
 };
 }
 
