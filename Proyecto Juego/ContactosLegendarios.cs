@@ -193,7 +193,7 @@ public sealed class FranciscoAlvarezLegendario : ContactoLegendarioBase
             Height = 16
         };
 
-        tabla.Table = Program.ObtenerPronosticoMercado();
+        tabla.Table = Tablasdefrancisco.ObtenerPronosticoMercado();
 
         var cerrar = new Button("Cerrar")
         {

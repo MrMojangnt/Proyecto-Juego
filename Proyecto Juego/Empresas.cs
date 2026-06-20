@@ -319,7 +319,7 @@ public class Indices
 
             var empresa = CargandoLasPartidas.Companiass[row];
             top.Remove(VentanaDeEmpresas);
-            Program.MostrarDetalleEmpresa(top, empresa);
+            Tablasdejocksand.MostrarDetalleEmpresa(top, empresa, colores, colora);
 
         };
         tableView.Table = tabla;

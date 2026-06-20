@@ -19,7 +19,7 @@ public class CargandoLasPartidas
         Program.InvInt = slot;
         if (File.Exists(ManejoDeArchivos.rutaPartidas(slot)) && File.Exists(ManejoDeArchivos.rutaInventario(slot))
             && File.Exists(ManejoDeArchivos.rutaEmpresas(slot)) && File.Exists(ManejoDeArchivos.rutaBalance(slot)) &&
-            File.Exists(ManejoDeArchivos.rutaContactos(slot)) && File.Exists(ManejoDeArchivos.rutaPeriodico(slot)))
+            File.Exists(ManejoDeArchivos.rutaContactos(slot)))
         {
                 if (!ManejoDeArchivos.ArchivosDisponibles(
                     ManejoDeArchivos.rutaPartidas(slot),

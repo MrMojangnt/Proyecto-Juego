@@ -711,7 +711,7 @@ public static class TeLlamanPapuContesta
                     return;
                 }
 
-                if (!Program.PagarDeuda(monto))
+                if (!Tablasdejocksand.PagarDeuda(monto))
                 {
                     MessageBox.Query("Error", "No tienes suficiente balance para pagar.", "Aceptar");
                     return;
