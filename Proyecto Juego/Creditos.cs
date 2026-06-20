@@ -46,15 +46,15 @@ public class Creditos
         string[] nombres =
         {
             "Raúl Antonio Castillo Zamora",
-            "Jocksand Mateo Valladares Ramirez",
-            "Dorian Zamir Martinez Lopez",
+            "Jocksand Mateo Valladares Ramírez",
+            "Dorian Zamir Martínez Lopez",
             "Kennely Maisha Ordóñez Blandón",
             "",
-            "Mencion honorifica:",
+            "Mencion honorífica:",
             "Big Data Cluster",
             "",
-            "Version:",
-            "1.0 Beta"
+            "Versión:",
+            "1.0 Beta 3026"
         };
 
         int nombreActual = 0;

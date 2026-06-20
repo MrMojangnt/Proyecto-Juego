@@ -180,7 +180,7 @@ Aunque por suerte para mí, muchos intentan hacerlo.",
                 "¿Qué es lo que quieres? \n¿No tienes cosas más importantes por hacer?",
                 "¿Aló...? Ah, eres tú. ¿Para qué me llamas?",
                 "Hey. Realmente estoy ocupada, ¿Qué necesitas?",
-                "No estoy de buen humor. Sea lo que sea que quieras, habla rápido.",
+                "No estoy de buen humor. Sea lo que sea que quieras, \nhabla rápido.",
                 "Estaba teniendo un buen día hasta que recibí tu llamada."
                 ],
             // 9 - DialogosLeah
@@ -220,8 +220,8 @@ necesita la gente como vos."
     // 2 - Paranoico
     [
         "Bien… creo. ¿Por qué preguntas?",
-        "Normal, pero dime… ¿quién más está escuchando?",
-        "Estoy bien, pero esto es seguro, ¿verdad?",
+        "Normal, pero dime… ¿quién más está escuchando?\n¿O es que quieres algo?",
+        "Estoy bien, pero esto es seguro, ¿verdad?\n¿O por qué me llamas?",
         "Bien… aunque no me gusta hablar mucho por teléfono."
     ],
 
@@ -274,7 +274,7 @@ sigan como deben seguir."
         "Muy bien, sorprendentemente bien… aunque siempre es \ninteresante ver quién pregunta eso y con qué intención.",
         "Estoy bien, gracias por preocuparte… es curioso, \nsiempre apareces en momentos oportunos.",
         "Bien, todo bajo control… pero me alegra que llames, \nlas coincidencias dicen mucho.",
-        "Estoy bien, y tú seguramente también, aunque podríamos estar mejor si hablamos un poco más."
+        "Estoy bien, y tú seguramente también, aunque podríamos \nestar mejor si hablamos un poco más."
     ],
     // 8 - DialogosSofia
     [
@@ -323,7 +323,7 @@ legal de hacer dinero.",
     [
         "Te diría que sí, pero una vez hice eso y terminó en una historia larguísima \nque mejor evitamos repetir.",
         "Curioso pedido... pero esta vez voy a pasar.",
-        "Podría explicarte por qué no, aunque tardaría una hora. Resumiendo: no."
+        "Podría explicarte por qué no, aunque tardaría \nuna hora. Resumiendo: no."
     ],
 
     // 4 - Corrupto
@@ -383,24 +383,24 @@ legal de hacer dinero.",
     // 1. Tacaño
     [
         "¿Préstamo?… eso suena como una palabra peligrosa.\nPero no tengo de otra parece.",
-        "No estoy muy bien de liquidez ahora mismo…\ncasualmente siempre.",
+        "No estoy muy bien de liquidez ahora mismo…\ncasualmente siempre. Habla entonces.",
         "Preferiría no mezclar dinero con amistad. \n ¿Cuanto querés?",
-        "¿Y cómo planeas devolverlo exactamente?",
+        "¿Y cómo planeas devolverlo exactamente?\n¿Cuanto me vas a desembolsar?",
     ],
 
     // 2. Paranoico
     [
-        "¿Por qué justo ahora me pedís eso?",
-        "¿Esto es seguro? ¿No hay alguien más escuchando?",
+        "¿Por qué justo ahora me pedís eso?\nUgh, tal vez tenga.",
+        "¿Esto es seguro? ¿No hay alguien más escuchando?\nSusurrame cuanto quieres.",
         "Necesito más detalles antes de cualquier cosa.",
         "El dinero deja rastros… no sé si me conviene.",
-        "¿Esto es una prueba o algo así?"
+        "¿Esto es una prueba o algo así?\n¿Quieres saber cuanto estoy dispuesto \na dar?"
     ],
 
     // 3. Charlatán
     [
-        "Mirá, justo ayer pensaba en cómo el dinero cambia \nlas relaciones humanas, y ahora venís \ncon esto… curioso.",
-        "Podría ayudarte, pero dejame contarte algo antes, \nporque esto me recuerda una historia increíble.",
+        "Mirá, justo ayer pensaba en cómo el dinero cambia \nlas relaciones humanas, y ahora venís \ncon esto… curioso, pues ya que.",
+        "Podría ayudarte, pero dejame contarte algo antes, \nporque esto me recuerda una historia increíble. \nPero como no te importa, habla.",
         "Te juro que una vez presté dinero y terminó siendo una \nexperiencia filosófica casi absurda… pero bueno, decime.",
         "Esto es interesante, porque el concepto de deuda es más \npsicológico que económico, ¿sabías?",
         "Ok, sí, pero antes de eso tengo que explicarte algo \nque nadie me pidió pero igual voy a decir."

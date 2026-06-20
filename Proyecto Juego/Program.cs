@@ -50,7 +50,7 @@ class Program
     public static string Descripcion;
     
     //Trabajos disponibles
-    public static string[] Trabajoslist = { "Desencriptador", "Programador" };
+    public static string[] Trabajoslist = { "Desencriptador" };
     public static string TrabajoEscogido = "";
     public static int turno = 0;
     public static int InvInt = 0;
@@ -1187,7 +1187,7 @@ class Program
             ColorScheme = colores[colora]
         };
         top.Add(VentanaInicio);//Inicializador
-        var LabelUsuario = new Label($"Usuario: {pd.name}")
+        var LabelUsuario = new Label($"Inversor: {pd.name}")
         {
             X = 2,
             Y = 1
@@ -1694,7 +1694,7 @@ class Program
         };
 
         var labelResumen = new Label(
-            $@"Jugador: {pd.name} | País: {pd.pais} | Turno: {turno}
+            $@"Inversor: {pd.name} | País: {pd.pais} | Turno: {turno}
 Efectivo: ${pd.balance:F2} | Cartera: ${valorCartera:F2} | Deuda: ${DeudaEmergencia:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
 Costo base: ${costoBase:F2} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}")
         {

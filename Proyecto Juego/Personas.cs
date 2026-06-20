@@ -310,6 +310,7 @@ Balance: {contactos.balance}")
 
             LaLlamada.Llamar(contactos);
 
+           
             contactos.UltimoTurnoLlamado = Program.turno;
             Program.ContactosCargados[indice] = contactos;
         }
@@ -318,12 +319,4 @@ Balance: {contactos.balance}")
 
     }
 }
-
-
-
-
-
-
-
-
 

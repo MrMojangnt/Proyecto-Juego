@@ -56,7 +56,7 @@ public static class Apuesta
                             $"¡Ganó el Kavayo #{i + 1}!",
                             "Aceptar"
                         );
-                        if (Events.kavayo == i)
+                        if (Events.kavayo == i +1)
                         {
                             Program.pd.balance += Events.cantidad * 4;
                         }

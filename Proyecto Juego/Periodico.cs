@@ -401,28 +401,26 @@ otorgar préstamos, frenando nuevas inversiones."
                          Y = 8
                   };
 
-                  btnAceptar.Clicked += () =>
-                  {
-                         if (decimal.TryParse(txtDinero.Text.ToString(), out cantidad))
-                         {
-                                IsDecimal = true;
-                         }
-                         if (IsDecimal && cantidad <= Program.pd.balance)
-                         {
-                                Application.RequestStop();
-                                top.RemoveAll();
-                                Apuesta.Iniciar(top);
-                                carreras = false;
-                                listaCaballos.SelectedItemChanged += (args) =>
-                                {
-                                       kavayo = Kavayos[args.Item];
-                                };
-                         }
-                         else
-                         {
-                                MessageBox.Query("ERROR", "No tienes esa cantidad de dinero", "Cerrar");
-                         }
-                  };
+            btnAceptar.Clicked += () =>
+            {
+                kavayo = Kavayos[listaCaballos.SelectedItem];
+                if (decimal.TryParse(txtDinero.Text.ToString(), out cantidad))
+                {
+                    IsDecimal = true;
+                }
+                if (IsDecimal && cantidad <= Program.pd.balance)
+                {
+                    Application.RequestStop();
+                    top.RemoveAll();
+                    Apuesta.Iniciar(top);
+                    carreras = false;
+                }
+
+                else
+                {
+                    MessageBox.Query("ERROR", "No tienes esa cantidad de dinero", "Cerrar");
+                }
+            };
 
                   btnCancelar.Clicked += () =>
                   {

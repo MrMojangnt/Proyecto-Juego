@@ -109,6 +109,7 @@ public class Trabajos
                 MessageBox.Query("Error", "Error esa no es la palabra", "Cerrar");
             }
         };
+        
         dialog.Add(titulo, descripcion, Inputs, buttonEnviar);
         Application.Run(dialog);
     }
