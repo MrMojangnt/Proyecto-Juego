@@ -26,8 +26,7 @@ public class CargandoLasPartidas
                     ManejoDeArchivos.rutaInventario(slot),
                     ManejoDeArchivos.rutaEmpresas(slot),
                     ManejoDeArchivos.rutaBalance(slot),
-                    ManejoDeArchivos.rutaContactos(slot),
-                    ManejoDeArchivos.rutaPeriodico(slot)))
+                    ManejoDeArchivos.rutaContactos(slot)))
                 {
                     MessageBox.Query(
                         "Error",

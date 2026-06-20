@@ -43,13 +43,8 @@ public class ModificarPartidas
                 CreandoNuevaPartida.InicializarHistorialBalance(index);
                 CreandoNuevaPartida.Guardarempresa(index, false);
 
-                // Si no hay contactos en memoria, generar una lista nueva antes de guardar
-                if (CargandoLasPartidas.ContactosCargados == null || CargandoLasPartidas.ContactosCargados.Count == 0)
-                {
-                    CargandoLasPartidas.ContactosCargados = GeneracionDeContactos.GenerarPersonas();
-                }
-
                 // Guardar la lista de contactos generada o existente
+                CargandoLasPartidas.ContactosCargados = GeneracionDeContactos.GenerarPersonas();
                 GeneracionDeContactos.GuardarContactos(index, false);
 
                 CargandoLasPartidas.Companiass = CargandoLasPartidas.CargarEmpresa(index);
