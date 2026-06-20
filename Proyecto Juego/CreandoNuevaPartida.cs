@@ -58,8 +58,7 @@ public class CreandoNuevaPartida
                 File.Exists(Path.Combine(carpeta, "Inventario.csv")) &&
                 File.Exists(Path.Combine(carpeta, "Empresas.csv")) &&
                 File.Exists(Path.Combine(carpeta, "Balance.csv")) &&
-                File.Exists(Path.Combine(carpeta, "Contactos.csv")) &&
-                File.Exists(Path.Combine(carpeta, "Periodico.csv"));
+                File.Exists(Path.Combine(carpeta, "Contactos.csv"));
         }
     }
 
