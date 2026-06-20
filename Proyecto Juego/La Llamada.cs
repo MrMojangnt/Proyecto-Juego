@@ -9,7 +9,7 @@ using Terminal.Gui;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;
 
-public static class LaLlamada
+public class LaLlamada
 {
     static int estado = 0;
     //Aquí se crean los labels y botones que se utilizarán en las otras funciones, cuando se toque una opcion, cuando cambie el dialogo y asi
@@ -335,19 +335,19 @@ public static class LaLlamada
                 "Préstamo Exitoso",
                 $"Se han transferido {cantidty}$ a tu cuenta.",
                 "Aceptar");
-                Program.AplicarPrestamoEmergencia(cantidty); // el prestamo
-                Program.Guardarelbalance(); // se guarda el balance del jugador
+                ModificarPartidas.AplicarPrestamoEmergencia(cantidty); // el prestamo
+                ModificarPartidas.Guardarelbalance(); // se guarda el balance del jugador
                 contacto.balance -= cantidty; //se resta el monto que se pidió prestado del monto del contacto
                 contacto.TienePrestamoActivo = true; //para recordar que tiene prestamo activo
                 contacto.LlamadaPendiente = true; //recordar que tiene llamada pendiente po rlo del prestamo
-                contacto.UltimoTurnoPrestamo = Program.turno;
+                contacto.UltimoTurnoPrestamo = ManejoDeArchivos.turno;
                 contacto.PresionActual = Personalidades.Arqueotipos[contacto.idArquetipo].Presion;
                 contacto.montoprestado += cantidty; // acumula lo que te debe ese contacto
-                int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
+                int index = CargandoLasPartidas.ContactosCargados.FindIndex(n => n.name == contacto.name);
 
                 if (index != -1)
                 {
-                    Program.ContactosCargados[index] = contacto;
+                    CargandoLasPartidas.ContactosCargados[index] = contacto;
                 }
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
                 
@@ -442,7 +442,7 @@ public static class LaLlamada
         }
 
         // 3. Impacto económico SOLO si hay sector válido
-        Program.AplicarImpactoSector(sector, 1.25m);
+        ModificarPartidas.AplicarImpactoSector(sector, 1.25m);
 
         // 4. Decisión del NPC
         bool optimista = Random.Shared.NextDouble() > 0.5;
@@ -620,9 +620,9 @@ public static class TeLlamanPapuContesta
 {
     public static void EvaluarLlamadas()
     {
-        for (int i = 0; i < Program.ContactosCargados.Count; i++)
+        for (int i = 0; i < CargandoLasPartidas.ContactosCargados.Count; i++)
         {
-            var contacto = Program.ContactosCargados[i];
+            var contacto = CargandoLasPartidas.ContactosCargados[i];
 
             if (!contacto.TienePrestamoActivo)
                 continue;
@@ -631,12 +631,12 @@ public static class TeLlamanPapuContesta
 
             int delay = CalcularDelay(presion);
 
-            if (Program.turno >= contacto.UltimoTurnoPrestamo + delay)
+            if (ManejoDeArchivos.turno >= contacto.UltimoTurnoPrestamo + delay)
             {
                 MostrarLlamada(contacto);
             }
 
-            Program.ContactosCargados[i] = contacto; 
+            CargandoLasPartidas.ContactosCargados[i] = contacto; 
         }
     }
 
@@ -663,7 +663,7 @@ public static class TeLlamanPapuContesta
     }
     static void MostrarLlamada(NPC contacto)
     {
-        int index = Program.ContactosCargados.FindIndex(n => n.name == contacto.name);
+        int index = CargandoLasPartidas.ContactosCargados.FindIndex(n => n.name == contacto.name);
 
         // Diálogo principal de llamada (estilo menú de llamada)
         var dialogo = new Dialog($"Llamada de {contacto.name}", 72, 26);
@@ -682,7 +682,7 @@ public static class TeLlamanPapuContesta
         cuadro.Add(cobrar);
 
         // Información de deuda (mostramos deuda total por ahora)
-        var deudaInfo = new Label($"Deuda total del Inversor: {Program.DeudaEmergencia:F2}   Balance de {contacto.name}: {contacto.balance:F2}")
+        var deudaInfo = new Label($"Deuda total del Inversor: {ManejoDeArchivos.DeudaEmergencia:F2}   Balance de {contacto.name}: {contacto.balance:F2}")
         {
             X = 1,
             Y = Pos.Bottom(cuadro) + 1
@@ -697,7 +697,7 @@ public static class TeLlamanPapuContesta
             Application.RequestStop();
 
             var dlgPago = new Dialog($"Pagar a {contacto.name}", 60, 12);
-            var lbl = new Label($"Deuda total: {Program.DeudaEmergencia:F2}") { X = 1, Y = 1 };
+            var lbl = new Label($"Deuda total: {ManejoDeArchivos.DeudaEmergencia:F2}") { X = 1, Y = 1 };
             var labelPago = new Label("Monto a pagar:") { X = 1, Y = 3 };
             var campoPago = new TextField("") { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
             var btnAceptar = new Button("Aceptar") { X = 1, Y = Pos.AnchorEnd(2) };
@@ -720,14 +720,14 @@ public static class TeLlamanPapuContesta
                 // Transferir al contacto y actualizar estado
                 contacto.balance += monto;
                 contacto.montoprestado -= monto;
-                if (Program.DeudaEmergencia == 0m)
+                if (ManejoDeArchivos.DeudaEmergencia == 0m)
                     contacto.TienePrestamoActivo = false;
                 contacto.LlamadaPendiente = false;
 
                 if (index != -1)
-                    Program.ContactosCargados[index] = contacto;
+                    CargandoLasPartidas.ContactosCargados[index] = contacto;
 
-                Program.Guardarelbalance();
+                ModificarPartidas.Guardarelbalance();
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
 
                 MessageBox.Query("Pago", "Pago realizado con éxito.", "Aceptar");

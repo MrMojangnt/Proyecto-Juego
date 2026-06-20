@@ -227,64 +227,19 @@ public class Indices
         return Empresas;
     }
 
-    public static List<Companias> CargarEmpresa(int indice)
-    {
-        List<Companias> Comp = new List<Companias>();
-        char[] delimitadores = { ';', '\n', '|', '\r' };
-        using (StreamReader savecompani = new StreamReader(Program.save_compania[indice], Encoding.UTF8))
-        {
-            string[] encabezados = (savecompani.ReadLine() ?? "").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-            while (!savecompani.EndOfStream)
-            {
-                Proyecto_Juego.Companias compitas = new Companias();
-                compitas.productos = new string[10];
 
-                string[] lineas = (savecompani.ReadLine() ?? "").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
-                compitas.id = int.Parse(lineas[0]);
-                compitas.name = lineas[1];
-                lineas[2] = lineas[2].Replace("(predeterminado)", ""); //reemplaza "M" por ""
-                compitas.pais = lineas[2];
-                compitas.rubro = lineas[3];
-                lineas[4] = lineas[4].Replace("M", ""); //reemplaza "M" por ""
-                compitas.capbursatil = decimal.Parse(lineas[4]);
-                compitas.accionistas = int.Parse(lineas[5]);
-                int p = 6;
-                for (int i = 0; i < compitas.productos.Length; i++)
-                {
-                    compitas.productos[i] = lineas[p];
-                    p++;
-                }
-                lineas[16] = lineas[16].Replace("M", ""); //reemplaza "M" por ""
-                compitas.GananciasTrimestrales = decimal.Parse(lineas[16]);
-                lineas[17] = lineas[17].Replace("M", ""); //reemplaza "M" por ""
-                compitas.marketing = decimal.Parse(lineas[17]);
-                lineas[18] = lineas[18].Replace("M", ""); //reemplaza "M" por ""
-                compitas.investigacion = decimal.Parse(lineas[18]);
-                lineas[19] = lineas[19].Replace("M", ""); //reemplaza "M" por ""
-                compitas.mantenimiento = decimal.Parse(lineas[19]);
-                lineas[20] = lineas[20].Replace("%", ""); //reemplaza "%" por ""
-                compitas.participacion = decimal.Parse(lineas[20]);
-                lineas[21] = lineas[21].Replace("M", ""); //reemplaza "M" por ""
-                compitas.balance = decimal.Parse(lineas[21]);
-
-                Comp.Add(compitas);
-            }
-
-        }
-        return Comp;
-    }
     public static Companias ObtenerPeorEmpresa(string sector)
     {
         int peorIndex = -1;
 
-        for (int i = 0; i < Program.Companiass.Count; i++)
+        for (int i = 0; i < CargandoLasPartidas.Companiass.Count; i++)
         {
-            var e = Program.Companiass[i];
+            var e = CargandoLasPartidas.Companiass[i];
 
             if (e.rubro != sector)
                 continue;
 
-            if (peorIndex == -1 || e.capbursatil < Program.Companiass[peorIndex].capbursatil)
+            if (peorIndex == -1 || e.capbursatil < CargandoLasPartidas.Companiass[peorIndex].capbursatil)
             {
                 peorIndex = i;
             }
@@ -294,21 +249,21 @@ public class Indices
             return default;
         }
 
-        return Program.Companiass[peorIndex];
+        return CargandoLasPartidas.Companiass[peorIndex];
     }
 
     public static Companias ObtenerMejorEmpresa(string sector)
     {
         int mejorIndex = -1;
 
-        for (int i = 0; i < Program.Companiass.Count; i++)
+        for (int i = 0; i < CargandoLasPartidas.Companiass.Count; i++)
         {
-            var e = Program.Companiass[i];
+            var e = CargandoLasPartidas.Companiass[i];
 
             if (e.rubro != sector)
                 continue;
 
-            if (mejorIndex == -1 || e.capbursatil > Program.Companiass[mejorIndex].capbursatil)
+            if (mejorIndex == -1 || e.capbursatil > CargandoLasPartidas.Companiass[mejorIndex].capbursatil)
             {
                 mejorIndex = i;
             }
@@ -317,7 +272,7 @@ public class Indices
         { 
             return default;
         }
-        return Program.Companiass[mejorIndex];
+        return CargandoLasPartidas.Companiass[mejorIndex];
     }
     public static void VentanaDeEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
     {
@@ -339,7 +294,7 @@ public class Indices
         tabla.Columns.Add("Capital Bursátil");
 
 
-        foreach (Companias i in Program.Companiass)
+        foreach (Companias i in CargandoLasPartidas.Companiass)
         {
             tabla.Rows.Add(
                 i.id,
@@ -362,7 +317,7 @@ public class Indices
         {
             int row = e.Row;
 
-            var empresa = Program.Companiass[row];
+            var empresa = CargandoLasPartidas.Companiass[row];
             top.Remove(VentanaDeEmpresas);
             Program.MostrarDetalleEmpresa(top, empresa);
 

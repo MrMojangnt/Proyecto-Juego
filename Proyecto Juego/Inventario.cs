@@ -62,7 +62,7 @@ public class Inventario
         List<Acciones> Accioneshh = new List<Acciones>();
         Proyecto_Juego.Acciones AccionesStruct = new Acciones(); //structttttttttttt de acciones
         char[] delimitadores = { ',', '\n', '|', '\r' };
-        using (StreamReader saveacciones = new StreamReader(Program.inventario[indice], Encoding.UTF8))
+        using (StreamReader saveacciones = new StreamReader(ManejoDeArchivos.rutaInventario(indice), Encoding.UTF8))
         {
             string[] Nombre = (saveacciones.ReadLine()??"").Split(delimitadores, StringSplitOptions.RemoveEmptyEntries);
             string Encabezados = (saveacciones.ReadLine() ?? "");

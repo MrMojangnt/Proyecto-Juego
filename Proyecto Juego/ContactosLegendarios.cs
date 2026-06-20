@@ -89,7 +89,7 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
             }
 
             string sector = sectores[indice];
-            Program.AplicarImpactoSector(sector, 1.5m);
+            ModificarPartidas.AplicarImpactoSector(sector, 1.5m);
             ConsumirUso(); 
             MessageBox.Query("Jocksand Valladares", $"Sector afectado: {sector}\nEl valor bursátil subió un 50%.", "Aceptar");
             Application.RequestStop();
@@ -152,11 +152,11 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
                 return;
             }
 
-            Program.AplicarPrestamoEmergencia(cantidad);
+            ModificarPartidas.AplicarPrestamoEmergencia(cantidad);
             ConsumirUso(); 
             MessageBox.Query(
                 "Raul Castillo",
-                $"Préstamo aprobado.\nRecibiste ${cantidad:F2}\nDeuda actual: ${Program.DeudaEmergencia:F2}",
+                $"Préstamo aprobado.\nRecibiste ${cantidad:F2}\nDeuda actual: ${ManejoDeArchivos.DeudaEmergencia:F2}",
                 "Aceptar");
             Application.RequestStop();
         };
