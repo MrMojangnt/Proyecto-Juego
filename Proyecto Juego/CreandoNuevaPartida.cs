@@ -112,6 +112,7 @@ public class CreandoNuevaPartida
         using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(slot), true))
         {
             save.WriteLine($"Turno: {ManejoDeArchivos.turno}");
+            save.WriteLine($"GameOver: {ManejoDeArchivos.PartidaPerdida}");
         }
 
         if (!guardado)

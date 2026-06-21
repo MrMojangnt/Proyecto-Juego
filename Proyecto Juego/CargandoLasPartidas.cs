@@ -35,16 +35,23 @@ public class CargandoLasPartidas
 
                 return;
             }
+
+            
             CargarTxt(slot);
+            if (ManejoDeArchivos.PartidaPerdida)
+            {
+                GameOver.VentanaGameOver("perdio", slot);
+            }
+            else
+            {
+                Companiass = CargarEmpresa(slot);
+                CambiosDelMercado.PrepararPronosticoMercado(Companiass);
+                ContactosCargados = CargarContactos(slot);
+                RecalcularDeudaEmergencia();
 
-
-            Companiass = CargarEmpresa(slot);
-            CambiosDelMercado.PrepararPronosticoMercado(Companiass);
-            ContactosCargados = CargarContactos(slot);
-            RecalcularDeudaEmergencia();
-
-            top.Remove(VentanaCargarPartida);
-            Program.Inicio(top);
+                top.Remove(VentanaCargarPartida);
+                Program.Inicio(top);
+            }
 
         }
         else
@@ -58,7 +65,7 @@ public class CargandoLasPartidas
 
     //Se carga el archivo partidas.txt
     //Incluye nombre, país, balance, deuda y turno
-    static void CargarTxt(int slot)
+    public static void CargarTxt(int slot)
     {
         Program.InvInt = slot;
         using (StreamReader save = new StreamReader(ManejoDeArchivos.rutaPartidas(slot), Encoding.UTF8))
@@ -71,12 +78,14 @@ public class CargandoLasPartidas
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaLegendaria: ", ""), out decimal deudaLegendaria);
             _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
+            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);
             Program.pd.name = nombre;
             Program.pd.pais = pais;
             Program.pd.balance = balance;
             ManejoDeArchivos.DeudaEmergencia = deuda;
             ManejoDeArchivos.DeudaLegendaria = deudaLegendaria;
             ManejoDeArchivos.turno = turnos;
+            ManejoDeArchivos.PartidaPerdida = gameover; //si perdió o no la partida
         }
     }
 

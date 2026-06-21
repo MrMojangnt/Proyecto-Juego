@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Reflection.Metadata.Ecma335;
 using Terminal.Gui;
+using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Terminal.Gui.Graphs.PathAnnotation;
 
@@ -33,8 +34,10 @@ class Program
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     public static List<Acciones> Accioneshh = new List<Acciones>();
 
+
     //define si se mostrará el tutorial
     public static bool MostrarTutorial;
+
     //Trabajos disponibles
     public static string[] Trabajoslist = { "Desencriptador" , "Programador"};
     public static string TrabajoEscogido = "";
@@ -438,7 +441,8 @@ class Program
         {
             int slot = 0;
             MostrarTutorial = false;
-            CargandoLasPartidas.CargarPartida( slot, top, VentanaCargarPartida);
+            CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
+            
         };
         bottonslot2.Clicked += () =>
         {
@@ -734,18 +738,18 @@ class Program
                 ComprarAcciones.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Indices.VentanaDeEmpresas(top, colores, colora);
+                    Indices.VentanaDeEmpresas(top);
 
                 };
                 Balance.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Tablasdefrancisco.MostrarReporteBalance(top, colores, colora);
+                    Tablasdefrancisco.MostrarReporteBalance(top);
                 };
                 Inventariobt.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Inventario.VentanaInventario(top, InvInt, colores, colora);
+                    Inventario.VentanaInventario(top);
                 };
                 CerrarAccionRapida.Clicked += () =>
                 {
@@ -836,7 +840,7 @@ class Program
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
         //Balance
-        var Balance = new Label($"Balance: {pd.balance:F2}")
+        var Balance = new Label($"Balance: {pd.balance.ToString("N2", CultureInfo.InvariantCulture)}")
         {
             X = Pos.Center(),
             Y = 1
@@ -845,8 +849,7 @@ class Program
         GeneracionDeContactos.Contactos(VentanaInicio, CargandoLasPartidas.ContactosCargados);
         
         VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias, TrabajoFrame);
-        //Esto es lo que se activa si se quiere ver el celular
-        //Tutorial.LLamadaIvancito(VentanaInicio);
+        
         TrabajoFrame.Add(TituloTrabajo, Trabajos, buttonTrabajar);
         FrameNoticias.Add(labelStats, titulo, descripcion);
 

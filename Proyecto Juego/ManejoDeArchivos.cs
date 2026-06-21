@@ -10,6 +10,8 @@ public class ManejoDeArchivos
     public static decimal DeudaEmergencia = 0m; //Se define la variable de la deuda
     public static decimal DeudaLegendaria = 0m; //Deuda generada por préstamos de contactos legendarios (Raúl Castillo)
     public static int turno = 0; //se define el turno en el que está el jugador
+    //si tiene la partida perdida o no
+    public static bool PartidaPerdida = false;
 
     public static string ObtenerCarpeta(int slot)
     {
@@ -86,66 +88,7 @@ public class ManejoDeArchivos
         return true;
     }
 
-    static string LeerParteDeUnArchivo(string archivo, int numarchivo, string Busqueda)
-    {
-        if (archivo == "partidas")
-        {
-            using (StreamReader guardado = new StreamReader(ManejoDeArchivos.rutaInventario(numarchivo)))
-            {
-                switch (Busqueda)
-                {
-                    case "nombre":
-                        string nombre = (guardado.ReadLine()??"");
-                        nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
-                        return nombre;
-                        
-                    case "pais":    
-                        string pais = (guardado.ReadLine()??"");
-                        pais = pais.Replace("Pais: ", "");
-                        return pais;
-                    case "carisma":
-                        string carisma = (guardado.ReadLine() ?? "");
-                        carisma = carisma.Replace("Carisma: ", "");
-                        return carisma;
-                    case "economia":
-                        string economia = (guardado.ReadLine() ?? "");
-                        economia = economia.Replace("Economia: ", "");
-                        return economia;
-                    case "fiscalidad":    
-                        string fiscalidad = (guardado.ReadLine() ?? "");
-                        fiscalidad = fiscalidad.Replace("Fiscalidad: ", "");
-                        return fiscalidad;
-                    case "corrupcion":
-                        string corrupcion = (guardado.ReadLine() ?? "");
-                        corrupcion = corrupcion.Replace("Corrupcion: ", "");
-                        return corrupcion;
-                    case "balance":
-                        string balance = (guardado.ReadLine() ?? "");
-                        balance = balance.Replace("Balance: ", "");
-                        return balance;
-                }
-            } 
-        }
 
-        if (archivo == "inventario")
-        {
-            
-        }
-
-        return null;
-    }
-
-    void CambiarDatos(string archivo, int numarchivo, string Busqueda, int change)
-    {
-        if (archivo == "partidas")
-        {
-            using (StreamReader guardado = new StreamReader(ManejoDeArchivos.rutaInventario(numarchivo)))
-            using (StreamWriter carga = new StreamWriter(ManejoDeArchivos.rutaInventario(numarchivo)))
-            {
-
-            }
-        }
-    }
 
    
 }
