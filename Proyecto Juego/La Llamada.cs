@@ -86,7 +86,7 @@ public class LaLlamada
         CosoPrestamo.X = Pos.X(op1);
         CosoPrestamo.Y = Pos.Y(op1);
         CosoPrestamo.Width = 10;
-       
+
         //Declarando lo que pasará cuando se presione el boton cerrar
         cerrar.Clicked += () =>
         {
@@ -97,7 +97,7 @@ public class LaLlamada
         bt1.Clicked += () => OnOpcion(1, texto, contacto, dial, bt1, bt2, bt3);
         bt2.Clicked += () => OnOpcion(2, texto, contacto, dial, bt1, bt2, bt3);
         bt3.Clicked += () => OnOpcion(3, texto, contacto, dial, bt1, bt2, bt3);
-        dial.Add(op1,op2,op3, bt1, bt2, bt3, colgar, cerrar, CosoPrestamo);
+        dial.Add(op1, op2, op3, bt1, bt2, bt3, colgar, cerrar, CosoPrestamo);
         Application.MainLoop.AddIdle(() =>
         {
             PrimerDialogo(texto, contacto, bt1, bt2, bt3);
@@ -106,7 +106,7 @@ public class LaLlamada
     }
     //Esto es lo que permite que el texto se escriba letra por letra todo bonito
     static void EscribirBonito(string[] dialogos, Label texto, Button[] TodosLosBotones, Label[] TodosLosLabels,
-                              Button[] botones, Label[] labels, 
+                              Button[] botones, Label[] labels,
                               bool SiPresta, bool SiCuelga)
     {
         int indice = Random.Shared.Next(dialogos.Length); //escoge un indice aleatorio cuyo máximo es la cantidad de elementos que contiene el array
@@ -142,14 +142,14 @@ public class LaLlamada
         {
             if (pos >= frase.Length) //es decir, si ya sobrepasó la cantidad de caracteres que contiene la frase (el diálogo)
             {
-                
+
                 foreach (Button boton in botones)
                 {
                     boton.Visible = true;
                     boton.Enabled = true;
                 }
-                foreach (Label label in labels) 
-                { 
+                foreach (Label label in labels)
+                {
                     label.Visible = true;
                     label.Enabled = true;
                 }
@@ -166,10 +166,10 @@ public class LaLlamada
                     cerrar.Visible = true;
                     cerrar.Enabled = true;
                 }
-                
+
                 return false; // termina el temporizador
             }
-             
+
             acumulado += frase[pos];
             texto.Text = acumulado;
             texto.SetNeedsDisplay();
@@ -181,10 +181,10 @@ public class LaLlamada
 
 
     //Pues esto se refiere a lo primero que aparece en la llamada. El diálogo de cuando te contesta y las opciones que tenés para responder
-    static void PrimerDialogo( Label texto, NPC contacto, Button bt1, Button bt2, Button bt3)
+    static void PrimerDialogo(Label texto, NPC contacto, Button bt1, Button bt2, Button bt3)
     {
-        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoContestaLaLlamada[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3], 
-            [bt1, bt2, bt3],[op1, op2, op3], false, true); // se llama la funcion para escribir letra por letra
+        EscribirBonito(Dialogos_de_Contacto.DialogosCuandoContestaLaLlamada[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
+            [bt1, bt2, bt3], [op1, op2, op3], false, true); // se llama la funcion para escribir letra por letra
         op1.Text = "¿Cómo va todo?"; // El texto que lleva a otro
         bt1.X = Pos.Right(op1);
 
@@ -240,6 +240,8 @@ public class LaLlamada
                         {
                             contacto.Amistad += 1;
                             CargandoLasPartidas.ContactosCargados[index] = contacto;
+
+                            GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
                         }
                         Consejo(contacto, texto, bt1, bt2, bt3);
                         break;
@@ -258,7 +260,7 @@ public class LaLlamada
                         TerminarLlamada();
                         break;
                     case 5:
-                        FinalConsejo(contacto, texto, bt1, bt2, bt3); 
+                        FinalConsejo(contacto, texto, bt1, bt2, bt3);
                         break;
                 }
                 break;
@@ -288,7 +290,7 @@ public class LaLlamada
                 break;
         }
     }
-    
+
 
     //Lo que sale cuando el usuario presiona como te va
     static void DespuesDelComoTeVa(NPC contacto, Label texto, Button bt1, Button bt2, Button bt3)
@@ -308,14 +310,14 @@ public class LaLlamada
     }
     static void MenuPrestamo(NPC contacto, Label texto, Button bt1, Button bt2, Button bt3)
     {
-        
+
         if (contacto.Amistad >= 0)
         {
             EscribirBonito(Dialogos_de_Contacto.DialogosCuandoAceptaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
             [bt1], [op2],
             true, true);
 
-   
+
             bt1.X = Pos.Right(CosoPrestamo);
             op2.Text = "¿Podrías prestarme esta cantidad?";
             estado = 3;
@@ -326,8 +328,8 @@ public class LaLlamada
             EscribirBonito(Dialogos_de_Contacto.DialogosCuandoRechazaranPrestamo[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
             [], [],
             false, true);
-            
-            
+
+
         }
 
     }
@@ -359,14 +361,14 @@ public class LaLlamada
                     CargandoLasPartidas.ContactosCargados[index] = contacto;
                 }
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
-                
+
                 top.RemoveAll(); // se actualiza la pantalla de inicio
                 Program.Inicio(top); // se actualiza la pantalla de inicio
-                
+
 
                 EscribirBonito(Dialogos_de_Contacto.DialogosCuandoPrestanDinero[contacto.idArquetipo], texto, [bt1, bt2, bt3], [op1, op2, op3],
                 [bt1], [op1], false, true);
-                
+
                 op1.Text = "Gracias por el préstamo, me será muy útil.";
                 bt1.X = Pos.Right(op1) + 3;
                 bt1.Text = "";
@@ -394,19 +396,19 @@ public class LaLlamada
             texto, [bt1, bt2, bt3], [op1, op2, op3],
             [bt1, bt2, bt3], [op1, op2, op3],
             false, true);
-        
+
         SwitchRespuestaConsejo(contacto, op1, op2, op3);
 
         estado = 2;
     }
     static void FinalConsejo(NPC contacto, Label texto, Button bt1, Button bt2, Button bt3)
     {
-        EscribirBonito(["..........." ], texto,
+        EscribirBonito(["..........."], texto,
             [bt1, bt2, bt3], [op1, op2, op3],
             [bt3], [op3],
-            false, false );
+            false, false);
 
-        
+
         op3.Text = "Colgar.";
         estado = 4;
     }
@@ -572,7 +574,7 @@ public class LaLlamada
     }
     static void IrseALasEmpresas(NPC contacto, Label texto, Button bt1, Button bt2, Button bt3)
     {
-        EscribirBonito(["Me despido."], texto, [bt1, bt2, bt3], [op1, op2, op3], [bt1, bt2], [op1, op2], 
+        EscribirBonito(["Me despido."], texto, [bt1, bt2, bt3], [op1, op2, op3], [bt1, bt2], [op1, op2],
             false, true);
         op1.Text = "Invertiré en el sector, gracias.";
         bt1.X = Pos.Right(op1);
@@ -608,9 +610,9 @@ public class LaLlamada
             Y = 2
         };
         //dialogo respuesta
-        
 
-        
+
+
         dialogo.Add(texto);
         Plantilla(dialog, texto, contacto);
 
@@ -631,20 +633,20 @@ public static class TeLlamanPapuContesta
         {
             var contacto = CargandoLasPartidas.ContactosCargados[i];
 
-            if (!contacto.TienePrestamoActivo)
+            // Solo evaluar si realmente existe deuda pendiente
+            if (!contacto.TienePrestamoActivo || contacto.montoprestado <= 0m)
                 continue;
 
             sbyte presion = Personalidades.Arqueotipos[contacto.idArquetipo].Presion;
-
             int delay = CalcularDelay(presion);
 
             if (ManejoDeArchivos.turno >= contacto.UltimoTurnoPrestamo + delay)
             {
                 MostrarLlamada(contacto);
+                GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
             }
-
-            CargandoLasPartidas.ContactosCargados[i] = contacto; 
         }
+
     }
 
     static int CalcularDelay(sbyte presion)
@@ -727,18 +729,24 @@ public static class TeLlamanPapuContesta
                 // Transferir al contacto y actualizar estado
                 contacto.balance += monto;
                 contacto.montoprestado -= monto;
+                MessageBox.Query(
+    "Debug",
+    $"Monto restante: {contacto.montoprestado}",
+    "Aceptar");
                 if (contacto.montoprestado <= 0m)
                 {
                     contacto.montoprestado = 0;
                     contacto.TienePrestamoActivo = false;
                     contacto.LlamadaPendiente = false;
+                    contacto.UltimoTurnoPrestamo = ManejoDeArchivos.turno;
+
                 }
 
                 if (index != -1)
                     CargandoLasPartidas.ContactosCargados[index] = contacto;
-
-                ModificarPartidas.Guardarelbalance();
+                CargandoLasPartidas.RecalcularDeudaEmergencia();
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
+                ModificarPartidas.Guardarelbalance(); ;
 
                 MessageBox.Query("Pago", "Pago realizado con éxito.", "Aceptar");
                 Application.RequestStop();
@@ -789,5 +797,3 @@ public static class TeLlamanPapuContesta
     }
 
 }
-
-

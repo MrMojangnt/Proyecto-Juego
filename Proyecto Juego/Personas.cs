@@ -277,7 +277,7 @@ Balance: {contactos.balance}")
 
             LaLlamada.Llamar(contactos);
 
-           
+            contactos = CargandoLasPartidas.ContactosCargados[indice];
             contactos.UltimoTurnoLlamado = ManejoDeArchivos.turno;
             CargandoLasPartidas.ContactosCargados[indice] = contactos;
         }
