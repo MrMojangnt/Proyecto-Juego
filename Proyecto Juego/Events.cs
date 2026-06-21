@@ -8,8 +8,6 @@ public class Events
        // Verificar si hay carreras
        public static bool carreras = false;
        //Kavayos
-       public static int[] Kavayos = { 1, 2, 3, 4 };
-
        public static int kavayo;
        public static decimal cantidad;
        //Noticias
@@ -368,7 +366,10 @@ otorgar préstamos, frenando nuevas inversiones."
                          Y = 1
                   };
 
-                  var listaCaballos = new ListView(Kavayos)
+                  var listaCaballos = new ListView(new string[]
+                  {
+                         "Kavayo rojo", "Kavayo Amarillo", "Kavayo Verde", "Kavayo Negro" 
+                  })
                   {
                          X = 2,
                          Y = 2,
@@ -403,12 +404,12 @@ otorgar préstamos, frenando nuevas inversiones."
 
             btnAceptar.Clicked += () =>
             {
-                kavayo = Kavayos[listaCaballos.SelectedItem];
+                kavayo = listaCaballos.SelectedItem;
                 if (decimal.TryParse(txtDinero.Text.ToString(), out cantidad))
                 {
                     IsDecimal = true;
                 }
-                if (IsDecimal && cantidad <= Program.pd.balance - 1 )
+                if (IsDecimal && cantidad <= Program.pd.balance )
                 {
                     Application.RequestStop();
                     top.RemoveAll();
