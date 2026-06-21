@@ -81,6 +81,7 @@ public class CreandoNuevaPartida
                     save.WriteLine($"Nombre: {Program.pd.name} \nPais: {Program.pd.pais} \nBalance: {Program.pd.balance}");
                     // nueva línea que persiste la deuda total
                     save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
+                    save.WriteLine($"DeudaLegendaria: {ManejoDeArchivos.DeudaLegendaria}");
 
                 }
 

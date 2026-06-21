@@ -729,10 +729,7 @@ public static class TeLlamanPapuContesta
                 // Transferir al contacto y actualizar estado
                 contacto.balance += monto;
                 contacto.montoprestado -= monto;
-                MessageBox.Query(
-    "Debug",
-    $"Monto restante: {contacto.montoprestado}",
-    "Aceptar");
+           
                 if (contacto.montoprestado <= 0m)
                 {
                     contacto.montoprestado = 0;

@@ -21,38 +21,38 @@ public class CargandoLasPartidas
             && File.Exists(ManejoDeArchivos.rutaEmpresas(slot)) && File.Exists(ManejoDeArchivos.rutaBalance(slot)) &&
             File.Exists(ManejoDeArchivos.rutaContactos(slot)))
         {
-                if (!ManejoDeArchivos.ArchivosDisponibles(
-                    ManejoDeArchivos.rutaPartidas(slot),
-                    ManejoDeArchivos.rutaInventario(slot),
-                    ManejoDeArchivos.rutaEmpresas(slot),
-                    ManejoDeArchivos.rutaBalance(slot),
-                    ManejoDeArchivos.rutaContactos(slot)))
-                {
-                    MessageBox.Query(
-                        "Error",
-                        "Uno o más archivos de la partida están abiertos en otro programa.",
-                        "Aceptar");
+            if (!ManejoDeArchivos.ArchivosDisponibles(
+                ManejoDeArchivos.rutaPartidas(slot),
+                ManejoDeArchivos.rutaInventario(slot),
+                ManejoDeArchivos.rutaEmpresas(slot),
+                ManejoDeArchivos.rutaBalance(slot),
+                ManejoDeArchivos.rutaContactos(slot)))
+            {
+                MessageBox.Query(
+                    "Error",
+                    "Uno o más archivos de la partida están abiertos en otro programa.",
+                    "Aceptar");
 
-                    return;
-                }
+                return;
+            }
             CargarTxt(slot);
-                
 
-                Companiass = CargarEmpresa(slot);
-                CambiosDelMercado.PrepararPronosticoMercado(Companiass);
-                ContactosCargados = CargarContactos(slot);
-                RecalcularDeudaEmergencia();
 
-                top.Remove(VentanaCargarPartida);
-                Program.Inicio(top);
-            
+            Companiass = CargarEmpresa(slot);
+            CambiosDelMercado.PrepararPronosticoMercado(Companiass);
+            ContactosCargados = CargarContactos(slot);
+            RecalcularDeudaEmergencia();
+
+            top.Remove(VentanaCargarPartida);
+            Program.Inicio(top);
+
         }
         else
         {
-                MessageBox.Query(
-                    "Error",
-                    "No tienes partida guardada",
-                    "Aceptar");
+            MessageBox.Query(
+                "Error",
+                "No tienes partida guardada",
+                "Aceptar");
         }
     }
 
@@ -69,11 +69,13 @@ public class CargandoLasPartidas
             pais = pais.Replace("Pais: ", ""); pais = pais.Replace("(predeterminado)", "");
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
+            _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaLegendaria: ", ""), out decimal deudaLegendaria);
             _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
             Program.pd.name = nombre;
             Program.pd.pais = pais;
             Program.pd.balance = balance;
             ManejoDeArchivos.DeudaEmergencia = deuda;
+            ManejoDeArchivos.DeudaLegendaria = deudaLegendaria;
             ManejoDeArchivos.turno = turnos;
         }
     }
@@ -176,7 +178,7 @@ public class CargandoLasPartidas
         decimal total = 0m;
         foreach (var c in ContactosCargados)
             total += c.montoprestado;
-        ManejoDeArchivos.DeudaEmergencia = total;
+        ManejoDeArchivos.DeudaEmergencia = total + ManejoDeArchivos.DeudaLegendaria;
     }
 
     public static void VerificarNoHayDatosGuardadosLabel(FrameView[] Slots)

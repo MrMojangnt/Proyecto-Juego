@@ -8,6 +8,7 @@ public class ManejoDeArchivos
 {
     public static bool[] saves = new bool[3];
     public static decimal DeudaEmergencia = 0m; //Se define la variable de la deuda
+    public static decimal DeudaLegendaria = 0m; //Deuda generada por préstamos de contactos legendarios (Raúl Castillo)
     public static int turno = 0; //se define el turno en el que está el jugador
 
     public static string ObtenerCarpeta(int slot)
