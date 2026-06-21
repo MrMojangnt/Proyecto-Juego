@@ -54,7 +54,7 @@ public class Creditos
             "Big Data Cluster",
             "",
             "Versión:",
-            "1.0 Beta 3026"
+            "1.0 Beta 2026"
         };
 
         int nombreActual = 0;

@@ -274,13 +274,13 @@ public class Indices
         }
         return CargandoLasPartidas.Companiass[mejorIndex];
     }
-    public static void VentanaDeEmpresas(Toplevel top, List<ColorScheme> colores, int colora)
+    public static void VentanaDeEmpresas(Toplevel top)
     {
         var VentanaDeEmpresas = new Window()
         {
             X = 0,
             Y = 0,
-            ColorScheme = colores[colora],
+            ColorScheme = Program.colores[Program.colora],
             Width = Dim.Fill(),
             Height = Dim.Fill(),
         };
@@ -319,7 +319,7 @@ public class Indices
 
             var empresa = CargandoLasPartidas.Companiass[row];
             top.Remove(VentanaDeEmpresas);
-            Tablasdejocksand.MostrarDetalleEmpresa(top, empresa, colores, colora);
+            Tablasdejocksand.MostrarDetalleEmpresa(top, empresa);
 
         };
         tableView.Table = tabla;

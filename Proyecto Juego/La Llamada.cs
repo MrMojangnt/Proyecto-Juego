@@ -745,6 +745,15 @@ public static class TeLlamanPapuContesta
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
                 ModificarPartidas.Guardarelbalance(); ;
 
+                if (contacto.montoprestado < monto)
+                {
+                    contacto.Amistad += 1;
+
+                    if (index != -1)
+                        CargandoLasPartidas.ContactosCargados[index] = contacto;
+
+                    GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
+                }
                 MessageBox.Query("Pago", "Pago realizado con éxito.", "Aceptar");
                 Application.RequestStop();
             };

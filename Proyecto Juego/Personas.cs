@@ -131,7 +131,7 @@ public class GeneracionDeContactos
     }
 
 
-    public static void Contactos(List<ColorScheme> colores, int colora, Window VentanaInicio, List<NPC> Lista)
+    public static void Contactos(Window VentanaInicio, List<NPC> Lista)
     {
         DataTable tabla = new DataTable();
         tabla.Columns.Add("Nombre");
@@ -143,7 +143,7 @@ public class GeneracionDeContactos
             Y = Pos.Center(),
             Width = 27,
             Height = 8,
-            ColorScheme = colores[colora]
+            ColorScheme = Program.colores[Program.colora]
         };
 
         // Lista que vincula cada FILA de la tabla con: o un NPC normal, o un legendario.

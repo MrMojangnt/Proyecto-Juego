@@ -9,7 +9,8 @@ public static class Apuesta
             X = 0,
             Y = 1,
             Width = Dim.Fill(),
-            Height = Dim.Fill()
+            Height = Dim.Fill(),
+            ColorScheme = Program.colores[Program.colora]
         };
 
         Label[] caballos = new Label[4];

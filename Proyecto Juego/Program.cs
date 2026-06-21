@@ -94,7 +94,7 @@ class Program
 
             Focus = Application.Driver.MakeAttribute(
                 Color.White,
-                Color.BrightBlue),
+                Color.White),
 
             HotNormal = Application.Driver.MakeAttribute(
                 Color.Red,
@@ -176,7 +176,7 @@ class Program
         var top = Application.Top;
        
 
-        VentanaPrincipal = new Window("Menu")
+        VentanaPrincipal = new Window()
         {
             X = 0,
             Y = 0,
@@ -345,21 +345,18 @@ class Program
         botonNuevaPartida.Clicked += () =>
         {
             top.Remove(VentanaPrincipal);
-            marcos.Clear();
             CreacionPersonaje(top);
         };
         botonCargarPartida.Clicked += () =>
         {
 
             top.Remove(VentanaPrincipal);
-            marcos.Clear();
             CargarPartida(top);
 
         };
         botonConfiguracion.Clicked += () =>
         {
             top.Remove(VentanaPrincipal);
-            marcos.Clear();
             Configuracion(top);
         };
         botonsalir.Clicked += () => Application.RequestStop();
@@ -576,6 +573,7 @@ class Program
             {
                 m.ColorScheme = colores[colora];
             }
+
             MessageBox.Query(
                 "Guardado",
                 "Se guardo la configuracion", //Muestra un aviso, un mensaje
@@ -613,6 +611,7 @@ class Program
             Y = etiquetaNombre.Y,
             Width = 30
         };
+        //Aquí se valida que solo se puedan ingresar 20 caracteres como máximo
         casillaNombre.TextChanging += (e) =>
         {
             if (e.NewText.Length > 20)
@@ -777,7 +776,7 @@ class Program
             Y = 1
         };
         //Contactos
-        GeneracionDeContactos.Contactos(colores, colora, VentanaInicio, CargandoLasPartidas.ContactosCargados);
+        GeneracionDeContactos.Contactos(VentanaInicio, CargandoLasPartidas.ContactosCargados);
         
         VentanaInicio.Add(LabelUsuario,Balance, LabelPais, FrameNoticias, TrabajoFrame);
         //Esto es lo que se activa si se quiere ver el celular
@@ -801,7 +800,7 @@ class Program
             X = 12,
             Y = Pos.AnchorEnd(2)
         };
-        var btPortafolio = new Button("Periodico")
+        var btPortafolio = new Button("Periódico")
         {
             X=24,
             Y=Pos.AnchorEnd(2)
@@ -816,7 +815,7 @@ class Program
             X = 58,
             Y =Pos.AnchorEnd(2)
         };
-        var btMenu = new Button("Volver al Menu")
+        var btMenu = new Button("Volver al Menú")
         {
             X = 96,
             Y = Pos.AnchorEnd(2)
@@ -846,12 +845,12 @@ class Program
         btVerEmpresa.Clicked += () =>
         {
             top.RemoveAll();
-            Indices.VentanaDeEmpresas(top, colores, colora);
+            Indices.VentanaDeEmpresas(top);
         };
         btInventario.Clicked += () =>
         {
             top.RemoveAll();
-            top.Add(Inventario.VentanaInventario(top, InvInt, colores, colora));
+            top.Add(Inventario.VentanaInventario(top));
         };
         btMenu.Clicked += () =>
         {
@@ -861,7 +860,7 @@ class Program
         btBalance.Clicked += () =>
         {
             top.RemoveAll();
-            Tablasdefrancisco.MostrarReporteBalance(top, colores, colora);
+            Tablasdefrancisco.MostrarReporteBalance(top);
         };
         creditosButton.Clicked += () =>
         {
