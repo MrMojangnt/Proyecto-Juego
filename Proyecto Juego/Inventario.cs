@@ -9,13 +9,13 @@ using Terminal.Gui;
 
 public class Inventario
 {
-    public static Window VentanaInventario(Toplevel top, int InvInt,List<ColorScheme> colores, int colora)
+    public static Window VentanaInventario(Toplevel top)
     {
         var win = new Window("Tabla tipo Excel")
         {
             X = 0,
             Y = 0,
-            ColorScheme = colores[colora],
+            ColorScheme = Program.colores[Program.colora],
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
@@ -28,7 +28,7 @@ public class Inventario
         tabla.Columns.Add("Tipo de Acción");
         tabla.Columns.Add("Cantidad");
 
-        Program.Accioneshh = CargarInventario(InvInt);
+        Program.Accioneshh = CargarInventario(Program.InvInt);
         foreach (Acciones i in Program.Accioneshh)
         {
             tabla.Rows.Add(

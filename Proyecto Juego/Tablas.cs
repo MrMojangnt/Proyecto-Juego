@@ -11,7 +11,7 @@ namespace Proyecto_Juego;
 public class Tablasdefrancisco
 {
     //MOSTRAR REPORTE DE BALANCE
-    public static void MostrarReporteBalance(Toplevel top, List<ColorScheme> colores, int colora)
+    public static void MostrarReporteBalance(Toplevel top)
     {
         AsegurarHistorialBalance(Program.InvInt);
 
@@ -29,7 +29,7 @@ public class Tablasdefrancisco
             Y = 0,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
-            ColorScheme = colores[colora]
+            ColorScheme = Program.colores[Program.colora]
         };
 
         var labelResumen = new Label(
@@ -243,13 +243,13 @@ Costo base: ${costoBase:F2} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.
 
 public class Tablasdejocksand
 {
-    public static void MostrarDetalleEmpresa(Toplevel top, Companias empresa, List<ColorScheme> colores, int colora)
+    public static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
     {
         var DetalleEmpresa = new Window("Detalle de Empresa")
         {
             X = 0,
             Y = 0,
-            ColorScheme = colores[colora],
+            ColorScheme = Program.colores[Program.colora],
             Width = Dim.Fill(),
             Height = Dim.Fill(),
         };
@@ -336,6 +336,13 @@ $@"         PRODUCTOS
             Y = Pos.Y(btVolver) - 5,
             Width = 15
         };
+        InputCantidad.TextChanging += (e) =>
+        {
+            if (e.NewText.Length >= 7)
+            {
+                e.Cancel = true;
+            }
+        };
         DetalleEmpresa.Add((InputCantidad));
         var LabelCantidad = new Label("Cantidad:")
         {
@@ -365,7 +372,7 @@ $@"         PRODUCTOS
         btVolver.Clicked += () =>
         {
             top.RemoveAll();
-            Indices.VentanaDeEmpresas(top, colores, colora);
+            Indices.VentanaDeEmpresas(top);
         };
         btcomprar_acciones.Clicked += () =>
         {

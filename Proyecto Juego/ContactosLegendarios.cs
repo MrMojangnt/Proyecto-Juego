@@ -111,6 +111,7 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
 
     public override void Ejecutar()
     {
+        var top = Application.Top;
         var dialogo = new Dialog("Raul Castillo", 70, 18);
 
         var titulo = new Label("Monto del préstamo de emergencia:")
@@ -124,6 +125,13 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
             X = 1,
             Y = 3,
             Width = 25
+        };
+        monto.TextChanging += (e) =>
+        {
+            if (e.NewText.Length >= 6)
+            {
+                e.Cancel = true;
+            }
         };
 
         var detalle = new Label("El préstamo aumenta tu balance y suma deuda.")
@@ -146,7 +154,7 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
 
         otorgar.Clicked += () =>
         {
-            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m || cantidad >= 100000m)
+            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m)
             {
                 MessageBox.Query("Raul Castillo", "Ingresá un monto válido.", "Aceptar");
                 return;
@@ -159,6 +167,9 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
                 "Raul Castillo",
                 $"Préstamo aprobado.\nRecibiste ${cantidad:F2}\nDeuda actual: ${ManejoDeArchivos.DeudaEmergencia:F2}",
                 "Aceptar");
+
+            top.RemoveAll();
+            Program.Inicio(top);
             Application.RequestStop();
         };
 
