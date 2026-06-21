@@ -311,7 +311,7 @@ public class Indices
             X = 0,
             Y = 0,
             Width = 120,
-            Height = 30
+            Height = 25
         };
         tableView.CellActivated += (e) =>
         {

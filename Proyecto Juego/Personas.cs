@@ -25,7 +25,7 @@ public class GeneracionDeContactos
     {
     "Sofía Martínez", "Alyssa Rodríguez", "Melanie Perkins", "Isabella González",
     "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez", "Andrea Vasco",
-    "Marisa D'Trinidad", "Emma Sánchez", "Elaine Miranda", "Gabriela Torres",
+    "María Gallegos", "Emma Sánchez", "Elaine Miranda", "Gabriela Torres",
     "Natalia Ramírez", "Elena Flores", "Paula Benítez", "Andrea Herrera",
     "Renata Medina", "Julieta Castro", "Emilia Rojas", "Samantha Vargas",
     "Kenely Ordoñez", "Antonia Ortiz", "María Silva", "Ana Morales"

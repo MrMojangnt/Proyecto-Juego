@@ -40,8 +40,10 @@ public class CreandoNuevaPartida
 
             if (guardado)
             {
-                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
+                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana
+                Program.MostrarTutorial = true;
                 Program.Inicio(top);
+                Tutorial.EvaluarTutorial();
             }
         }
     }

@@ -146,7 +146,7 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
 
         otorgar.Clicked += () =>
         {
-            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m)
+            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m || cantidad >= 100000m)
             {
                 MessageBox.Query("Raul Castillo", "Ingresá un monto válido.", "Aceptar");
                 return;

@@ -66,7 +66,7 @@ public class CargandoLasPartidas
             string nombre = (save.ReadLine() ?? "");
             nombre = nombre.Replace("Nombre: ", "");
             string pais = (save.ReadLine() ?? "");
-            pais = pais.Replace("Pais: ", "");
+            pais = pais.Replace("Pais: ", ""); pais = pais.Replace("(predeterminado)", "");
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
             _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);

@@ -408,7 +408,7 @@ otorgar préstamos, frenando nuevas inversiones."
                 {
                     IsDecimal = true;
                 }
-                if (IsDecimal && cantidad <= Program.pd.balance)
+                if (IsDecimal && cantidad <= Program.pd.balance - 1 )
                 {
                     Application.RequestStop();
                     top.RemoveAll();

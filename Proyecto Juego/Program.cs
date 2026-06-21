@@ -21,7 +21,6 @@ class Program
     //Audio Música
     static WaveOutEvent salidaAudio;
     static AudioFileReader audio;
-    static bool reproduciendo = false;
     static bool muteado = false;
     //Audio Click
     static WaveOutEvent salidaclick;
@@ -33,8 +32,9 @@ class Program
     public static List<Acciones> AccionesListActuales = new List<Acciones>();
     public static List<string> Paises = new List<string>() { "Nicaragua (predeterminado)", "EE.UU.", "Japón", "China", "Alemania", "España" };
     public static List<Acciones> Accioneshh = new List<Acciones>();
-    
-    
+
+    //define si se mostrará el tutorial
+    public static bool MostrarTutorial;
     //Trabajos disponibles
     public static string[] Trabajoslist = { "Desencriptador" };
     public static string TrabajoEscogido = "";
@@ -166,6 +166,10 @@ class Program
        
 
         Application.Init();
+        if (OperatingSystem.IsWindows())
+        {
+            Reproducir();
+        }
         ContactosLegendariosMenu.CargarUsos();  
       
 
@@ -281,34 +285,7 @@ class Program
         VentanaPrincipal.Add(marcosalir);
         marcosalir.Add(botonsalir);
 
-        var marcomusica = new FrameView("")
-        {
-            X = 130,
-            Y = 33,
-            Width = 10,
-            Height = 4,
-        };
-        var botonMusica = new Button("▶ MUSICA")
-        {
-            X = Pos.Center(),
-            Y = Pos.Center()
-        };
-        VentanaPrincipal.Add(marcomusica);
-        marcomusica.Add(botonMusica);
-        botonMusica.Clicked += () =>
-        {
-            if (!reproduciendo)
-            {
-                Reproducir();
-                reproduciendo = true;
-                muteado = false;
-            }
-            else
-            {
-                muteado = !muteado;
-                salidaAudio.Volume = muteado ? 0f : 1f;
-            }
-        };
+       
 
 
         //Agregar marcos a la list
@@ -346,14 +323,7 @@ class Program
             marcosalir.ColorScheme = ColoreButtonSelected[colora];
             ClickSound();
         };
-        botonMusica.Enter += (_) =>
-        {
-            marcomusica.ColorScheme = ColoreButtonSelected[colora];
-            if (OperatingSystem.IsWindows())
-            {
-                ClickSound();
-            }
-        };
+       
 
         // Cuando pierde foco
         botonCargarPartida.Leave += (_) =>
@@ -371,10 +341,6 @@ class Program
         botonsalir.Leave += (_) =>
         {
             marcosalir.ColorScheme = colores[colora];
-        };
-        botonMusica.Leave += (_) =>
-        {
-            marcomusica.ColorScheme = colores[colora];
         };
         botonNuevaPartida.Clicked += () =>
         {
@@ -474,16 +440,19 @@ class Program
         bottonslot1.Clicked += () =>
         {
             int slot = 0;
+            MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida( slot, top, VentanaCargarPartida);
         };
         bottonslot2.Clicked += () =>
         {
             int slot = 1;
+            MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
         };
         bottonslot3.Clicked += () =>
         {
             int slot = 2;
+            MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
         };
 
@@ -582,8 +551,23 @@ class Program
         };
         var aceptar = new Button("Aceptar")
         {
-            Y= 9,
+            Y= 11,
             X = Pos.Right(ListaTEMAS),
+        };
+        var labelMusica = new Label("Reproducir / Silenciar Música")
+        {
+            X = 2,
+            Y = 8,
+        };
+        var botonMusica = new Button(" ▶")
+        {
+            X = Pos.Right(labelMusica) + 2,
+            Y = Pos.Y(labelMusica)
+        };
+        botonMusica.Clicked += () =>
+        {
+            muteado = !muteado;
+            salidaAudio.Volume = muteado ? 0f : 1f;
         };
         aceptar.Clicked += () =>
         {
@@ -600,6 +584,7 @@ class Program
             top.Add(VentanaPrincipal);
         };
 
+        ventanaconfiguracion.Add(labelMusica, botonMusica);
         ventanaconfiguracion.Add(aceptar);
         ventanaconfiguracion.Add(ListaTEMAS);
         ventanaconfiguracion.Add(TemasLabel);
@@ -627,6 +612,13 @@ class Program
             X = Pos.Right(etiquetaNombre) + 1,
             Y = etiquetaNombre.Y,
             Width = 30
+        };
+        casillaNombre.TextChanging += (e) =>
+        {
+            if (e.NewText.Length > 20)
+            {
+                e.Cancel = true;
+            }
         };
         var etiquetaPais = new Label("País")//Se agrega texto
         {
@@ -884,33 +876,4 @@ class Program
         ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
     }
   
-
-
-    //creando la ventana de empresas
-   	
-
-    static void ComprarAcciones(Toplevel top)
-    {
-        var Mercado = new Window("Mercado")
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill()
-        };
-        
-        BotonesDeJuegoPredeterminado(top, Mercado);
-        top.Add(Mercado);
-    }
-
-    
-
-
-
-
-
-   
-
-    
-
 }

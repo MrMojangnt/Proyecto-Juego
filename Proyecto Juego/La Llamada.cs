@@ -82,6 +82,7 @@ public class LaLlamada
         cerrar.Y = Pos.AnchorEnd(2);
 
         //Definiendo la posicion y tamaño del textfield para poner el prestamo
+        CosoPrestamo.Text = "";
         CosoPrestamo.X = Pos.X(op1);
         CosoPrestamo.Y = Pos.Y(op1);
         CosoPrestamo.Width = 10;
@@ -223,6 +224,7 @@ public class LaLlamada
                         break;
                     case 5:
                         IrseALasEmpresas(contacto, texto, bt1, bt2, bt3);
+                        estado = 2;
                         break;
                 }
                 break;
@@ -231,7 +233,14 @@ public class LaLlamada
                 switch (estado)
                 {
                     case 0:
-                        contacto.Amistad += 1;
+                        int index = CargandoLasPartidas.ContactosCargados
+                            .FindIndex(n => n.name == contacto.name);
+
+                        if (index != -1)
+                        {
+                            contacto.Amistad += 1;
+                            CargandoLasPartidas.ContactosCargados[index] = contacto;
+                        }
                         Consejo(contacto, texto, bt1, bt2, bt3);
                         break;
 
@@ -493,8 +502,8 @@ public class LaLlamada
             texto,
             [bt1, bt2, bt3],
             [op1, op2, op3],
-            [bt1, bt2, bt3],
-            [op1, op2, op3],
+            [bt1, bt2],
+            [op1, op2],
             false, true
         );
 
@@ -502,8 +511,6 @@ public class LaLlamada
         op2.Text = "No me interesa el mercado.";
         bt2.X = Pos.Right(op2);
 
-        op3.Text = "Cambiemos de tema.";
-        bt3.X = Pos.Right(op3);
 
         estado = 5;
     }
@@ -682,7 +689,7 @@ public static class TeLlamanPapuContesta
         cuadro.Add(cobrar);
 
         // Información de deuda (mostramos deuda total por ahora)
-        var deudaInfo = new Label($"Deuda total del Inversor: {ManejoDeArchivos.DeudaEmergencia:F2}   Balance de {contacto.name}: {contacto.balance:F2}")
+        var deudaInfo = new Label($"Deuda total del Inversor: {contacto.montoprestado:F2}   \nBalance de {contacto.name}: {contacto.balance:F2}")
         {
             X = 1,
             Y = Pos.Bottom(cuadro) + 1
@@ -697,7 +704,7 @@ public static class TeLlamanPapuContesta
             Application.RequestStop();
 
             var dlgPago = new Dialog($"Pagar a {contacto.name}", 60, 12);
-            var lbl = new Label($"Deuda total: {ManejoDeArchivos.DeudaEmergencia:F2}") { X = 1, Y = 1 };
+            var lbl = new Label($"Deuda total: {contacto.montoprestado:F2}") { X = 1, Y = 1 };
             var labelPago = new Label("Monto a pagar:") { X = 1, Y = 3 };
             var campoPago = new TextField("") { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
             var btnAceptar = new Button("Aceptar") { X = 1, Y = Pos.AnchorEnd(2) };
@@ -720,9 +727,12 @@ public static class TeLlamanPapuContesta
                 // Transferir al contacto y actualizar estado
                 contacto.balance += monto;
                 contacto.montoprestado -= monto;
-                if (ManejoDeArchivos.DeudaEmergencia == 0m)
+                if (contacto.montoprestado <= 0m)
+                {
+                    contacto.montoprestado = 0;
                     contacto.TienePrestamoActivo = false;
-                contacto.LlamadaPendiente = false;
+                    contacto.LlamadaPendiente = false;
+                }
 
                 if (index != -1)
                     CargandoLasPartidas.ContactosCargados[index] = contacto;
@@ -765,6 +775,12 @@ public static class TeLlamanPapuContesta
         btnIgnorar.Clicked += () =>
         {
             contacto.Amistad -= 1;
+
+            if (index != -1)
+                CargandoLasPartidas.ContactosCargados[index] = contacto;
+
+            GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
+
             Application.RequestStop();
         };
 
