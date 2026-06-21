@@ -40,8 +40,10 @@ public class CreandoNuevaPartida
 
             if (guardado)
             {
-                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana  
+                top.Remove(VentanaCreacionPersonaje);//Cuando se pulsa el botón desaparece la ventana
+                Program.MostrarTutorial = true;
                 Program.Inicio(top);
+                Tutorial.EvaluarTutorial();
             }
         }
     }
@@ -79,6 +81,7 @@ public class CreandoNuevaPartida
                     save.WriteLine($"Nombre: {Program.pd.name} \nPais: {Program.pd.pais} \nBalance: {Program.pd.balance}");
                     // nueva línea que persiste la deuda total
                     save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
+                    save.WriteLine($"DeudaLegendaria: {ManejoDeArchivos.DeudaLegendaria}");
 
                 }
 

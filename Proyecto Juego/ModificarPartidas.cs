@@ -32,6 +32,8 @@ public class ModificarPartidas
                 using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(index), false, Encoding.UTF8))
                 {
                     save.WriteLine(Program.pd.ToString());
+                    save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
+                    save.WriteLine($"DeudaLegendaria: {ManejoDeArchivos.DeudaLegendaria}");
                     save.WriteLine($"Turno: {ManejoDeArchivos.turno}");
                 }
 
@@ -210,7 +212,8 @@ public class ModificarPartidas
     public static void AplicarPrestamoEmergencia(decimal monto)
     {
         Program.pd.balance += monto;
-        ManejoDeArchivos.DeudaEmergencia += monto;
+        ManejoDeArchivos.DeudaLegendaria += monto;
+        CargandoLasPartidas.RecalcularDeudaEmergencia();
     }
     public static void RegistrarMovimientoBalance(string tipo, Companias empresa, int cantidad, decimal precioUnitario, decimal total)
     {
@@ -228,6 +231,7 @@ public class ModificarPartidas
         {
             save.WriteLine($"Nombre: {Program.pd.name} \nPais: {Program.pd.pais} \nBalance: {Program.pd.balance}");
             save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
+            save.WriteLine($"DeudaLegendaria: {ManejoDeArchivos.DeudaLegendaria}");
             save.WriteLine($"Turno: {ManejoDeArchivos.turno}");
 
         }
@@ -236,9 +240,10 @@ public class ModificarPartidas
     {
         ManejoDeArchivos.turno++;
         TeLlamanPapuContesta.EvaluarLlamadas();
+        GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
         if (CambiosDelMercado.PronosticoMercado.Count != CargandoLasPartidas.Companiass.Count)
         {
-           CambiosDelMercado.PrepararPronosticoMercado(CargandoLasPartidas.Companiass);
+            CambiosDelMercado.PrepararPronosticoMercado(CargandoLasPartidas.Companiass);
         }
 
         for (int i = 0; i < CargandoLasPartidas.Companiass.Count; i++)

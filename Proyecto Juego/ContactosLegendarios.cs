@@ -30,7 +30,7 @@ public abstract class ContactoLegendarioBase
             ContactosLegendariosMenu.GuardarUsos();   // persiste automáticamente al gastar un uso
         }
     }
-    
+
 
     public abstract void Ejecutar();
 }
@@ -90,7 +90,7 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
 
             string sector = sectores[indice];
             ModificarPartidas.AplicarImpactoSector(sector, 1.5m);
-            ConsumirUso(); 
+            ConsumirUso();
             MessageBox.Query("Jocksand Valladares", $"Sector afectado: {sector}\nEl valor bursátil subió un 50%.", "Aceptar");
             Application.RequestStop();
         };
@@ -146,14 +146,15 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
 
         otorgar.Clicked += () =>
         {
-            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m)
+            if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m || cantidad >= 100000m)
             {
                 MessageBox.Query("Raul Castillo", "Ingresá un monto válido.", "Aceptar");
                 return;
             }
 
             ModificarPartidas.AplicarPrestamoEmergencia(cantidad);
-            ConsumirUso(); 
+            ConsumirUso();
+            ModificarPartidas.Guardarelbalance();
             MessageBox.Query(
                 "Raul Castillo",
                 $"Préstamo aprobado.\nRecibiste ${cantidad:F2}\nDeuda actual: ${ManejoDeArchivos.DeudaEmergencia:F2}",
@@ -204,7 +205,7 @@ public sealed class FranciscoAlvarezLegendario : ContactoLegendarioBase
         cerrar.Clicked += () => Application.RequestStop();
 
         dialogo.Add(titulo, tabla, cerrar);
-        ConsumirUso(); 
+        ConsumirUso();
         Application.Run(dialogo);
     }
 }
