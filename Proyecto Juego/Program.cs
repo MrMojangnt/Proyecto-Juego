@@ -734,23 +734,21 @@ class Program
                 ComprarAcciones.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Indices.VentanaDeEmpresas(top, colores, colora);
+                    Indices.VentanaDeEmpresas(top);
 
                 };
                 Balance.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Tablasdefrancisco.MostrarReporteBalance(top, colores, colora);
+                    Tablasdefrancisco.MostrarReporteBalance(top);
                 };
                 Inventariobt.Clicked += () =>
                 {
                     top.RemoveAll();
-                    Inventario.VentanaInventario(top, InvInt, colores, colora);
+                    Inventario.VentanaInventario(top);
                 };
                 CerrarAccionRapida.Clicked += () =>
                 {
-                    top.RemoveAll();
-                    Inicio(top);
                     Application.RequestStop(AccionRapidaDialogo);
                 };
 
