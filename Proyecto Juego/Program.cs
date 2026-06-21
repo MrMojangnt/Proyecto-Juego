@@ -753,8 +753,6 @@ class Program
                 };
                 CerrarAccionRapida.Clicked += () =>
                 {
-                    top.RemoveAll();
-                    Inicio(top);
                     Application.RequestStop(AccionRapidaDialogo);
                 };
 
