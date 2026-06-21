@@ -36,7 +36,7 @@ class Program
     //define si se mostrará el tutorial
     public static bool MostrarTutorial;
     //Trabajos disponibles
-    public static string[] Trabajoslist = { "Desencriptador" };
+    public static string[] Trabajoslist = { "Desencriptador" , "Programador"};
     public static string TrabajoEscogido = "";
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
@@ -695,6 +695,69 @@ class Program
             ColorScheme = colores[colora]
         };
         top.Add(VentanaInicio);//Inicializador
+        VentanaInicio.MouseClick += (args) =>
+        {
+            if (args.MouseEvent.Flags.HasFlag(MouseFlags.Button1Clicked))
+            {
+                //Visual
+                var AccionRapidaDialogo = new Dialog("Accion rapida", 50, 10)
+                {
+                    X = Pos.Center(),
+                    Y = Pos.Center(),
+                };
+                var label = new Label("Usa tab para desplazarte mejor")
+                {
+                    X = Pos.Center(),
+                    Y = 0
+                };
+                var ComprarAcciones = new Button("Comprar Acciones")
+                {
+                    X = 2,
+                    Y = 1
+                };
+                var Balance = new Button("Balance")
+                {
+                    X = 30,
+                    Y = 1
+                };
+                var Inventariobt = new Button("Inventario de acciones")
+                {
+                    X = Pos.Center(),
+                    Y = 3
+                };
+                var CerrarAccionRapida = new Button("Cerrar")
+                {
+                    X = Pos.Center(),
+                    Y = 6
+                };
+                //Accionar
+                ComprarAcciones.Clicked += () =>
+                {
+                    top.RemoveAll();
+                    Indices.VentanaDeEmpresas(top, colores, colora);
+
+                };
+                Balance.Clicked += () =>
+                {
+                    top.RemoveAll();
+                    Tablasdefrancisco.MostrarReporteBalance(top, colores, colora);
+                };
+                Inventariobt.Clicked += () =>
+                {
+                    top.RemoveAll();
+                    Inventario.VentanaInventario(top, InvInt, colores, colora);
+                };
+                CerrarAccionRapida.Clicked += () =>
+                {
+                    top.RemoveAll();
+                    Inicio(top);
+                    Application.RequestStop(AccionRapidaDialogo);
+                };
+
+            AccionRapidaDialogo.Add(CerrarAccionRapida, ComprarAcciones, Balance, label, Inventariobt);
+                Application.Run(AccionRapidaDialogo);
+            }
+        };
         var LabelUsuario = new Label($"Inversor: {pd.name}")
         {
             X = 2,
@@ -764,6 +827,9 @@ class Program
             if (TrabajoEscogido == "Desencriptador")
             {
                 Proyecto_Juego.Trabajos.Desencriptador(top);
+            } else if (TrabajoEscogido == "Programador")
+            {
+                Proyecto_Juego.Trabajos.Programador(top);
             }
         };
         //botones bajos

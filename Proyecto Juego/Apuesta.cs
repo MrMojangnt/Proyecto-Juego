@@ -2,8 +2,29 @@ using Proyecto_Juego;
 using Terminal.Gui;
 public static class Apuesta
 {
+    public static string[] kavayosColores = { "Rojo", "Amarillo", "Verde", "Negro" };
     public static void Iniciar(Toplevel top)
     {
+        //Colores de los caballos
+        var rojo = new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightRed)
+        };
+
+        var amarillo = new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightYellow)
+        };
+
+        var verde = new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightGreen)
+        };
+
+        var negro = new ColorScheme()
+        {
+            Normal = Application.Driver.MakeAttribute(Color.White, Color.Black)
+        };
         var win = new Window("Carrera de Caballos")
         {
             X = 0,
@@ -23,7 +44,25 @@ public static class Apuesta
                 X = 1,
                 Y = i + 2
             };
+            //Asignar 
+            switch (i)
+            {
+                case 0:
+                    caballos[i].ColorScheme = rojo;
+                    break;
 
+                case 1:
+                    caballos[i].ColorScheme = amarillo;
+                    break;
+
+                case 2:
+                    caballos[i].ColorScheme = verde;
+                    break;
+
+                case 3:
+                    caballos[i].ColorScheme = negro;
+                    break;
+            }
             win.Add(caballos[i]);
         }
 
@@ -54,10 +93,10 @@ public static class Apuesta
                     {
                         MessageBox.Query(
                             "Carrera terminada",
-                            $"¡Ganó el Kavayo #{i + 1}!",
+                            $"¡Ganó el Kavayo {kavayosColores[i]}!",
                             "Aceptar"
                         );
-                        if (Events.kavayo == i +1)
+                        if (Events.kavayo == i)
                         {
                             Program.pd.balance += Events.cantidad * 4;
                         }
@@ -71,19 +110,20 @@ public static class Apuesta
                 }
 
                 win.SetNeedsDisplay();
-                var cerrarbutton = new Button("Cerrar")
-                {
-                    X = Pos.Center(),
-                    Y = Pos.Center()
-                };
-                cerrarbutton.Clicked += () =>
-                {
-                    top.RemoveAll();
-                    Program.Inicio(top);
-                };
-                win.Add(cerrarbutton);
+
 
                 return true; // Continúa la carrera
             });
+        var cerrarbutton = new Button("Cerrar")
+        {
+            X = Pos.Center(),
+            Y = Pos.Center()
+        };
+        cerrarbutton.Clicked += () =>
+        {
+            top.RemoveAll();
+            Program.Inicio(top);
+        };
+        win.Add(cerrarbutton);
     }
 }
