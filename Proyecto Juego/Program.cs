@@ -94,7 +94,7 @@ class Program
 
             Focus = Application.Driver.MakeAttribute(
                 Color.White,
-                Color.White),
+                Color.BrightBlue),
 
             HotNormal = Application.Driver.MakeAttribute(
                 Color.Red,
