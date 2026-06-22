@@ -54,7 +54,19 @@ Causa del colapso: {MotivosDeGameOver}")
             Y = Pos.Bottom(perdio) + 2
         };
 
-        Ventanaperdio.Add(perdio, agregados);
+        var VolverAlMenu = new Button("Volver al Menú")
+        {
+            X = Pos.Center(),
+            Y = Pos.Bottom(agregados) + 5
+        };
+
+        VolverAlMenu.Clicked += () =>
+        {
+            top.Remove(Ventanaperdio);
+            top.Add(Program.VentanaPrincipal);
+        };
+
+        Ventanaperdio.Add(perdio, agregados, VolverAlMenu );
 
         top.RemoveAll();
         top.Add(Ventanaperdio);

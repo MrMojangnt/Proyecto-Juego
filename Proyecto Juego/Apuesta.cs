@@ -99,10 +99,12 @@ public static class Apuesta
                         if (Events.kavayo == i)
                         {
                             Program.pd.balance += Events.cantidad * 4;
+                            ModificarPartidas.Guardarelbalance();
                         }
                         else
                         {
                             Program.pd.balance -= Events.cantidad;
+                            ModificarPartidas.Guardarelbalance();
                         }
 
                         return false; // Detiene el temporizador

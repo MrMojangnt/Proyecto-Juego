@@ -235,9 +235,9 @@ public static class ContactosLegendariosMenu
 
     public static void CargarUsos()
     {
-        if (!File.Exists(RutaArchivo)) return; // primera vez: se quedan con su valor default (3)
+        if (!File.Exists(ManejoDeArchivos.rutaLegendarios(Program.InvInt))) return; // primera vez: se quedan con su valor default (3)
 
-        foreach (string linea in File.ReadAllLines(RutaArchivo))
+        foreach (string linea in File.ReadAllLines(ManejoDeArchivos.rutaLegendarios(Program.InvInt)))
         {
             string[] partes = linea.Split(';');
             if (partes.Length < 2) continue;
@@ -256,60 +256,7 @@ public static class ContactosLegendariosMenu
         foreach (var l in Contactos)
             lineas.Add($"{l.Nombre};{l.UsosRestantes}");
 
-        File.WriteAllLines(RutaArchivo, lineas);
+        File.WriteAllLines(ManejoDeArchivos.rutaLegendarios(Program.InvInt), lineas);
     }
 
-    public static void MostrarMenu()
-    {
-        var dialogo = new Dialog("Contactos Legendarios", 84, 24);
-
-        var lista = new ListView(Array.ConvertAll(Contactos, contacto => $"{contacto.Nombre} - {contacto.Rol}"))
-        {
-            X = 1,
-            Y = 1,
-            Width = 40,
-            Height = 10
-        };
-
-        var detalle = new Label("Seleccioná un contacto para usar su habilidad.")
-        {
-            X = 1,
-            Y = 12
-        };
-
-        lista.SelectedItemChanged += e =>
-        {
-            var contacto = Contactos[e.Item];
-            detalle.Text = $"{contacto.Nombre}: {contacto.Habilidad}";
-        };
-
-        var usar = new Button("Usar")
-        {
-            X = 1,
-            Y = 16
-        };
-
-        var cerrar = new Button("Cerrar")
-        {
-            X = 15,
-            Y = 16
-        };
-
-        usar.Clicked += () =>
-        {
-            int seleccionado = lista.SelectedItem;
-            if (seleccionado < 0 || seleccionado >= Contactos.Length)
-            {
-                MessageBox.Query("Contactos Legendarios", "Elegí un contacto válido.", "Aceptar");
-                return;
-            }
-
-            Contactos[seleccionado].Ejecutar();
-        };
-
-        cerrar.Clicked += () => Application.RequestStop();
-
-        dialogo.Add(lista, detalle, usar, cerrar);
-        Application.Run(dialogo);
-    }
 }

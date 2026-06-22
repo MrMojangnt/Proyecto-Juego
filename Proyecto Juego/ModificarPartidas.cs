@@ -240,6 +240,7 @@ public class ModificarPartidas
     {
         ManejoDeArchivos.turno++;
         TeLlamanPapuContesta.EvaluarLlamadas();
+        GeneracionDeContactos.EvaluarAparicionLegendario();
         GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
         if (CambiosDelMercado.PronosticoMercado.Count != CargandoLasPartidas.Companiass.Count)
         {
