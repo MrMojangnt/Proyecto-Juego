@@ -42,9 +42,19 @@ public class GeneracionDeContactos
         int IndiceSector;
         bool sexo; //0 si es mujer, 1 si es hombre
 
+        // Obtener solo los sectores que tienen al menos una empresa en la partida actual
+        List<string> sectoresPresentes = CargandoLasPartidas.Companiass
+            .Select(e => e.rubro)
+            .Distinct()
+            .ToList();
+
+        // Si por alguna razón no hay empresas cargadas, usar todos los sectores como respaldo
+        if (sectoresPresentes.Count == 0)
+            sectoresPresentes = Indices.Nombre_Sectores_Variables.Keys.ToList();
+
         for (int i = 0; i < MAX; i++)
         {
-            NPC pj = new NPC(); // <-- nueva instancia cada iteración
+            NPC pj = new NPC(); 
 
             sexo = Random.Shared.Next(2) == 1;
             if (!sexo)
@@ -60,10 +70,10 @@ public class GeneracionDeContactos
                 HombresTemp.RemoveAt(index);
             }
 
-            IndiceSector = Random.Shared.Next(0, Indices.Sectores.Length);
+            IndiceSector = Random.Shared.Next(0, sectoresPresentes.Count);
             pj.masculino = sexo;
             pj.edad = Random.Shared.Next(28, 86);
-            pj.sector_dominante = Indices.Nombre_Sectores_Variables.ElementAt(IndiceSector).Key;
+            pj.sector_dominante = sectoresPresentes[IndiceSector];
             pj.balance = Random.Shared.Next(0, 100000);
 
             if (Personalidades.PersonalidadesFijas.TryGetValue(pj.name, out int id))
@@ -135,14 +145,14 @@ public class GeneracionDeContactos
 
             return;
         }
-            using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.rutaContactos(i), zzz, Encoding.UTF8))
+        using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.rutaContactos(i), zzz, Encoding.UTF8))
+        {
+            Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual;montoprestado;TurnoUltimaAdvertencia;UltimaAdvertenciaEmitida");
+            for (int p = 0; p < ContactosDelJugador.Count; p++)
             {
-                Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual;montoprestado;TurnoUltimaAdvertencia;UltimaAdvertenciaEmitida");
-                for (int p = 0; p < ContactosDelJugador.Count; p++)
-                {
-                    Contac.WriteLine(ContactosDelJugador[p]);
-                }
+                Contac.WriteLine(ContactosDelJugador[p]);
             }
+        }
     }
 
     // Guarda el legendario sorteado para el turno actual (null = no apareció ninguno).
