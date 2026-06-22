@@ -271,8 +271,9 @@ public class ModificarPartidas
             }
         }
 
+        
         File.WriteAllLines(ManejoDeArchivos.rutaPartidas(Program.InvInt), lineas);
-
+        
 
         MessageBox.Query(
             "Turno",

@@ -468,6 +468,11 @@ otorgar préstamos, frenando nuevas inversiones."
            
     }
 
+    public static void Hackeado()
+    {
+           
+    }
+
     public static void GestorDeEventos(ref decimal balances)
     {
            Random rnd = new Random();
