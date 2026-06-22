@@ -42,7 +42,7 @@ public class CargandoLasPartidas
             {
                 string mensajeColapso = ManejoDeArchivos.MotivoGameOver == "leah"
                     ? "Fuiste asesinado brutalmente por Leah Dávila"
-                    : "Tu balance llegó a cero. ";
+                    : "Tu balance llegó a cero. El mercado siguió adelante sin ti";
                 GameOver.VentanaGameOver(mensajeColapso, slot);
             }
             else
@@ -71,27 +71,36 @@ public class CargandoLasPartidas
     public static void CargarTxt(int slot)
     {
         Program.InvInt = slot;
-        using (StreamReader save = new StreamReader(ManejoDeArchivos.rutaPartidas(slot), Encoding.UTF8))
+        // Resetear estado antes de leer para evitar contaminación entre partidas
+        ManejoDeArchivos.PartidaPerdida = false;
+        ManejoDeArchivos.MotivoGameOver = "";
+
+        string nombre = "", pais = "", motivo = "";
+        decimal balance = 0, deuda = 0, deudaLegendaria = 0;
+        int turnos = 0;
+        bool gameover = false;
+
+        // Leer por prefijo en lugar de posición fija: resistente a formatos antiguos
+        foreach (string linea in File.ReadAllLines(ManejoDeArchivos.rutaPartidas(slot), Encoding.UTF8))
         {
-            string nombre = (save.ReadLine() ?? "");
-            nombre = nombre.Replace("Nombre: ", "");
-            string pais = (save.ReadLine() ?? "");
-            pais = pais.Replace("Pais: ", ""); pais = pais.Replace("(predeterminado)", "");
-            _ = decimal.TryParse((save.ReadLine() ?? "").Replace("Balance: ", ""), out decimal balance);
-            _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
-            _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaLegendaria: ", ""), out decimal deudaLegendaria);
-            _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);
-            string motivo = (save.ReadLine() ?? "").Replace("MotivoGameOver: ", "").Trim();
-            Program.pd.name = nombre;
-            Program.pd.pais = pais;
-            Program.pd.balance = balance;
-            ManejoDeArchivos.DeudaEmergencia = deuda;
-            ManejoDeArchivos.DeudaLegendaria = deudaLegendaria;
-            ManejoDeArchivos.turno = turnos;
-            ManejoDeArchivos.PartidaPerdida = gameover;
-            ManejoDeArchivos.MotivoGameOver = motivo;
+            if (linea.StartsWith("Nombre: ")) nombre = linea.Replace("Nombre: ", "").Trim();
+            else if (linea.StartsWith("Pais: ")) pais = linea.Replace("Pais: ", "").Replace("(predeterminado)", "").Trim();
+            else if (linea.StartsWith("Balance: ")) decimal.TryParse(linea.Replace("Balance: ", "").Trim(), out balance);
+            else if (linea.StartsWith("DeudaEmergencia: ")) decimal.TryParse(linea.Replace("DeudaEmergencia: ", "").Trim(), out deuda);
+            else if (linea.StartsWith("DeudaLegendaria: ")) decimal.TryParse(linea.Replace("DeudaLegendaria: ", "").Trim(), out deudaLegendaria);
+            else if (linea.StartsWith("Turno: ")) int.TryParse(linea.Replace("Turno: ", "").Trim(), out turnos);
+            else if (linea.StartsWith("GameOver: ")) bool.TryParse(linea.Replace("GameOver: ", "").Trim(), out gameover);
+            else if (linea.StartsWith("MotivoGameOver: ")) motivo = linea.Replace("MotivoGameOver: ", "").Trim();
         }
+
+        Program.pd.name = nombre;
+        Program.pd.pais = pais;
+        Program.pd.balance = balance;
+        ManejoDeArchivos.DeudaEmergencia = deuda;
+        ManejoDeArchivos.DeudaLegendaria = deudaLegendaria;
+        ManejoDeArchivos.turno = turnos;
+        ManejoDeArchivos.PartidaPerdida = gameover;
+        ManejoDeArchivos.MotivoGameOver = motivo;
     }
 
     //Se carga el archivo empresas.csv

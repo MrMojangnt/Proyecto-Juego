@@ -941,12 +941,17 @@ class Program
         };
         pasarturno.Clicked += () =>
         {
-            ModificarPartidas.PasarTurno(top);
+            if (Program.pd.balance < -8000)
+            {
+                ManejoDeArchivos.PartidaPerdida = true;
+                GameOver.VentanaGameOver("Perdiste por falta de dinero", Program.InvInt);
+            }
+            else
+            {
+                ModificarPartidas.PasarTurno(top);
+            }
         };
-        if (Program.pd.balance < -8000)
-        {
-            GameOver.VentanaGameOver("Perdiste por falta de dinero", Program.InvInt);
-        }
+
         btInicio.SetFocus();
         ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
     }
