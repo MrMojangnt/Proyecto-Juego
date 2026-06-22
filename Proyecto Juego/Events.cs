@@ -193,6 +193,7 @@ otorgar préstamos, frenando nuevas inversiones."
            if (Message == 0)
            {
                   balance -= monto;
+                  ModificarPartidas.Guardarelbalance();
            }
     }
 
@@ -258,7 +259,9 @@ otorgar préstamos, frenando nuevas inversiones."
            if (Message == 0)
            {
                   balance += monto;
-           }
+                  ModificarPartidas.Guardarelbalance();
+
+        }
     }
 
     public static void DecisionesInversion(ref decimal balance)
@@ -327,6 +330,7 @@ otorgar préstamos, frenando nuevas inversiones."
                   if (exito < 40)
                   {
                          MessageBox.Query("Suerte para la proxima", "Haz perdido tu capital", "Cerrar");
+                         ModificarPartidas.Guardarelbalance();
                   }
                   else if (exito <= 60)
                   {

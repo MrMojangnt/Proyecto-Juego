@@ -579,7 +579,23 @@ Hasta la próxima, socio."
         "Última advertencia. Devuélveme lo que te presté.",
         "No me obligues a tomar medidas para recuperar mi dinero.",
         "Esto ya dejó de ser una conversación amable."
-    ]
+    ], 
+    // 4 - Te van a mandar a matar
+    [
+    @"Estoy empezando a pensar que recuperar
+mi dinero no será posible.",
+
+    @"Algunas personas creen que toda deuda
+puede resolverse de una forma u otra.",
+
+    @"Me estás obligando a considerar
+alternativas desagradables.",
+
+    @"No me gusta perder dinero.
+Tampoco me gusta repetir advertencias.",
+
+    @"Por tu bien, espero que pagues pronto."
+]
 };
 }
 

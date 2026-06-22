@@ -874,7 +874,7 @@ class Program
         };
         var btInventario = new Button("Inventario")
         {
-            X = 40,
+            X = Pos.Right(BtTragamonedas),
             Y = Pos.AnchorEnd(2)
         };
         var btVerEmpresa = new Button("Ver Empresas")

@@ -1,6 +1,7 @@
 using System;
 using Terminal.Gui;
 using System.Globalization;
+using Proyecto_Juego;
 public static class TragaMonedas
 {
     
@@ -148,16 +149,19 @@ public static class TragaMonedas
                             {
                                 Program.pd.balance += cantidad * 3;
                                 resultado.Text = $" ¡JACKPOT! {cantidad * 4}";
+                                ModificarPartidas.Guardarelbalance();
                             }
                             else if (s1 == s2 || s1 == s3 || s2 == s3)
                             {
                                 Program.pd.balance += cantidad * 1.5m;
                                 resultado.Text = $" Premio pequeño de {cantidad * 1.5m}";
+                                ModificarPartidas.Guardarelbalance();
                             }
                             else
                             {
                                 Program.pd.balance -= cantidad;
                                 resultado.Text = " Inténtalo de nuevo";
+                                ModificarPartidas.Guardarelbalance();
                             }
 
                             return false;

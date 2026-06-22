@@ -346,8 +346,6 @@ public static void Plantilla(Dialog dial, Label texto, NPC contacto)
         var top = Application.Top;
         if (decimal.TryParse(CosoPrestamo.Text.ToString(), out decimal cantidty) && cantidty > 0)
         {
-            CosoPrestamo.Enabled = false;
-            CosoPrestamo.Visible = false;
             if (cantidty < (contacto.balance / 2))
             {
                 MessageBox.Query(
@@ -693,7 +691,15 @@ public static class TeLlamanPapuContesta
             Height = 10
         };
         int nivel = GetNivelPresion((sbyte)contacto.PresionActual);
-        string mensaje = Dialogos_de_Contacto.CobroDeuda[nivel][Random.Shared.Next(Dialogos_de_Contacto.CobroDeuda[nivel].Length)];
+        string mensaje = "";
+        if (contacto.name == "Leah Dávila")
+        {
+            mensaje = Dialogos_de_Contacto.CobroDeuda[4][Random.Shared.Next(Dialogos_de_Contacto.CobroDeuda[4].Length)];
+        }
+        else
+        {
+            mensaje = Dialogos_de_Contacto.CobroDeuda[nivel][Random.Shared.Next(Dialogos_de_Contacto.CobroDeuda[nivel].Length)];
+        }
         var cobrar = new Label() { X = 1, Y = 1 };
         cobrar.Text = mensaje;
         cuadro.Add(cobrar);

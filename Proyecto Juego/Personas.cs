@@ -78,6 +78,8 @@ public class GeneracionDeContactos
             }
             pj.Amistad = RandomizadorControladoDeAmistad(pj);
             pj.UltimoTurnoLlamado = -1;
+            pj.UltimaAdvertencia = 0;
+            pj.AmenazaFinalEmitida = false;
             ContactoshStruct.Add(pj);
 
         }
@@ -119,15 +121,28 @@ public class GeneracionDeContactos
     {
         // Guardar el estado actual de los contactos, no generar nuevos cada vez.
         List<NPC> ContactosDelJugador = CargandoLasPartidas.ContactosCargados;
-
-        using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.rutaContactos(i), zzz, Encoding.UTF8))
+        if (!ManejoDeArchivos.ArchivosDisponibles(
+                ManejoDeArchivos.rutaPartidas(i),
+                ManejoDeArchivos.rutaInventario(i),
+                ManejoDeArchivos.rutaEmpresas(i),
+                ManejoDeArchivos.rutaBalance(i),
+                ManejoDeArchivos.rutaContactos(i)))
         {
-            Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual;montoprestado");
-            for (int p = 0; p < ContactosDelJugador.Count; p++)
-            {
-                Contac.WriteLine(ContactosDelJugador[p]);
-            }
+            MessageBox.Query(
+                "Error",
+                "Uno o más archivos de la partida están abiertos en otro programa.",
+                "Aceptar");
+
+            return;
         }
+            using (StreamWriter Contac = new StreamWriter(ManejoDeArchivos.rutaContactos(i), zzz, Encoding.UTF8))
+            {
+                Contac.WriteLine("Nombre;Sexo;Edad;Sector;Balance;idArquetipo;Amistad;UltimoTurnoLlamado;TienePrestamoActivo;UltimoTurnoPrestamo;PresionActual;montoprestado;TurnoUltimaAdvertencia;UltimaAdvertenciaEmitida");
+                for (int p = 0; p < ContactosDelJugador.Count; p++)
+                {
+                    Contac.WriteLine(ContactosDelJugador[p]);
+                }
+            }
     }
 
     // Guarda el legendario sorteado para el turno actual (null = no apareció ninguno).

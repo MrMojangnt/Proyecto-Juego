@@ -69,6 +69,8 @@ public struct NPC
     public sbyte Amistad;
 
     public int UltimoTurnoLlamado;
+    public int UltimaAdvertencia;
+    public bool AmenazaFinalEmitida;
 
     public bool TienePrestamoActivo;
     public int UltimoTurnoPrestamo;

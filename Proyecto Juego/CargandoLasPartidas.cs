@@ -78,7 +78,7 @@ public class CargandoLasPartidas
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaLegendaria: ", ""), out decimal deudaLegendaria);
             _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);
+            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);          
             Program.pd.name = nombre;
             Program.pd.pais = pais;
             Program.pd.balance = balance;
@@ -172,6 +172,8 @@ public class CargandoLasPartidas
                 ContactosCargados.UltimoTurnoPrestamo = len > 9 && int.TryParse(lineas[9], out int utp) ? utp : -1;
                 ContactosCargados.PresionActual = len > 10 && int.TryParse(lineas[10], out int pa) ? pa : 0;
                 ContactosCargados.montoprestado = len > 11 && decimal.TryParse(lineas[11], out decimal mp) ? mp : 0m;
+                ContactosCargados.UltimaAdvertencia = len > 12 && int.TryParse(lineas[12], out int zz) ? zz : 0;
+                ContactosCargados.AmenazaFinalEmitida = len > 13 && bool.TryParse(lineas[13], out bool am) ? am : false;
 
                 ConNPC.Add(ContactosCargados);
             }
