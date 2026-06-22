@@ -869,7 +869,7 @@ class Program
         };
         var BtTragamonedas = new Button("Traga Monedas")
         {
-            X=24,
+            X=23,
             Y=Pos.AnchorEnd(2)
         };
         var btInventario = new Button("Inventario")
@@ -943,6 +943,10 @@ class Program
         {
             ModificarPartidas.PasarTurno(top);
         };
+        if (Program.pd.balance < -8000)
+        {
+            GameOver.VentanaGameOver("Perdiste por falta de dinero", Program.InvInt);
+        }
         btInicio.SetFocus();
         ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
     }
