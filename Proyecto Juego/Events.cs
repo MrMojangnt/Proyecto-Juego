@@ -332,16 +332,19 @@ otorgar préstamos, frenando nuevas inversiones."
                   {
                          MessageBox.Query("Ganaste, nada...", "Al menos recuperaste tu dinero", "Cerrar");
                          balance += monto;
+                         ModificarPartidas.Guardarelbalance();
                   }
                   else if (exito <= 90)
                   {
                          MessageBox.Query("Ganaste dinero", "Te llevas a tu casa un 50% de lo invertido", "Cerrar");
-                         balance += monto + (monto *0.5m); 
+                         balance += monto + (monto *0.5m);
+                         ModificarPartidas.Guardarelbalance();
                   }
                   else if (exito <= 100)
                   {
                          MessageBox.Query("Exito total", "Ganaste un 300% tu dinero", "Cerrar");
                          balance += monto + (monto * 3);
+                         ModificarPartidas.Guardarelbalance();
                   }
            }
            else if (Message == 1 || balance < monto)
@@ -418,7 +421,7 @@ otorgar préstamos, frenando nuevas inversiones."
                 {
                     IsDecimal = true;
                 }
-                if (IsDecimal && cantidad <= Program.pd.balance )
+                if (IsDecimal && cantidad <= Program.pd.balance && cantidad <= Program.pd.balance-1)
                 {
                     Application.RequestStop();
                     top.RemoveAll();
@@ -455,7 +458,7 @@ otorgar préstamos, frenando nuevas inversiones."
                   
            } else if (apuesta == 1)
            {
-                  MessageBox.Query("BAH", "Tu te lo pierdes", "Cerrar");
+                  MessageBox.Query("BAH", "Tú te lo pierdes", "Cerrar");
                   carreras = false;
            }
            
@@ -468,16 +471,19 @@ otorgar préstamos, frenando nuevas inversiones."
            if (Evento == 0)
            {
                   PasarTurnoEventoPerderDinero(ref balances);
+                  ModificarPartidas.Guardarelbalance();
            }
-           else if (Evento == 1)
+        else if (Evento == 1)
            {
                   PasarTurnoGanarDinero(ref balances);
-           } 
-           else if (Evento == 2)
+                  ModificarPartidas.Guardarelbalance();
+           }
+        else if (Evento == 2)
            {
                   DecisionesInversion(ref balances);
+                  ModificarPartidas.Guardarelbalance();
            }
-           else if (Evento == 3)
+        else if (Evento == 3)
            {
                   carreras = true;
            }

@@ -27,9 +27,10 @@ public class LaLlamada
 
     //Textfield para el prestamo
     static TextField CosoPrestamo = new("");
+    
 
 
-    public static void Plantilla(Dialog dial, Label texto, NPC contacto)
+public static void Plantilla(Dialog dial, Label texto, NPC contacto)
     {
         estado = 0;
         estado = 0;
@@ -86,6 +87,13 @@ public class LaLlamada
         CosoPrestamo.X = Pos.X(op1);
         CosoPrestamo.Y = Pos.Y(op1);
         CosoPrestamo.Width = 10;
+        CosoPrestamo.TextChanging += (e) =>
+        {
+            if (e.NewText.Length >= 6)
+            {
+                e.Cancel = true;
+            }
+        };
 
         //Declarando lo que pasará cuando se presione el boton cerrar
         cerrar.Clicked += () =>
@@ -709,6 +717,13 @@ public static class TeLlamanPapuContesta
             var lbl = new Label($"Deuda total: {contacto.montoprestado:F2}") { X = 1, Y = 1 };
             var labelPago = new Label("Monto a pagar:") { X = 1, Y = 3 };
             var campoPago = new TextField("") { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
+            campoPago.TextChanging += (e) =>
+            {
+                if (e.NewText.Length >= 6)
+                {
+                    e.Cancel = true;
+                }
+            };
             var btnAceptar = new Button("Aceptar") { X = 1, Y = Pos.AnchorEnd(2) };
             var btnCerrar = new Button("Cerrar") { X = Pos.Right(btnAceptar) + 2, Y = Pos.AnchorEnd(2) };
 
