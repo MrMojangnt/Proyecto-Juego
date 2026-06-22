@@ -114,7 +114,6 @@ public static class TragaMonedas
                 X=Pos.Center(),
                 Y = 14
             };
-
         btnGirar.Clicked += () =>
         {
             decimal cantidad;
@@ -126,59 +125,72 @@ public static class TragaMonedas
 
             if (IsDecimal && cantidad <= Program.pd.balance)
             {
-                int vueltas = 0;
-                int indice = 0;
-                Application.MainLoop.AddTimeout(
-                    TimeSpan.FromMilliseconds(100),
-                    (_) =>
-                    {
-                        rodillo1.Text = simbolos[rnd.Next(simbolos.Length)];
-                        rodillo2.Text = simbolos[rnd.Next(simbolos.Length)];
-                        rodillo3.Text = simbolos[rnd.Next(simbolos.Length)];
-                        FrameViewer.ColorScheme = colores[indice];
-                        indice++;
-                        vueltas++;
-                        if (indice >= colores.Length)
+                { 
+                    int vueltas = 0;
+                    int indice = 0;
+
+                    Application.MainLoop.AddTimeout(
+                        TimeSpan.FromMilliseconds(100),
+                        (_) =>
                         {
-                            indice = 0;
-                        }
-                        if (vueltas >= 20)
-                        {
-                            string s1 = simbolos[rnd.Next(simbolos.Length)];
-                            string s2 = simbolos[rnd.Next(simbolos.Length)];
-                            string s3 = simbolos[rnd.Next(simbolos.Length)];
+                            btnGirar.Enabled = false;
+                            rodillo1.Text = simbolos[rnd.Next(simbolos.Length)];
+                            rodillo2.Text = simbolos[rnd.Next(simbolos.Length)];
+                            rodillo3.Text = simbolos[rnd.Next(simbolos.Length)];
+                            FrameViewer.ColorScheme = colores[indice];
+                            indice++;
+                            vueltas++;
 
-                            rodillo1.Text = s1;
-                            rodillo2.Text = s2;
-                            rodillo3.Text = s3;
-
-                            if (s1 == s2 && s2 == s3)
+                            if (indice >= colores.Length)
                             {
-                                Program.pd.balance += cantidad * 3;
-                                resultado.Text = $" ¡JACKPOT! {cantidad * 4}";
-                                ModificarPartidas.Guardarelbalance();
+                                indice = 0;
                             }
-                            else if (s1 == s2 || s1 == s3 || s2 == s3)
+                            if (vueltas >= 20)
                             {
-                                Program.pd.balance += cantidad * 1.5m;
-                                resultado.Text = $" Premio pequeño de {cantidad * 1.5m}";
-                                ModificarPartidas.Guardarelbalance();
+                                string s1 = simbolos[rnd.Next(simbolos.Length)];
+                                string s2 = simbolos[rnd.Next(simbolos.Length)];
+                                string s3 = simbolos[rnd.Next(simbolos.Length)];
+
+                                rodillo1.Text = s1;
+                                rodillo2.Text = s2;
+                                rodillo3.Text = s3;
+
+                                if (s1 == s2 && s2 == s3)
+                                {
+                                    Program.pd.balance += cantidad * 3;
+                                    resultado.Text = $" ¡JACKPOT! {cantidad * 4}";
+                                    ModificarPartidas.Guardarelbalance();
+                                    btnGirar.Enabled = true;
+
+                                }
+                                else if (s1 == s2 || s1 == s3 || s2 == s3)
+                                {
+                                    Program.pd.balance += cantidad * 1.5m;
+                                    resultado.Text = $" Premio pequeño de {cantidad * 1.5m}";
+                                    ModificarPartidas.Guardarelbalance();
+                                    btnGirar.Enabled = true;
+
+                                }
+                                else
+                                {
+                                    Program.pd.balance -= cantidad;
+                                    resultado.Text = " Inténtalo de nuevo";
+                                    ModificarPartidas.Guardarelbalance();
+                                    btnGirar.Enabled = true;
+
+                                }
+
+                                return false;
                             }
-                            else
-                            {
-                                Program.pd.balance -= cantidad;
-                                resultado.Text = " Inténtalo de nuevo";
-                                ModificarPartidas.Guardarelbalance();
-                            }
-
-                            return false;
-
-                        }
 
 
-                        return true;
 
-                    });
+
+                            return true;
+
+                        });
+                }
+                
             }
             else if (IsDecimal == false)
             {
