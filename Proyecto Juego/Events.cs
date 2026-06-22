@@ -455,7 +455,7 @@ otorgar préstamos, frenando nuevas inversiones."
     public static void GestorDeEventos(ref decimal balances)
     {
            Random rnd = new Random();
-           int Evento = rnd.Next(0, 4);
+           int Evento = rnd.Next(0, 10);
            if (Evento == 0)
            {
                   PasarTurnoEventoPerderDinero(ref balances);

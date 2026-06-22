@@ -867,7 +867,7 @@ class Program
             X = 12,
             Y = Pos.AnchorEnd(2)
         };
-        var btPortafolio = new Button("Periódico")
+        var BtTragamonedas = new Button("Traga Monedas")
         {
             X=24,
             Y=Pos.AnchorEnd(2)
@@ -904,6 +904,11 @@ class Program
             Y = Pos.AnchorEnd(2)
         };
         //Funciones
+        BtTragamonedas.Clicked += () =>
+        {
+            top.RemoveAll();
+            TragaMonedas.Iniciar(top);
+        };
         btInicio.Clicked += () =>
         {
             top.RemoveAll();
@@ -939,7 +944,7 @@ class Program
             ModificarPartidas.PasarTurno(top);
         };
         btInicio.SetFocus();
-        ventana.Add(btInicio,btPortafolio,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
+        ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
     }
   
 }
