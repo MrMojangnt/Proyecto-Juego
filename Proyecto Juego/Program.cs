@@ -926,6 +926,7 @@ class Program
         };
         btMenu.Clicked += () =>
         {
+            ModificarPartidas.Guardarelbalance();
             top.RemoveAll();
             top.Add(VentanaPrincipal);
         };
@@ -941,16 +942,15 @@ class Program
         };
         pasarturno.Clicked += () =>
         {
-            if (Program.pd.balance < -8000)
-            {
-                ManejoDeArchivos.PartidaPerdida = true;
-                GameOver.VentanaGameOver("Perdiste por falta de dinero", Program.InvInt);
-            }
-            else
-            {
+          
                 ModificarPartidas.PasarTurno(top);
-            }
+            
         };
+        if (Program.pd.balance < -8000)
+        {
+            ManejoDeArchivos.PartidaPerdida = true;
+            GameOver.VentanaGameOver("Perdiste por falta de dinero", Program.InvInt);
+        }
 
         btInicio.SetFocus();
         ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
