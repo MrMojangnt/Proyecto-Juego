@@ -36,11 +36,14 @@ public class CargandoLasPartidas
                 return;
             }
 
-            
+
             CargarTxt(slot);
             if (ManejoDeArchivos.PartidaPerdida)
             {
-                GameOver.VentanaGameOver("perdio", slot);
+                string mensajeColapso = ManejoDeArchivos.MotivoGameOver == "leah"
+                    ? "Fuiste asesinado brutalmente por Leah Dávila"
+                    : "Tu balance llegó a cero. ";
+                GameOver.VentanaGameOver(mensajeColapso, slot);
             }
             else
             {
@@ -78,14 +81,16 @@ public class CargandoLasPartidas
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaEmergencia: ", ""), out decimal deuda);
             _ = decimal.TryParse((save.ReadLine() ?? "").Replace("DeudaLegendaria: ", ""), out decimal deudaLegendaria);
             _ = int.TryParse((save.ReadLine() ?? "").Replace("Turno: ", ""), out int turnos);
-            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);          
+            _ = bool.TryParse((save.ReadLine() ?? "").Replace("GameOver: ", ""), out bool gameover);
+            string motivo = (save.ReadLine() ?? "").Replace("MotivoGameOver: ", "").Trim();
             Program.pd.name = nombre;
             Program.pd.pais = pais;
             Program.pd.balance = balance;
             ManejoDeArchivos.DeudaEmergencia = deuda;
             ManejoDeArchivos.DeudaLegendaria = deudaLegendaria;
             ManejoDeArchivos.turno = turnos;
-            ManejoDeArchivos.PartidaPerdida = gameover; //si perdió o no la partida
+            ManejoDeArchivos.PartidaPerdida = gameover;
+            ManejoDeArchivos.MotivoGameOver = motivo;
         }
     }
 

@@ -230,14 +230,15 @@ public static class ContactosLegendariosMenu
         new FranciscoAlvarezLegendario()
     };
 
-    private static readonly string RutaArchivo =
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "legendarios.txt");
+    // Ruta GLOBAL compartida entre todas las partidas
+    private static string RutaGlobal =>
+        Path.Combine(AppContext.BaseDirectory, "GuardadoDePartidas", "Legendarios_Global.txt");
 
     public static void CargarUsos()
     {
-        if (!File.Exists(ManejoDeArchivos.rutaLegendarios(Program.InvInt))) return; // primera vez: se quedan con su valor default (3)
+        if (!File.Exists(RutaGlobal)) return; // primera vez: se quedan con su valor default (3)
 
-        foreach (string linea in File.ReadAllLines(ManejoDeArchivos.rutaLegendarios(Program.InvInt)))
+        foreach (string linea in File.ReadAllLines(RutaGlobal))
         {
             string[] partes = linea.Split(';');
             if (partes.Length < 2) continue;
@@ -256,7 +257,9 @@ public static class ContactosLegendariosMenu
         foreach (var l in Contactos)
             lineas.Add($"{l.Nombre};{l.UsosRestantes}");
 
-        File.WriteAllLines(ManejoDeArchivos.rutaLegendarios(Program.InvInt), lineas);
+        string dir = Path.GetDirectoryName(RutaGlobal)!;
+        if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+        File.WriteAllLines(RutaGlobal, lineas);
     }
 
 }

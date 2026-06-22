@@ -9,9 +9,11 @@ public class ManejoDeArchivos
     public static bool[] saves = new bool[3];
     public static decimal DeudaEmergencia = 0m; //Se define la variable de la deuda
     public static decimal DeudaLegendaria = 0m; //Deuda generada por préstamos de contactos legendarios (Raúl Castillo)
-    public static int turno = 0; //se define el turno en el que está el jugador
+    public static int turno = 0; //se define el turno en el que est? el jugador
     //si tiene la partida perdida o no
     public static bool PartidaPerdida = false;
+    // Causa del Game Over: "balance" | "leah" | ""
+    public static string MotivoGameOver = "";
 
     public static string ObtenerCarpeta(int slot)
     {
@@ -20,19 +22,19 @@ public class ManejoDeArchivos
             "GuardadoDePartidas",
             $"Partida{slot + 1}");
 
-        if( !Directory.Exists( carpeta ))
+        if (!Directory.Exists(carpeta))
         {
             Directory.CreateDirectory(carpeta);
         }
         return carpeta;
     }
 
-    public static string rutaPartidas(int slot) 
+    public static string rutaPartidas(int slot)
     {
         return Path.Combine(
         ManejoDeArchivos.ObtenerCarpeta(slot),
         "SaveInversor.txt");
-        }
+    }
     public static string rutaInventario(int slot)
     {
         return Path.Combine(
@@ -72,7 +74,7 @@ public class ManejoDeArchivos
     //CrearPartida
 
 
-    //Verificando que no esté el archivo abierto
+    //Verificando que no est? el archivo abierto
     public static bool ArchivosDisponibles(params string[] archivos)
     {
         foreach (string archivo in archivos)
@@ -96,5 +98,5 @@ public class ManejoDeArchivos
 
 
 
-   
+
 }

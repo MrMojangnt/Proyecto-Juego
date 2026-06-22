@@ -227,19 +227,29 @@ public class ModificarPartidas
     }
     public static void Guardarelbalance()
     {
+        // Si la partida se perdió sin motivo registrado, se asume que fue por balance negativo
+        if (ManejoDeArchivos.PartidaPerdida && string.IsNullOrEmpty(ManejoDeArchivos.MotivoGameOver))
+            ManejoDeArchivos.MotivoGameOver = "balance";
+
         using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(Program.InvInt), false, Encoding.UTF8))
         {
             save.WriteLine($"Nombre: {Program.pd.name} \nPais: {Program.pd.pais} \nBalance: {Program.pd.balance}");
             save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
             save.WriteLine($"DeudaLegendaria: {ManejoDeArchivos.DeudaLegendaria}");
             save.WriteLine($"Turno: {ManejoDeArchivos.turno}");
-
+            save.WriteLine($"GameOver: {ManejoDeArchivos.PartidaPerdida}");
+            save.WriteLine($"MotivoGameOver: {ManejoDeArchivos.MotivoGameOver}");
         }
     }
     public static void PasarTurno(Toplevel top)
     {
         ManejoDeArchivos.turno++;
         TeLlamanPapuContesta.EvaluarLlamadas();
+        if (TeLlamanPapuContesta.GameOverActivado)
+        {
+            TeLlamanPapuContesta.GameOverActivado = false;
+            return;
+        }
         GeneracionDeContactos.EvaluarAparicionLegendario();
         GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
         if (CambiosDelMercado.PronosticoMercado.Count != CargandoLasPartidas.Companiass.Count)
@@ -271,9 +281,9 @@ public class ModificarPartidas
             }
         }
 
-        
+
         File.WriteAllLines(ManejoDeArchivos.rutaPartidas(Program.InvInt), lineas);
-        
+
 
         MessageBox.Query(
             "Turno",

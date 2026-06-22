@@ -1,10 +1,9 @@
-
 namespace Proyecto_Juego;
 
 public struct Players
 {
-    public  string name { get; set; }
-    public  string pais{ get; set; }
+    public string name { get; set; }
+    public string pais { get; set; }
     public decimal balance { get; set; }
 
     public override string ToString()
@@ -16,11 +15,11 @@ public struct Players
 public struct Companias
 {
     public int id { get; set; }
-    public  string name { get; set; }
-    public  string pais{ get; set; }
+    public string name { get; set; }
+    public string pais { get; set; }
     public string rubro { get; set; }
     public decimal capbursatil { get; set; }
-    public  int accionistas{ get; set; }
+    public int accionistas { get; set; }
     public string[] productos { get; set; }
     public decimal GananciasTrimestrales { get; set; }
     public decimal marketing { get; set; }
@@ -46,14 +45,14 @@ public struct Pais
     public int Pesadez_Leyes { get; set; }//Un int que va de 0 a 10, siendo 10 normas mas estrictas y 0 el m�nimo
     public int Cap_economica { get; set; } // Un int que va de 0 a 10, siendo 10 la mayor capacidad econ�mica
 
-    }
+}
 
-    public struct Acciones
+public struct Acciones
 {
     public int id { get; set; }
     public string name { get; set; }
-    public decimal CostoDeCompra  { get; set; }
-    public decimal CostoActual{ get; set; }
+    public decimal CostoDeCompra { get; set; }
+    public decimal CostoActual { get; set; }
     public bool TipoDeAccion { get; set; }
     public int cantidad { get; set; }
 }
@@ -83,7 +82,8 @@ public struct NPC
     public override string ToString()
     {
         return $"{name};{masculino};{edad};{sector_dominante};{balance};" +
-            $"{idArquetipo};{Amistad};{UltimoTurnoLlamado};{TienePrestamoActivo};{UltimoTurnoPrestamo};{PresionActual};{montoprestado}";
+            $"{idArquetipo};{Amistad};{UltimoTurnoLlamado};{TienePrestamoActivo};{UltimoTurnoPrestamo};{PresionActual};{montoprestado};" +
+            $"{UltimaAdvertencia};{AmenazaFinalEmitida};{LlamadaPendiente}";
     }
 }
 
@@ -100,5 +100,5 @@ public struct Periodicos
     public string titulo { get; set; }
     public string descripcion { get; set; }
     public decimal change { get; set; }
-    
+
 }
