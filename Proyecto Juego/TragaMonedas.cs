@@ -41,7 +41,8 @@ public static class TragaMonedas
                 X = 0,
                 Y = 0,
                 Width = Dim.Fill(),
-                Height = Dim.Fill()
+                Height = Dim.Fill(),
+                ColorScheme = Program.colores[Program.colora]
             };
 
         
@@ -110,10 +111,10 @@ public static class TragaMonedas
             Y = 12
         };
         var DineroLabel = new Label($"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}")
-            {
-                X=Pos.Center(),
-                Y = 14
-            };
+        {
+            X=Pos.Center(),
+            Y = 14
+        };
         btnGirar.Clicked += () =>
         {
             decimal cantidad;
@@ -161,7 +162,7 @@ public static class TragaMonedas
                                     resultado.Text = $" ¡JACKPOT! {cantidad * 4}";
                                     ModificarPartidas.Guardarelbalance();
                                     btnGirar.Enabled = true;
-
+                                    DineroLabel.Text = $"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}";
                                 }
                                 else if (s1 == s2 || s1 == s3 || s2 == s3)
                                 {
@@ -169,7 +170,7 @@ public static class TragaMonedas
                                     resultado.Text = $" Premio pequeño de {cantidad * 1.5m}";
                                     ModificarPartidas.Guardarelbalance();
                                     btnGirar.Enabled = true;
-
+                                    DineroLabel.Text = $"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}";
                                 }
                                 else
                                 {
@@ -177,7 +178,7 @@ public static class TragaMonedas
                                     resultado.Text = " Inténtalo de nuevo";
                                     ModificarPartidas.Guardarelbalance();
                                     btnGirar.Enabled = true;
-
+                                    DineroLabel.Text = $"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}";
                                 }
 
                                 return false;

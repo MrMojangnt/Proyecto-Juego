@@ -34,7 +34,7 @@ public class Tablasdefrancisco
 
         var labelResumen = new Label(
             $@"Inversor: {Program.pd.name} | País: {Program.pd.pais} | Turno: {ManejoDeArchivos.turno}
-Efectivo: ${Program.pd.balance:F2} | Cartera: ${valorCartera:F2} | Deuda: ${ManejoDeArchivos.DeudaEmergencia:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
+Efectivo: ${Program.pd.balance.ToString("N2")} | Cartera: ${valorCartera:F2} | Deuda: ${ManejoDeArchivos.DeudaEmergencia:F2} | Patrimonio estimado: ${patrimonioEstimado:F2}
 Costo base: ${costoBase:F2} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}")
         {
             X = 1,
