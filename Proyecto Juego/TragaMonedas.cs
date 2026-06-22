@@ -90,6 +90,13 @@ public static class TragaMonedas
             Y = 9,
             Width = 11
         };
+        cantidadApostar.TextChanging += (e) =>
+        {
+            if (e.NewText.Length > 7)
+            {
+                e.Cancel = true;
+            }
+        };
 
         var btnGirar = new Button("Girar")
         {
