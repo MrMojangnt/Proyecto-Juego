@@ -72,14 +72,14 @@ public class GeneracionDeContactos
             }
             else
             {
-              
+
                 id = Random.Shared.Next(Personalidades.Arqueotipos.Length - 2);
                 pj.idArquetipo = id;
             }
             pj.Amistad = RandomizadorControladoDeAmistad(pj);
             pj.UltimoTurnoLlamado = -1;
             ContactoshStruct.Add(pj);
-   
+
         }
 
         return ContactoshStruct;
@@ -130,6 +130,28 @@ public class GeneracionDeContactos
         }
     }
 
+    // Guarda el legendario sorteado para el turno actual (null = no apareció ninguno).
+    // Se decide UNA SOLA VEZ por turno, desde ModificarPartidas.PasarTurno().
+    public static ContactoLegendarioBase LegendarioDeEsteTurno = null;
+
+    // Sortea si aparece un contacto legendario. Llamar SOLO al pasar turno.
+    public static void EvaluarAparicionLegendario()
+    {
+        LegendarioDeEsteTurno = null;
+
+        int probabilidad = 5;
+        if (Random.Shared.Next(1, 101) <= probabilidad)
+        {
+            var legendariosDisponibles = ContactosLegendariosMenu.Contactos
+                .Where(l => l.PuedeUsarse)
+                .ToArray();
+
+            if (legendariosDisponibles.Length > 0)
+            {
+                LegendarioDeEsteTurno = legendariosDisponibles[Random.Shared.Next(legendariosDisponibles.Length)];
+            }
+        }
+    }
 
     public static void Contactos(Window VentanaInicio, List<NPC> Lista)
     {
@@ -156,20 +178,12 @@ public class GeneracionDeContactos
             legendarioEnFila.Add(null);
         }
 
-        // ── Probabilidad baja de que aparezca UN legendario esta vez ──
-        int probabilidad = 5;
-        if (Random.Shared.Next(1, 101) <= probabilidad)
+        // ── Se muestra el legendario YA sorteado este turno (si lo hay) ──
+        // El sorteo en sí ocurre en EvaluarAparicionLegendario(), llamado desde PasarTurno().
+        if (LegendarioDeEsteTurno != null && LegendarioDeEsteTurno.PuedeUsarse)
         {
-            var legendariosDisponibles = ContactosLegendariosMenu.Contactos
-                .Where(l => l.PuedeUsarse)
-                .ToArray();
-
-            if (legendariosDisponibles.Length > 0)
-            {
-                var elegido = legendariosDisponibles[Random.Shared.Next(legendariosDisponibles.Length)];
-                tabla.Rows.Add(elegido.Nombre, elegido.Rol);
-                legendarioEnFila.Add(elegido);
-            }
+            tabla.Rows.Add(LegendarioDeEsteTurno.Nombre, LegendarioDeEsteTurno.Rol);
+            legendarioEnFila.Add(LegendarioDeEsteTurno);
         }
 
         TablaContactos.CellActivated += (e) =>
@@ -187,7 +201,7 @@ public class GeneracionDeContactos
             }
             else
             {
-                ContactarAUnContacto(row);   
+                ContactarAUnContacto(row);
             }
         };
 
@@ -200,17 +214,8 @@ public class GeneracionDeContactos
 
         VentanaInicio.Add(TablaContactos, ContactosLabel);
     }
- /*   static string LeerNombre(string dato, int i)
-    {
-        using (StreamReader save = new StreamReader(ManejoDeArchivos.contactos[i], Encoding.UTF8))
-        {
-            string linea = (save.ReadLine() ?? "");
-            linea = linea.Replace("Nombre:", "");//reemplaza "Nombre" por ""
-            return linea;
-        }
 
-    }*/
-   static void ContactarAUnContacto(int indice)
+    static void ContactarAUnContacto(int indice)
     {
         NPC contactos = CargandoLasPartidas.ContactosCargados[indice];
         var Llamar = new Dialog($"{contactos.name}",
@@ -286,4 +291,3 @@ Balance: {contactos.balance}")
 
     }
 }
-

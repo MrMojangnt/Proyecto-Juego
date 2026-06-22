@@ -1,6 +1,7 @@
 ﻿using System;
 using Terminal.Gui;
 using System.IO;
+using System.Globalization;
 namespace Proyecto_Juego;
 
 public class Events
@@ -137,51 +138,51 @@ otorgar préstamos, frenando nuevas inversiones."
            //Titulos malos
            string[] titulosFinancierosMalos = new string[]
            {
-                  $"Pérdida de {monto} por mantenimiento de cuenta",
-                  $"Comisión de {monto} en cajero automático externo",
-                  $"Deducción fiscal de {monto} sobre intereses ganados",
-                  $"Intereses moratorios de {monto} en tarjeta de crédito",
-                  $"Impuesto estatal de {monto} a las transacciones",
-                  $"Gasto de {monto} por transferencia internacional",
-                  $"Penalización de {monto} por cuenta bancaria inactiva",
-                  $"Multa de {monto} por retiro anticipado de fondos",
-                  $"Cargo por sobregiro de {monto} en cuenta corriente",
-                  $"Impuesto digital de {monto} aplicado por el gobierno",
-                  $"Descuento de {monto} por seguro obligatorio no solicitado",
-                  $"Costo de {monto} por reposición de tarjeta física",
-                  $"Recargo de {monto} por pago tardío de préstamo",
-                  $"Comisión de {monto} por intento de cobro de cheque devuelto",
-                  $"Cobro de {monto} por emisión de estado de cuenta impreso",
-                  $"Retención gubernamental de {monto} por adeudo fiscal",
-                  $"Pérdida cambiaria de {monto} en compra de divisas",
-                  $"Tarifa de {monto} por emisión de cheque certificado",
-                  $"Anualidad de {monto} por renovación de tarjeta",
-                  $"Retención de {monto} de ISR sobre rendimientos financieros"
+                  $"Pérdida de {monto.ToString("N0", CultureInfo.InvariantCulture)} por mantenimiento de cuenta",
+                  $"Comisión de {monto.ToString("N0", CultureInfo.InvariantCulture)} en cajero automático externo",
+                  $"Deducción fiscal de {monto.ToString("N0", CultureInfo.InvariantCulture)} sobre intereses ganados",
+                  $"Intereses moratorios de {monto.ToString("N0", CultureInfo.InvariantCulture)} en tarjeta de crédito",
+                  $"Impuesto estatal de {monto.ToString("N0", CultureInfo.InvariantCulture)} a las transacciones",
+                  $"Gasto de {monto.ToString("N0", CultureInfo.InvariantCulture)} por transferencia internacional",
+                  $"Penalización de {monto.ToString("N0", CultureInfo.InvariantCulture)} por cuenta bancaria inactiva",
+                  $"Multa de {monto.ToString("N0", CultureInfo.InvariantCulture)} por retiro anticipado de fondos",
+                  $"Cargo por sobregiro de {monto.ToString("N0", CultureInfo.InvariantCulture)} en cuenta corriente",
+                  $"Impuesto digital de {monto.ToString("N0", CultureInfo.InvariantCulture)} aplicado por el gobierno",
+                  $"Descuento de {monto.ToString("N0", CultureInfo.InvariantCulture)} por seguro obligatorio no solicitado",
+                  $"Costo de {monto.ToString("N0", CultureInfo.InvariantCulture)} por reposición de tarjeta física",
+                  $"Recargo de {monto.ToString("N0", CultureInfo.InvariantCulture)} por pago tardío de préstamo",
+                  $"Comisión de {monto.ToString("N0", CultureInfo.InvariantCulture)} por intento de cobro de cheque devuelto",
+                  $"Cobro de {monto.ToString("N0", CultureInfo.InvariantCulture)} por emisión de estado de cuenta impreso",
+                  $"Retención gubernamental de {monto.ToString("N0", CultureInfo.InvariantCulture)} por adeudo fiscal",
+                  $"Pérdida cambiaria de {monto.ToString("N0", CultureInfo.InvariantCulture)} en compra de divisas",
+                  $"Tarifa de {monto.ToString("N0", CultureInfo.InvariantCulture)} por emisión de cheque certificado",
+                  $"Anualidad de {monto.ToString("N0", CultureInfo.InvariantCulture)} por renovación de tarjeta",
+                  $"Retención de {monto.ToString("N0", CultureInfo.InvariantCulture)} de ISR sobre rendimientos financieros"
            };
 
 // Arreglo de Descripciones
            string[] descripcionesFinancierasMalos = new string[]
            {
-                  $"El banco debitó automáticamente {monto} de tu saldo por no mantener el depósito mínimo mensual requerido.",
-                  $"Retiraste efectivo en una red bancaria ajena a la tuya y te aplicaron una comisión de {monto} por el uso del ATM.",
-                  $"El gobierno aplicó una retención automática de {monto} directamente sobre los intereses devengados este mes.",
-                  $"Por olvidar la fecha límite de pago, tu tarjeta de crédito generó {monto} adicionales en intereses de financiación.",
-                  $"El estado te descontó un total de {monto} bajo el concepto de impuesto obligatorio a los movimientos financieros.",
-                  $"Enviar dinero al extranjero te costó un cargo extra de {monto} debido a las tarifas operativas de la banca corresponsal.",
-                  $"Como no realizaste movimientos en los últimos seis meses, el banco te penalizó cobrando {monto} por inactividad.",
-                  $"Decidiste retirar tu dinero antes del vencimiento del plazo fijo y la institución te quitó {monto} en comisiones.",
-                  $"Tu cuenta se quedó momentáneamente en rojo y el banco te aplicó una tarifa fija de {monto} por protección de sobregiro.",
-                  $"El fisco recaudó {monto} correspondientes al impuesto al valor agregado aplicado sobre tus suscripciones y servicios financieros.",
-                  $"Te cargaron {monto} por un seguro de vida asociado a tu tarjeta que se activó automáticamente y sin tu consentimiento.",
-                  $"Solicitar un nuevo plástico físico debido a un aparente desgaste o extravío redujo tu saldo disponible en {monto}.",
-                  $"Te retrasaste en la fecha de vencimiento de tu crédito y la financiera te cobró {monto} de penalización inmediata.",
-                  $"Intentaste depositar un documento que terminó siendo rebotado, lo que te generó un cobro administrativo de {monto}.",
-                  $"El banco te cobró una tarifa de {monto} por el simple hecho de enviarte el resumen financiero en papel a tu domicilio.",
-                  $"La entidad tributaria ejecutó una orden de retención directa en tu cuenta de ahorros por {monto} debido a una multa vencida.",
-                  $"Al realizar una compra internacional, el banco aplicó un tipo de cambio desfavorable que te costó {monto} extras.",
-                  $"Solicitar un cheque de caja garantizado para realizar un trámite legal te costó {monto} por la gestión en ventanilla.",
-                  $"Llegó el mes de aniversario de tu tarjeta de crédito y el sistema te cobró automáticamente {monto} por la membresía anual.",
-                  $"Tus inversiones generaron ganancias, pero el gobierno te aplicó una retención en la fuente del ISR por un valor de {monto}."
+                  $"El banco debitó automáticamente {monto.ToString("N0", CultureInfo.InvariantCulture)} de tu saldo por no mantener el depósito mínimo mensual requerido.",
+                  $"Retiraste efectivo en una red bancaria ajena a la tuya y te aplicaron una comisión de {monto.ToString("N0", CultureInfo.InvariantCulture)} por el uso del ATM.",
+                  $"El gobierno aplicó una retención automática de {monto.ToString("N0", CultureInfo.InvariantCulture)} directamente sobre los intereses devengados este mes.",
+                  $"Por olvidar la fecha límite de pago, tu tarjeta de crédito generó {monto.ToString("N0", CultureInfo.InvariantCulture)} adicionales en intereses de financiación.",
+                  $"El estado te descontó un total de {monto.ToString("N0", CultureInfo.InvariantCulture)} bajo el concepto de impuesto obligatorio a los movimientos financieros.",
+                  $"Enviar dinero al extranjero te costó un cargo extra de {monto.ToString("N0", CultureInfo.InvariantCulture)} debido a las tarifas operativas de la banca corresponsal.",
+                  $"Como no realizaste movimientos en los últimos seis meses, el banco te penalizó cobrando {monto.ToString("N0", CultureInfo.InvariantCulture)} por inactividad.",
+                  $"Decidiste retirar tu dinero antes del vencimiento del plazo fijo y la institución te quitó {monto.ToString("N0", CultureInfo.InvariantCulture)} en comisiones.",
+                  $"Tu cuenta se quedó momentáneamente en rojo y el banco te aplicó una tarifa fija de {monto.ToString("N0", CultureInfo.InvariantCulture)} por protección de sobregiro.",
+                  $"El fisco recaudó {monto.ToString("N0", CultureInfo.InvariantCulture)} correspondientes al impuesto al valor agregado aplicado sobre tus suscripciones y servicios financieros.",
+                  $"Te cargaron {monto.ToString("N0", CultureInfo.InvariantCulture)} por un seguro de vida asociado a tu tarjeta que se activó automáticamente y sin tu consentimiento.",
+                  $"Solicitar un nuevo plástico físico debido a un aparente desgaste o extravío redujo tu saldo disponible en {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Te retrasaste en la fecha de vencimiento de tu crédito y la financiera te cobró {monto.ToString("N0", CultureInfo.InvariantCulture)} de penalización inmediata.",
+                  $"Intentaste depositar un documento que terminó siendo rebotado, lo que te generó un cobro administrativo de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"El banco te cobró una tarifa de {monto.ToString("N0", CultureInfo.InvariantCulture)} por el simple hecho de enviarte el resumen financiero en papel a tu domicilio.",
+                  $"La entidad tributaria ejecutó una orden de retención directa en tu cuenta de ahorros por {monto.ToString("N0", CultureInfo.InvariantCulture)} debido a una multa vencida.",
+                  $"Al realizar una compra internacional, el banco aplicó un tipo de cambio desfavorable que te costó {monto.ToString("N0", CultureInfo.InvariantCulture)} extras.",
+                  $"Solicitar un cheque de caja garantizado para realizar un trámite legal te costó {monto.ToString("N0", CultureInfo.InvariantCulture)} por la gestión en ventanilla.",
+                  $"Llegó el mes de aniversario de tu tarjeta de crédito y el sistema te cobró automáticamente {monto.ToString("N0", CultureInfo.InvariantCulture)} por la membresía anual.",
+                  $"Tus inversiones generaron ganancias, pero el gobierno te aplicó una retención en la fuente del ISR por un valor de {monto.ToString("N0", CultureInfo.InvariantCulture)}."
            };
 
 
@@ -204,51 +205,51 @@ otorgar préstamos, frenando nuevas inversiones."
            //Gana dinero
            string[] titulosGanancias = new string[]
            {
-                  $"Pago de dividendos depositado por {monto}",
-                  $"Intereses ganados de {monto} en cuenta de ahorro",
-                  $"Rendimiento de {monto} por inversión a plazo fijo",
-                  $"Bonificación de {monto} por cashback de tarjeta",
-                  $"Devolución fiscal de {monto} por parte del gobierno",
-                  $"Bono de bienvenida de {monto} por apertura de cuenta",
-                  $"Ganancia de {monto} por venta de acciones",
-                  $"Abono de {monto} por concepto de regalías",
-                  $"Recompensa de {monto} por referir nuevos clientes",
-                  $"Subsidio gubernamental recibido por {monto}",
-                  $"Ingreso de {monto} por rendimiento de fondos indexados",
-                  $"Reembolso de {monto} por cobro bancario indebido",
-                  $"Ganancia cambiaria de {monto} al vender divisas",
-                  $"Pago recibido de {monto} por concepto de pasivos",
-                  $"Premio de {monto} por sorteo de lealtad bancaria",
-                  $"Abono de {monto} por intereses de bonos soberanos",
-                  $"Comisión financiera ganada de {monto}",
-                  $"Plusvalía liquidada de {monto} en bienes raíces",
-                  $"Recompensa por staking de criptoactivos de {monto}",
-                  $"Liquidación a favor de {monto} de seguro automotriz"
+                  $"Pago de dividendos depositado por {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Intereses ganados de {monto.ToString("N0", CultureInfo.InvariantCulture)} en cuenta de ahorro",
+                  $"Rendimiento de {monto.ToString("N0", CultureInfo.InvariantCulture)} por inversión a plazo fijo",
+                  $"Bonificación de {monto.ToString("N0", CultureInfo.InvariantCulture)} por cashback de tarjeta",
+                  $"Devolución fiscal de {monto.ToString("N0", CultureInfo.InvariantCulture)} por parte del gobierno",
+                  $"Bono de bienvenida de {monto.ToString("N0", CultureInfo.InvariantCulture)} por apertura de cuenta",
+                  $"Ganancia de {monto.ToString("N0", CultureInfo.InvariantCulture)} por venta de acciones",
+                  $"Abono de {monto.ToString("N0", CultureInfo.InvariantCulture)} por concepto de regalías",
+                  $"Recompensa de {monto.ToString("N0", CultureInfo.InvariantCulture)} por referir nuevos clientes",
+                  $"Subsidio gubernamental recibido por {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Ingreso de {monto.ToString("N0", CultureInfo.InvariantCulture)} por rendimiento de fondos indexados",
+                  $"Reembolso de {monto.ToString("N0", CultureInfo.InvariantCulture)} por cobro bancario indebido",
+                  $"Ganancia cambiaria de {monto.ToString("N0", CultureInfo.InvariantCulture)} al vender divisas",
+                  $"Pago recibido de {monto.ToString("N0", CultureInfo.InvariantCulture)} por concepto de pasivos",
+                  $"Premio de {monto.ToString("N0", CultureInfo.InvariantCulture)} por sorteo de lealtad bancaria",
+                  $"Abono de {monto.ToString("N0", CultureInfo.InvariantCulture)} por intereses de bonos soberanos",
+                  $"Comisión financiera ganada de {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Plusvalía liquidada de {monto.ToString("N0", CultureInfo.InvariantCulture)} en bienes raíces",
+                  $"Recompensa por staking de criptoactivos de {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Liquidación a favor de {monto.ToString("N0", CultureInfo.InvariantCulture)} de seguro automotriz"
            };
 
 // Arreglo de Descripciones (Ganancias Financieras)
            string[] descripcionesGanancias = new string[]
            {
-                  $"Tu portafolio de acciones generó un excelente rendimiento trimestral, depositando {monto} directamente en tu cuenta de corretaje.",
-                  $"Gracias a la tasa de interés preferencial de tu cuenta, este mes acumulaste {monto} adicionales a favor de tu saldo.",
-                  $"Finalizó el período de tu pagaré bancario y la institución te pagó {monto} netos correspondientes a los intereses pactados.",
-                  $"Por realizar tus compras mensuales con la tarjeta de crédito, el banco te recompensó con un reembolso de {monto}.",
-                  $"El fisco procesó de manera positiva tu declaración anual de impuestos y te transfirió un saldo a favor de {monto}.",
-                  $"Cumpliste con los requisitos de depósito inicial y el banco te otorgó un incentivo de {monto} en tu nueva cuenta corriente.",
-                  $"Aprovechaste el alza del mercado para liquidar una posición financiera, lo que te dejó una utilidad neta de {monto}.",
-                  $"La plataforma de distribución financiera procesó los derechos de autor y te abonó {monto} por los activos digitales.",
-                  $"El programa de referidos se activó con éxito tras la inscripción de tus amigos, sumando {monto} a tu saldo disponible.",
-                  $"El gobierno acreditó en tu cuenta el apoyo financiero correspondiente a este mes por un valor de {monto}.",
-                  $"Tu estrategia de inversión pasiva automatizada superó las expectativas, sumando {monto} al valor total de tu fondo.",
-                  $"Tras proceder con el reclamo, la auditoría del banco determinó que la tarifa fue errónea y te devolvió {monto}.",
-                  $"El mercado de monedas extranjeras jugó a tu favor y obtuviste un beneficio de {monto} al cambiar tus dólares a moneda local.",
-                  $"Se registró un flujo de efectivo positivo de {monto} derivado de los ingresos recurrentes de tus inversiones automatizadas.",
-                  $"Fuiste uno de los usuarios seleccionados en la tómbola digital del banco, resultando ganador de un premio en efectivo de {monto}.",
-                  $"El tesoro nacional realizó el pago de los cupones semestrales, acreditando {monto} por los títulos de deuda que posees.",
-                  $"La intermediación financiera que realizaste fue exitosa, por lo que recibiste un pago de comisión por {monto}.",
-                  $"Se concretó la venta del fideicomiso inmobiliario en el que participabas, entregándote una ganancia de capital de {monto}.",
-                  $"La red validó tus bloques de participación en el protocolo financiero, generando {monto} en recompensas pasivas de red.",
-                  $"La aseguradora resolvió el dictamen de manera satisfactoria y te reembolsó {monto} tras los ajustes de la póliza."
+                  $"Tu portafolio de acciones generó un excelente rendimiento trimestral, depositando {monto.ToString("N0", CultureInfo.InvariantCulture)} directamente en tu cuenta de corretaje.",
+                  $"Gracias a la tasa de interés preferencial de tu cuenta, este mes acumulaste {monto.ToString("N0", CultureInfo.InvariantCulture)} adicionales a favor de tu saldo.",
+                  $"Finalizó el período de tu pagaré bancario y la institución te pagó {monto.ToString("N0", CultureInfo.InvariantCulture)} netos correspondientes a los intereses pactados.",
+                  $"Por realizar tus compras mensuales con la tarjeta de crédito, el banco te recompensó con un reembolso de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"El fisco procesó de manera positiva tu declaración anual de impuestos y te transfirió un saldo a favor de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Cumpliste con los requisitos de depósito inicial y el banco te otorgó un incentivo de {monto.ToString("N0", CultureInfo.InvariantCulture)} en tu nueva cuenta corriente.",
+                  $"Aprovechaste el alza del mercado para liquidar una posición financiera, lo que te dejó una utilidad neta de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"La plataforma de distribución financiera procesó los derechos de autor y te abonó {monto.ToString("N0", CultureInfo.InvariantCulture)} por los activos digitales.",
+                  $"El programa de referidos se activó con éxito tras la inscripción de tus amigos, sumando {monto.ToString("N0", CultureInfo.InvariantCulture)} a tu saldo disponible.",
+                  $"El gobierno acreditó en tu cuenta el apoyo financiero correspondiente a este mes por un valor de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Tu estrategia de inversión pasiva automatizada superó las expectativas, sumando {monto.ToString("N0", CultureInfo.InvariantCulture)} al valor total de tu fondo.",
+                  $"Tras proceder con el reclamo, la auditoría del banco determinó que la tarifa fue errónea y te devolvió {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"El mercado de monedas extranjeras jugó a tu favor y obtuviste un beneficio de {monto.ToString("N0", CultureInfo.InvariantCulture)} al cambiar tus dólares a moneda local.",
+                  $"Se registró un flujo de efectivo positivo de {monto.ToString("N0", CultureInfo.InvariantCulture)} derivado de los ingresos recurrentes de tus inversiones automatizadas.",
+                  $"Fuiste uno de los usuarios seleccionados en la tómbola digital del banco, resultando ganador de un premio en efectivo de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"El tesoro nacional realizó el pago de los cupones semestrales, acreditando {monto.ToString("N0", CultureInfo.InvariantCulture)} por los títulos de deuda que posees.",
+                  $"La intermediación financiera que realizaste fue exitosa, por lo que recibiste un pago de comisión por {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Se concretó la venta del fideicomiso inmobiliario en el que participabas, entregándote una ganancia de capital de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"La red validó tus bloques de participación en el protocolo financiero, generando {monto.ToString("N0", CultureInfo.InvariantCulture)} en recompensas pasivas de red.",
+                  $"La aseguradora resolvió el dictamen de manera satisfactoria y te reembolsó {monto.ToString("N0", CultureInfo.InvariantCulture)} tras los ajustes de la póliza."
            };
            int numEvento = rnd.Next(titulosGanancias.Length);
            string titulo = titulosGanancias[numEvento];
@@ -269,51 +270,51 @@ otorgar préstamos, frenando nuevas inversiones."
            string[] titulosOportunidades = new string[]
            {
 
-                  $"Oportunidad de inversión ángel en Startup tecnológica desde {monto}",
-                  $"Invierte {monto} en el nuevo desarrollo inmobiliario residencial",
-                  $"Apuesta recomendada de {monto} para el torneo de fútbol internacional",
-                  $"Participa en la preventa exclusiva del nuevo token DeFi por {monto}",
-                  $"Conviértete en socio de una franquicia de café invirtiendo {monto}",
-                  $"Copia la estrategia del trader líder de Forex iniciando con {monto}",
-                  $"Adquiere bonos de energía renovable con un valor de {monto}",
-                  $"Oportunidad de refugio financiero en contratos de oro por {monto}",
-                  $"Invitación al fondo de capital de riesgo con un ticket de {monto}",
-                  $"Invierte {monto} en pagarés financieros de alto rendimiento garantizado",
-                  $"Oportunidad de negocio en la compra de inventario mayorista por {monto}",
-                  $"Compra una fracción de una obra de arte moderna valorada en {monto}",
-                  $"Participa en la oferta pública inicial (IPO) de la Fintech del año con {monto}",
-                  $"Invierte {monto} en el proyecto de cultivo tecnológico sostenible",
-                  $"Configura tu portafolio automatizado inyectando {monto} en fondos indexados",
-                  $"Únete al pool de validación y staking cripto aportando {monto}",
-                  $"Diversifica prestando {monto} a solicitantes pre-aprobados mediante P2P",
-                  $"Invitación exclusiva al torneo de póker VIP con una entrada de {monto}",
-                  $"Adquiere potencia de procesamiento de datos en la nube invirtiendo {monto}",
-                  $"Compra pagarés corporativos de la multinacional líder por {monto}"
+                  $"Oportunidad de inversión ángel en Startup tecnológica desde {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Invierte {monto.ToString("N0", CultureInfo.InvariantCulture)} en el nuevo desarrollo inmobiliario residencial",
+                  $"Apuesta recomendada de {monto.ToString("N0", CultureInfo.InvariantCulture)} para el torneo de fútbol internacional",
+                  $"Participa en la preventa exclusiva del nuevo token DeFi por {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Conviértete en socio de una franquicia de café invirtiendo {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Copia la estrategia del trader líder de Forex iniciando con {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Adquiere bonos de energía renovable con un valor de {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Oportunidad de refugio financiero en contratos de oro por {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Invitación al fondo de capital de riesgo con un ticket de {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Invierte {monto.ToString("N0", CultureInfo.InvariantCulture)} en pagarés financieros de alto rendimiento garantizado",
+                  $"Oportunidad de negocio en la compra de inventario mayorista por {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Compra una fracción de una obra de arte moderna valorada en {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Participa en la oferta pública inicial (IPO) de la Fintech del año con {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Invierte {monto.ToString("N0", CultureInfo.InvariantCulture)} en el proyecto de cultivo tecnológico sostenible",
+                  $"Configura tu portafolio automatizado inyectando {monto.ToString("N0", CultureInfo.InvariantCulture)} en fondos indexados",
+                  $"Únete al pool de validación y staking cripto aportando {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Diversifica prestando {monto.ToString("N0", CultureInfo.InvariantCulture)} a solicitantes pre-aprobados mediante P2P",
+                  $"Invitación exclusiva al torneo de póker VIP con una entrada de {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Adquiere potencia de procesamiento de datos en la nube invirtiendo {monto.ToString("N0", CultureInfo.InvariantCulture)}",
+                  $"Compra pagarés corporativos de la multinacional líder por {monto.ToString("N0", CultureInfo.InvariantCulture)}"
            };
 
            // Arreglo de Descripciones (Oportunidades de Inversión y Apuestas)
            string[] descripcionesOportunidades = new string[]
            {
-                  $"Te invitamos a formar parte de la próxima gran empresa de inteligencia artificial; asegura tu participación con una inversión inicial de {monto}.",
-                  $"Súmate al fondeo colectivo para la construcción de una torre de departamentos de lujo aportando un monto mínimo de {monto}.",
-                  $"Nuestros analistas sugieren colocar un stake de {monto} a la victoria del equipo local debido a su racha invicta esta temporada.",
-                  $"Consigue acceso temprano antes del listado oficial en exchanges públicos adquiriendo un paquete de tokens valorado en {monto}.",
-                  $"Abre una nueva sucursal bajo un modelo llave en mano participando en el pool de inversionistas con una cuota fija de {monto}.",
-                  $"Automatiza tus operaciones en el mercado de divisas replicando los movimientos del portafolio institucional con un capital base de {monto}.",
-                  $"Apoya la transición hacia paneles solares a gran escala e invierte {monto} en renta fija con un impacto ambiental positivo.",
-                  $"Protege tu patrimonio contra la inflación abriendo una posición de futuros respaldada en lingotes de oro físicos desde {monto}.",
-                  $"Accede a un portafolio diversificado de empresas de biotecnología en etapa temprana aportando un capital semilla de {monto}.",
-                  $"Asegura una tasa de interés fija bastante atractiva colocando {monto} a un plazo de 365 días con total respaldo institucional.",
-                  $"Únete a la campaña de importación de productos de alta demanda para la temporada comercial financiando un lote por {monto}.",
-                  $"El mercado del arte ya no es solo para millonarios; adquiere tu token de copropiedad sobre un cuadro de colección por {monto}.",
-                  $"Te invitamos a colocar una orden de compra preferencial por {monto} antes de que las acciones coticen de manera abierta en la bolsa.",
-                  $"Financia la tecnificación de campos de cultivo hidropónico y recibe utilidades anuales invirtiendo un monto base de {monto}.",
-                  $"Aprovechaste la corrección del mercado de valores para programar una inyección de capital de {monto} en las empresas del S&P 500.",
-                  $"Incrementa tus activos digitales congelando tus fondos en el nodo de gobernanza, con una participación mínima requerida de {monto}.",
-                  $"Conviértete en el banco de alguien más y fondea microcréditos comerciales distribuyendo un capital total de {monto}.",
-                  $"Reserva tu asiento en la mesa principal del campeonato internacional de Texas Hold'em cubriendo el buy-in obligatorio de {monto}.",
-                  $"Participa en la infraestructura de procesamiento para redes blockchain arrendando servidores dedicados por un costo de {monto}.",
-                  $"Financia la expansión logística de la empresa líder del sector adquiriendo títulos de deuda privada con un valor nominal de {monto}."
+                  $"Te invitamos a formar parte de la próxima gran empresa de inteligencia artificial; asegura tu participación con una inversión inicial de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Súmate al fondeo colectivo para la construcción de una torre de departamentos de lujo aportando un monto mínimo de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Nuestros analistas sugieren colocar un stake de {monto.ToString("N0", CultureInfo.InvariantCulture)} a la victoria del equipo local debido a su racha invicta esta temporada.",
+                  $"Consigue acceso temprano antes del listado oficial en exchanges públicos adquiriendo un paquete de tokens valorado en {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Abre una nueva sucursal bajo un modelo llave en mano participando en el pool de inversionistas con una cuota fija de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Automatiza tus operaciones en el mercado de divisas replicando los movimientos del portafolio institucional con un capital base de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Apoya la transición hacia paneles solares a gran escala e invierte {monto.ToString("N0", CultureInfo.InvariantCulture)} en renta fija con un impacto ambiental positivo.",
+                  $"Protege tu patrimonio contra la inflación abriendo una posición de futuros respaldada en lingotes de oro físicos desde {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Accede a un portafolio diversificado de empresas de biotecnología en etapa temprana aportando un capital semilla de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Asegura una tasa de interés fija bastante atractiva colocando {monto.ToString("N0", CultureInfo.InvariantCulture)} a un plazo de 365 días con total respaldo institucional.",
+                  $"Únete a la campaña de importación de productos de alta demanda para la temporada comercial financiando un lote por {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"El mercado del arte ya no es solo para millonarios; adquiere tu token de copropiedad sobre un cuadro de colección por {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Te invitamos a colocar una orden de compra preferencial por {monto.ToString("N0", CultureInfo.InvariantCulture)} antes de que las acciones coticen de manera abierta en la bolsa.",
+                  $"Financia la tecnificación de campos de cultivo hidropónico y recibe utilidades anuales invirtiendo un monto base de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Aprovechaste la corrección del mercado de valores para programar una inyección de capital de {monto.ToString("N0", CultureInfo.InvariantCulture)} en las empresas del S&P 500.",
+                  $"Incrementa tus activos digitales congelando tus fondos en el nodo de gobernanza, con una participación mínima requerida de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Conviértete en el banco de alguien más y fondea microcréditos comerciales distribuyendo un capital total de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Reserva tu asiento en la mesa principal del campeonato internacional de Texas Hold'em cubriendo el buy-in obligatorio de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Participa en la infraestructura de procesamiento para redes blockchain arrendando servidores dedicados por un costo de {monto.ToString("N0", CultureInfo.InvariantCulture)}.",
+                  $"Financia la expansión logística de la empresa líder del sector adquiriendo títulos de deuda privada con un valor nominal de {monto.ToString("N0", CultureInfo.InvariantCulture)}."
            };
            int numEvento = rds.Next(titulosOportunidades.Length);
            string titulo = titulosOportunidades[numEvento];
@@ -388,6 +389,14 @@ otorgar préstamos, frenando nuevas inversiones."
                          X = 30,
                          Y = 3,
                          Width = 20
+                  };
+
+                  txtDinero.TextChanging += (e) =>
+                  {
+                      if (e.NewText.Length >= 6)
+                      {
+                          e.Cancel = true;
+                      }
                   };
 
                   var btnAceptar = new Button("Aceptar")

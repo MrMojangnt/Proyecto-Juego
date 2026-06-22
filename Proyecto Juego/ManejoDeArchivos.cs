@@ -63,6 +63,12 @@ public class ManejoDeArchivos
         ManejoDeArchivos.ObtenerCarpeta(slot),
         "Periodico.csv");
     }
+    public static string rutaLegendarios(int slot)
+    {
+        return Path.Combine(
+            ManejoDeArchivos.ObtenerCarpeta(slot),
+            "Legendarios.txt");
+    }
     //CrearPartida
 
 
