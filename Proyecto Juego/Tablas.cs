@@ -317,7 +317,7 @@ $@"         PRODUCTOS
         var chunchito3 = new FrameView("")
         {
             X = 50,
-            Y = 10,
+            Y = 9,
             Width = 50,
             Height = 15,
         };

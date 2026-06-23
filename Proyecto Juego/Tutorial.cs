@@ -251,5 +251,79 @@ TodosLosBotones, TodosLosLabels, botones, labels);
 
 public class AyudaFinanciera
 {
+    static string[] ConceptosFinancieros =
+{
+    "Acción",
+    "Préstamo",
+    "Diversificación",
+    "Capitalización bursátil",
+    "Riesgo financiero",
+    "Liquidez",
+    "Oferta y demanda",
+    "Volatilidad",
+    "Ganancia",
+    "Deuda"
+};
 
+    static string[] ExplicacionesConceptos =
+    {
+    @"Una acción representa una pequeña parte de una empresa.
+Al comprar acciones te conviertes en propietario de una
+fracción de la compañía. Su valor puede subir o bajar
+dependiendo del desempeño de la empresa y del mercado.",
+
+    @"Un préstamo es dinero recibido con el compromiso
+de devolverlo posteriormente. En muchos casos debe
+devolverse junto con intereses u otras condiciones.",
+
+    @"La diversificación consiste en distribuir las
+inversiones entre varias empresas o sectores para
+reducir el riesgo de pérdidas importantes.",
+
+    @"La capitalización bursátil es el valor total de una
+empresa en el mercado. Se calcula multiplicando el
+precio de una acción por la cantidad de acciones existentes.",
+
+    @"El riesgo financiero es la posibilidad de perder
+dinero debido a decisiones de inversión, cambios
+económicos o eventos inesperados.",
+
+    @"La liquidez es la facilidad con la que un activo
+puede convertirse en dinero sin perder valor.
+El efectivo es el activo más líquido.",
+
+    @"La oferta y la demanda influyen en el precio de los
+activos. Si muchas personas quieren comprar, el precio
+tiende a subir. Si muchas quieren vender, suele bajar.",
+
+    @"La volatilidad mide qué tanto cambia el precio de un
+activo en poco tiempo. Una alta volatilidad implica
+mayor incertidumbre y mayor riesgo.",
+
+    @"La ganancia es el beneficio obtenido después de una
+operación o inversión. Se produce cuando los ingresos
+superan a los costos.",
+
+    @"La deuda representa una obligación pendiente de pago.
+Un nivel de deuda muy alto puede generar problemas
+financieros si no se administra correctamente."
+};
+
+    static void Aprender(Window Ventana, int IndiceConceptos, int IndiceExplicaciones, int PosX, int PosY)
+    {
+        var Aprender = new Button("Aprender")
+        {
+            X = PosX,//Para que escogas las coordenadas
+            Y = PosY,
+        };
+
+        Aprender.Clicked += () =>
+        {
+            MessageBox.Query($"{ConceptosFinancieros[IndiceConceptos]}",
+                $"{ExplicacionesConceptos[IndiceExplicaciones]}",
+                "Cerrar");
+        };
+
+        Ventana.Add(Aprender);
+    }
 }
