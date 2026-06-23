@@ -248,3 +248,8 @@ TodosLosBotones, TodosLosLabels, botones, labels);
         });
     }
 }
+
+public class AyudaFinanciera
+{
+
+}
