@@ -29,6 +29,7 @@ public class ModificarPartidas
             // Reemplaza el handler de SobreSlot[index].Clicked en SobreescribirPartida(...) por esta versión
             SobreSlot[index].Clicked += () =>
             {
+                EliminarPartida(index);
                 using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(index), false, Encoding.UTF8))
                 {
                     save.WriteLine(Program.pd.ToString());
