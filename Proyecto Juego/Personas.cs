@@ -14,9 +14,9 @@ public class GeneracionDeContactos
     public static string[] Hombres =
 {
     "Dorian Martínez", "Roberto Sobalvarro",
-    "Daniel Pérez", "Carlos Cerda", "José René Bonilla", "Leonardo Gómez",
-    "Diego Ruiz", "Joaquín Sánchez", "Elon Mush", "Gabriel Torres",
-    "Steve Unemployment", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
+    "Daniel Pérez", "Jeff Hugs", "José René Bonilla", "Leonardo Gómez",
+    "Carlos Hills", "Joaquín Sánchez", "Elon Mush", "Gabriel Torres",
+    "Steve Porsche", "Martín Flores", "Samuel Benítez", "Jorge Ulloa", "David Ulloa",
     "Kevin Osejo", "Hugo López", "Francisco Silva",
     "Mauricio Lacayo", "Guillermo Ayerdis"
 };
@@ -24,12 +24,12 @@ public class GeneracionDeContactos
     public static string[] Mujeres =
     {
     "Sofía Martínez", "Alyssa Rodríguez", "Melanie Perkins", "Isabella González",
-    "Valeria Pérez", "Leah Dávila", "Mariana Fernández", "Victoria Gómez", "Andrea Vasco",
+    "Valeria Pérez", "Leah Dávila", "Jang Chen", "Victoria Gómez", "Andrea Vasco",
     "María Gallegos", "Emma Sánchez", "Elaine Miranda", "Gabriela Torres",
     "Natalia Ramírez", "Elena Flores", "Paula Benítez", "Andrea Herrera",
     "Renata Medina", "Julieta Castro", "Emilia Rojas", "Samantha Vargas",
     "Kenely Ordoñez", "Antonia Ortiz", "María Silva", "Ana Morales"
-};
+    };
 
     // Hacer público y asegurar que se cree una instancia nueva por cada contacto
     public static List<NPC> GenerarPersonas()//GENERA LOS NOMBRES, SUS HABILIDADES Y SU BALANCE
