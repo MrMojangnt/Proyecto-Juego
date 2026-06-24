@@ -201,6 +201,7 @@ public static class TragaMonedas
             {
                 MessageBox.Query("Error", "No tienes esa cantidad de dinero", "Cerrar");
             }
+            dinero.Text = Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture);
         };
 
         btnCerrar.Clicked += () =>

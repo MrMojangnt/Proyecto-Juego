@@ -282,7 +282,8 @@ reducir el riesgo de pérdidas importantes.",
 
     @"La capitalización bursátil es el valor total de una
 empresa en el mercado. Se calcula multiplicando el
-precio de una acción por la cantidad de acciones existentes.",
+precio de una acción por la cantidad de acciones 
+existentes.",
 
     @"El riesgo financiero es la posibilidad de perder
 dinero debido a decisiones de inversión, cambios
@@ -309,7 +310,7 @@ Un nivel de deuda muy alto puede generar problemas
 financieros si no se administra correctamente."
 };
 
-    static void Aprender(Window Ventana, int IndiceConceptos, int IndiceExplicaciones, int PosX, int PosY)
+    public static void Aprender(Window Ventana, int PosX, Pos PosY)
     {
         var Aprender = new Button("Aprender")
         {
@@ -319,9 +320,129 @@ financieros si no se administra correctamente."
 
         Aprender.Clicked += () =>
         {
-            MessageBox.Query($"{ConceptosFinancieros[IndiceConceptos]}",
-                $"{ExplicacionesConceptos[IndiceExplicaciones]}",
-                "Cerrar");
+            var dialog = new Dialog("Apuesta de Caballos", 95, 30);
+            var buttonAccion = new Button("Sobre Acciones")
+            {
+                X = 1,
+                Y = 2
+            };
+            var buttonPrestamo = new Button("Sobre Prestamos")
+            {
+                X = 1,
+                Y = 4
+            };
+            var buttonDiversificacion = new Button("Sobre Diversificacion")
+            {
+                X = 1,
+                Y = 6
+            };
+            var buttonCap = new Button("Sobre Cap.Bursatil")
+            {
+                X = 1,
+                Y = 8
+            };
+            var buttonRiesgos = new Button("Sobre Riesgos")
+            {
+                X = 1,
+                Y = 10
+            };
+            var buttonLiquidez = new Button("Sobre Liquidez")
+            {
+                X = 1,
+                Y = 12
+            };
+            var buttonOfertaydemanda = new Button("Sobre oferta y demanda")
+            {
+                X = 1,
+                Y = 14
+            };
+            var buttonVolatilidad = new Button("Sobre volatilidad")
+            {
+                X = 1,
+                Y = 16
+            };
+            var buttonGanancias = new Button("Sobre ganancias")
+            {
+                X = 1,
+                Y = 18
+            };
+            var buttonDeudas = new Button("Sobre Deudas")
+            {
+                X = 1,
+                Y = 20
+            };
+            var buttonSalir = new Button("Salir")
+            {
+                X = Pos.Center(),
+                Y = 27
+            };
+            string TituloString = "Bienvenido";
+            string Descripcion = "Selecciona una opcion de los botones laterales";
+          
+            
+            var titulo = new Label(TituloString)
+            {
+                X = Pos.Center() + 2,
+                Y = 2
+            };
+            var Desc = new Label(Descripcion)
+            {
+                X = 37,
+                Y = 4
+            };
+              //Accion
+            buttonAccion.Clicked += () => { 
+                titulo.Text = ConceptosFinancieros[0];
+                Desc.Text = ExplicacionesConceptos[0];
+                
+            };
+            //Prestamo
+            buttonPrestamo.Clicked += () => { titulo.Text = ConceptosFinancieros[1];
+                Desc.Text = ExplicacionesConceptos[1];
+            };
+            //Diversificacion
+            buttonDiversificacion.Clicked += () => { titulo.Text = ConceptosFinancieros[2];
+                Desc.Text = ExplicacionesConceptos[2];
+            };
+            //Capitalizacion
+            buttonCap.Clicked += () => { titulo.Text = ConceptosFinancieros[3];
+                Desc.Text = ExplicacionesConceptos[3];
+            };
+            //Riesgos
+            buttonRiesgos.Clicked += () => { titulo.Text = ConceptosFinancieros[4];
+                Desc.Text = ExplicacionesConceptos[4];
+
+            };
+            //Liquidez
+            buttonLiquidez.Clicked += () => { titulo.Text = ConceptosFinancieros[5];
+                Desc.Text = ExplicacionesConceptos[5];
+            };
+            //Oferta y demanda
+            buttonOfertaydemanda.Clicked += () => { titulo.Text = ConceptosFinancieros[6];
+                Desc.Text = ExplicacionesConceptos[6];
+
+            };
+            //Volatibilidad
+            buttonVolatilidad.Clicked += () => { titulo.Text = ConceptosFinancieros[7];
+                Desc.Text = ExplicacionesConceptos[7];
+
+            };
+            //Ganancias
+            buttonGanancias.Clicked += () => { titulo.Text = ConceptosFinancieros[8];
+                Desc.Text = ExplicacionesConceptos[8];
+
+            };
+            //Deudas
+            buttonDeudas.Clicked += () => { titulo.Text = ConceptosFinancieros[9];
+                Desc.Text = ExplicacionesConceptos[9];
+
+            };
+            buttonSalir.Clicked += () => { Application.RequestStop(dialog); };
+            
+            
+            dialog.Add(titulo, Desc);
+            dialog.Add(buttonAccion,buttonSalir ,buttonPrestamo, buttonDiversificacion, buttonCap, buttonRiesgos, buttonLiquidez, buttonOfertaydemanda, buttonVolatilidad,buttonGanancias,buttonDeudas);
+            Application.Run(dialog);
         };
 
         Ventana.Add(Aprender);

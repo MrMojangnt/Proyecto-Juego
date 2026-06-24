@@ -903,6 +903,7 @@ class Program
             X = 140,
             Y = Pos.AnchorEnd(2)
         };
+        AyudaFinanciera.Aprender(ventana, 155, Pos.AnchorEnd(2));
         //Funciones
         BtTragamonedas.Clicked += () =>
         {
@@ -944,6 +945,7 @@ class Program
         {
           
                 ModificarPartidas.PasarTurno(top);
+                
             
         };
         if (Program.pd.balance < -8000)
