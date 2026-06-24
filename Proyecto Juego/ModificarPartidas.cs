@@ -29,7 +29,12 @@ public class ModificarPartidas
             // Reemplaza el handler de SobreSlot[index].Clicked en SobreescribirPartida(...) por esta versión
             SobreSlot[index].Clicked += () =>
             {
-                using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(index), false, Encoding.UTF8))
+                File.Delete(ManejoDeArchivos.rutaPartidas(i));
+                File.Delete(ManejoDeArchivos.rutaInventario(i));
+                File.Delete(ManejoDeArchivos.rutaEmpresas(i));
+                File.Delete(ManejoDeArchivos.rutaBalance(i));
+                File.Delete(ManejoDeArchivos.rutaPeriodico(i));
+                File.Delete(ManejoDeArchivos.rutaContactos(i)); using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(index), false, Encoding.UTF8))
                 {
                     save.WriteLine(Program.pd.ToString());
                     save.WriteLine($"DeudaEmergencia: {ManejoDeArchivos.DeudaEmergencia}");
@@ -146,6 +151,7 @@ public class ModificarPartidas
                 File.Delete(ManejoDeArchivos.rutaContactos(i));
             }
         }
+        
 
     }
 
