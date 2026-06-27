@@ -2,13 +2,15 @@
 using NAudio.Wave;
 using Proyecto_Juego;
 using System.Data;
-using System.IO;
-using System.Text;
-using System.Reflection.Metadata.Ecma335;
-using Terminal.Gui;
 using System.Globalization;
+using System.IO;
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using static Terminal.Gui.Graphs.PathAnnotation;
 
 
 class Program
@@ -166,20 +168,10 @@ class Program
     }
     static void Main()
     {
-       
 
-        Application.Init();
-        if (OperatingSystem.IsWindows())
-        {
-            Reproducir();
-        }
-        ContactosLegendariosMenu.CargarUsos();  
-      
 
-        var top = Application.Top;
-       
-
-        VentanaPrincipal = new Window()
+        using IApplication app = Application.Create().Init();
+        var VentanaPrincipal = new Window()
         {
             X = 0,
             Y = 0,
@@ -187,10 +179,17 @@ class Program
             Height = Dim.Fill(),
             ColorScheme = colores[colora],
         };
-        top.Add(VentanaPrincipal);
+        if (OperatingSystem.IsWindows())
+        {
+            Reproducir();
+        }
+        ContactosLegendariosMenu.CargarUsos();  
+      
+
+        
        
         //botón nueva partida
-        var label = new Label(@"╔══════════════════════════════════════════════════════════════════════╗
+        var label = new Label() { Text = @"╔══════════════════════════════════════════════════════════════════════╗
 ║                                                                      ║
 ║   ███████╗ ██████╗ ██████╗ ███╗   ██╗ ██████╗ ███╗   ███╗██╗ ██████╗ ║
 ║   ██╔════╝██╔════╝██╔═══██╗████╗  ██║██╔═══██╗████╗ ████║██║██╔════╝ ║
@@ -212,13 +211,13 @@ class Program
 ║                                                                      ║
 ║         “Control the Market. Influence the Nation.”                  ║
 ║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝")
-        {
+╚══════════════════════════════════════════════════════════════════════╝",
+        
             X = Pos.Center(),
             Y = Pos.Center()
         };
         VentanaPrincipal.Add(label);
-        var marco = new FrameView("")
+        var marco = new FrameView()
         {
             X = Pos.Left(label) - 30,
             Y = Pos.Center(),
@@ -226,15 +225,16 @@ class Program
             Height = 5,
             ColorScheme = colores[colora]
         };
-        var botonNuevaPartida = new Button("_Nueva Partida")
-        {
+        var botonNuevaPartida = new Button()
+        {Text = "_Nueva Partida",
+        
             X = Pos.Center(),
             Y = Pos.Center()
         };
         marco.Add(botonNuevaPartida);
         VentanaPrincipal.Add(marco);
         //botón cargar partida
-        var marco2 = new FrameView("")
+        var marco2 = new FrameView()
         {
             X = Pos.X(marco),
             Y = Pos.Bottom(marco),
@@ -243,8 +243,9 @@ class Program
             ColorScheme = colores[colora]
 
         };
-        var botonCargarPartida = new Button("_Cargar Partida")
+        var botonCargarPartida = new Button()
         {
+            Text = "_Cargar Partida",       
             X = Pos.Center(),
             Y = 1
         };
@@ -252,7 +253,7 @@ class Program
         marco2.Add(botonCargarPartida);
 
         //botón configuración
-        var marcoconfig = new FrameView("")
+        var marcoconfig = new FrameView()
         {
             X = Pos.Right(label) + 5,
             Y = Pos.Center(),
@@ -260,8 +261,9 @@ class Program
             Height = 5,
             ColorScheme = colores[colora]
         };
-        var botonConfiguracion = new Button("_Configuración")
+        var botonConfiguracion = new Button()
         {
+            Text = "_Configuración",        
             X = Pos.Center(),
             Y = 1,
             
@@ -271,7 +273,7 @@ class Program
 
 
         //botón salir
-        var marcosalir = new FrameView("")
+        var marcosalir = new FrameView()
         {
             X = Pos.X(marcoconfig),
             Y = Pos.Bottom(marcoconfig),
@@ -279,8 +281,9 @@ class Program
             Height = 5,
             ColorScheme = colores[colora]
         };
-        var botonsalir = new Button("_Salir")
+        var botonsalir = new Button()
         {
+            Text = "_Salir",        
             X = 8,
             Y = 1,
             
@@ -345,33 +348,33 @@ class Program
         {
             marcosalir.ColorScheme = colores[colora];
         };
-        botonNuevaPartida.Clicked += () =>
+        botonNuevaPartida.Accepting += (s,e) =>
         {
             top.Remove(VentanaPrincipal);
             CreacionPersonaje(top);
         };
-        botonCargarPartida.Clicked += () =>
+        botonCargarPartida.Accepting += (s,e) =>
         {
 
             top.Remove(VentanaPrincipal);
             CargarPartida(top);
 
         };
-        botonConfiguracion.Clicked += () =>
+        botonConfiguracion.Accepting += (s, e) =>
         {
             top.Remove(VentanaPrincipal);
             Configuracion(top);
         };
-        botonsalir.Clicked += () => Application.RequestStop();
+        botonsalir.Accepting += (s, e) => Application.RequestStop();
 
         botonNuevaPartida.SetFocus();
-        Application.Run();//Corre la ventana
+        Application.Run(VentanaPrincipal);//Corre la ventana
     }
 
 
     static void CargarPartida(Toplevel top)
     {
-        var VentanaCargarPartida = new Window("")
+        var VentanaCargarPartida = new Window()
         {
             X=0,
             Y=0,
@@ -380,91 +383,98 @@ class Program
             ColorScheme = colores[colora]
         };
 
-        var par1 = new Label("Slot 1")
+        var par1 = new Label()
         {
+            Text = "Slot 1",
             X =5,
             Y=9
         };
         VentanaCargarPartida.Add(par1);
-        Slots[0] = new FrameView("")
+        Slots[0] = new FrameView()
         {
             X =3,
             Y=10,
             Width = 20,
             Height = 10,
         };
-        var bottonslot1 = new Button("Cargar slot 1")
+        var bottonslot1 = new Button()
         {
+            Text = "Cargar slot 1",
             X = Pos.X(par1),
             Y = 21
         };
         VentanaCargarPartida.Add(bottonslot1);
-        var par2 = new Label("Slot 2")
+        var par2 = new Label()
         {
+            Text = "Slot 2",
             X = 30,
             Y = 9
         };
         VentanaCargarPartida.Add(par2);
-        Slots[1] = new FrameView("")
+        Slots[1] = new FrameView()
         {
             X = 28,
             Y = 10,
             Width = 20,
             Height = 10,
         };
-        var bottonslot2 = new Button("Cargar slot 2")
+        var bottonslot2 = new Button()
         {
+            Text = "Cargar slot 2",
             X = Pos.X(par2),
             Y = 21
         };
         VentanaCargarPartida.Add(bottonslot2);
-        var par3 = new Label("Slot 3")
+        var par3 = new Label()
         {
+            Text = "Slot 3",
             X = 55,
             Y = 9
         };
         VentanaCargarPartida.Add(par3);
-        Slots[2] = new FrameView("")
+        Slots[2] = new FrameView()
         {
             X = 53,
             Y = 10,
             Width = 20,
             Height = 10,
         };
-        var bottonslot3 = new Button("Cargar slot 3")
+        var bottonslot3 = new Button()
         {
+            Text = "Cargar slot 3",
             X = Pos.X(par3),
             Y = 21
         };
         VentanaCargarPartida.Add(bottonslot3);
-        bottonslot1.Clicked += () =>
+        bottonslot1.Accepting += (s, e) =>
         {
             int slot = 0;
             MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
             
         };
-        bottonslot2.Clicked += () =>
+        bottonslot2.Accepting += (s, e) =>
         {
             int slot = 1;
             MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
         };
-        bottonslot3.Clicked += () =>
+        bottonslot3.Accepting += (s, e) =>
         {
             int slot = 2;
             MostrarTutorial = false;
             CargandoLasPartidas.CargarPartida(slot, top, VentanaCargarPartida);
         };
 
-        var Back = new Button("Volver al Menú")
+        var Back = new Button()
         {
+            Text = "Volver al Menú",
             X = Pos.Center() + 5,
             Y= 30
         };
 
 
-        Back.Clicked += () =>
+        Back.Accepting += (s,e) =>
         {
             top.Remove(VentanaCargarPartida);
             top.Add(VentanaPrincipal);
@@ -475,8 +485,9 @@ class Program
         CreandoNuevaPartida.VerificarSave();
         for (int i = 0; i < Borration.Length; i++)
         {
-            Borration[i] = new Button($"Eliminar Partida {i+1}")
+            Borration[i] = new Button()
             {
+                Text = $"Eliminar Partida {i + 1}",
                 X = Pos.X(Slots[i]),
                 Y = Pos.Bottom(bottonslot1) + 2,
             };
@@ -487,7 +498,7 @@ class Program
             }
 
         }
-        Borration[0].Clicked += () =>
+        Borration[0].Accepting += (s,e) =>
         {
             ModificarPartidas.EliminarPartida(0);
             ActualizarVentana(
@@ -497,7 +508,7 @@ class Program
             );
         };
 
-        Borration[1].Clicked += () =>
+        Borration[1].Accepting += (s,e) =>
         {
             ModificarPartidas.EliminarPartida(1);
             ActualizarVentana(
@@ -507,7 +518,7 @@ class Program
             );
         };
 
-        Borration[2].Clicked += () =>
+        Borration[2].Accepting += (s,e) =>
         {
             ModificarPartidas.EliminarPartida(2);
             ActualizarVentana(
@@ -533,8 +544,9 @@ class Program
             Height = Dim.Fill(),
             ColorScheme = colores[colora]
         };
-        var TemasLabel = new Label("Temas")
+        var TemasLabel = new Label()
         {
+            Text = "Temas",
             X = 2,
             Y = 1
         };
@@ -550,27 +562,30 @@ class Program
             colora = args.Item;
             PaisSeleccionado = colorestxt[args.Item];
         };
-        var aceptar = new Button("Aceptar")
+        var aceptar = new Button()
         {
-            Y= 11,
+            Text = "Aceptar",
+            Y = 11,
             X = Pos.Right(ListaTEMAS),
         };
-        var labelMusica = new Label("Reproducir / Silenciar Música")
+        var labelMusica = new Label()
         {
+            Text = "Reproducir / Silenciar Música",
             X = 2,
             Y = 8,
         };
-        var botonMusica = new Button(" ▶")
+        var botonMusica = new Button()
         {
+            Text = " ▶",
             X = Pos.Right(labelMusica) + 2,
             Y = Pos.Y(labelMusica)
         };
-        botonMusica.Clicked += () =>
+        botonMusica.Accepting += (s, e) =>
         {
             muteado = !muteado;
             salidaAudio.Volume = muteado ? 0f : 1f;
         };
-        aceptar.Clicked += () =>
+        aceptar.Accepting += (s, e) =>
         {
             VentanaPrincipal.ColorScheme = colores[colora];
             foreach (var m in marcos)
@@ -595,7 +610,7 @@ class Program
     static void CreacionPersonaje(Toplevel top)
     {
 
-        var VentanaCreacionPersonaje = new Window("Añadir")//Se agrega la ventana
+        var VentanaCreacionPersonaje = new Window()//Se agrega la ventana
         {
             X = 0,
             Y = 0,
@@ -603,28 +618,30 @@ class Program
             Height = Dim.Fill(),
             ColorScheme =  colores[colora]
         };
-        var etiquetaNombre = new Label("Nombre")//Se agrega texto
+        var etiquetaNombre = new Label()//Se agrega texto
         {
+            Text = "Nombre",
             X = 2,
             Y = 2,
         };
 
-        var casillaNombre = new TextField("")
+        var casillaNombre = new TextField()
         {
             X = Pos.Right(etiquetaNombre) + 1,
             Y = etiquetaNombre.Y,
             Width = 30
         };
         //Aquí se valida que solo se puedan ingresar 20 caracteres como máximo
-        casillaNombre.TextChanging += (e) =>
+        casillaNombre.TextChanging += (e, s) =>
         {
             if (e.NewText.Length > 20)
             {
                 e.Cancel = true;
             }
         };
-        var etiquetaPais = new Label("País")//Se agrega texto
+        var etiquetaPais = new Label()//Se agrega texto
         {
+            Text = "País",
             X = 2,
             Y = 4,
         };
@@ -645,27 +662,29 @@ class Program
         };
 
 
-        var botonAceptar = new Button("Aceptar")
+        var botonAceptar = new Button()
         {
+            Text = "Aceptar",
             X = Pos.Center(),
             Y = 20
         };
         bool guardado = false;
         bool nombre = false;
         VentanaCreacionPersonaje.Add(botonAceptar);
-        botonAceptar.Clicked += () =>
+        botonAceptar.Accepting += (s, e) =>
         {
             CreandoNuevaPartida.VerificarPartidaAntesDeVentanainicio(casillaNombre, PaisSeleccionado, nombre, guardado,
                 InvInt, top, VentanaCreacionPersonaje);
             //() son funciones anónimas, todavía no se han creado funciones aparte
         };
-        var SalirS = new Button("Salir sin guardar")
+        var SalirS = new Button()
         {
+            Text = "Salir sin guardar",
             X = Pos.X(botonAceptar)+ 20,
             Y = Pos.Y(botonAceptar),
         };
 
-        SalirS.Clicked += () =>
+        SalirS.Accepting += (s, e) =>
         {
             top.Remove(VentanaCreacionPersonaje);
             top.Add(VentanaPrincipal);
@@ -690,7 +709,7 @@ class Program
     //para controlar una exepcion
     public static void Inicio(Toplevel top)
     {
-        var VentanaInicio = new Window("Inicio")
+        var VentanaInicio = new Window()
         {
             X=0,
             Y=0,
@@ -735,23 +754,23 @@ class Program
                     Y = 6
                 };
                 //Accionar
-                ComprarAcciones.Clicked += () =>
+                ComprarAcciones.Accepting += (s, e) =>
                 {
                     top.RemoveAll();
                     Indices.VentanaDeEmpresas(top);
 
                 };
-                Balance.Clicked += () =>
+                Balance.Accepting += (s, e) =>
                 {
                     top.RemoveAll();
                     Tablasdefrancisco.MostrarReporteBalance(top);
                 };
-                Inventariobt.Clicked += () =>
+                Inventariobt.Accepting += (s, e) =>
                 {
                     top.RemoveAll();
                     Inventario.VentanaInventario(top);
                 };
-                CerrarAccionRapida.Clicked += () =>
+                CerrarAccionRapida.Accepting += (s, e) =>
                 {
                     Application.RequestStop(AccionRapidaDialogo);
                 };
@@ -760,13 +779,15 @@ class Program
                 Application.Run(AccionRapidaDialogo);
             }
         };
-        var LabelUsuario = new Label($"Inversor: {pd.name}")
+        var LabelUsuario = new Label()
         {
+            Text = $"Inversor: {pd.name}",
             X = 2,
             Y = 1
         };
-        var LabelPais = new Label($"Pais: {pd.pais}")
+        var LabelPais = new Label()
         {
+            Text = $"Pais: {pd.pais}",
             X = Pos.X(LabelUsuario),
             Y = 2
         };
@@ -778,19 +799,22 @@ class Program
             Width = 60,
             Height = 8,
         };
-        var labelStats = new Label($"Noticias, Turno: {ManejoDeArchivos.turno}")
+        var labelStats = new Label()
         {
+            Text = $"Noticias, Turno: {ManejoDeArchivos.turno}",
             X = Pos.Center(),
             Y = 0
             
         };
-        var titulo = new Label(CambiosDelMercado.Titulo)
+        var titulo = new Label()
         {
+            Text = CambiosDelMercado.Titulo,
             X = Pos.Center(),
             Y = 2
         };
-        var descripcion = new Label(CambiosDelMercado.Descripcion)
+        var descripcion = new Label()
         {
+            Text = CambiosDelMercado.Descripcion,
             X = Pos.Center(),
             Y = 4
         };
@@ -802,8 +826,9 @@ class Program
             Width = 40,
             Height = 10
         };
-        var TituloTrabajo = new Label("Buscar un trabajo")
+        var TituloTrabajo = new Label()
         {
+            Text = "Buscar un trabajo",
             X = Pos.Center(),
             Y = 0
         };
@@ -818,13 +843,14 @@ class Program
         {
             TrabajoEscogido = Trabajoslist[args.Item];
         };
-        var buttonTrabajar = new Button("Trabajar")
+        var buttonTrabajar = new Button()
         {
+            Text = "Trabajar",
             X = Pos.Center(),
             Y = 4
         };
         //Al clickear trabajar
-        buttonTrabajar.Clicked += () =>
+        buttonTrabajar.Accepting += (s, e) =>
         {
             if (TrabajoEscogido == "Desencriptador")
             {
@@ -838,8 +864,9 @@ class Program
         BotonesDeJuegoPredeterminado(top, VentanaInicio);
         
         //Balance
-        var Balance = new Label($"Balance: {pd.balance.ToString("N2", CultureInfo.InvariantCulture)}")
+        var Balance = new Label()
         {
+            Text = $"Balance: {pd.balance.ToString("N2", CultureInfo.InvariantCulture)}",
             X = Pos.Center(),
             Y = 1
         };
@@ -857,91 +884,100 @@ class Program
     {
         //botones bajos
         
-        var btInicio = new Button("Inicio")
+        var btInicio = new Button()
         {
+            Text = "Inicio",
             X = 1,
             Y = Pos.AnchorEnd(2)
         };
-        var btBalance = new Button("Balance")
+        var btBalance = new Button()
         {
+            Text = "Balance",
             X = 12,
             Y = Pos.AnchorEnd(2)
         };
-        var BtTragamonedas = new Button("Traga Monedas")
+        var BtTragamonedas = new Button()
         {
-            X=23,
+            Text = "Traga Monedas",
+            X =23,
             Y=Pos.AnchorEnd(2)
         };
-        var btInventario = new Button("Inventario")
+        var btInventario = new Button()
         {
+            Text = "Inventario",
             X = Pos.Right(BtTragamonedas),
             Y = Pos.AnchorEnd(2)
         };
-        var btVerEmpresa = new Button("Ver Empresas")
+        var btVerEmpresa = new Button()
         {
+            Text = "Ver Empresas",
             X = 58,
             Y =Pos.AnchorEnd(2)
         };
-        var btMenu = new Button("Volver al Menú")
+        var btMenu = new Button()
         {
+            Text = "Volver al Menú",
             X = 96,
             Y = Pos.AnchorEnd(2)
         };
         //Botones altos
-        var pasarturno = new Button("Pasar turno")
+        var pasarturno = new Button()
         {
+            Text = "Pasar turno",
             X = 78,
             Y = Pos.AnchorEnd(2)
         };
-        var LabelTurno = new Label($"Turno Actual: {ManejoDeArchivos.turno}")
+        var LabelTurno = new Label()
         {
+            Text = $"Turno Actual: {ManejoDeArchivos.turno}",
             X = 116,
             Y = Pos.AnchorEnd(2)
         };
-        var creditosButton = new Button("Creditos")
+        var creditosButton = new Button()
         {
+            Text= "Creditos",
             X = 140,
             Y = Pos.AnchorEnd(2)
         };
         AyudaFinanciera.Aprender(ventana, 155, Pos.AnchorEnd(2));
         //Funciones
-        BtTragamonedas.Clicked += () =>
+        BtTragamonedas.Accepting += (s, e) =>
         {
             top.RemoveAll();
             TragaMonedas.Iniciar(top);
         };
-        btInicio.Clicked += () =>
+        btInicio.Accepting += (s, e) =>
         {
             top.RemoveAll();
             Inicio(top);
         };
-        btVerEmpresa.Clicked += () =>
+        btVerEmpresa.Accepting += (s, e) =>
         {
             top.RemoveAll();
             Indices.VentanaDeEmpresas(top);
         };
-        btInventario.Clicked += () =>
+        btInventario.Accepting += (s, e) =>
         {
             top.RemoveAll();
             top.Add(Inventario.VentanaInventario(top));
         };
-        btMenu.Clicked += () =>
+        btMenu.Accepting += (s, e) =>
         {
             ModificarPartidas.Guardarelbalance();
             top.RemoveAll();
             top.Add(VentanaPrincipal);
         };
-        btBalance.Clicked += () =>
+        btBalance.Accepting += (s, e) =>
         {
             top.RemoveAll();
             Tablasdefrancisco.MostrarReporteBalance(top);
         };
-        creditosButton.Clicked += () =>
+        creditosButton.Accepting += (s, e) =>
         {
             top.RemoveAll();
             Creditos.MostrarCreditos(top);
         };
-        pasarturno.Clicked += () =>
+        pasarturno.Accepting += (s, e) =>
         {
           
                 ModificarPartidas.PasarTurno(top);

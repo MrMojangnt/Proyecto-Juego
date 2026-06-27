@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Proyecto_Juego;
@@ -19,10 +20,10 @@ public class Tutorial
     }
 
     static void EmpezarTutorial()
-    {
-        var TutorialIvancito = new Dialog($"LLamada de Ivancito", 60, 20);
+    {//Ahora para los dialog se pone el Title 
+        var TutorialIvancito = new Dialog() { Title = $"LLamada de Ivancito",Width = 60, Height = 20 };//No estoy seguro si la altura y el ancho no están al reves
 
-        var cuadro = new FrameView("")
+        var cuadro = new FrameView()
         {
             X = 1,
             Y = 2,
@@ -34,8 +35,9 @@ public class Tutorial
             X = 1,
             Y = 1
         };
-        var Continue = new Label("Continuar")
+        var Continue = new Label()
         {
+            Text = "Continuar",
             X = 1,
             Y = Pos.Bottom(cuadro)
         };
@@ -44,8 +46,9 @@ public class Tutorial
             X = Pos.Right(Continue),
             Y = Pos.Y(Continue)
         };
-        var SaltarTutorial = new Label( "Saltar Tutorial")
+        var SaltarTutorial = new Label()
         {
+            Text = "Saltar Tutorial",
             X = Pos.AnchorEnd(20),
             Y = Pos.Bottom(cuadro)
         };
@@ -61,13 +64,13 @@ public class Tutorial
                 e.Cancel = true;
         };
 
-        Saltar.Clicked += () =>
+        Saltar.Accepting += (s,e) =>
         {
             Program.MostrarTutorial = false;
             permitirCerrar = true;
             Application.RequestStop();
         };
-        Continuar.Clicked += () =>
+        Continuar.Accepting += (s,e) =>
         {
             SwitchTutorial(texto, [Saltar, Continuar],
                 [SaltarTutorial, Continue], [Saltar, Continuar], [SaltarTutorial, Continue]);
@@ -312,67 +315,79 @@ financieros si no se administra correctamente."
 
     public static void Aprender(Window Ventana, int PosX, Pos PosY)
     {
-        var Aprender = new Button("Aprender")
+        var Aprender = new Button()
         {
+            Text = "Aprender",
             X = PosX,//Para que escogas las coordenadas
             Y = PosY,
         };
 
-        Aprender.Clicked += () =>
+        Aprender.Accepting += (s,e) =>
         {
-            var dialog = new Dialog("Apuesta de Caballos", 95, 30);
-            var buttonAccion = new Button("Sobre Acciones")
+            var dialog = new Dialog() { Title = "Apuesta de Caballos", Width = 95, Height = 30 };
+            var buttonAccion = new Button()
             {
+                Text = "Sobre Acciones",
                 X = 1,
                 Y = 2
             };
-            var buttonPrestamo = new Button("Sobre Prestamos")
+            var buttonPrestamo = new Button()
             {
+                Text = "Sobre Prestamos",
                 X = 1,
                 Y = 4
             };
-            var buttonDiversificacion = new Button("Sobre Diversificacion")
+            var buttonDiversificacion = new Button()
             {
+                Text = "Sobre Diversificacion",
                 X = 1,
                 Y = 6
             };
-            var buttonCap = new Button("Sobre Cap.Bursatil")
+            var buttonCap = new Button()
             {
+                Text = "Sobre Cap.Bursatil",
                 X = 1,
                 Y = 8
             };
-            var buttonRiesgos = new Button("Sobre Riesgos")
+            var buttonRiesgos = new Button()
             {
+                Text = "Sobre Riesgos",
                 X = 1,
                 Y = 10
             };
-            var buttonLiquidez = new Button("Sobre Liquidez")
+            var buttonLiquidez = new Button()
             {
+                Text = "Sobre Liquidez",
                 X = 1,
                 Y = 12
             };
-            var buttonOfertaydemanda = new Button("Sobre oferta y demanda")
+            var buttonOfertaydemanda = new Button()
             {
+                Text = "Sobre oferta y demanda",
                 X = 1,
                 Y = 14
             };
-            var buttonVolatilidad = new Button("Sobre volatilidad")
+            var buttonVolatilidad = new Button()
             {
+                Text = "Sobre volatilidad",
                 X = 1,
                 Y = 16
             };
-            var buttonGanancias = new Button("Sobre ganancias")
+            var buttonGanancias = new Button()
             {
+                Text = "Sobre ganancias",
                 X = 1,
                 Y = 18
             };
-            var buttonDeudas = new Button("Sobre Deudas")
+            var buttonDeudas = new Button()
             {
+                Text = "Sobre Deudas",
                 X = 1,
                 Y = 20
             };
-            var buttonSalir = new Button("Salir")
+            var buttonSalir = new Button()
             {
+                Text = "Salir",
                 X = Pos.Center(),
                 Y = 27
             };
@@ -380,64 +395,75 @@ financieros si no se administra correctamente."
             string Descripcion = "Selecciona una opcion de los botones laterales";
           
             
-            var titulo = new Label(TituloString)
+            var titulo = new Label()
             {
+                Text = TituloString,
                 X = Pos.Center() + 2,
                 Y = 2
             };
-            var Desc = new Label(Descripcion)
+            var Desc = new Label()
             {
+                Text= Descripcion,
                 X = 37,
                 Y = 4
             };
               //Accion
-            buttonAccion.Clicked += () => { 
+            buttonAccion.Accepting += (s,e) => { 
                 titulo.Text = ConceptosFinancieros[0];
                 Desc.Text = ExplicacionesConceptos[0];
                 
             };
             //Prestamo
-            buttonPrestamo.Clicked += () => { titulo.Text = ConceptosFinancieros[1];
+            buttonPrestamo.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[1];
                 Desc.Text = ExplicacionesConceptos[1];
             };
             //Diversificacion
-            buttonDiversificacion.Clicked += () => { titulo.Text = ConceptosFinancieros[2];
+            buttonDiversificacion.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[2];
                 Desc.Text = ExplicacionesConceptos[2];
             };
             //Capitalizacion
-            buttonCap.Clicked += () => { titulo.Text = ConceptosFinancieros[3];
+            buttonCap.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[3];
                 Desc.Text = ExplicacionesConceptos[3];
             };
             //Riesgos
-            buttonRiesgos.Clicked += () => { titulo.Text = ConceptosFinancieros[4];
+            buttonRiesgos.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[4];
                 Desc.Text = ExplicacionesConceptos[4];
 
             };
             //Liquidez
-            buttonLiquidez.Clicked += () => { titulo.Text = ConceptosFinancieros[5];
+            buttonLiquidez.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[5];
                 Desc.Text = ExplicacionesConceptos[5];
             };
             //Oferta y demanda
-            buttonOfertaydemanda.Clicked += () => { titulo.Text = ConceptosFinancieros[6];
+            buttonOfertaydemanda.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[6];
                 Desc.Text = ExplicacionesConceptos[6];
 
             };
             //Volatibilidad
-            buttonVolatilidad.Clicked += () => { titulo.Text = ConceptosFinancieros[7];
+            buttonVolatilidad.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[7];
                 Desc.Text = ExplicacionesConceptos[7];
 
             };
             //Ganancias
-            buttonGanancias.Clicked += () => { titulo.Text = ConceptosFinancieros[8];
+            buttonGanancias.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[8];
                 Desc.Text = ExplicacionesConceptos[8];
 
             };
             //Deudas
-            buttonDeudas.Clicked += () => { titulo.Text = ConceptosFinancieros[9];
+            buttonDeudas.Accepting += (s, e) => {
+                titulo.Text = ConceptosFinancieros[9];
                 Desc.Text = ExplicacionesConceptos[9];
 
             };
-            buttonSalir.Clicked += () => { Application.RequestStop(dialog); };
+            buttonSalir.Accepting += (s, e) => { Application.RequestStop(dialog); };
             
             
             dialog.Add(titulo, Desc);
