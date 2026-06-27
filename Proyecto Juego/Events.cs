@@ -1,7 +1,9 @@
 ﻿using System;
 using Terminal.Gui;
+using Terminal.Gui.Views;
 using System.IO;
 using System.Globalization;
+using Terminal.Gui.ViewBase;
 namespace Proyecto_Juego;
 
 public class Events
@@ -366,10 +368,11 @@ otorgar préstamos, frenando nuevas inversiones."
            {
                   //variable para ver si es entero
                   bool IsDecimal = false;
-                  var dialog = new Dialog("Apuesta de Caballos", 60, 15);
+                  var dialog = new Dialog() { Title = "Apuesta de Caballos", Width = 60, Height = 15 };
 
-                  var lblCaballo = new Label("Seleccione un caballo:")
+                  var lblCaballo = new Label()
                   {
+                      Text = "Seleccione un caballo:",
                          X = 2,
                          Y = 1
                   };
@@ -385,13 +388,14 @@ otorgar préstamos, frenando nuevas inversiones."
                          Height = 5
                   };
 
-                  var lblDinero = new Label("Monto a apostar:")
+                  var lblDinero = new Label()
                   {
+                      Text = "Monto a apostar:",
                          X = 30,
                          Y = 2
                   };
 
-                  var txtDinero = new TextField("")
+                  var txtDinero = new TextField()
                   {
                          X = 30,
                          Y = 3,
@@ -406,19 +410,21 @@ otorgar préstamos, frenando nuevas inversiones."
                       }
                   };
 
-                  var btnAceptar = new Button("Aceptar")
+                  var btnAceptar = new Button()
                   {
+                      Text = "Aceptar",
                          X = Pos.Center() - 10,
                          Y = 8
                   };
 
-                  var btnCancelar = new Button("Cancelar")
+                  var btnCancelar = new Button()
                   {
+                      Text = "Cancelar",
                          X = Pos.Center() + 2,
                          Y = 8
                   };
 
-            btnAceptar.Clicked += () =>
+            btnAceptar.Accepting += (s,e) =>
             {
                 kavayo = listaCaballos.SelectedItem;
                 if (decimal.TryParse(txtDinero.Text.ToString(), out cantidad))
@@ -439,7 +445,7 @@ otorgar préstamos, frenando nuevas inversiones."
                 }
             };
 
-                  btnCancelar.Clicked += () =>
+                  btnCancelar.Accepting += (s,e) =>
                   {
                          
                          top.RemoveAll();

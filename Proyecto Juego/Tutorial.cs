@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -463,7 +465,7 @@ financieros si no se administra correctamente."
                 Desc.Text = ExplicacionesConceptos[9];
 
             };
-            buttonSalir.Accepting += (s, e) => { Application.RequestStop(dialog); };
+            buttonSalir.Accepting += (s, e) => { IApplication.RequestStop(dialog); };
             
             
             dialog.Add(titulo, Desc);

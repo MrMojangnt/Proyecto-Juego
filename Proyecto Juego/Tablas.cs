@@ -5,13 +5,16 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 namespace Proyecto_Juego;
 
 public class Tablasdefrancisco
 {
     //MOSTRAR REPORTE DE BALANCE
-    public static void MostrarReporteBalance(Toplevel top)
+    public static void MostrarReporteBalance(IApplication app)
     {
         AsegurarHistorialBalance(Program.InvInt);
 
@@ -23,26 +26,29 @@ public class Tablasdefrancisco
         decimal patrimonioEstimado = Program.pd.balance + valorCartera - ManejoDeArchivos.DeudaEmergencia;
         decimal gananciaFlotante = valorCartera - costoBase;
 
-        var VentanaBalance = new Window("Reporte de Balance")
+        var VentanaBalance = new Window()
         {
+            Title = "Reporte de Balance",
             X = 0,
             Y = 0,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
-            ColorScheme = Program.colores[Program.colora]
+            Scheme = Program.colores[Program.colora]
         };
 
-        var labelResumen = new Label(
+        var labelResumen = new Label()
+        {
+            Text =
             $@"Inversor: {Program.pd.name} | País: {Program.pd.pais} | Turno: {ManejoDeArchivos.turno}
 Efectivo: ${Program.pd.balance.ToString("N2")} | Cartera: ${valorCartera.ToString("N2")} | Deuda: ${ManejoDeArchivos.DeudaEmergencia:F2} | Patrimonio estimado: ${patrimonioEstimado.ToString("N2")}
-Costo base: ${costoBase.ToString("N2")} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}")
-        {
+Costo base: ${costoBase.ToString("N2")} | Ganancia/Pérdida flotante: ${gananciaFlotante:+0.00;-0.00;0.00} | Acciones: {totalAcciones}",
             X = 1,
             Y = 1
         };
 
-        var marcoPosiciones = new FrameView("Posiciones actuales")
+        var marcoPosiciones = new FrameView()
         {
+            Title = "Posiciones actuales",
             X = 1,
             Y = 5,
             Width = Dim.Fill() - 2,
@@ -56,11 +62,12 @@ Costo base: ${costoBase.ToString("N2")} | Ganancia/Pérdida flotante: ${ganancia
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
-        tablaPosicionesView.Table = tablaPosiciones;
+        tablaPosicionesView.Table = new DataTableSource(tablaPosiciones);
         marcoPosiciones.Add(tablaPosicionesView);
 
-        var marcoMovimientos = new FrameView("Compras y ventas")
+        var marcoMovimientos = new FrameView()
         {
+            Title = "Compras y ventas",
             X = 1,
             Y = 15,
             Width = Dim.Fill() - 2,
@@ -74,23 +81,24 @@ Costo base: ${costoBase.ToString("N2")} | Ganancia/Pérdida flotante: ${ganancia
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
-        tablaMovimientosView.Table = tablaMovimientos;
+        tablaMovimientosView.Table = new DataTableSource(tablaMovimientos);//aparentemente ahora no deja convertir implicitamente, por eso el datatablesource creo
         marcoMovimientos.Add(tablaMovimientosView);
 
-        var botonVolver = new Button("Volver al Inicio")
+        var botonVolver = new Button()
         {
+            Text = "Volver al Inicio",
             X = Pos.Center(),
             Y = Pos.AnchorEnd(2)
         };
 
-        botonVolver.Clicked += () =>
+        botonVolver.Accepting += (s,e) =>
         {
             top.RemoveAll();
             Program.Inicio(top);
         };
 
         VentanaBalance.Add(labelResumen, marcoPosiciones, marcoMovimientos, botonVolver);
-        top.Add(VentanaBalance);
+        app.Run(VentanaBalance);
     }
 
     public static DataTable CrearTablaPosicionesJugador(out decimal valorCartera, out decimal costoBase, out int totalAcciones)
@@ -243,10 +251,11 @@ Costo base: ${costoBase.ToString("N2")} | Ganancia/Pérdida flotante: ${ganancia
 
 public class Tablasdejocksand
 {
-    public static void MostrarDetalleEmpresa(Toplevel top, Companias empresa)
+    public static void MostrarDetalleEmpresa(IApplication app, Companias empresa)
     {
-        var DetalleEmpresa = new Window("Detalle de Empresa")
+        var DetalleEmpresa = new Window()
         {
+            Text = "Detalle de Empresa",
             X = 0,
             Y = 0,
             ColorScheme = Program.colores[Program.colora],
@@ -254,20 +263,21 @@ public class Tablasdejocksand
             Height = Dim.Fill(),
         };
 
-        var MasInfo = new Label(
+        var MasInfo = new Label()
+        {
+            Text =
 @$" ID: {empresa.id}                  
  Empresa: {empresa.name}           
  País: {empresa.pais}              
  Sector: {empresa.rubro}           
  Capital: {empresa.capbursatil:F2}M   
  Accionistas: {empresa.accionistas}
- balance: {empresa.balance}M       ")
-        {
+ balance: {empresa.balance}M       ",
             X = 1,
             Y = 0,
 
         };
-        var chunchito1 = new FrameView("")
+        var chunchito1 = new FrameView()
         {
             X = 1,
             Y = 0,
@@ -277,16 +287,17 @@ public class Tablasdejocksand
         DetalleEmpresa.Add(chunchito1);
         chunchito1.Add(MasInfo);
 
-        var Gastos = new Label(
+        var Gastos = new Label()
+        {
+            Text =
 @$" Gastos en Marketing: {empresa.marketing}M
  Gastos en Investigación: {empresa.investigacion}M
  Gastos en Mantenimiento: {empresa.mantenimiento}M
- Participación: {empresa.participacion:f2}%")
-        {
+ Participación: {empresa.participacion:f2}%",
             X = Pos.Center(),
             Y = 0,
         };
-        var chunchito2 = new FrameView("")
+        var chunchito2 = new FrameView()
         {
             X = 5,
             Y = 15,
@@ -297,7 +308,9 @@ public class Tablasdejocksand
         chunchito2.Add(Gastos);
 
 
-        var Productitos = new Label(
+        var Productitos = new Label()
+        {
+            Text =
 $@"         PRODUCTOS             
                                    
  Productos: {empresa.productos[0]} 
@@ -309,12 +322,11 @@ $@"         PRODUCTOS
  Productos: {empresa.productos[6]} 
  Productos: {empresa.productos[7]} 
  Productos: {empresa.productos[8]} 
- Productos: {empresa.productos[9]}")
-        {
+ Productos: {empresa.productos[9]}",
             X = Pos.Center(),
             Y = 0
         };
-        var chunchito3 = new FrameView("")
+        var chunchito3 = new FrameView()
         {
             X = 50,
             Y = 9,
@@ -325,8 +337,9 @@ $@"         PRODUCTOS
         chunchito3.Add(Productitos);
 
 
-        var btVolver = new Button("Volver")
+        var btVolver = new Button()
         {
+            Text = "Volver",
             X = Pos.Center(),
             Y = 30
         };
@@ -344,37 +357,41 @@ $@"         PRODUCTOS
             }
         };
         DetalleEmpresa.Add((InputCantidad));
-        var LabelCantidad = new Label("Cantidad:")
+        var LabelCantidad = new Label()
         {
+            Text = "Cantidad:",
             X = Pos.X(InputCantidad),
             Y = Pos.Y(InputCantidad) - 1,
 
         };
         DetalleEmpresa.Add((LabelCantidad));
-        var btcomprar_acciones = new Button("Comprar Accion")
+        var btcomprar_acciones = new Button()
         {
+            Text = "Comprar Accion",
             X = Pos.X(btVolver) + 4,
             Y = Pos.Y(btVolver) - 2,
         };
-        var btvender_acciones = new Button("Vender Accion")
+        var btvender_acciones = new Button()
         {
+            Text = "Vender Accion",
             X = Pos.X(btcomprar_acciones),
             Y = Pos.Y(btcomprar_acciones) + 1,
         };
         DetalleEmpresa.Add(btvender_acciones);
 
-        var LabelPrecioAccion = new Label($"Precio: {((empresa.capbursatil * 1000000m) / 50000000m):F2}")
+        var LabelPrecioAccion = new Label()
         {
+            Text = $"Precio: {((empresa.capbursatil * 1000000m) / 50000000m):F2}",
             X = Pos.X(btcomprar_acciones) + 4,
             Y = Pos.Y(btcomprar_acciones) - 1,
         };
         DetalleEmpresa.Add(btcomprar_acciones, LabelPrecioAccion);
-        btVolver.Clicked += () =>
+        btVolver.Accepting += (s,e) =>
         {
             top.RemoveAll();
             Indices.VentanaDeEmpresas(top);
         };
-        btcomprar_acciones.Clicked += () =>
+        btcomprar_acciones.Accepting += (s,e) =>
         {
             int cantidty = 0;
             bool IsInt = false;
@@ -425,7 +442,7 @@ $@"         PRODUCTOS
                 Program.pd.balance -= precioAccional * cantidty;
                 ModificarPartidas.Guardarelbalance();
                 ModificarPartidas.RegistrarMovimientoBalance("COMPRA", empresa, cantidty, precioAccional, precioAccional * cantidty);
-                MessageBox.Query(
+                MessageBox.Query(app,
                     "Acciones compradas con exito!",
                     $@"Lograste comprar {cantidty} acciones a un precio unitario de {precioAccional:F2}
 para un precio total de {precioAccional * cantidty:F2}",
@@ -433,7 +450,7 @@ para un precio total de {precioAccional * cantidty:F2}",
             }
             else
             {
-                MessageBox.Query(
+                MessageBox.Query(app,
                     "Error",
                     "Ocurrio un error",
                     "Aceptar");
@@ -442,7 +459,7 @@ para un precio total de {precioAccional * cantidty:F2}",
 
         };
 
-        btvender_acciones.Clicked += () =>
+        btvender_acciones.Accepting += (s,e) =>
         {
             int cantidty = 0;
             bool IsInt = false;
@@ -485,7 +502,7 @@ para un precio total de {precioAccional * cantidty:F2}",
                         using (StreamWriter save = new StreamWriter(ManejoDeArchivos.rutaPartidas(Program.InvInt), false, Encoding.UTF8))
                             ModificarPartidas.RegistrarMovimientoBalance("VENTA", empresa, cantidty, precioAccional, precioAccional * cantidty);
                         encontrada = true;
-                        MessageBox.Query(
+                        MessageBox.Query(app,
                             "Acciones vendidas con exito!",
                             $@"Haz vendido {cantidty} acciones a un precio de {precioAccional:F2}
 para un total de {precioAccional * cantidty:F2}",
@@ -493,7 +510,7 @@ para un total de {precioAccional * cantidty:F2}",
                     }
                     else
                     {
-                        MessageBox.Query(
+                        MessageBox.Query(app,
                             "Error",
                             "No tienes acciones de esta empresa para vender",
                             "Aceptar");
@@ -506,7 +523,7 @@ para un total de {precioAccional * cantidty:F2}",
 
             if (!encontrada)
             {
-                MessageBox.Query(
+                MessageBox.Query(app,
                     "Error",
                     "No posees acciones de esta empresa",
                     "Aceptar");

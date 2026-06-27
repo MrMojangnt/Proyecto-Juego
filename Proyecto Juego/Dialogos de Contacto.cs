@@ -13,7 +13,6 @@ using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using Terminal.Gui;
-using Unix.Terminal;
 using static System.Net.WebRequestMethods;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;

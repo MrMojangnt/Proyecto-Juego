@@ -8,8 +8,10 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Terminal.Gui;
 using Terminal.Gui.App;
+using Terminal.Gui.Drawing;
 using Terminal.Gui.ViewBase;
 using Terminal.Gui.Views;
+using TextMateSharp.Internal.Rules;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
@@ -45,95 +47,102 @@ class Program
     public static string TrabajoEscogido = "";
     public static int InvInt = 0;
     static List<FrameView> marcos = new List<FrameView>();
-    public static List<ColorScheme> colores = new List<ColorScheme>() {
-        new ColorScheme()
+    /*
+     Esto se recomendó:
+
+     Colors.Add("Tema_0", colores[0]);
+Colors.Add("Tema_1", colores[1]);
+Colors.Add("Tema_2", colores[2]);
+    */
+    public static List<Scheme> colores = new List<Scheme>() {
+        new Scheme()
         {
             //Tema predeterminado
             // Controles normales
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.White,
                 Color.Blue),
 
             // Control seleccionado
-            Focus = Application.Driver.MakeAttribute(
+            Focus = new Terminal.Gui.Drawing.Attribute(
                 Color.Black,
                 Color.Gray),
 
             // Hotkeys sin foco
-            HotNormal = Application.Driver.MakeAttribute(
+            HotNormal = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightYellow,
                 Color.Blue),
 
             // Hotkeys con foco
-            HotFocus = Application.Driver.MakeAttribute(
+            HotFocus = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightYellow,
                 Color.Gray)
         },
 
         // Tema oscuro
-        new ColorScheme()
+        new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.White,
                 Color.Black),
 
-            Focus = Application.Driver.MakeAttribute(
+            Focus = new Terminal.Gui.Drawing.Attribute(
                 Color.Black,
                 Color.BrightGreen),
 
-            HotNormal = Application.Driver.MakeAttribute(
+            HotNormal = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightCyan,
                 Color.Black),
 
-            HotFocus = Application.Driver.MakeAttribute(
+            HotFocus = new Terminal.Gui.Drawing.Attribute(
                 Color.White,
                 Color.BrightGreen)
         },
 
         // Tema blanco
-        new ColorScheme()
+        new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.Black,
                 Color.White),
 
-            Focus = Application.Driver.MakeAttribute(
+            Focus = new Terminal.Gui.Drawing.Attribute(
                 Color.White,
                 Color.BrightBlue),
 
-            HotNormal = Application.Driver.MakeAttribute(
+            HotNormal = new Terminal.Gui.Drawing.Attribute(
                 Color.Red,
                 Color.White),
 
-            HotFocus = Application.Driver.MakeAttribute(
+            HotFocus = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightYellow,
                 Color.BrightBlue)
         }
     };
-    static List<ColorScheme> ColoreButtonSelected = new List<ColorScheme>() {
+    static List<Scheme> ColoreButtonSelected = new List<Scheme>() {
         // Tema azul
-        new ColorScheme()
+        new Scheme()
         {
             // Fondo blanco con texto azul
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.Blue,
                 Color.White),
         },
 
         // Tema oscuro
-        new ColorScheme()
+        new Scheme()
         {
             // Verde brillante estilo terminal retro
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightGreen,
                 Color.Black)
         },
 
         // Tema blanco
-        new ColorScheme()
+        new Scheme()
         {
             // Azul brillante sobre fondo blanco
-            Normal = Application.Driver.MakeAttribute(
+            Normal = new Terminal.Gui.Drawing.Attribute(
                 Color.BrightBlue,
                 Color.White)
         }
@@ -279,8 +288,9 @@ class Program
             Y = Pos.Bottom(marcoconfig),
             Width = 26,
             Height = 5,
-            ColorScheme = colores[colora]
         };
+        marcosalir.Scheme = colores[colora];
+
         var botonsalir = new Button()
         {
             Text = "_Salir",        
@@ -300,54 +310,84 @@ class Program
         marcos.Add(marcoconfig);
         marcos.Add(marcosalir);
 
-        botonNuevaPartida.Enter += (_) =>
+        
+  
+        
+        //Equivalente a cuando gana y pierde foco
+        //Boton Nueva Partida
+        botonNuevaPartida.FocusedChanged += (s, e) =>
         {
-            marco.ColorScheme = ColoreButtonSelected[colora];
-            if (OperatingSystem.IsWindows())
+            if (botonNuevaPartida.HasFocus)
             {
-                ClickSound();
+                // equivalente a Enter
+                marco.ColorScheme = ColoreButtonSelected[colora];
+                if (OperatingSystem.IsWindows())
+                {
+                    ClickSound();
+                }
+            }
+            else
+            {
+                // equivalente a Leave
+                marco.ColorScheme = colores[colora];
             }
         };
-        botonCargarPartida.Enter += (_) =>
-        {
-            marco2.ColorScheme = ColoreButtonSelected[colora];
-            if (OperatingSystem.IsWindows())
-            {
-                ClickSound();
-            }
-        };
-        botonConfiguracion.Enter += (_) => 
-        {
-            marcoconfig.ColorScheme = ColoreButtonSelected[colora];
-            if (OperatingSystem.IsWindows())
-            {
-                ClickSound();
-            }
-        };
-        botonsalir.Enter += (_) =>
-        {
-            marcosalir.ColorScheme = ColoreButtonSelected[colora];
-            ClickSound();
-        };
-       
 
-        // Cuando pierde foco
-        botonCargarPartida.Leave += (_) =>
+        //Boton Cargar Partida
+        botonCargarPartida.FocusedChanged += (s, e) =>
         {
-            marco2.ColorScheme = colores[colora];
+            if (botonCargarPartida.HasFocus)
+            {
+                // equivalente a Enter
+                marco2.ColorScheme = ColoreButtonSelected[colora];
+                if (OperatingSystem.IsWindows())
+                {
+                    ClickSound();
+                }
+            }
+            else
+            {
+                // equivalente a Leave
+                marco2.ColorScheme = colores[colora];
+            }
         };
-        botonNuevaPartida.Leave += (_) =>
+
+        //Boton Configuracion
+        botonConfiguracion.FocusedChanged += (s, e) =>
         {
-            marco.ColorScheme = colores[colora];
+            if (botonsalir.HasFocus)
+            {
+                // equivalente a Enter
+                marcoconfig.ColorScheme = ColoreButtonSelected[colora];
+                if (OperatingSystem.IsWindows())
+                {
+                    ClickSound();
+                }
+            }
+            else
+            {
+                // equivalente a Leave
+                marcoconfig.ColorScheme = colores[colora];
+            }
         };
-        botonConfiguracion.Leave += (_) =>
+
+        //Boton Salir
+        botonsalir.FocusedChanged += (s,e) =>
         {
-            marcoconfig.ColorScheme = colores[colora];
+            if (botonsalir.HasFocus)
+            {
+                // equivalente a Enter
+                marcosalir.ColorScheme = ColoreButtonSelected[colora];
+                ClickSound();
+            }
+            else
+            {
+                // equivalente a Leave
+                marcosalir.ColorScheme = colores[colora];
+            }
         };
-        botonsalir.Leave += (_) =>
-        {
-            marcosalir.ColorScheme = colores[colora];
-        };
+
+       
         botonNuevaPartida.Accepting += (s,e) =>
         {
             top.Remove(VentanaPrincipal);
@@ -534,9 +574,9 @@ class Program
     } 
 
     
-    static void Configuracion(Toplevel top)
+    static void Configuracion(IApplication app)
     {
-        var ventanaconfiguracion = new Window("Configuracion")
+        var ventanaconfiguracion = new Window()
         {
             X = 0,
             Y = 0,
@@ -552,6 +592,7 @@ class Program
         };
         var ListaTEMAS = new ListView(colorestxt)
         {
+            //Aqui se necesita algo como Source = new ListWrapper<string>(colorestxt)
             X = Pos.Right(TemasLabel) + 4,
             Y = 2,
             Width = 30,
@@ -593,19 +634,19 @@ class Program
                 m.ColorScheme = colores[colora];
             }
 
-            MessageBox.Query(
+            MessageBox.Query(app,
                 "Guardado",
                 "Se guardo la configuracion", //Muestra un aviso, un mensaje
     "Aceptar");//El programa informa que se ha introducido cierto nombre y cierta dirección       
-            top.Remove(ventanaconfiguracion);//Cuando se pulsa el botón desaparece la ventana 
-            top.Add(VentanaPrincipal);
+            app.RequestStop();//Cuando se pulsa el botón desaparece la ventana 
+            
         };
 
         ventanaconfiguracion.Add(labelMusica, botonMusica);
         ventanaconfiguracion.Add(aceptar);
         ventanaconfiguracion.Add(ListaTEMAS);
         ventanaconfiguracion.Add(TemasLabel);
-        top.Add(ventanaconfiguracion);
+        app.Run(ventanaconfiguracion);
     }
     static void CreacionPersonaje(Toplevel top)
     {

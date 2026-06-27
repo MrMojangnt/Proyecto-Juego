@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 namespace Proyecto_Juego;
 
@@ -47,7 +50,7 @@ public static class TeLlamanPapuContesta
                         return;
                     }
                 }
-                MostrarLlamada(contacto);
+                MostrarLlamada(contacto, app);
                 GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
             }
         }
@@ -75,14 +78,14 @@ public static class TeLlamanPapuContesta
             _ => 0
         };
     }
-    static void MostrarLlamada(NPC contacto)
+    static void MostrarLlamada(NPC contacto, IApplication app)
     {
         int index = CargandoLasPartidas.ContactosCargados.FindIndex(n => n.name == contacto.name);
 
         // Diálogo principal de llamada (estilo menú de llamada)
-        var dialogo = new Dialog($"Llamada de {contacto.name}", 72, 26);
-        var nombre = new Label(contacto.name) { X = 2, Y = 0 };
-        var cuadro = new FrameView("")
+        var dialogo = new Dialog() { Title = $"Llamada de {contacto.name}", Width = 72, Height = 26 };
+        var nombre = new Label() { Text = contacto.name, X = 2, Y = 0 };
+        var cuadro = new FrameView()
         {
             X = 1,
             Y = 2,
@@ -104,24 +107,25 @@ public static class TeLlamanPapuContesta
         cuadro.Add(cobrar);
 
         // Información de deuda (mostramos deuda total por ahora)
-        var deudaInfo = new Label($"Deuda total del Inversor: {contacto.montoprestado:F2}   \nBalance de {contacto.name}: {contacto.balance:F2}")
+        var deudaInfo = new Label()
         {
+            Text = $"Deuda total del Inversor: {contacto.montoprestado:F2}   \nBalance de {contacto.name}: {contacto.balance:F2}",
             X = 1,
             Y = Pos.Bottom(cuadro) + 1
         };
 
-        var btnPagar = new Button("Pagar") { X = 1, Y = Pos.AnchorEnd(2) };
-        var btnResponder = new Button("Responder") { X = Pos.Right(btnPagar) + 2, Y = Pos.AnchorEnd(2) };
-        var btnIgnorar = new Button("Ignorar") { X = Pos.Right(btnResponder) + 2, Y = Pos.AnchorEnd(2) };
+        var btnPagar = new Button() { Text = "Pagar",X = 1, Y = Pos.AnchorEnd(2) };
+        var btnResponder = new Button() { Text = "Responder",X = Pos.Right(btnPagar) + 2, Y = Pos.AnchorEnd(2) };
+        var btnIgnorar = new Button() { Text = "Ignorar", X = Pos.Right(btnResponder) + 2, Y = Pos.AnchorEnd(2) };
 
-        btnPagar.Clicked += () =>
+        btnPagar.Accepting += (s,e) =>
         {
-            Application.RequestStop();
+            app.RequestStop();
 
-            var dlgPago = new Dialog($"Pagar a {contacto.name}", 60, 12);
-            var lbl = new Label($"Deuda total: {contacto.montoprestado:F2}") { X = 1, Y = 1 };
-            var labelPago = new Label("Monto a pagar:") { X = 1, Y = 3 };
-            var campoPago = new TextField("") { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
+            var dlgPago = new Dialog() { Title = $"Pagar a {contacto.name}", Width = 60, Height = 12 };
+            var lbl = new Label() { Text = $"Deuda total: {contacto.montoprestado:F2}", X = 1, Y = 1 };
+            var labelPago = new Label() { Text = "Monto a pagar:", X = 1, Y = 3 };
+            var campoPago = new TextField() { X = Pos.Right(labelPago) + 1, Y = 3, Width = 12 };
             campoPago.TextChanging += (e) =>
             {
                 if (e.NewText.Length >= 6)
@@ -129,20 +133,20 @@ public static class TeLlamanPapuContesta
                     e.Cancel = true;
                 }
             };
-            var btnAceptar = new Button("Aceptar") { X = 1, Y = Pos.AnchorEnd(2) };
-            var btnCerrar = new Button("Cerrar") { X = Pos.Right(btnAceptar) + 2, Y = Pos.AnchorEnd(2) };
+            var btnAceptar = new Button() { Text = "Aceptar", X = 1, Y = Pos.AnchorEnd(2) };
+            var btnCerrar = new Button() { Text = "Cerrar", X = Pos.Right(btnAceptar) + 2, Y = Pos.AnchorEnd(2) };
 
-            btnAceptar.Clicked += () =>
+            btnAceptar.Accepting += (s,e) =>
             {
                 if (!decimal.TryParse(campoPago.Text.ToString(), out decimal monto) || monto <= 0)
                 {
-                    MessageBox.Query("Error", "Ingrese un monto válido.", "Aceptar");
+                    MessageBox.Query(app, "Error", "Ingrese un monto válido.", "Aceptar");
                     return;
                 }
 
                 if (!Tablasdejocksand.PagarDeuda(monto))
                 {
-                    MessageBox.Query("Error", "No tienes suficiente balance para pagar.", "Aceptar");
+                    MessageBox.Query(app, "Error", "No tienes suficiente balance para pagar.", "Aceptar");
                     return;
                 }
 
@@ -174,39 +178,39 @@ public static class TeLlamanPapuContesta
 
                     GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
                 }
-                MessageBox.Query("Pago", "Pago realizado con éxito.", "Aceptar");
-                Application.RequestStop();
+                MessageBox.Query(app, "Pago", "Pago realizado con éxito.", "Aceptar");
+                app.RequestStop();
             };
 
-            btnCerrar.Clicked += () => Application.RequestStop();
+            btnCerrar.Accepting += (s,e) => app.RequestStop();
 
             dlgPago.Add(lbl, labelPago, campoPago, btnAceptar, btnCerrar);
-            Application.Run(dlgPago);
+            app.Run(dlgPago);
         };
 
-        btnResponder.Clicked += () =>
+        btnResponder.Accepting += (s,e) =>
         {
-            Application.RequestStop();
+            app.RequestStop();
 
             // Abrir un diálogo de conversación parecido al menú de llamar (reusa Plantilla)
-            var dlg = new Dialog("", 70, 23);
-            var dialogoResp = new FrameView("")
+            var dlg = new Dialog() { Width = 70, Height = 23 };
+            var dialogoResp = new FrameView()
             {
                 X = Pos.Center(),
                 Y = Pos.AnchorEnd(20),
                 Width = Dim.Fill() - 2,
                 Height = 8
             };
-            var nombreResp = new Label(contacto.name) { X = 2, Y = 0 };
+            var nombreResp = new Label() { Text = contacto.name,X = 2, Y = 0 };
             var textoResp = new Label() { X = 1, Y = 2 };
 
             dialogoResp.Add(textoResp);
             //LaLlamada.Plantilla(dlg, textoResp, contacto); // usa la interfaz de diálogo existente dentro de esta clase
             dlg.Add(nombreResp, dialogoResp);
-            Application.Run(dlg);
+            app.Run(dlg);
         };
 
-        btnIgnorar.Clicked += () =>
+        btnIgnorar.Accepting += (s,e) =>
         {
             contacto.Amistad -= 1;
 
@@ -215,11 +219,11 @@ public static class TeLlamanPapuContesta
 
             GeneracionDeContactos.GuardarContactos(Program.InvInt, false);
 
-            Application.RequestStop();
+            app.RequestStop();
         };
 
         dialogo.Add(nombre, cuadro, deudaInfo, btnPagar, btnIgnorar);
-        Application.Run(dialogo);
+        app.Run(dialogo);
     }
 
 }

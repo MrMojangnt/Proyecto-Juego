@@ -1,5 +1,8 @@
 namespace Proyecto_Juego;
 using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 public class Trabajos
 {
@@ -114,22 +117,24 @@ public class Trabajos
         "Cerrando sesion de forma segura... Adios."
     };
 
-    public static void Desencriptador(Toplevel top)
+    public static void Desencriptador(IApplication app)
     {
 
-        var dialog = new Dialog("Trabajo de desencriptador", 60, 15);
+        var dialog = new Dialog() { Title = "Trabajo de desencriptador", Width = 60, Height = 15};
         Random rnd = new Random();
         int numEvento = rnd.Next(desplazamientos.Length);
         string desplazamientotitle = desplazamientos[numEvento];
         string PalabraCifrada = palabrasCifradas[numEvento];
 
-        var titulo = new Label(desplazamientotitle)
+        var titulo = new Label()
         {
+            Text = desplazamientotitle,
             X = Pos.Center(),
             Y = 1
         };
-        var descripcion = new Label(PalabraCifrada)
+        var descripcion = new Label()
         {
+            Text = PalabraCifrada,
             X = Pos.Center(),
             Y = 3
         };
@@ -139,29 +144,31 @@ public class Trabajos
             Y = 4,
             Width = 30
         };
-        var buttonEnviar = new Button("Enviar")
+        var buttonEnviar = new Button()
         {
+            Text = "Enviar",
             X = Pos.Center(),
             Y = 6
         };
-        var buttonSalir = new Button("Salir")
+        var buttonSalir = new Button()
         {
+            Text = "Salir",
             X = Pos.Center(),
             Y = 8
         };
-        buttonSalir.Clicked += () =>
+        buttonSalir.Accepting += (s,e) =>
         {
             Application.RequestStop();
             top.RemoveAll();
             Program.Inicio(top);
         };
-        buttonEnviar.Clicked += () =>
+        buttonEnviar.Accepting += (s,e) =>
         {
             if (Inputs.Text == palabrasDescifradas[numEvento])
             {
                 decimal dineroganar = rnd.Next(0, 2001);
                 Program.pd.balance += dineroganar;
-                MessageBox.Query("Completado!", "Completaste el trabajo", "Cerrar");
+                MessageBox.Query(app, "Completado!", "Completaste el trabajo", "Cerrar");
                 Application.RequestStop();
                 top.RemoveAll();
                 Program.Inicio(top);
@@ -169,7 +176,7 @@ public class Trabajos
             }
             else
             {
-                MessageBox.Query("Error", "Error esa no es la palabra", "Cerrar");
+                MessageBox.Query(app, "Error", "Error esa no es la palabra", "Cerrar");
             }
         };
 
@@ -177,21 +184,23 @@ public class Trabajos
         Application.Run(dialog);
     }
 
-    public static void Programador(Toplevel top)
+    public static void Programador(IApplication app)
     {
-        var dialog = new Dialog("Trabajo de Programador", 60, 15);
+        var dialog = new Dialog() { Title = "Trabajo de Programador", Width = 60, Height = 15 };
         Random rnd = new Random();
         int numEvento = rnd.Next(codigoADigitar.Length);
         string resultadosEsperadoTitle = resultadosEsperados[numEvento];
         string InputEsperado = codigoADigitar[numEvento];
 
-        var titulo = new Label("Imprime la siguiente palabra con C#:")
+        var titulo = new Label()
         {
+            Text = "Imprime la siguiente palabra con C#:",
             X = Pos.Center(),
             Y = 1
         };
-        var descripcion = new Label(resultadosEsperadoTitle)
+        var descripcion = new Label()
         {
+            Text = resultadosEsperadoTitle,
             X = Pos.Center(),
             Y = 3
         };
@@ -201,40 +210,42 @@ public class Trabajos
             Y = 4,
             Width = 30
         };
-        var buttonEnviar = new Button("Enviar")
+        var buttonEnviar = new Button()
         {
+            Text = "Enviar",
             X = Pos.Center(),
             Y = 6
         };
-        var buttonSalir = new Button("Salir")
+        var buttonSalir = new Button()
         {
+            Text = "Salir",
             X = Pos.Center(),
             Y = 8
         };
-        buttonEnviar.Clicked += () =>
+        buttonEnviar.Accepting += (s,e) =>
         {
             if (Inputs.Text == InputEsperado)
             {
                 decimal dineroganar = rnd.Next(0, 2001);
                 Program.pd.balance += dineroganar;
-                MessageBox.Query("Completado!", "Completaste el trabajo", "Cerrar");
-                Application.RequestStop();
+                MessageBox.Query(app, "Completado!", "Completaste el trabajo", "Cerrar");
+                app.RequestStop();
                 top.RemoveAll();
                 Program.Inicio(top);
             }
             else
             {
-                MessageBox.Query("Error", "Error ese no es el codigo", "Cerrar");
+                MessageBox.Query(app, "Error", "Error ese no es el codigo", "Cerrar");
             }
         };
-        buttonSalir.Clicked += () =>
+        buttonSalir.Accepting += (s,e) =>
         {
-            Application.RequestStop(dialog);
+            app.RequestStop(dialog);
             top.RemoveAll();
             Program.Inicio(top);
         };
         dialog.Add(titulo, descripcion, Inputs, buttonEnviar, buttonSalir);
-        Application.Run(dialog);
+        app.Run(dialog);
 
     }
 }

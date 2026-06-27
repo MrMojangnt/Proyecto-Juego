@@ -6,6 +6,10 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.App;
+using Terminal.Gui.Drawing;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Proyecto_Juego;
 
@@ -26,7 +30,7 @@ public class LaLlamada
     static Button cerrar = new();
 
     //Textfield para el prestamo
-    static TextField CosoPrestamo = new("");
+    static TextField CosoPrestamo = new();
     
 
 
@@ -96,15 +100,15 @@ public static void Plantilla(Dialog dial, Label texto, NPC contacto)
         };
 
         //Declarando lo que pasará cuando se presione el boton cerrar
-        cerrar.Clicked += () =>
+        cerrar.Accepting += (s,e) =>
         {
             Application.RequestStop();
         };
 
         //
-        bt1.Clicked += () => OnOpcion(1, texto, contacto, dial, bt1, bt2, bt3);
-        bt2.Clicked += () => OnOpcion(2, texto, contacto, dial, bt1, bt2, bt3);
-        bt3.Clicked += () => OnOpcion(3, texto, contacto, dial, bt1, bt2, bt3);
+        bt1.Accepting += (s,e) => OnOpcion(1, texto, contacto, dial, bt1, bt2, bt3);
+        bt2.Accepting += (s,e) => OnOpcion(2, texto, contacto, dial, bt1, bt2, bt3);
+        bt3.Accepting += (s, e) => OnOpcion(3, texto, contacto, dial, bt1, bt2, bt3);
         dial.Add(op1, op2, op3, bt1, bt2, bt3, colgar, cerrar, CosoPrestamo);
         Application.MainLoop.AddIdle(() =>
         {
@@ -343,7 +347,7 @@ public static void Plantilla(Dialog dial, Label texto, NPC contacto)
     }
     static void CuandoYaPedisteLaPlata(NPC contacto, Label texto, Button bt1, Button bt2, Button bt3)
     {
-        var top = Application.Top;
+        var top = IApplication();//esto no sirve XD
         if (decimal.TryParse(CosoPrestamo.Text.ToString(), out decimal cantidty) && cantidty > 0)
         {
             if (cantidty < (contacto.balance / 2))
@@ -597,16 +601,17 @@ public static void Plantilla(Dialog dial, Label texto, NPC contacto)
     {
 
         estado = 0;
-        var dialog = new Dialog("", 70, 23);
-        var dialogo = new FrameView("")
+        var dialog = new Dialog() {Width = 70, Height = 23};
+        var dialogo = new FrameView()
         {
             X = Pos.Center(),
             Y = Pos.AnchorEnd(20),
             Width = Dim.Fill() - 2,
             Height = 8
         };
-        var nombre = new Label(contacto.name)
+        var nombre = new Label()
         {
+            Text = contacto.name,
             X = 2,
             Y = 0
         };

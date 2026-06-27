@@ -1,33 +1,37 @@
 using System;
 using Terminal.Gui;
+using Terminal.Gui.Drawing;
+using Terminal.Gui.Views;
 using System.Globalization;
 using Proyecto_Juego;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.App;
 public static class TragaMonedas
 {
     
-    public static void Iniciar(Toplevel top)
+    public static void Iniciar(IApplication app)
     {
         //Colores 
-        var rojo = new ColorScheme()
+        var rojo = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.BrightRed, Color.Gray)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.BrightRed, Color.Gray)
         };
 
-        var verde = new ColorScheme()
+        var verde = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.BrightGreen, Color.White)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.BrightGreen, Color.White)
         };
 
-        var amarillo = new ColorScheme()
+        var amarillo = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.BrightYellow, Color.Gray)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.BrightYellow, Color.Gray)
         };
 
-        var azul = new ColorScheme()
+        var azul = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.BrightBlue, Color.White)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.BrightBlue, Color.White)
         };
-        ColorScheme[] colores =
+        Scheme[] colores =
         {
             rojo,
             verde,
@@ -36,13 +40,14 @@ public static class TragaMonedas
         };
 
         //Ventana
-        var win = new Window("Tragamonedas")
+        var win = new Window()
             {
+            Text = "Tragamonedas",
                 X = 0,
                 Y = 0,
                 Width = Dim.Fill(),
                 Height = Dim.Fill(),
-                ColorScheme = Program.colores[Program.colora]
+                Scheme = Program.colores[Program.colora]
             };
 
         
@@ -50,20 +55,23 @@ public static class TragaMonedas
         Random rnd = new Random();
 
         
-        var rodillo1 = new Label("?")
+        var rodillo1 = new Label()
         {
+            Text = "?",
             X = Pos.Center() - 6,
             Y = Pos.Center()
         };
         
-        var rodillo2 = new Label("?")
+        var rodillo2 = new Label()
         {
+            Text = "?",
             X = Pos.Center(),
             Y = Pos.Center()
         };
 
-        var rodillo3 = new Label("?")
+        var rodillo3 = new Label()
         {
+            Text = "?",
             X = Pos.Center() + 6,
             Y = Pos.Center()
         };
@@ -75,13 +83,14 @@ public static class TragaMonedas
             Width = 21,
             Height = 3,
         };
-        var resultado = new Label("")
+        var resultado = new Label()
         {
             X = Pos.Center(),
             Y = 6
         };
-        var dinero = new Label("Dinero a apostar:")
+        var dinero = new Label()
         {
+            Text = "Dinero a apostar:",
             X = Pos.Center(),
             Y = 8
         };
@@ -99,23 +108,26 @@ public static class TragaMonedas
             }
         };
 
-        var btnGirar = new Button("Girar")
+        var btnGirar = new Button()
         {
+            Text = "Girar",
             X = Pos.Center() - 10,
             Y = 12
         };
 
-        var btnCerrar = new Button("Cerrar")
+        var btnCerrar = new Button()
         {
+            Text = "Cerrar",
             X = Pos.Center() + 5,
             Y = 12
         };
-        var DineroLabel = new Label($"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}")
+        var DineroLabel = new Label()
         {
-            X=Pos.Center(),
+            Text = $"Balance de tu cuenta: {Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture)}",
+            X =Pos.Center(),
             Y = 14
         };
-        btnGirar.Clicked += () =>
+        btnGirar.Accepting += (s,e) =>
         {
             decimal cantidad;
             bool IsDecimal = false;
@@ -195,16 +207,16 @@ public static class TragaMonedas
             }
             else if (IsDecimal == false)
             {
-                MessageBox.Query("Error", "No introduciste un valor valido", "Cerrar");
+                MessageBox.Query(app,"Error", "No introduciste un valor valido", "Cerrar");
             }
             else
             {
-                MessageBox.Query("Error", "No tienes esa cantidad de dinero", "Cerrar");
+                MessageBox.Query(app,"Error", "No tienes esa cantidad de dinero", "Cerrar");
             }
             dinero.Text = Program.pd.balance.ToString("N2", CultureInfo.InvariantCulture);
         };
 
-        btnCerrar.Clicked += () =>
+        btnCerrar.Accepting += (s,e) =>
         {
             top.RemoveAll();
             Program.Inicio(top);
@@ -223,7 +235,7 @@ public static class TragaMonedas
         );
 
 
-        Application.Top.Add(win);
+        app.Run(win);
     }
     
 

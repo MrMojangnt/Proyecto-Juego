@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using Empresas;
 using Terminal.Gui;
+using Terminal.Gui.Views;
+using Terminal.Gui.ViewBase;
 
 namespace Proyecto_Juego;
 
@@ -45,10 +47,11 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
     public override void Ejecutar()
     {
         var sectores = new List<string>(Indices.Nombre_Sectores_Variables.Keys);
-        var dialogo = new Dialog("Jocksand Valladares", 70, 22);
+        var dialogo = new Dialog() { Title = "Jocksand Valladares", Width = 70, Height = 22 };
 
-        var titulo = new Label("Elige un sector para inflarlo un 50%:")
+        var titulo = new Label()
         {
+            Text = "Elige un sector para inflarlo un 50%:",
             X = 1,
             Y = 1
         };
@@ -61,25 +64,28 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
             Height = 10
         };
 
-        var detalle = new Label("El movimiento se aplicará a todas las empresas del sector.")
+        var detalle = new Label()
         {
+            Text = "El movimiento se aplicará a todas las empresas del sector.",
             X = 1,
             Y = 14
         };
 
-        var aplicar = new Button("Aplicar")
+        var aplicar = new Button()
         {
+            Text = "Aplicar",
             X = 1,
             Y = 17
         };
 
-        var cancelar = new Button("Cancelar")
+        var cancelar = new Button()
         {
+            Text = "Cancelar",
             X = 15,
             Y = 17
         };
 
-        aplicar.Clicked += () =>
+        aplicar.Accepting += (s,e) =>
         {
             int indice = listaSectores.SelectedItem;
             if (indice < 0 || indice >= sectores.Count)
@@ -95,7 +101,7 @@ public sealed class JocksandValladaresLegendario : ContactoLegendarioBase
             Application.RequestStop();
         };
 
-        cancelar.Clicked += () => Application.RequestStop();
+        cancelar.Accepting += (s,e) => Application.RequestStop();
 
         dialogo.Add(titulo, listaSectores, detalle, aplicar, cancelar);
         Application.Run(dialogo);
@@ -112,16 +118,18 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
     public override void Ejecutar()
     {
         var top = Application.Top;
-        var dialogo = new Dialog("Raul Castillo", 70, 18);
+        var dialogo = new Dialog() { Title = "Raul Castillo", Width = 70, Height = 18 };
 
-        var titulo = new Label("Monto del préstamo de emergencia:")
+        var titulo = new Label()
         {
+            Text = "Monto del préstamo de emergencia:",
             X = 1,
             Y = 1
         };
 
-        var monto = new TextField("100000")
+        var monto = new TextField()
         {
+            Text = "100000",
             X = 1,
             Y = 3,
             Width = 25
@@ -134,25 +142,28 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
             }
         };
 
-        var detalle = new Label("El préstamo aumenta tu balance y suma deuda.")
+        var detalle = new Label()
         {
+            Text = "El préstamo aumenta tu balance y suma deuda.",
             X = 1,
             Y = 5
         };
 
-        var otorgar = new Button("Otorgar")
+        var otorgar = new Button()
         {
+            Text = "Otorgar",
             X = 1,
             Y = 8
         };
 
-        var cancelar = new Button("Cancelar")
+        var cancelar = new Button()
         {
+            Text = "Cancel",
             X = 15,
             Y = 8
         };
 
-        otorgar.Clicked += () =>
+        otorgar.Accepting += (s,e) =>
         {
             if (!decimal.TryParse(monto.Text.ToString(), out decimal cantidad) || cantidad <= 0m)
             {
@@ -173,7 +184,7 @@ public sealed class RaulCastilloLegendario : ContactoLegendarioBase
             Application.RequestStop();
         };
 
-        cancelar.Clicked += () => Application.RequestStop();
+        cancelar.Accepting += (s,e) => Application.RequestStop();
 
         dialogo.Add(titulo, monto, detalle, otorgar, cancelar);
         Application.Run(dialogo);
@@ -189,10 +200,11 @@ public sealed class FranciscoAlvarezLegendario : ContactoLegendarioBase
 
     public override void Ejecutar()
     {
-        var dialogo = new Dialog("Francisco Alvarez", 90, 25);
+        var dialogo = new Dialog(){Title = "Francisco Alvarez", Width = 90, Height = 25};
 
-        var titulo = new Label("Pronóstico exacto del mercado:")
+        var titulo = new Label()
         {
+            Text = "Pronóstico exacto del mercado:",
             X = 1,
             Y = 1
         };
@@ -205,15 +217,16 @@ public sealed class FranciscoAlvarezLegendario : ContactoLegendarioBase
             Height = 16
         };
 
-        tabla.Table = Tablasdefrancisco.ObtenerPronosticoMercado();
+        tabla.Table = new DataTableSource(Tablasdefrancisco.ObtenerPronosticoMercado());
 
-        var cerrar = new Button("Cerrar")
+        var cerrar = new Button()
         {
+            Text = "Cerrar",
             X = Pos.Center(),
             Y = Pos.AnchorEnd(2)
         };
 
-        cerrar.Clicked += () => Application.RequestStop();
+        cerrar.Accepting += (s,e) => Application.RequestStop();
 
         dialogo.Add(titulo, tabla, cerrar);
         ConsumirUso();
