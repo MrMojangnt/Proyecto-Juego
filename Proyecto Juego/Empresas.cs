@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 namespace Empresas;
 
 //creando las empresas?
@@ -322,7 +324,7 @@ public class Indices
             Tablasdejocksand.MostrarDetalleEmpresa(top, empresa);
 
         };
-        tableView.Table = tabla;
+        tableView.Table = new DataTableSource(tabla);
         Program.BotonesDeJuegoPredeterminado(top, VentanaDeEmpresas);
 
 

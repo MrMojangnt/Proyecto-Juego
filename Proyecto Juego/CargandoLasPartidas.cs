@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 namespace Proyecto_Juego;
 
 public class CargandoLasPartidas
@@ -217,8 +219,9 @@ public class CargandoLasPartidas
                 nombre = nombre.Replace("Nombre: ", ""); //reemplaza "Nombre" por ""
                 save.Close();
 
-                Slots[i].Add(new Label("Nombre:\n" + nombre)
+                Slots[i].Add(new Label()
                 {
+                    Text = "Nombre:\n" + nombre,
                     X = Pos.Center(),
                     Y = Pos.Center(),
                 });
@@ -227,8 +230,9 @@ public class CargandoLasPartidas
             else
             {
 
-                Slots[i].Add(new Label("No hay \ndatos guardados")
+                Slots[i].Add(new Label()
                 {
+                    Text = "No hay \ndatos guardados",
                     X = Pos.Center(),
                     Y = Pos.Center(),
                 });

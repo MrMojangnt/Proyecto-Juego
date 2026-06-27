@@ -1,27 +1,31 @@
 namespace Proyecto_Juego;
 
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
+using Terminal.Gui.Views;
 
 public class Creditos
 {
     public static void MostrarCreditos(Toplevel top)
     {
-        var ventana = new Window("Créditos")
+        var ventana = new Window()
         {
+            Title = "Créditos",
             X = Pos.Center(),
             Y = Pos.Center(),
             Width = Dim.Fill(),
             Height = Dim.Fill()
         };
 
-        var titulo = new Label("EQUIPO DE DESARROLLO")
+        var titulo = new Label()
         {
+            Text = "EQUIPO DE DESARROLLO",
             X = Pos.Center(),
             Y = 1,
             TextAlignment = TextAlignment.Centered
         };
 
-        var creditos = new Label("")
+        var creditos = new Label()
         {
             X = Pos.Center(),
             Y = 5,
@@ -29,13 +33,14 @@ public class Creditos
             Height = Dim.Fill()
         };
 
-        var btnCerrar = new Button("Cerrar")
+        var btnCerrar = new Button()
         {
+            Text = "Cerrar",
             X = Pos.Center(),
             Y = Pos.AnchorEnd(2)
         };
 
-        btnCerrar.Clicked += () =>
+        btnCerrar.Accepting += (s,e) =>
         {
             top.Remove(ventana);
             Program.Inicio(top);

@@ -1,37 +1,41 @@
 using Proyecto_Juego;
 using Terminal.Gui;
+using Terminal.Gui.Views;
+using Terminal.Gui.Drawing;
+using Terminal.Gui.ViewBase;
 public static class Apuesta
 {
     public static string[] kavayosColores = { "Rojo", "Amarillo", "Verde", "Negro" };
     public static void Iniciar(Toplevel top)
     {
         //Colores de los caballos
-        var rojo = new ColorScheme()
+        var rojo = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightRed)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.White, Color.BrightRed)
         };
 
-        var amarillo = new ColorScheme()
+        var amarillo = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightYellow)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.White, Color.BrightYellow)
         };
 
-        var verde = new ColorScheme()
+        var verde = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.White, Color.BrightGreen)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.White, Color.BrightGreen)
         };
 
-        var negro = new ColorScheme()
+        var negro = new Scheme()
         {
-            Normal = Application.Driver.MakeAttribute(Color.White, Color.Black)
+            Normal = new Terminal.Gui.Drawing.Attribute(Color.White, Color.Black)
         };
-        var win = new Window("Carrera de Caballos")
+        var win = new Window()
         {
+            Title = "Carrera de Caballos",
             X = 0,
             Y = 1,
             Width = Dim.Fill(),
             Height = Dim.Fill(),
-            ColorScheme = Program.colores[Program.colora]
+            Scheme = Program.colores[Program.colora]
         };
 
         Label[] caballos = new Label[4];
@@ -39,8 +43,9 @@ public static class Apuesta
 
         for (int i = 0; i < 4; i++)
         {
-            caballos[i] = new Label($"Kavayo {i + 1}")
+            caballos[i] = new Label()
             {
+                Text = $"Kavayo {i + 1}",
                 X = 1,
                 Y = i + 2
             };
@@ -66,8 +71,9 @@ public static class Apuesta
             win.Add(caballos[i]);
         }
 
-        var meta = new Label("META")
+        var meta = new Label()
         {
+            Text = "META",
             X = 60,
             Y = 0
         };
@@ -116,12 +122,13 @@ public static class Apuesta
 
                 return true; // Continúa la carrera
             });
-        var cerrarbutton = new Button("Cerrar")
+        var cerrarbutton = new Button()
         {
+            Text = "Cerrar",
             X = Pos.Center(),
             Y = Pos.Center()
         };
-        cerrarbutton.Clicked += () =>
+        cerrarbutton.Accepting += (s,e) =>
         {
             top.RemoveAll();
             Program.Inicio(top);

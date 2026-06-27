@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.Views;
 
 namespace Proyecto_Juego;
 
@@ -11,23 +12,23 @@ public class ModificarPartidas
     {
 
         Button[] SobreSlot = new Button[3];
-        var Sobreescribir = new Dialog(
-    "Sobreescribir partida",
-    60,
-    20
-);
+        var Sobreescribir = new Dialog()
+        { Title = "Sobreescribir partida",
+    Width = 60,
+    Height = 20};
         for (int i = 0; i < 3; i++)
         {
             int index = i;
             string linea = LeerNombre(index);
-            SobreSlot[index] = new Button($"Nombre: {linea}")
+            SobreSlot[index] = new Button()
             {
+                Text = $"Nombre: {linea}",
                 X = 2,
                 Y = i + 2
             };
 
             // Reemplaza el handler de SobreSlot[index].Clicked en SobreescribirPartida(...) por esta versión
-            SobreSlot[index].Clicked += () =>
+            SobreSlot[index].Accepting += (s,e) =>
             {
                 File.Delete(ManejoDeArchivos.rutaPartidas(i));
                 File.Delete(ManejoDeArchivos.rutaInventario(i));
@@ -67,12 +68,13 @@ public class ModificarPartidas
 
         }
 
-        var cancelar = new Button("Cancelar")
+        var cancelar = new Button()
         {
+            Text = "Cancelar",
             X = 20,
             Y = 6
         };
-        cancelar.Clicked += () =>
+        cancelar.Accepting += (s,e) =>
         {
             Application.RequestStop();
             top.RemoveAll();

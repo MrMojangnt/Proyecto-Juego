@@ -2,16 +2,18 @@ namespace Proyecto_Juego;
 using NAudio.Wave;
 using Proyecto_Juego;
 using System.Data;
-using System.Drawing;
+using Terminal.Gui.Drawing;
+using Terminal.Gui.Views;
 using System.IO;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.ViewBase;
 
 public class Inventario
 {
     public static Window VentanaInventario(Toplevel top)
     {
-        var win = new Window("Tabla tipo Excel")
+        var win = new Window()
         {
             X = 0,
             Y = 0,
@@ -50,7 +52,7 @@ public class Inventario
             Height = 10
         };
         Program.BotonesDeJuegoPredeterminado(top, win);
-        tableView.Table = tabla;
+        tableView.Table = new DataTableSource(tabla);
 
         win.Add(tableView);
         top.Add(win);

@@ -7,7 +7,8 @@ using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Text;
 using Terminal.Gui;
-using static Terminal.Gui.TabView;
+using Terminal.Gui.Views;
+using Terminal.Gui.ViewBase;
 
 public class GeneracionDeContactos
 {
@@ -230,9 +231,10 @@ public class GeneracionDeContactos
             }
         };
 
-        TablaContactos.Table = tabla;
-        var ContactosLabel = new Label("Contactos")
+        TablaContactos.Table = new DataTableSource(tabla);
+        var ContactosLabel = new Label()
         {
+            Text = "Contactos",
             X = 4,
             Y = Pos.Top(TablaContactos) - 1
         };
@@ -243,10 +245,10 @@ public class GeneracionDeContactos
     static void ContactarAUnContacto(int indice)
     {
         NPC contactos = CargandoLasPartidas.ContactosCargados[indice];
-        var Llamar = new Dialog($"{contactos.name}",
-   60,
-   20
-);
+        var Llamar = new Dialog() { Text = $"{contactos.name}",
+ Width = 60,
+ Height = 20
+};
         string sexo;
         if (contactos.masculino)
         {
@@ -256,38 +258,41 @@ public class GeneracionDeContactos
         {
             sexo = "Femenino";
         }
-        var DatosContacto = new Label(@$"Nombre: {contactos.name}
+        var DatosContacto = new Label()
+        {
+            Text = @$"Nombre: {contactos.name}
 Edad: {contactos.edad}
 Sexo: {sexo}
 Sector Principal: {contactos.sector_dominante}
-Balance: {contactos.balance}")
-        {
+Balance: {contactos.balance}",
             X = 1,
             Y = 1
         };
 
 
-        var btcancelar = new Button("X")
+        var btcancelar = new Button()
         {
+            Text = "X",
             X = Pos.AnchorEnd(6),
             Y = 1
         };
 
-        var btLlamar = new Button("Llamar")
+        var btLlamar = new Button()
         {
+            Text = "Llamar",
             X = Pos.Center(),
             Y = 16
         };
 
         bool iniciarLlamada = false;
 
-        btLlamar.Clicked += () =>
+        btLlamar.Accepting += (s,e) =>
         {
             iniciarLlamada = true;
             Application.RequestStop();
         };
 
-        btcancelar.Clicked += () =>
+        btcancelar.Accepting += (s,e) =>
         {
             Application.RequestStop();
         };

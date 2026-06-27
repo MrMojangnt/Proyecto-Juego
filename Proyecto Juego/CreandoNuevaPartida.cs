@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Terminal.Gui;
+using Terminal.Gui.Views;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Proyecto_Juego;
