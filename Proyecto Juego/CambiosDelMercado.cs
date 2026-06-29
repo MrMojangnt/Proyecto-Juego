@@ -8,8 +8,8 @@ public class CambiosDelMercado
 {
     //Relacionado a Noticias y Periodico
     public static Dictionary<int, decimal> PronosticoMercado = new Dictionary<int, decimal>();
-    public static string Titulo;
-    public static string Descripcion;
+    public static string? Titulo;
+    public static string? Descripcion;
 
     public static void PrepararPronosticoMercado(List<Companias> Companiass)
     {

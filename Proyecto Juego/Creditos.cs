@@ -47,7 +47,7 @@ public class Creditos
         {
             "Raúl Antonio Castillo Zamora",
             "Jocksand Mateo Valladares Ramírez",
-            "Dorian Zamir Martínez Lopez",
+            "Dorian Zamir Martínez López",
             "Kennely Maisha Ordóñez Blandón",
             "",
             "Mencion honorífica:",

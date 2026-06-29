@@ -893,17 +893,13 @@ class Program
             X = 78,
             Y = Pos.AnchorEnd(2)
         };
-        var LabelTurno = new Label($"Turno Actual: {ManejoDeArchivos.turno}")
+       
+        var creditosButton = new Button("Creditos")
         {
             X = 116,
             Y = Pos.AnchorEnd(2)
         };
-        var creditosButton = new Button("Creditos")
-        {
-            X = 140,
-            Y = Pos.AnchorEnd(2)
-        };
-        AyudaFinanciera.Aprender(ventana, 155, Pos.AnchorEnd(2));
+        AyudaFinanciera.Aprender(ventana, Pos.Right(creditosButton) + 2, Pos.AnchorEnd(2));
         //Funciones
         BtTragamonedas.Clicked += () =>
         {
@@ -955,7 +951,7 @@ class Program
         }
 
         btInicio.SetFocus();
-        ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, LabelTurno, creditosButton);
+        ventana.Add(btInicio,BtTragamonedas,btInventario,btVerEmpresa,btMenu, pasarturno, btBalance, creditosButton);
     }
   
 }

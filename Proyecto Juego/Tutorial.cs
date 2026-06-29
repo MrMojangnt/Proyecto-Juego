@@ -310,7 +310,7 @@ Un nivel de deuda muy alto puede generar problemas
 financieros si no se administra correctamente."
 };
 
-    public static void Aprender(Window Ventana, int PosX, Pos PosY)
+    public static void Aprender(Window Ventana, Pos PosX, Pos PosY)
     {
         var Aprender = new Button("Aprender")
         {
